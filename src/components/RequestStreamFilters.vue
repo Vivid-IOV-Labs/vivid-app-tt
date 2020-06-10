@@ -39,7 +39,7 @@
         :expanded.sync="willAcceptPanelView"
         @click="togglePanel('willAccept_panel')"
       >
-        <span id="expandable_section_title">will accept</span>
+        <span id="expandable_section_title">details</span>
         <div class="expandable-content">
           <textarea
             class="textarea textarea--transparent"
@@ -52,7 +52,7 @@
       </v-ons-list-item>
     </v-ons-list>
 
-    <v-ons-list>
+    <!-- <v-ons-list>
       <v-ons-list-item
         id="tipOffered_panel"
         expandable
@@ -69,9 +69,9 @@
           ></v-ons-input>
         </div>
       </v-ons-list-item>
-    </v-ons-list>
+    </v-ons-list> -->
 
-    <v-ons-list>
+    <!-- <v-ons-list>
       <v-ons-list-item
         id="currencyView_panel"
         expandable
@@ -98,7 +98,7 @@
           </v-ons-list>
         </div>
       </v-ons-list-item>
-    </v-ons-list>
+    </v-ons-list> -->
   </v-ons-page>
 </template>
 
@@ -152,30 +152,30 @@ export default {
           this.tagsPanelView = false;
 
           break;
-        case _idName == "tipOffered_panel":
-          if (this.willAcceptPanelView)
-            document.getElementById("willAccept_panel").hideExpansion();
-          this.willAcceptPanelView = false;
-          if (this.currencyView)
-            document.getElementById("currencyView_panel").hideExpansion();
-          this.currencyView = false;
-          if (this.tagsPanelView)
-            document.getElementById("tags_panel").hideExpansion();
-          this.tagsPanelView = false;
+        // case _idName == "tipOffered_panel":
+        //   if (this.willAcceptPanelView)
+        //     document.getElementById("willAccept_panel").hideExpansion();
+        //   this.willAcceptPanelView = false;
+        //   if (this.currencyView)
+        //     document.getElementById("currencyView_panel").hideExpansion();
+        //   this.currencyView = false;
+        //   if (this.tagsPanelView)
+        //     document.getElementById("tags_panel").hideExpansion();
+        //   this.tagsPanelView = false;
 
-          break;
-        case _idName == "currencyView_panel":
-          if (this.willAcceptPanelView)
-            document.getElementById("willAccept_panel").hideExpansion();
-          this.willAcceptPanelView = false;
-          if (this.tipOfferedView)
-            document.getElementById("tipOffered_panel").hideExpansion();
-          this.tipOfferedView = false;
-          if (this.tagsPanelView)
-            document.getElementById("tags_panel").hideExpansion();
-          this.tagsPanelView = false;
+        //   break;
+        // case _idName == "currencyView_panel":
+        //   if (this.willAcceptPanelView)
+        //     document.getElementById("willAccept_panel").hideExpansion();
+        //   this.willAcceptPanelView = false;
+        //   if (this.tipOfferedView)
+        //     document.getElementById("tipOffered_panel").hideExpansion();
+        //   this.tipOfferedView = false;
+        //   if (this.tagsPanelView)
+        //     document.getElementById("tags_panel").hideExpansion();
+        //   this.tagsPanelView = false;
 
-          break;
+        //   break;
         default:
           // code block
           console.log(arguments);

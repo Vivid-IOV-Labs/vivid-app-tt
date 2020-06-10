@@ -15,13 +15,15 @@
     <v-ons-list>
         <v-ons-list-item id="optionsPanel_section_viewStream">
             <div id="pay-info-section">
-                <span v-show="isInBuiltRequestDemo()" id="payingLabel" class="badge badge-warning">
-                    Paying
+                <v-ons-button v-show="isInBuiltRequestDemo()" id="payingLabel" class="badge badge-warning">
+                    Tip
                     <strong>
-                        <i>{{PayToUserName}}</i>
+                        <!-- <i>{{PayToUserName}}</i> -->
+                        <i>User</i>
                     </strong>
-                </span>
-                <span id="payment-ticker" class="badge badge-pill badge-info">{{"NEAR " + formattedTotalAmountNear}}</span>
+                </v-ons-button>
+                <!-- <span id="payment-ticker" class="badge badge-pill badge-info">{{"NEAR " + formattedTotalAmountNear}}</span> -->
+                <span id="payment-ticker" class="badge badge-pill badge-info">{{ defaultTipAmount + " TT"}}</span>
             </div>
             <div class="expandable-content">
                 <div id="options_panel"></div>
@@ -106,7 +108,8 @@ export default {
             streamingPaused: false,
             metaTag: null,
             config: null,
-            nearTotalTickerAmount: 0
+            nearTotalTickerAmount: 0,
+            defaultTipAmount:1.00
         };
     },
     computed: {
@@ -192,53 +195,53 @@ export default {
             this.$emit("back-page");
 
         },
-        async makeNearPayment() {
+        // async makeNearPayment() {
 
-            // replace this with your developer account
-            let your_developer_account = 'ma06rii'
+        //     // replace this with your developer account
+        //     let your_developer_account = 'ma06rii'
 
-            // all inputs in nearlib are denominated in yoctoNEAR (1 NEAR = 10^24 yoctoNEAR)
-            // use this helper function to convert NEAR to yoctoNEAR
-            let amount_to_send = window.nearlib.utils.format.parseNearAmount('0.00083333')
+        //     // all inputs in nearlib are denominated in yoctoNEAR (1 NEAR = 10^24 yoctoNEAR)
+        //     // use this helper function to convert NEAR to yoctoNEAR
+        //     let amount_to_send = window.nearlib.utils.format.parseNearAmount('0.00083333')
 
-            let sender, final
+        //     let sender, final
 
-            // make sure we're still signed in to the wallet
-            console.assert(window.wallet.isSignedIn(), "looks like you need to sign in again with the user account!")
+        //     // make sure we're still signed in to the wallet
+        //     console.assert(window.wallet.isSignedIn(), "looks like you need to sign in again with the user account!")
 
-            try {
-                // hydrate and validate we have the right to act on behalf of the sender account
-                sender = await window.near.account(window.wallet.getAccountId())
+        //     try {
+        //         // hydrate and validate we have the right to act on behalf of the sender account
+        //         sender = await window.near.account(window.wallet.getAccountId())
 
-                // execute a Transfer transaction using the sendMoney convenience method on the account object
-                final = await sender.sendMoney(your_developer_account, amount_to_send);
+        //         // execute a Transfer transaction using the sendMoney convenience method on the account object
+        //         final = await sender.sendMoney(your_developer_account, amount_to_send);
 
-                // print out the results
-                // console.log("transaction id", final.transaction.id)
-                // console.log("gas used", final.transaction.outcome.gas_burnt)
+        //         // print out the results
+        //         // console.log("transaction id", final.transaction.id)
+        //         // console.log("gas used", final.transaction.outcome.gas_burnt)
 
-                // celebrate
-                console.log("success!")
-                console.log(final.transaction.actions[0].Transfer.deposit)
+        //         // celebrate
+        //         console.log("success!")
+        //         console.log(final.transaction.actions[0].Transfer.deposit)
 
-                this.nearTotalTickerAmount = this.nearTotalTickerAmount + parseInt(final.transaction.actions[0].Transfer.deposit)
+        //         this.nearTotalTickerAmount = this.nearTotalTickerAmount + parseInt(final.transaction.actions[0].Transfer.deposit)
 
-            } catch (error) {
-                // if anything goes sideways, error handling to the rescue
-                if (error.type == 'InvalidTxError::NotEnoughBalance') {
-                    this.endViewingStream()
-                }
+        //     } catch (error) {
+        //         // if anything goes sideways, error handling to the rescue
+        //         if (error.type == 'InvalidTxError::NotEnoughBalance') {
+        //             this.endViewingStream()
+        //         }
 
-                console.warn(error.type, error.message)
-            }
+        //         console.warn(error.type, error.message)
+        //     }
 
-            // ---------------------------------------------------------------------------
-            // here you have access to `nearlib` and a valid connection object `near`
-            //
-            // we've added them to the window object to make working in the console convenient
-            // ---------------------------------------------------------------------------
+        //     // ---------------------------------------------------------------------------
+        //     // here you have access to `nearlib` and a valid connection object `near`
+        //     //
+        //     // we've added them to the window object to make working in the console convenient
+        //     // ---------------------------------------------------------------------------
 
-        }
+        // }
     },
     mounted() {
 
@@ -309,9 +312,9 @@ export default {
         };
 
         if (this.isInBuiltRequestDemo()) {
-            this.makeNearPayment()
+            //this.makeNearPayment()
             this.nearPaymentIntervals = setInterval(() => {
-                this.makeNearPayment()
+                //this.makeNearPayment()
             }, 3500)
 
             this.playViewingStream()

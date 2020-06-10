@@ -16,22 +16,22 @@
                     </v-ons-row>
                     <v-ons-row>
                         <v-ons-col>
-                            <span class="optionsPanelRowTitle">Will Accept:</span>
+                            <span class="optionsPanelRowTitle">Details:</span>
                             <span class="optionsPanelRow">Side view of santa parade</span>
                         </v-ons-col>
                     </v-ons-row>
-                    <v-ons-row>
+                    <!-- <v-ons-row>
                         <v-ons-col>
                             <span class="optionsPanelRowTitle">Tip Offered:</span>
                             <span class="optionsPanelRow">NEAR 0.05/min</span>
                         </v-ons-col>
-                    </v-ons-row>
-                    <v-ons-row>
+                    </v-ons-row> -->
+                    <!-- <v-ons-row>
                         <v-ons-col>
                             <span class="optionsPanelRowTitle">Range:</span>
                             <v-ons-range size="0.813em"></v-ons-range>
                         </v-ons-col>
-                    </v-ons-row>
+                    </v-ons-row> -->
                 </div>
             </div>
         </v-ons-list-item>
