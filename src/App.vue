@@ -8,8 +8,8 @@
 
 <script>
 //import RequestStream from '@/components/RequestStream.vue'
-//import Home from "@/components/Home.vue";
-import Login from "@/components/Login.vue"
+import Home from "@/components/Home.vue";
+//import Login from "@/components/Login.vue"
 
 export default {
     name: "main_page",
@@ -18,7 +18,8 @@ export default {
     // },
     data() {
         return {
-            pageStack: [Login]
+            //pageStack: [Login]
+             pageStack: [Home]
         };
     }
     //   mounted() {
