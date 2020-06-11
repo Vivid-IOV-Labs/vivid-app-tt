@@ -256,7 +256,8 @@ export default {
         // });
 
         this.webRTCAdaptor = new WebRTCAdaptor({
-            websocket_url: "wss://test.antmedia.io:5443/WebRTCAppEE/websocket",
+            //websocket_url: "wss://test.antmedia.io:5443/WebRTCAppEE/websocket",
+            websocket_url: "ws://ec2-18-141-162-55.ap-southeast-1.compute.amazonaws.com:5080/WebRTCAppEE/websocket",
             mediaConstraints: this.mediaConstraints,
             peerconnection_config: this.pc_config,
             sdp_constraints: this.sdpConstraints,

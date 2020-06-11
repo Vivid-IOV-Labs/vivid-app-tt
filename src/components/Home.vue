@@ -20,7 +20,7 @@
         </div>
     </v-ons-toolbar>
 
-    <v-ons-tabbar id="homeTabbar" :tabs="tabs" :index.sync="tabbarIndex" @push-page="pushToViewStreamPage" @back-page="popViewPage" @postchange="reHydrate"></v-ons-tabbar>
+    <v-ons-tabbar id="homeTabbar" :tabs="tabs" :index.sync="tabbarIndex" @push-page="pushToViewStreamPage" @push-supply="pushToSupplyStreamPage" @back-page="popViewPage" @postchange="reHydrate"></v-ons-tabbar>
 </v-ons-page>
 </template>
 
@@ -33,7 +33,8 @@ import RequestStream from "@/components/RequestStream.vue";
 import Wallet from "@/components/Wallet.vue";
 import RequestStreamFilters from "@/components/RequestStreamFilters.vue";
 import ViewStream from "@/components/ViewStream.vue";
-// import PublishStream from "@/components/PublishStream.vue";
+//mport PublishStream from "@/components/PublishStream.vue";
+import SupplyStream from "@/components/SupplyStream.vue"
 
 // import nearlib from "../../node_modules/nearlib/dist/nearlib.min.js";
 // console.log(nearlib)
@@ -76,6 +77,9 @@ export default {
         },
         pushToViewStreamPage() {
             this.$emit("push-page", ViewStream);
+        },
+        pushToSupplyStreamPage() {
+            this.$emit("push-page", SupplyStream);
         },
         popViewPage() {
             this.$emit("back-page")

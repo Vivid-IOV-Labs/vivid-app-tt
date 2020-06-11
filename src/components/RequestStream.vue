@@ -84,7 +84,8 @@ import {
 const myProvider = new EsriProvider();
 
 import {
-    mapMutations
+    mapMutations,
+    mapActions
 } from 'vuex';
 
 export default {
@@ -109,8 +110,10 @@ export default {
             redMarker: null,
             buttonGo: null,
             slimPinIcon: null,
-            purpleStreamerIcon: null,
-            templateForm: null
+            templateForm: null,
+            templateSupplyStreamButton: null,
+            current_request_list: null,
+            request_raw_data:null
         };
     },
     methods: {
@@ -118,13 +121,14 @@ export default {
             _setInBuiltRequestDemo: 'setInBuiltRequestDemo'
 
         }),
+        ...mapActions({
+            _find_all_requests: 'find_all_requests',
+            _add : 'add',
+            _get_requests:'get_requests'
+        }),
         layerClickHandler(e) {
 
             var marker = e.target
-            //properties = e.target.feature.properties;
-
-            //return this.map.hasOwnProperty(normalizeName(name))
-            //return Object.prototype.hasOwnProperty.call(this.map, normalizeName(name));
 
             //if (marker.hasOwnProperty('_popup')) {
             if (Object.prototype.hasOwnProperty.call(marker, '_popup')) {
@@ -133,15 +137,6 @@ export default {
 
             marker.bindPopup(this.templateForm);
             marker.openPopup();
-
-            //   L.DomUtil.get('value-arc').textContent = properties.arc;
-            //   L.DomUtil.get('value-speed').textContent = properties.speed;
-
-            //   var inputSpeed = L.DomUtil.get('input-speed');
-            //   inputSpeed.value = properties.speed;
-            //   L.DomEvent.addListener(inputSpeed, 'change', function (e) {
-            //     properties.speed = e.target.value;
-            //   });
 
             var buttonSubmit = L.DomUtil.get('button-submit');
 
@@ -153,50 +148,50 @@ export default {
             });
 
         },
-        fromJoin(){
+        fromJoin() {
             this._setInBuiltRequestDemo(true);
             this.pushToViewStreamPage()
 
         },
-        fromRequest(){
+        fromSupply() {
+            this._setInBuiltRequestDemo(false);
+            this.pushToSupplyStreamPage()
+
+        },
+        fromRequest() {
+
+            // const request_model = {
+            //     location: JSON.parse(JSON.stringify(this.request_raw_data)),
+            //     options:{
+            //         eth_address:'0xxxess',
+            //         details: 'Side view of santa parade',
+            //         tags: ['Street View']
+            //     }
+            // }
+
+            // this._add(request_model).then((response) =>{
+            //     console.log(response.data)
+
+            //     this.add_multiply_markers(response.data)
+       
+
+            // })
+
             this._setInBuiltRequestDemo(false);
             this.pushToViewStreamPage()
-            
+
         },
         pushToViewStreamPage() {
             this.$emit("push-page");
         },
+        pushToSupplyStreamPage() {
+            console.log(arguments)
+            this.$emit("push-supply");
+        },
         addIDEALondonMarker() {
-            //const template = this.$refs.foo.$el.innerHTML;
-            //Add Marker for IDEALondon location
 
-            //             // eslint-disable-next-line  
-            // delete L.Icon.Default.prototype._getIconUrl  
-            // // eslint-disable-next-line  
-            // L.Icon.Default.mergeOptions({  
-            //   // iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),  
-            //   // iconUrl: require('leaflet/dist/images/marker-icon.png'),  
-            //   // shadowUrl: require('leaflet/dist/images/marker-shadow.png')  
-            //    iconRetinaUrl: require('~@/components/slim_pin.svg'),  
-            //   iconUrl: require('~@/components/slim_pin.svg'),  
-            //   shadowUrl: require('~@/components/slim_pin.svg')  
-            // })
-
-            //           var LeafIcon = L.Icon.extend({
-            // 	options: {
-            // //		shadowUrl: require('@/assets/markers/slim_pin.svg'), 
-            // 		// iconSize:     [38, 95],
-            // 		// shadowSize:   [50, 64],
-            // 		// iconAnchor:   [22, 94],
-            // 		// shadowAnchor: [4, 62],
-            // 		// popupAnchor:  [-3, -76]
-            // 	}
-            // });
-
-            // var greenIcon = new LeafIcon({iconUrl: require('@/assets/markers/slim_pin.svg')});
-
-            L.marker([51.520748, -0.08504], {
-                    icon: this.purpleStreamerIcon
+            L.marker([41.6332836, -72.7738706], {
+                    icon: this.slimPinIcon
                 })
                 .addTo(this.map)
                 //.bindPopup("IEDALondon, London EC2A 2BB");
@@ -214,11 +209,14 @@ export default {
                 })
                 .openPopup();
 
-            L.circle([51.520748, -0.08504], this.defaultRadius).addTo(this.map);
+            this.map.setView([41.6332836, -72.7738706], 15);
 
-            this.map.setView([51.520748, -0.08504], 15);
         },
         geoSearchEvent(_data) {
+
+            console.log(_data)
+            this.request_raw_data = _data.location.raw;
+
             if (this.myLocation) this.map.removeLayer(this.myLocation);
             if (this.myLocationCircle) this.map.removeLayer(this.myLocationCircle);
 
@@ -235,22 +233,16 @@ export default {
                 .addTo(this.map)
                 .bindPopup(_data.location.label)
                 .openPopup();
-            this.geoSearchLocationCircle = L.circle(
-                [_data.location.y, _data.location.x],
-                this.defaultRadius
-            ).addTo(this.map);
+
+            // this.geoSearchLocationCircle = L.circle(
+            //     [_data.location.y, _data.location.x],
+            //     this.defaultRadius
+            // ).addTo(this.map);
+
             this.map.setView([_data.location.y, _data.location.x], 15);
         },
         onLocationFound(e) {
             var radius = e.accuracy;
-
-            //   const icon = L.divIcon({
-            //     className: "custom-div-icon",
-            //     html:
-            //       "<div style='background-color:#4838cc;' class='marker-pin'></div><i class='fa fa-camera awesome'>",
-            //     iconSize: [30, 42],
-            //     iconAnchor: [15, 42]
-            //   });
 
             var myProfileIcon = L.icon({
                 iconUrl: require('@/assets/markers/profile_pic.png'),
@@ -276,14 +268,6 @@ export default {
         },
         initMap() {
             this.map = L.map("map").setView([51.520748, -0.08504], 15);
-
-            //   this.map.locate({
-            //     setView: true,
-            //     maxZoom: 20
-            //   });
-
-            //Add Marker for Idea London
-            //this.addIDEALondonMarker();
 
             new GeoSearchControl({
                 provider: myProvider, // required
@@ -320,8 +304,6 @@ export default {
                 }
             ).addTo(this.map);
 
-            //L.marker([51.5, -0.09], {icon: greenIcon}).bindPopup("I am a green leaf.").addTo(map);
-
         },
         locationSuccess(pos) {
             var crd = pos.coords;
@@ -334,29 +316,40 @@ export default {
 
         locationError(err) {
             console.warn(`ERROR(${err.code}): ${err.message}`);
+        },
+        add_multiply_markers(markers){
+            //Loop through the markers array
+            for (var i = 0; i < markers.length; i++) {
+
+                // var lon = markers[i][0];
+                // var lat = markers[i][1];
+                // var popupText = markers[i][2];
+
+                var lat = markers[i].location.feature.geometry.y;
+                var lon = markers[i].location.feature.geometry.x;
+                var popupText = markers[i].location.feature.name;
+
+                console.log([lat, lon])
+
+                var markerLocation = new L.LatLng(lat, lon);
+                var marker = new L.Marker(markerLocation, {
+                    icon: this.slimPinIcon
+                });
+
+                
+                this.map.addLayer(marker);
+
+                marker.bindPopup(popupText);
+
+            }
+
         }
     },
     mounted() {
 
-        //         this.templateForm = '<form id="popup-form">\
-        //   <label for="input-speed">New speed:</label>\
-        //   <input id="input-speed" class="popup-input" type="number" />\
-        //   <table class="popup-table">\
-        //     <tr class="popup-table-row">\
-        //       <th class="popup-table-header">Arc numer:</th>\
-        //       <td id="value-arc" class="popup-table-data"></td>\
-        //     </tr>\
-        //     <tr class="popup-table-row">\
-        //       <th class="popup-table-header">Current speed:</th>\
-        //       <td id="value-speed" class="popup-table-data"></td>\
-        //     </tr>\
-        //   </table>\
-        //   <button id="button-submit" type="button">Save Changes</button>\
-        // </form>';
-
-        // this.templateForm = `<button id="button-submit" type="button">Join Stream</button>`
-
         this.templateForm = `<v-ons-button id="button-submit" type="button">Join</v-ons-button>`
+
+        this.templateSupplyStreamButton = `<v-ons-button id="button-submit" type="button">Supply</v-ons-button>`
 
         this.initMap();
         this.initLayers();
@@ -373,42 +366,127 @@ export default {
             // shadowAnchor: [22, 94]
         });
 
-        this.purpleStreamerIcon = L.icon({
-            //iconUrl: "slim_pin.svg",
-            iconUrl: require('@/assets/markers/purple_user.png'),
-            iconSize: [28, 85], // size of the icon
-            // iconSize: [38, 95],
-            iconAnchor: [30, 52],
-            className: 'purpleStreamerIcon',
-            popupAnchor: [-3, -46],
-            // shadowSize: [68, 95],
-            // shadowAnchor: [22, 94]
-        });
+        // this._find_all_requests().then((response) => {
+        //     this.current_request_list = response.data
 
-        this.addIDEALondonMarker();
+        //     var london = new L.LatLng(51.5056, -0.1213);
+        //     this.map.setView(london, 13);
+
+        //     // Define an array. This could be done in a seperate js file.
+        //     // This tidy formatted section could even be generated by a server-side script
+        //     // or fetched seperately as a jsonp request.
+        //     var markers = [
+        //         [-0.1244324, 51.5006728, "Big Ben"],
+        //         [-0.119623, 51.503308, "London Eye"],
+        //         [-0.1279688, 51.5077286, "Nelson's Column<br><a href=\"https://en.wikipedia.org/wiki/Nelson's_Column\">wp</a>"]
+        //     ];
+
+        //     //Loop through the markers array
+        //     for (var i = 0; i < markers.length; i++) {
+
+        //         var lon = markers[i][0];
+        //         var lat = markers[i][1];
+        //         var popupText = markers[i][2];
+
+        //         var markerLocation = new L.LatLng(lat, lon);
+        //         var marker = new L.Marker(markerLocation, {
+        //             icon: this.slimPinIcon
+        //         });
+        //         this.map.addLayer(marker);
+
+        //         marker.bindPopup(popupText);
+
+        //     }
+
+        // })
+
+        // this._get_requests().then((response) => {
+        //     //this.current_request_list = response.data
+        //     console.log(response.data)
+
+        //     var london = new L.LatLng(51.5056, -0.1213);
+        //     this.map.setView(london, 13);
+
+        //     // Define an array. This could be done in a seperate js file.
+        //     // This tidy formatted section could even be generated by a server-side script
+        //     // or fetched seperately as a jsonp request.
+        //     var markers = [
+        //         [-0.1244324, 51.5006728, "Big Ben"],
+        //         [-0.119623, 51.503308, "London Eye"],
+        //         [-0.1279688, 51.5077286, "Nelson's Column<br><a href=\"https://en.wikipedia.org/wiki/Nelson's_Column\">wp</a>"]
+        //     ];
+
+        //     //Loop through the markers array
+        //     for (var i = 0; i < markers.length; i++) {
+
+        //         var lon = markers[i][0];
+        //         var lat = markers[i][1];
+        //         //var popupText = markers[i][2];
+
+        //         var markerLocation = new L.LatLng(lat, lon);
+        //         var marker = new L.Marker(markerLocation, {
+        //             icon: this.slimPinIcon
+        //         });
+        //         this.map.addLayer(marker);
+
+        //         marker
+        //         //.bindPopup(popupText)
+        //         .bindPopup(this.templateSupplyStreamButton, {
+        //             maxWidth: 1060
+        //         })
+        //         .on('popupopen', () => {
+        //             document.getElementById('button-submit').addEventListener("click", () => {
+        //                 this.fromSupply()
+
+        //             });
+        //         })
+
+        //     }
+
+        // })
+
+         var london = new L.LatLng(51.5056, -0.1213);
+            this.map.setView(london, 13);
+
+            // Define an array. This could be done in a seperate js file.
+            // This tidy formatted section could even be generated by a server-side script
+            // or fetched seperately as a jsonp request.
+            var markers = [
+                [-0.1244324, 51.5006728, "Big Ben"],
+                [-0.119623, 51.503308, "London Eye"],
+                [-0.1279688, 51.5077286, "Nelson's Column<br><a href=\"https://en.wikipedia.org/wiki/Nelson's_Column\">wp</a>"]
+            ];
+
+            //Loop through the markers array
+            for (var i = 0; i < markers.length; i++) {
+
+                var lon = markers[i][0];
+                var lat = markers[i][1];
+                //var popupText = markers[i][2];
+
+                var markerLocation = new L.LatLng(lat, lon);
+                var marker = new L.Marker(markerLocation, {
+                    icon: this.slimPinIcon
+                });
+                this.map.addLayer(marker);
+
+                marker
+                //.bindPopup(popupText)
+                .bindPopup(this.templateSupplyStreamButton, {
+                    maxWidth: 1060
+                })
+                .on('popupopen', () => {
+                    document.getElementById('button-submit').addEventListener("click", () => {
+                        this.fromSupply()
+
+                    });
+                })
+
+            }
 
         this.map.on("locationfound", this.onLocationFound);
 
         this.map.on("locationerror", this.onLocationError);
-
-        // this.streamerIcon = L.icon({
-        //   iconUrl: "../../assets/markers/slim_pin.svg",
-        //   iconSize: [38, 95],
-        //   iconAnchor: [22, 94],
-        //   popupAnchor: [-3, -76],
-        //   shadowSize: [68, 95],
-        //   shadowAnchor: [22, 94]
-        // });
-        // this.redMarker = L.ExtraMarkers.icon({
-        //   icon: "fa-coffee",
-        //   markerColor: "red",
-        //   shape: "square",
-        //   prefix: "fa"
-        // });
-
-        //this.addIDEALondonMarker();
-
-        //navigator.geolocation.getCurrentPosition(this.locationSuccess, this.locationError, this.options);
 
     }
 };

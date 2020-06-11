@@ -9,11 +9,12 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "bignumber.js": "^9.0.0",
     "bootstrap": "^4.4.1",
     "core-js": "^3.6.4",
     "express": "^4.17.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.1",
     "leaflet": "^1.6.0",
     "leaflet-defaulticon-compatibility": "^0.1.1",
     "leaflet-extra-markers": "^1.2.1",

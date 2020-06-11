@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 // import createPersistedState from 'vuex-persistedstate'
+import RequestService from '@/js/RequestService'
 
 Vue.use(Vuex)
 
@@ -10,7 +11,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     // plugins: [createPersistedState()],
     state: {
-        inBuiltRequestDemo: true
+        inBuiltRequestDemo: true,
+        baseURL: 'http://127.0.0.1:1337/'
 
     },
     mutations: {
@@ -22,6 +24,38 @@ export default new Vuex.Store({
     getters: {
         isInBuiltRequestDemo: state => state.inBuiltRequestDemo
 
+
+    },
+    actions: {
+        async find_all_requests({ state }) {
+
+            const response = await RequestService.find_all_requests({
+                // SendCodedInputData: [model],
+                StartItem: 0,
+                EndItem: 0,
+                FunctionEnd: 1156,
+                FunctionRunText: "SingleTest",
+                //userid: state.userID
+            }, state)
+
+            //console.log(response)
+
+            return response;
+        },
+        async add({ state }, model) {
+
+            console.log(model)
+
+            const response = await RequestService.add(model, state)
+
+            return response;
+        },
+        async get_requests({ state }) {
+
+            const response = await RequestService.get_requests(state)
+
+            return response;
+        },
 
     }
 })
