@@ -164,11 +164,11 @@ export default {
                 .play()
                 .then(function () {
                     //autoplay started
-                    document.getElementById("play_button").style.display = "none";
+                    //document.getElementById("play_button").style.display = "none";
                 })
                 .catch(function () {
                     //
-                    document.getElementById("play_button").style.display = "block";
+                    //document.getElementById("play_button").style.display = "block";
                     console.log("User interaction needed to start playing");
                 });
         },
