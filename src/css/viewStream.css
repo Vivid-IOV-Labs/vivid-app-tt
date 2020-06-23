@@ -162,3 +162,19 @@ video {
 #playStreamButton > .ons-icon.fa {
   color: #16dbdb;
 }
+
+#start_publish_button {
+  background-color: #1b778c !important;
+  color: #ebf4f4 !important;
+  border-color: #1b778c !important;
+}
+
+#stop_publish_button {
+  background-color: #1b778c !important;
+  color: #ebf4f4 !important;
+  border-color: #1b778c !important;
+}
+
+#broadcastingInfo {
+  background-color: orange !important;
+}

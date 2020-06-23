@@ -1,17 +1,21 @@
 <template>
   <v-ons-page id="supplyStreamPage">
     <v-ons-toolbar>
-      <div class="left">
-        <v-ons-back-button @click.prevent="closeVideoStream"></v-ons-back-button>
-      </div>
-      <div class="center">Supply Stream</div>
+        <div class="left">
+            <v-ons-back-button></v-ons-back-button>
+        </div>
+        <div class="center">
+            <span class="onsPageTitleStyle">Supply Stream</span>
+        </div>
     </v-ons-toolbar>
+    <div id="view-video-panel">
     <div class="container">
       <div class="jumbotron">
         <p>
           <video id="localVideo" autoplay muted controls playsinline></video>
         </p>
         <v-ons-input
+          v-show="false"
           type="text"
           class="form-control"
           v-model="streamNameBox"
@@ -33,8 +37,9 @@
           >Stop Publishing</v-ons-button>
         </p>
 
-        <span class="label label-success" id="broadcastingInfo">Publishing</span>
+        <span v-show="!this.stop_publish_button.disabled" class="btn" id="broadcastingInfo">Publishing</span>
       </div>
+    </div>
     </div>
   </v-ons-page>
 </template>
@@ -42,7 +47,8 @@
 <style >
 @import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import "../css/player.css";
-@import "../css/supplyStream.css";
+/* @import "../css/supplyStream.css"; */
+@import "../css/viewStream.css";
 </style>
 
 <script>
@@ -89,7 +95,7 @@ export default {
     startPublishing() {
       //this.streamId = this.streamNameBox.value;
       this.streamId = this.streamNameBox;
-      this.webRTCAdaptor.publish(this.streamId);
+      this.webRTCAdaptor.publish(this.streamId,"287084795627827033631286");
     },
     stopPublishing() {
       this.webRTCAdaptor.stop(this.streamId);

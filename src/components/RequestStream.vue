@@ -77,6 +77,16 @@ import "leaflet-defaulticon-compatibility";
 
 // import myElaboratePopupContent from "@/components/myElaboratePopupContent.vue";
 
+// import sailsIO from '../../node_modules/sails.io.js-dist/sails.io.js'
+
+// sails.log(sailsIO)
+
+// import {
+//     sailsio
+// } from "@/js/sails.io.js";
+
+// console.log(sailsio)
+
 import {
     GeoSearchControl,
     EsriProvider
@@ -85,7 +95,8 @@ const myProvider = new EsriProvider();
 
 import {
     mapMutations,
-    mapActions
+    mapActions,
+    mapGetters
 } from 'vuex';
 
 export default {
@@ -113,9 +124,29 @@ export default {
             templateForm: null,
             templateSupplyStreamButton: null,
             current_request_list: null,
-            request_raw_data:null
+            request_raw_data:null,
+            requestModel:{
+                request:{
+                    details: 'Side view of santa parade',
+                    tags:[
+                        'Street View'
+                    ]
+                },
+                user:{
+                    walletAddress: this._myWalletAddress()
+                },
+                location: null
+            }
         };
     },
+    // sockets: {
+    //     connect: function () {
+    //         console.log('socket connected')
+    //     },
+    //     customEmit: function (data) {
+    //         console.log(`this method was fired by the socket server. eg: io.emit("customEmit", ${data})`)
+    //     }
+    // },
     methods: {
         ...mapMutations({
             _setInBuiltRequestDemo: 'setInBuiltRequestDemo'
@@ -126,6 +157,11 @@ export default {
             _add : 'add',
             _get_requests:'get_requests'
         }),
+        ...mapGetters({
+            _myWalletAddress: 'myWalletAddress'
+
+        }),
+        
         layerClickHandler(e) {
 
             var marker = e.target
@@ -214,15 +250,17 @@ export default {
         },
         geoSearchEvent(_data) {
 
-            console.log(_data)
+            //console.log(_data)
+            this.requestModel.location = _data.location.raw;
+            console.log(this.requestModel)
             this.request_raw_data = _data.location.raw;
 
             if (this.myLocation) this.map.removeLayer(this.myLocation);
             if (this.myLocationCircle) this.map.removeLayer(this.myLocationCircle);
 
-            if (this.geoSearchLocation) this.map.removeLayer(this.geoSearchLocation);
-            if (this.geoSearchLocationCircle)
-                this.map.removeLayer(this.geoSearchLocationCircle);
+            // if (this.geoSearchLocation) this.map.removeLayer(this.geoSearchLocation);
+            // if (this.geoSearchLocationCircle)
+            //     this.map.removeLayer(this.geoSearchLocationCircle);
 
             //Readd current streamer
             this.addIDEALondonMarker();
@@ -233,6 +271,10 @@ export default {
                 .addTo(this.map)
                 .bindPopup(_data.location.label)
                 .openPopup();
+
+            //this._add(JSON.parse(JSON.stringify(this.requestModel)))
+
+            //const addRequestObjectToDatabase = this._add()
 
             // this.geoSearchLocationCircle = L.circle(
             //     [_data.location.y, _data.location.x],

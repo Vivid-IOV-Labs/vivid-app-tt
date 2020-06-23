@@ -271,7 +271,7 @@ export default {
                     this.webRTCAdaptor.getStreamInfo(this.streamId);
                 } else if (info == "streamInformation") {
                     console.log("stream information");
-                    this.webRTCAdaptor.play(this.streamId);
+                    this.webRTCAdaptor.play(this.streamId, "762007030599962020550620" );
                 } else if (info == "play_started") {
                     //joined the stream
                     console.log("play started");

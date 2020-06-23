@@ -22,9 +22,13 @@
     "nearlib": "^0.22.0",
     "onsenui": "^2.10.10",
     "popper.js": "^1.16.1",
+    "sails.io.js-dist": "^1.2.1",
     "serve-static": "^1.14.1",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
     "vue": "^2.6.11",
     "vue-onsenui": "^2.6.2",
+    "vue-socket.io": "^3.0.9",
     "vuejs-web-monetization": "0.0.5",
     "vuex": "^3.1.3",
     "webrtc-adapter": "^7.5.0"
