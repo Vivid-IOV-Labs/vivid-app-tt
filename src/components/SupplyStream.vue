@@ -55,9 +55,6 @@
 import "webrtc-adapter";
 import $ from "jquery";
 
-// import '@/js/fetch.js'
-// import '@/js/fetch.stream.js'
-// import '@/js/promise.min.js'
 import { WebRTCAdaptor } from "@/js/webrtc_adaptor.js";
 
 export default {
@@ -90,21 +87,25 @@ export default {
 
       document.querySelector("ons-navigator").popPage({
         refresh: true
+
       });
     },
     startPublishing() {
-      //this.streamId = this.streamNameBox.value;
       this.streamId = this.streamNameBox;
       this.webRTCAdaptor.publish(this.streamId,"287084795627827033631286");
+
     },
     stopPublishing() {
       this.webRTCAdaptor.stop(this.streamId);
+
     },
     enableDesktopCapture(_enable) {
       if (_enable == true) {
         this.webRTCAdaptor.switchDesktopCapture(this.streamId);
+        
       } else {
         this.webRTCAdaptor.switchVideoCapture(this.streamId);
+        
       }
     },
     startAnimation() {
@@ -131,15 +132,16 @@ export default {
     this.sdpConstraints = {
       OfferToReceiveAudio: false,
       OfferToReceiveVideo: false
+
     };
 
     this.mediaConstraints = {
       video: true,
       audio: true
+      
     };
 
     this.webRTCAdaptor = new WebRTCAdaptor({
-      //websocket_url: "ws://ec2-18-141-162-55.ap-southeast-1.compute.amazonaws.com:5080/WebRTCAppEE/websocket",
       websocket_url: "wss://app.vividiov.media:5443/WebRTCAppEE/websocket",
       mediaConstraints: this.mediaConstraints,
       peerconnection_config: this.pc_config,

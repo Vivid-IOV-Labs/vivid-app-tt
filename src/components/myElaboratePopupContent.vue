@@ -8,15 +8,6 @@
 </style>
 
 <script>
-//import RequestStream from '@/components/RequestStream.vue'
-
-//document.getElementByID('gobutton').addEventListener('click')
-
-// window.document.getElementById("gobutton").addEventListener("click", myFunction);
-// function myFunction() {
-//   //document.getElementById("demo").innerHTML = "Hello World";
-//   console.log('go button clicked')
-// }
 
 export default {
   name: "main_page",

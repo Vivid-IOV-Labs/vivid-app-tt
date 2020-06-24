@@ -8,10 +8,6 @@
             <span class="onsPageTitleStyle">View Stream</span>
         </div>
     </v-ons-toolbar>
-    <!-- <div id="view-video-control-panel">
-      <v-ons-button id="report-button" @click="report()">Report</v-ons-button>
-      <span id="payment-ticker" class="badge badge-pill badge-info">{{"$ " + formattedTotalAmount}}</span>
-    </div>-->
     <v-ons-list>
         <v-ons-list-item id="optionsPanel_section_viewStream">
             <div id="pay-info-section">
@@ -22,7 +18,6 @@
                         <i>User</i>
                     </strong>
                 </v-ons-button>
-                <!-- <span id="payment-ticker" class="badge badge-pill badge-info">{{"NEAR " + formattedTotalAmountNear}}</span> -->
                 <span id="payment-ticker" class="badge badge-pill badge-info">{{ defaultTipAmount + " TT"}}</span>
             </div>
             <div class="expandable-content">
@@ -71,16 +66,12 @@ import {
 } from 'vuex';
 
 import "webrtc-adapter";
-//import $ from 'jquery'
+
 import {
     WebRTCAdaptor
 } from "@/js/webrtc_adaptor.js";
 
 import SupplyStream from "@/components/SupplyStream.vue";
-
-// import $ from "jquery";
-
-//import BigNumber from "bignumber.js";
 
 export default {
     name: "viewStream",
@@ -110,36 +101,10 @@ export default {
             config: null,
             nearTotalTickerAmount: 0,
             defaultTipAmount:1.00
+            
         };
     },
-    computed: {
-        // isWebMonetization: function () {
-        //     return this.$vueWebMonetizationStart &&
-        //         this.$vueWebMonetizationStart.state === "started" ?
-        //         true :
-        //         false;
-        // },
-        // formattedTotalAmount: function () {
-        //     return new BigNumber(
-        //         this.$vueWebMonetizationProgress.totalAmount,
-        //         10
-        //     ).toFormat();
-        // },
-        formattedTotalAmountNear: function () {
-            return parseFloat(this.nearTotalTickerAmount / (Math.pow(10, 24))).toFixed(4)
-        }
-    },
     methods: {
-        // pauseViewingStream() {
-        //   document.getElementById("inBuiltVideoExample").pause();
-        //   this.streamingPaused = true;
-        //   this.removeWebMonetisationMetaTag()
-        // },
-        // playViewingStream() {
-        //   document.getElementById("inBuiltVideoExample").play();
-        //   this.streamingPaused = false;
-        //   this.addWebMonetisationMetaTag()
-        // },
         ...mapMutations({
             _setInBuiltRequestDemo: 'setInBuiltRequestDemo'
 
@@ -152,10 +117,12 @@ export default {
         playViewingStream() {
             document.getElementById("inBuiltVideoExample").play();
             this.streamingPaused = false;
+
         },
         report() {},
         pushToSupplyStreamPage() {
             this.$emit("push-page", SupplyStream);
+
         },
         playVideo() {
             document.getElementById("remoteVideo").style.display = "block";
@@ -167,97 +134,27 @@ export default {
                     //document.getElementById("play_button").style.display = "none";
                 })
                 .catch(function () {
-                    //
                     //document.getElementById("play_button").style.display = "block";
                     console.log("User interaction needed to start playing");
                 });
         },
         startPlaying() {
             this.webRTCAdaptor.play(this.streamId);
+
         },
         stopPlaying() {
             this.webRTCAdaptor.stop();
+
         },
-        // removeWebMonetisationMetaTag() {
-        //     document.querySelector('meta[name="monetization"]').remove()
-
-        // },
-        // addWebMonetisationMetaTag() {
-        //     this.metaTag = document.createElement('meta')
-        //     this.metaTag.name = "monetization"
-        //     this.metaTag.content = "$twitter.xrptipbot.com/ma06rii1"
-
-        //     document.head.appendChild(this.metaTag)
-        // },
         endViewingStream() {
-            //this.removeWebMonetisationMetaTag()
-            clearInterval(this.nearPaymentIntervals);
             this.$emit("back-page");
 
         },
-        // async makeNearPayment() {
-
-        //     // replace this with your developer account
-        //     let your_developer_account = 'ma06rii'
-
-        //     // all inputs in nearlib are denominated in yoctoNEAR (1 NEAR = 10^24 yoctoNEAR)
-        //     // use this helper function to convert NEAR to yoctoNEAR
-        //     let amount_to_send = window.nearlib.utils.format.parseNearAmount('0.00083333')
-
-        //     let sender, final
-
-        //     // make sure we're still signed in to the wallet
-        //     console.assert(window.wallet.isSignedIn(), "looks like you need to sign in again with the user account!")
-
-        //     try {
-        //         // hydrate and validate we have the right to act on behalf of the sender account
-        //         sender = await window.near.account(window.wallet.getAccountId())
-
-        //         // execute a Transfer transaction using the sendMoney convenience method on the account object
-        //         final = await sender.sendMoney(your_developer_account, amount_to_send);
-
-        //         // print out the results
-        //         // console.log("transaction id", final.transaction.id)
-        //         // console.log("gas used", final.transaction.outcome.gas_burnt)
-
-        //         // celebrate
-        //         console.log("success!")
-        //         console.log(final.transaction.actions[0].Transfer.deposit)
-
-        //         this.nearTotalTickerAmount = this.nearTotalTickerAmount + parseInt(final.transaction.actions[0].Transfer.deposit)
-
-        //     } catch (error) {
-        //         // if anything goes sideways, error handling to the rescue
-        //         if (error.type == 'InvalidTxError::NotEnoughBalance') {
-        //             this.endViewingStream()
-        //         }
-
-        //         console.warn(error.type, error.message)
-        //     }
-
-        //     // ---------------------------------------------------------------------------
-        //     // here you have access to `nearlib` and a valid connection object `near`
-        //     //
-        //     // we've added them to the window object to make working in the console convenient
-        //     // ---------------------------------------------------------------------------
-
-        // }
+       
     },
     mounted() {
 
-        // this.playViewingStream()
-
-        // $(document).on("postpop", "#navigator", function () {
-        //     console.log("postpop");
-
-        //     // if (page.matches('#page3')) {
-        //     //     // refresh code
-        //     // }
-        // });
-
         this.webRTCAdaptor = new WebRTCAdaptor({
-            //websocket_url: "wss://test.antmedia.io:5443/WebRTCAppEE/websocket",
-            //websocket_url: "ws://ec2-18-141-162-55.ap-southeast-1.compute.amazonaws.com:5080/WebRTCAppEE/websocket",
             websocket_url: "wss://app.vividiov.media:5443/WebRTCAppEE/websocket",
             mediaConstraints: this.mediaConstraints,
             peerconnection_config: this.pc_config,
@@ -304,49 +201,7 @@ export default {
             }
         });
 
-        this.config = {
-            networkId: 'default', // this can be any label to namespace user accounts
-            nodeUrl: "https://rpc.nearprotocol.com", // this endpoint must point to the network you want to reach
-            walletUrl: "http://wallet.nearprotocol.com", // this endpoint must exist for the wallet to work
-            deps: {
-                keyStore: new window.nearlib.keyStores.BrowserLocalStorageKeyStore() // keys are stored as plaintext in LocalStorage
-            }
-        };
-
-        if (this.isInBuiltRequestDemo()) {
-            //this.makeNearPayment()
-            this.nearPaymentIntervals = setInterval(() => {
-                //this.makeNearPayment()
-            }, 3500)
-
-            this.playViewingStream()
-
-        }
     },
-    created() {
-        // this.config = {
-        //     networkId: 'default', // this can be any label to namespace user accounts
-        //     nodeUrl: "https://rpc.nearprotocol.com", // this endpoint must point to the network you want to reach
-        //     walletUrl: "http://wallet.nearprotocol.com", // this endpoint must exist for the wallet to work
-        //     deps: {
-        //         keyStore: new window.nearlib.keyStores.BrowserLocalStorageKeyStore() // keys are stored as plaintext in LocalStorage
-        //     }
-        // };
-
-        // if (this.isInBuiltRequestDemo()) {
-        //     this.makeNearPayment()
-        //     this.nearPaymentIntervals = setInterval(() => {
-        //         this.makeNearPayment()
-        //     }, 3500)
-
-        //     this.playViewingStream()
-
-        // }
-
-    },
-    beforeDestroy() {
-        //this.removeWebMonetisationMetaTag()
-
-    }
+   
 };
 </script>

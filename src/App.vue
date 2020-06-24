@@ -7,18 +7,13 @@
 </style>
 
 <script>
-//import RequestStream from '@/components/RequestStream.vue'
+
 import Home from "@/components/Home.vue";
-//import Login from "@/components/Login.vue"
 
 export default {
     name: "main_page",
-    // components:{
-    //     Home
-    // },
     data() {
         return {
-            //pageStack: [Login]
              pageStack: [Home]
         };
     }
