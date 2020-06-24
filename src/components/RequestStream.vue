@@ -126,7 +126,12 @@ export default {
                 user: {
                     walletAddress: this._myWalletAddress()
                 },
-                location: null
+                location: null,
+                streamer:{
+                    live:false,
+                    walletAddress: null
+
+                }
             }
         };
     },
