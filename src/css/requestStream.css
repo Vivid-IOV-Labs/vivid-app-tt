@@ -25,11 +25,12 @@ body {
 }
 
 html,
-/* body, */
-#map {
+ body,
+ #map
+{
   /* height: 42vh;
   width: 100vw; */
-  height: 44% !important;
+  height: 100% !important;
   width: 100% !important;
 }
 
@@ -91,11 +92,7 @@ html,
 } */
 
 #map-container {
-  /* position: relative;
-  margin-top: 0%;
-  margin-right: 0%;
-  margin-bottom: 0%;
-  margin-left: 170px; */
+  flex:1;
 }
 
 #vivid_logo {
@@ -125,6 +122,9 @@ html,
 .page__content {
   background-color: #3daec1 !important;
   width: 100% !important;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .toolbar {

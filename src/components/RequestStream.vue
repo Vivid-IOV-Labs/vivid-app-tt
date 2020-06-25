@@ -22,9 +22,11 @@
             </div>
         </v-ons-list-item>
     </v-ons-list>
-    <img id="vivid_logo" src="@/logo/Vivid_logo design2020-05.png" />
+    <div id="map-container">
+        <img id="vivid_logo" src="@/logo/Vivid_logo design2020-05.png" />
+        <div id="map" class="map"></div>
+    </div>
 
-    <div id="map" class="map"></div>
 
     <section id="nav_buttons">
         <div id="pushToViewStreamPageButton">
