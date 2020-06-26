@@ -9,7 +9,7 @@
         <div class="center">
             <v-ons-segment tabbar-id="homeTabbar" :index.sync="segmentIndex" style="width: 8em">
                 <button>List</button>
-                <button>Request</button>
+                <button>Map</button>
             </v-ons-segment>
         </div>
         <div class="right">
