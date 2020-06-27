@@ -11,14 +11,18 @@
     <v-ons-list>
         <v-ons-list-item id="optionsPanel_section_viewStream">
             <div id="pay-info-section">
-                <v-ons-button v-show="isInBuiltRequestDemo()" id="payingLabel" class="badge badge-warning">
-                    Tip
+                <v-ons-button id="payingLabel" class="badge badge-warning" @click="tipStreamer()">
+                    
                     <strong>
+                        Tip
+                        <span id="payment-ticker" class="badge badge-pill badge-info">{{ defaultTipAmount + " TT"}}</span>
                         <!-- <i>{{PayToUserName}}</i> -->
-                        <i>User</i>
+                        
                     </strong>
+                    
                 </v-ons-button>
-                <span id="payment-ticker" class="badge badge-pill badge-info">{{ defaultTipAmount + " TT"}}</span>
+                <span id="streamer-name" class="badge badge-pill badge-info" style="background-color:none!important" ><i>@streamer</i></span>
+                
             </div>
             <div class="expandable-content">
                 <div id="options_panel"></div>
@@ -100,8 +104,8 @@ export default {
             metaTag: null,
             config: null,
             nearTotalTickerAmount: 0,
-            defaultTipAmount:1.00
-            
+            defaultTipAmount: 1.00
+
         };
     },
     methods: {
@@ -110,7 +114,8 @@ export default {
 
         }),
         ...mapGetters({
-            isInBuiltRequestDemo: 'isInBuiltRequestDemo'
+            isInBuiltRequestDemo: 'isInBuiltRequestDemo',
+            _getStreamerWalletAddress: 'getStreamerWalletAddress'
 
         }),
         pauseViewingStream() {},
@@ -150,9 +155,34 @@ export default {
             this.$emit("back-page");
 
         },
-       
-    },
-    mounted() {
+        tipStreamer(){
+
+        console.log(`Tipping ${this.$store.state.contractInstance().amount()}, from 'Video Requester' at: ${this.$store.state.web3.coinbase} to 'Video Streamer' at: ${this._getStreamerWalletAddress()} on the ThunderCore Blockchain`)
+
+        this.$store.state.contractInstance().tip(this._getStreamerWalletAddress(), {
+                gas: 100000,
+                value: this.$store.state.contractInstance().amount(),
+                from: this.$store.state.web3.coinbase
+            }, (err) => {
+                if (err) {
+                    console.log(err)
+                } else {
+                    let TipEvent = this.$store.state.contractInstance().Tip()
+                    TipEvent.watch((err, result) => {
+                        if (err) {
+                            console.log('could not get event Won()')
+                        } else {
+                            console.log(result)
+                            //Show notification that tip has been sent.
+                        }
+                    })
+                }
+            })
+
+    }
+
+},
+mounted() {
 
         this.webRTCAdaptor = new WebRTCAdaptor({
             websocket_url: "wss://app.vividiov.media:5443/WebRTCAppEE/websocket",
@@ -168,7 +198,7 @@ export default {
                     this.webRTCAdaptor.getStreamInfo(this.streamId);
                 } else if (info == "streamInformation") {
                     console.log("stream information");
-                    this.webRTCAdaptor.play(this.streamId, "762007030599962020550620" );
+                    this.webRTCAdaptor.play(this.streamId, "762007030599962020550620");
                 } else if (info == "play_started") {
                     //joined the stream
                     console.log("play started");
@@ -202,6 +232,6 @@ export default {
         });
 
     },
-   
+
 };
 </script>
