@@ -185,7 +185,7 @@ export default {
 mounted() {
 
         this.webRTCAdaptor = new WebRTCAdaptor({
-            websocket_url: "wss://app.vividiov.media:5443/WebRTCAppEE/websocket",
+            websocket_url: "wss://stream.vividiov.media:5443/WebRTCAppEE/websocket",
             mediaConstraints: this.mediaConstraints,
             peerconnection_config: this.pc_config,
             sdp_constraints: this.sdpConstraints,
