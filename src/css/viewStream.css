@@ -22,6 +22,8 @@
 
 #payingLabel {
   display: inline;
+  margin-right: -1%;
+  margin-left: -2%;
 }
 
 #pay-info-section {
@@ -70,8 +72,19 @@ video {
   /* margin-top: 10px; */
   margin-right: 0%;
   margin-bottom: 0%;
-  margin-left: 6%;
+  margin-left: 3%;
   background-color: #1b778c;
+}
+
+#streamer-name {
+  /* position: absolute; */
+  display: inline;
+  /* margin-top: 10px; */
+  margin-right: 6%;
+  margin-bottom: 0%;
+  margin-left: 5%;
+  background-color: #1b778c !important;
+  color: #ebf4f4;
 }
 
 .toolbar__title {
