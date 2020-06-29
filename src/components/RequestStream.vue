@@ -27,7 +27,9 @@
         <div id="map" class="map"></div>
         <section id="nav_buttons">
             <div id="pushToViewStreamPageButton">
-                <v-ons-button @click="fromRequest()">Send Video Request</v-ons-button>
+                <v-ons-button @click="fromRequest()">Join</v-ons-button>
+                <v-ons-button @click="fromRequest()">Request</v-ons-button>
+                <v-ons-button @click="fromRequest()">Create</v-ons-button>
             </div>
         </section>
     </div>

@@ -209,12 +209,12 @@ html,
 } */
 
 #pushToViewStreamPageButton {
-  display: inline-block !important;
+  display: flex;
+  justify-content: center;
 }
 
 #pushToViewStreamPageButton > .button {
-  margin-top: 1em;
-  width: 12em;
+  margin: 1em;
   background-color: #1d1d1b;
   color: #16dbdb;
   font-weight: 550;
