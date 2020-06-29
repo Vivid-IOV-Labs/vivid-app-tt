@@ -64,6 +64,15 @@
 </style>
 
 <script>
+import Web3 from 'web3'
+import { address, ABI } from "@/util/constants/tippingContract"
+
+
+
+
+
+
+
 import {
     mapMutations,
     mapGetters
@@ -110,7 +119,8 @@ export default {
     },
     methods: {
         ...mapMutations({
-            _setInBuiltRequestDemo: 'setInBuiltRequestDemo'
+            _setInBuiltRequestDemo: 'setInBuiltRequestDemo',
+            _setStreamerWalletAddress: 'setStreamerWalletAddress'
 
         }),
         ...mapGetters({
@@ -155,27 +165,38 @@ export default {
             this.$emit("back-page");
 
         },
-        tipStreamer(){
+        async tipStreamer(){
 
-        console.log(`Tipping ${this.$store.state.contractInstance().amount()}, from 'Video Requester' at: ${this.$store.state.web3.coinbase} to 'Video Streamer' at: ${this._getStreamerWalletAddress()} on the ThunderCore Blockchain`)
+        let amount = 1
 
-        this.$store.state.contractInstance().tip(this._getStreamerWalletAddress(), {
-                gas: 100000,
-                value: this.$store.state.contractInstance().amount(),
+        var web3Instance = new Web3(window.web3.currentProvider)
+
+        console.log(web3Instance)
+
+        let tippingContract = await window.web3.eth.contract(ABI)
+        let tippingContractInstance = await tippingContract.at(address)
+
+        console.log(tippingContract)
+        console.log(tippingContractInstance)
+
+        await tippingContractInstance.tip(this._getStreamerWalletAddress(), {
+                gas: 300000,
+                gasPrice: '0x14f46b0400',
+                value: window.web3.toWei(String(amount), 'ether'),
                 from: this.$store.state.web3.coinbase
             }, (err) => {
                 if (err) {
                     console.log(err)
                 } else {
-                    let TipEvent = this.$store.state.contractInstance().Tip()
-                    TipEvent.watch((err, result) => {
-                        if (err) {
-                            console.log('could not get event Won()')
-                        } else {
-                            console.log(result)
-                            //Show notification that tip has been sent.
-                        }
-                    })
+                    // let TipEvent = tippingContractInstance.Tip()
+                    // TipEvent.watch((err, result) => {
+                    //     if (err) {
+                    //         console.log('could not get event Won()')
+                    //     } else {
+                    //         console.log(result)
+                    //         //Show notification that tip has been sent.
+                    //     }
+                    // })
                 }
             })
 
