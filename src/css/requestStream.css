@@ -1,4 +1,4 @@
-#requestStreamPage {
+ #requestStreamPage {
   height: 100vh !important;
   width: 100vw !important;
   display: flex;
@@ -122,6 +122,9 @@ html,
 .page__content {
   background-color: #3daec1 !important;
   width: 100% !important;
+}
+
+#requestStreamPage .page__content {
   height: 100%;
   display: flex;
   flex-direction: column;
