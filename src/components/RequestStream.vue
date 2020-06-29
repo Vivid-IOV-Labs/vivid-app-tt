@@ -27,9 +27,9 @@
         <div id="map" class="map"></div>
         <section id="nav_buttons">
             <div id="pushToViewStreamPageButton">
-                <v-ons-button @click="fromRequest()">Join</v-ons-button>
-                <v-ons-button @click="fromRequest()">Request</v-ons-button>
-                <v-ons-button @click="fromRequest()">Create</v-ons-button>
+                <v-ons-button class="btn--join" @click="fromRequest()">Join <v-ons-icon class="btn__icon--white" icon="md-face"></v-ons-icon></v-ons-button>
+                <v-ons-button class="btn--request" @click="fromRequest()">Request <v-ons-icon class="btn__icon--white" icon="md-face"></v-ons-icon></v-ons-button>
+                <v-ons-button class="btn--create" @click="fromRequest()">Create <v-ons-icon class="btn__icon--white" icon="md-face"></v-ons-icon></v-ons-button>
             </div>
         </section>
     </div>

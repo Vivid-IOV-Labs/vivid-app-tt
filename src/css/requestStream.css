@@ -218,6 +218,24 @@ html,
   background-color: #1d1d1b;
   color: #16dbdb;
   font-weight: 550;
+  border-radius: 0.3rem;
+}
+#pushToViewStreamPageButton > .button  .btn__icon--white{
+  margin-left: 0.2rem;
+  color: #fff;
+}
+
+#pushToViewStreamPageButton .btn--join {
+  border: solid 1px #73E335;
+  color: #73E335;
+}
+#pushToViewStreamPageButton .btn--request {
+  border: solid 1px #49FAFC;
+  color: #49FAFC;
+}
+#pushToViewStreamPageButton .btn--create {
+  border: solid 1px #F73E2D;
+  color: #F73E2D;
 }
 
 .slimPinIcon {
