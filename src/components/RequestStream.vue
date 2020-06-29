@@ -25,11 +25,11 @@
     <div id="map-container">
         <img id="vivid_logo" src="@/logo/Vivid_logo design2020-05.png" />
         <div id="map" class="map"></div>
-            <section id="nav_buttons">
-        <div id="pushToViewStreamPageButton">
-            <v-ons-button @click="fromRequest()">Send Video Request</v-ons-button>
-        </div>
-    </section>
+        <section id="nav_buttons">
+            <div id="pushToViewStreamPageButton">
+                <v-ons-button @click="fromRequest()">Send Video Request</v-ons-button>
+            </div>
+        </section>
     </div>
 
 
