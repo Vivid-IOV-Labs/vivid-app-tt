@@ -36,6 +36,10 @@ html,
 
 #nav_buttons {
   height: 12vh;
+  position: absolute;
+  width: 100%;
+  z-index: 9999;
+  bottom: 1rem;
   text-align: center !important;
 }
 
@@ -93,11 +97,11 @@ html,
 
 #map-container {
   flex:1;
+  position: relative;
 }
 
 #vivid_logo {
   width: 15.2%;
-  height: 7.7%;
   position: absolute;
   z-index: 1000;
   margin-top: 0%;
@@ -109,7 +113,6 @@ html,
 @media all and (min-width: 375px) and (min-height: 812px) {
   #vivid_logo {
     width: 15.2%;
-    height: 7.7%;
     position: absolute;
     z-index: 1000;
     margin-top: 0%;
