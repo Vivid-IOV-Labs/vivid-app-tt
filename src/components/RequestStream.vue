@@ -22,7 +22,7 @@
             </div>
         </v-ons-list-item>
     </v-ons-list>
-    <img id="vivid_logo" src="@/logo/Vivid_logo design2020-05.png" />
+    <!-- <img id="vivid_logo" src="@/logo/Vivid_logo design2020-05.png" /> -->
 
     <div id="map" class="map"></div>
 
@@ -53,6 +53,7 @@ import socketIOClient from 'socket.io-client';
 import sailsIOClient from 'sails.io.js';
 
 import env from "@/js/env.js"
+
 
 let io;
 
@@ -218,10 +219,11 @@ export default {
             if(selectedPin){
                 this._setStreamerWalletAddress(selectedPin.streamer.walletAddress)
 
+                this._setInBuiltRequestDemo(false);
+                this.pushToViewStreamPage()
             }
 
-            this._setInBuiltRequestDemo(false);
-            this.pushToViewStreamPage()
+            
 
         },
         pushToViewStreamPage() {
@@ -441,7 +443,7 @@ export default {
     beforeCreate() {
         console.log('registerWeb3 Action dispatched')
         this.$store.dispatch('registerWeb3')
-        this.$store.dispatch('getContractInstance')
+        //this.$store.dispatch('getContractInstance')
     },
 
 };
