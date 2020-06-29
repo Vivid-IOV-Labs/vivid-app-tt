@@ -7,7 +7,6 @@ import env from "@/js/env.js"
 
 import getWeb3 from '@/util/getWeb3'
 
-import getContract from '@/util/getContracts'
 
 Vue.use(Vuex)
 
@@ -39,23 +38,6 @@ export default new Vuex.Store({
             state.inBuiltRequestDemo = n
 
         },
-        registerWeb3Instance(state, payload) {
-            console.log('registerWeb3instance Mutation being executed', payload)
-            let result = payload
-            let web3Copy = state.web3
-            web3Copy.coinbase = result.coinbase
-            web3Copy.networkId = result.networkId
-            web3Copy.balance = parseInt(result.balance, 10)
-            web3Copy.isInjected = result.injectedWeb3
-            web3Copy.web3Instance = result.web3
-            state.web3 = web3Copy
-
-            console.log(state.web3)
-        },
-        registerContractInstance(state, payload) {
-            console.log(`Tipping contract instance: `, payload)
-            state.contractInstance = () => payload
-        },
         setLocalCopyOfRequestPins(state, n) {
             state.localCopyOfRequestPins = n
 
@@ -71,7 +53,27 @@ export default new Vuex.Store({
         setStreamerWalletAddress(state, n) {
             state.streamerWalletAddress = n
 
-        }
+        },
+        setCoinbase(state, n) {
+            state.web3.coinbase = n
+
+        },
+        setNetworkID(state, n) {
+            state.web3.networkId = n
+
+        },
+        setBalance(state, n) {
+            state.web3.balance = parseInt(n, 10)
+
+        },
+        setIsInjected(state, n) {
+            state.web3.isInjected = n
+
+        },
+        setWeb3Instance(state, n) {
+            state.web3.web3Instance = n
+
+        },
 
     },
     getters: {
@@ -120,20 +122,26 @@ export default new Vuex.Store({
             return response;
 
         },
-        registerWeb3({ commit }) {
+        registerWeb3Instance2({ commit }, payload) {
+            commit('setCoinbase', payload.coinbase)
+            commit('setNetworkID', payload.networkId)
+            commit('setBalance', payload.balance)
+            commit('setIsInjected', payload.injectedWeb3)
+            commit('setWeb3Instance', payload.web3)
+
+        },
+        registerWeb3({ commit, dispatch }) {
             console.log('registerWeb3 Action being executed')
             getWeb3.then(result => {
                 console.log('committing result to registerWeb3Instance mutation')
+                console.log(result.coinbase)
                 commit('setMyWalletAddress', result.coinbase)
-                commit('registerWeb3Instance', result)
+                //commit('registerWeb3Instance', result)
+                dispatch('registerWeb3Instance2', result)
+                console.log(result)
             }).catch(e => {
                 console.log('error in action registerWeb3', e)
             })
-        },
-        getContractInstance({ commit }) {
-            getContract.then(result => {
-                commit("registerContractInstance", result)
-            }).catch(e => console.log(e))
         },
         async update({ state }, model) {
 
