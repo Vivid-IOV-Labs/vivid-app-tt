@@ -7,7 +7,7 @@ body {
 /* Desktop/Laptop Styles */
 @media all and (min-width: 414px) {
   body {
-    /*height: 736px !important;*/
+    height: 736px !important;
     width: 414px !important;
   }
 }

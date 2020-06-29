@@ -7,7 +7,7 @@
 /* Desktop/Laptop Styles */
 @media all and (min-width: 414px) {
   #requestStreamPage {
-    height: 736px !important;
+    height: 100% !important;
     width: 414px !important;
   }
 }
