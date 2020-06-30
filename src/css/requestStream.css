@@ -1,4 +1,4 @@
-#requestStreamPage {
+ #requestStreamPage {
   height: 100vh !important;
   width: 100vw !important;
   display: flex;
@@ -7,7 +7,7 @@
 /* Desktop/Laptop Styles */
 @media all and (min-width: 414px) {
   #requestStreamPage {
-    height: 736px !important;
+    height: 99% !important;
     width: 414px !important;
   }
 }
@@ -25,16 +25,21 @@ body {
 }
 
 html,
-/* body, */
-#map {
+ body,
+ #map
+{
   /* height: 42vh;
   width: 100vw; */
-  height: 44% !important;
+  height: 100% !important;
   width: 100% !important;
 }
 
 #nav_buttons {
   height: 12vh;
+  position: absolute;
+  width: 100%;
+  z-index: 9999;
+  bottom: 1rem;
   text-align: center !important;
 }
 
@@ -91,16 +96,12 @@ html,
 } */
 
 #map-container {
-  /* position: relative;
-  margin-top: 0%;
-  margin-right: 0%;
-  margin-bottom: 0%;
-  margin-left: 170px; */
+  flex:1;
+  position: relative;
 }
 
 #vivid_logo {
   width: 15.2%;
-  height: 7.7%;
   position: absolute;
   z-index: 1000;
   margin-top: 0%;
@@ -112,7 +113,6 @@ html,
 @media all and (min-width: 375px) and (min-height: 812px) {
   #vivid_logo {
     width: 15.2%;
-    height: 7.7%;
     position: absolute;
     z-index: 1000;
     margin-top: 0%;
@@ -125,6 +125,12 @@ html,
 .page__content {
   background-color: #3daec1 !important;
   width: 100% !important;
+}
+
+#requestStreamPage .page__content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .toolbar {
@@ -203,15 +209,33 @@ html,
 } */
 
 #pushToViewStreamPageButton {
-  display: inline-block !important;
+  display: flex;
+  justify-content: center;
 }
 
 #pushToViewStreamPageButton > .button {
-  margin-top: 1em;
-  width: 12em;
+  margin: 1em;
   background-color: #1d1d1b;
   color: #16dbdb;
   font-weight: 550;
+  border-radius: 0.3rem;
+}
+#pushToViewStreamPageButton > .button  .btn__icon--white{
+  margin-left: 0.2rem;
+  color: #fff;
+}
+
+#pushToViewStreamPageButton .btn--join {
+  border: solid 1px #73E335;
+  color: #73E335;
+}
+#pushToViewStreamPageButton .btn--request {
+  border: solid 1px #49FAFC;
+  color: #49FAFC;
+}
+#pushToViewStreamPageButton .btn--create {
+  border: solid 1px #F73E2D;
+  color: #F73E2D;
 }
 
 .slimPinIcon {

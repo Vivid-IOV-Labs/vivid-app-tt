@@ -22,15 +22,20 @@
             </div>
         </v-ons-list-item>
     </v-ons-list>
-    <img id="vivid_logo" src="@/logo/Vivid_logo design2020-05.png" />
+    <div id="map-container">
+        <img id="vivid_logo" src="@/logo/Vivid_logo design2020-05.png" />
+        <div id="map" class="map"></div>
+        <section id="nav_buttons">
+            <div id="pushToViewStreamPageButton">
+                <v-ons-button class="btn--join" @click="fromRequest()">Join <v-ons-icon class="btn__icon--white" icon="md-face"></v-ons-icon></v-ons-button>
+                <v-ons-button class="btn--request" @click="fromRequest()">Request <v-ons-icon class="btn__icon--white" icon="md-face"></v-ons-icon></v-ons-button>
+                <v-ons-button class="btn--create" @click="fromRequest()">Create <v-ons-icon class="btn__icon--white" icon="md-face"></v-ons-icon></v-ons-button>
+            </div>
+        </section>
+    </div>
 
-    <div id="map" class="map"></div>
 
-    <section id="nav_buttons">
-        <div id="pushToViewStreamPageButton">
-            <v-ons-button @click="fromRequest()">Send Video Request</v-ons-button>
-        </div>
-    </section>
+
 </v-ons-page>
 </template>
 
