@@ -390,7 +390,8 @@ export default {
         var markers = [
             [-0.1244324, 51.5006728, "Big Ben"],
             [-0.119623, 51.503308, "London Eye"],
-            [-0.1279688, 51.5077286, "Nelson's Column<br><a href=\"https://en.wikipedia.org/wiki/Nelson's_Column\">wp</a>"]
+            //[-0.1279688, 51.5077286, "Nelson's Column<br><a href=\"https://en.wikipedia.org/wiki/Nelson's_Column\">wp</a>"]
+            [-0.1279688, 51.5077286, "Nelson's Column"]
 
         ];
 
@@ -399,7 +400,7 @@ export default {
 
             var lon = markers[i][0];
             var lat = markers[i][1];
-            //var popupText = markers[i][2];
+            var popupText = markers[i][2];
 
             // var markerLocation = new L.LatLng(lat, lon);
             // var marker = new L.Marker(markerLocation, {
@@ -423,16 +424,8 @@ export default {
                     icon: this.slimPinIcon
                 })
                 .addTo(this.map)
-                .bindPopup(this.templateSupplyStreamButton, {
-                    maxWidth: 1060
-                })
-                .on('popupopen', () => {
-                    console.log(arguments)
-                    document.getElementById('button-submit').addEventListener("click", () => {
-                        this.fromSupply()
-
-                    });
-                })
+                .bindPopup(popupText)
+                
         }
 
         this.map.on("locationfound", this.onLocationFound);
@@ -443,7 +436,7 @@ export default {
     beforeCreate() {
         console.log('registerWeb3 Action dispatched')
         this.$store.dispatch('registerWeb3')
-        //this.$store.dispatch('getContractInstance')
+        
     },
 
 };
