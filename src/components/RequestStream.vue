@@ -30,7 +30,7 @@
             <div id="pushToViewStreamPageButton">
                 <v-ons-button class="btn--join" @click="fromRequest()">Join <v-ons-icon class="btn__icon--white" icon="md-face"></v-ons-icon></v-ons-button>
                 <v-ons-button class="btn--request" @click="fromRequest()">Request <v-ons-icon class="btn__icon--white" icon="md-face"></v-ons-icon></v-ons-button>
-                <v-ons-button class="btn--create" @click="fromRequest()">Create <v-ons-icon class="btn__icon--white" icon="md-face"></v-ons-icon></v-ons-button>
+                <v-ons-button class="btn--create" @click="fromRequest()">Go Live <v-ons-icon class="btn__icon--white" icon="md-face"></v-ons-icon></v-ons-button>
             </div>
         </section>
     </div>
