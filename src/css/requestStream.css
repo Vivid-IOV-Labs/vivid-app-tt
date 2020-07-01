@@ -42,6 +42,17 @@ html,
   bottom: 1rem;
   text-align: center !important;
 }
+#nav_buttons .btn--locate{
+  background-color: #1d1d1b;
+  color: #16dbdb;
+  border-radius: 0.3rem;
+  }
+
+  .btn__icon--white{
+    color: #fff;
+  }
+
+
 
 #optionsPanel_section_title {
   font-variant: small-caps;
