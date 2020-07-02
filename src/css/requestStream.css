@@ -7,7 +7,7 @@
 /* Desktop/Laptop Styles */
 @media all and (min-width: 414px) {
   #requestStreamPage {
-    height: 99% !important;
+    height: 100% !important;
     width: 414px !important;
   }
 }
@@ -46,6 +46,8 @@ html,
   background-color: #1d1d1b;
   color: #16dbdb;
   border-radius: 0.3rem;
+  margin: 0.4rem;
+  margin-left: auto;
   }
 
   .btn__icon--white{
@@ -218,7 +220,12 @@ html,
 .list-item__top {
   height: 22px;
 } */
-
+.flex{
+  display: flex;
+}
+.flex-right{
+  margin-left: auto;
+}
 #pushToViewStreamPageButton {
   display: flex;
   justify-content: center;
@@ -226,10 +233,13 @@ html,
 
 #pushToViewStreamPageButton > .button {
   margin: 1em;
+  flex: 1;
   background-color: #1d1d1b;
   color: #16dbdb;
   font-weight: 550;
   border-radius: 0.3rem;
+  padding: 1rem;
+  margin: 0;
 }
 #pushToViewStreamPageButton > .button  .btn__icon--white{
   margin-left: 0.2rem;

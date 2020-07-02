@@ -26,7 +26,9 @@
         <img id="vivid_logo" src="@/logo/Vivid_logo design2020-05.png" />
         <div id="map" class="map"></div>
         <section id="nav_buttons">
-            <v-ons-button class="btn--locate" @click="geolocateMe()"><v-ons-icon class="btn__icon--white" icon="fa-location-arrow"></v-ons-icon></v-ons-button>
+            <div class="flex">
+             <v-ons-button class="btn--locate flex-right" @click="geolocateMe()"><v-ons-icon class="btn__icon--white" icon="fa-location-arrow"></v-ons-icon></v-ons-button>
+            </div>
             <div id="pushToViewStreamPageButton">
                 <v-ons-button class="btn--join" @click="fromRequest()">Join <v-ons-icon class="btn__icon--white" icon="fa-users"></v-ons-icon></v-ons-button>
                 <v-ons-button class="btn--request" @click="fromRequest()">Request <v-ons-icon class="btn__icon--white" icon="fa-plus"></v-ons-icon></v-ons-button>
