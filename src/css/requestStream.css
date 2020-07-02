@@ -39,9 +39,11 @@ html,
   position: absolute;
   width: 100%;
   z-index: 9999;
-  bottom: 1rem;
+  bottom: 2rem;
   text-align: center !important;
+  padding: 0.8rem;
 }
+
 #nav_buttons .btn--locate{
   background-color: #1d1d1b;
   color: #16dbdb;
@@ -251,8 +253,8 @@ html,
   color: #73E335;
 }
 #pushToViewStreamPageButton .btn--request {
-  border: solid 1px #49FAFC;
-  color: #49FAFC;
+  border: solid 1px #16dbdb;
+  color: #16dbdb;
 }
 #pushToViewStreamPageButton .btn--create {
   border: solid 1px #F73E2D;
