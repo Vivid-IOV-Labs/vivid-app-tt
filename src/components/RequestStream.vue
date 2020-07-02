@@ -1,7 +1,7 @@
 <template>
 <v-ons-page id="requestStreamPage">
     <!-- <my-elaborate-popup-content v-show="false" ref="foo"></my-elaborate-popup-content> -->
-    <v-ons-list>
+    <!-- <v-ons-list>
         <v-ons-list-item id="optionsPanel_section" expandable :expanded.sync="optionsPanelView">
             <span id="optionsPanel_section_title">requestor options</span>
             <div class="expandable-content">
@@ -21,9 +21,9 @@
                 </div>
             </div>
         </v-ons-list-item>
-    </v-ons-list>
+    </v-ons-list> -->
     <div id="map-container">
-        <img id="vivid_logo" src="@/logo/Vivid_logo design2020-05.png" />
+        <!-- <img id="vivid_logo" src="@/logo/Vivid_logo design2020-05.png" /> -->
         <div id="map" class="map"></div>
         <section id="nav_buttons">
             <div class="flex">
@@ -177,8 +177,7 @@ export default {
                 //var popupText = markers[i][2];
                 var lon = markers[i].location.feature.geometry.y;
                 var lat = markers[i].location.feature.geometry.x;
-// eslint-disable-next-line no-debugger
-debugger
+
                 L.marker([lon, lat], {
                         icon: this.slimPinIcon
                     })
@@ -214,8 +213,6 @@ debugger
         },
         closeRequestDialog(){
             this.isRequestDialog = false;
-            // eslint-disable-next-line no-debugger
-            debugger
         },
         pushToViewStreamPage() {
             this.$emit("push-page");
@@ -277,8 +274,6 @@ debugger
         },
         updateVisible(value){
             console.log(value)
-            // eslint-disable-next-line no-debugger
-            debugger
         },
         initMap() {
             this.map = L.map("map").setView([51.520748, -0.08504], 15);
@@ -307,7 +302,7 @@ debugger
 
             this.map.on("geosearch/showlocation", this.geoSearchEvent);
 
-            document.getElementById("optionsPanel_section").showExpansion();
+          //  document.getElementById("optionsPanel_section").showExpansion();
 
         },
         initLayers() {
