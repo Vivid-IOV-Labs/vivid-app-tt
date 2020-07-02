@@ -31,24 +31,101 @@
             </div>
             <div id="pushToViewStreamPageButton">
                 <v-ons-button class="btn--join" @click="fromRequest()">Join <v-ons-icon class="btn__icon--white" icon="fa-users"></v-ons-icon></v-ons-button>
-                <v-ons-button class="btn--request" @click="fromRequest()">Request <v-ons-icon class="btn__icon--white" icon="fa-flag"></v-ons-icon></v-ons-button>
+                <v-ons-button class="btn--request" @click="showRequestDialog()">Request <v-ons-icon class="btn__icon--white" icon="fa-flag"></v-ons-icon></v-ons-button>
                 <v-ons-button class="btn--create" @click="fromRequest()">Go Live <v-ons-icon class="btn__icon--white" icon="fa-video"></v-ons-icon></v-ons-button>
             </div>
         </section>
     </div>
 
-
-
+    <v-ons-dialog 
+    cancelable
+    :visible="isRequestDialog"
+    @update:visible="updateVisible"
+  >
+    Request Dialog POP Up
+        <v-ons-page>
+            <v-ons-toolbar>
+                <div class="center">Make a live stream request</div>
+            </v-ons-toolbar>
+            <v-ons-list>
+                <v-ons-list-item>
+                    <div style="display:flex;flex-direction:column; padding:1rem">
+                        <label for="">Request Title</label>
+                        <v-ons-input style="border-bottom:solid 1px #ddd; width:100%" placeholder="What do you want to watch? ">
+                        </v-ons-input>
+                        <small>[10 words max]</small>
+                    </div>
+                </v-ons-list-item>
+                <v-ons-list-item>
+                    <div style="display:flex;flex-direction:column; padding:1rem">
+                        <label for="">Add Hashtags</label>
+                        <v-ons-input style="border-bottom:solid 1px #ccc; width:100%" placeholder="Add a new hashtag">
+                        </v-ons-input>
+                        <v-ons-list style="background:none">
+                            <div>
+                                <v-ons-list-item>
+                                    <label for="hashtags" class="left">
+                                        <v-ons-checkbox
+                                        :input-id="'checkbox-'"
+                                        >
+                                        </v-ons-checkbox>
+                                    </label>
+                                    <label class="center" >
+                                    #tag1
+                                    </label>
+                                </v-ons-list-item>
+                                <v-ons-list-item>
+                                    <label for="hashtags" class="left">
+                                        <v-ons-checkbox
+                                        :input-id="'checkbox-'"
+                                        >
+                                        </v-ons-checkbox>
+                                    </label>
+                                    <label class="center" >
+                                    #tag2
+                                    </label>
+                                </v-ons-list-item>
+                            </div>
+  
+                        </v-ons-list>
+                    </div>
+                </v-ons-list-item>
+                <v-ons-list-item>
+                    <div style="display:flex;flex-direction:column; padding:1rem">
+                        <label for="">Add Location</label>
+                        <v-ons-search-input placeholder="Search something" ></v-ons-search-input>
+                    </div>
+                </v-ons-list-item>
+            </v-ons-list>
+            <v-ons-button style="    width: 90%;
+    display: block;
+    margin: 1rem auto;
+    text-align: center;
+    padding: 1rem;
+    background: #16dbdb;
+    color: #000;" @click="isRequestDialog = false">
+            Close
+            </v-ons-button>
+        </v-ons-page>
+    </v-ons-dialog>
 </v-ons-page>
 </template>
 
-<style scoped>
+<style>
 @import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import "../../node_modules/leaflet/dist/leaflet.css";
 @import "../css/player.css";
 @import "../../node_modules/leaflet-geosearch/assets/css/leaflet.css";
 @import "../css/requestStream.css";
 /* @import "../css/leafletmarkers/leaflet.extra-markers.min.css"; */
+.dialog{
+    top: 46%;
+    height: 82%;
+    width: 90%;
+}
+.dialog-container{
+    height: 100%;
+}
 </style>
 
 <script>
@@ -93,9 +170,13 @@ import {
     mapActions,
     mapGetters
 } from 'vuex';
+// import RequestDialog from "@/components/dialogs/RequestDialog.vue"
 
 export default {
     name: "requestStream",
+    components: {
+        // RequestDialog,
+    },
     data() {
         return {
             map: null,
@@ -123,6 +204,7 @@ export default {
             templateSupplyStreamButton: null,
             current_request_list: null,
             request_raw_data: null,
+            isRequestDialog:false,
             requestModel: {
                 mapPin: {
                     "details": "Side view of santa parade",
@@ -195,7 +277,14 @@ export default {
         fromRequest() {
             this._setInBuiltRequestDemo(false);
             this.pushToViewStreamPage()
-
+        },
+        showRequestDialog(){
+            this.isRequestDialog = true;
+        },
+        closeRequestDialog(){
+            this.isRequestDialog = false;
+            // eslint-disable-next-line no-debugger
+            debugger
         },
         pushToViewStreamPage() {
             this.$emit("push-page");
@@ -254,6 +343,11 @@ export default {
 
             this.map.setView([51.520748, -0.08504], 15);
 
+        },
+        updateVisible(value){
+            console.log(value)
+            // eslint-disable-next-line no-debugger
+            debugger
         },
         initMap() {
             this.map = L.map("map").setView([51.520748, -0.08504], 15);
