@@ -13,39 +13,26 @@
                 <v-ons-list-item>
                     <div style="display:flex;flex-direction:column; padding:1rem">
                         <label for="">Request Title</label>
-                        <v-ons-input style="border-bottom:solid 1px #ddd; width:100%" placeholder="What do you want to watch? ">
-                        </v-ons-input>
+                          <textarea class="textarea textarea--transparent" placeholder="Text message"></textarea>
                         <small>[10 words max]</small>
                     </div>
                 </v-ons-list-item>
                 <v-ons-list-item>
                     <div style="display:flex;flex-direction:column; padding:1rem">
                         <label for="">Add Hashtags</label>
-                        <v-ons-input style="border-bottom:solid 1px #ccc; width:100%" placeholder="Add a new hashtag">
-                        </v-ons-input>
-                        <v-ons-list style="background:none">
+                        <v-ons-list >
                             <div>
                                 <v-ons-list-item>
-                                    <label for="hashtags" class="left">
-                                        <v-ons-checkbox
-                                        :input-id="'checkbox-'"
-                                        >
-                                        </v-ons-checkbox>
-                                    </label>
-                                    <label class="center" >
-                                    #tag1
-                                    </label>
+                                    <v-ons-input placeholder="What do you want to watch?" float >
+                                    </v-ons-input>
                                 </v-ons-list-item>
                                 <v-ons-list-item>
-                                    <label for="hashtags" class="left">
-                                        <v-ons-checkbox
-                                        :input-id="'checkbox-'"
-                                        >
-                                        </v-ons-checkbox>
-                                    </label>
-                                    <label class="center" >
-                                    #tag2
-                                    </label>
+                                    <v-ons-input placeholder="What do you want to watch? ">
+                                    </v-ons-input>
+                                </v-ons-list-item>
+                                <v-ons-list-item>
+                                    <v-ons-input placeholder="What do you want to watch? ">
+                                    </v-ons-input>
                                 </v-ons-list-item>
                             </div>
   
