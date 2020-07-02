@@ -36,7 +36,7 @@
             </div>
         </section>
     </div>
-    <request-dialog v-model="isRequestDialog"></request-dialog>
+    <request-dialog v-model="isRequestDialog" :on-close="_add"></request-dialog>
 </v-ons-page>
 </template>
 
@@ -177,7 +177,8 @@ export default {
                 //var popupText = markers[i][2];
                 var lon = markers[i].location.feature.geometry.y;
                 var lat = markers[i].location.feature.geometry.x;
-
+// eslint-disable-next-line no-debugger
+debugger
                 L.marker([lon, lat], {
                         icon: this.slimPinIcon
                     })

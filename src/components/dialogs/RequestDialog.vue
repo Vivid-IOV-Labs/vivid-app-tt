@@ -80,14 +80,19 @@
         type: Boolean,
         default:false 
       },
+      onClose:{
+        type: Function,
+        default: () => Promise.resolve
+      }
     },
     methods: {
       updateVisible(value) {
         this.$emit('input', value)
       },
       closeRequestDialog(){
+       // this.onClose();
         this.$emit('input', false);
-      }
+      },
     },
   }
 </script>
