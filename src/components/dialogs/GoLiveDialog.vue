@@ -1,19 +1,19 @@
 <template>
   <v-ons-dialog cancelable :visible="value" @update:visible="updateVisible">
-    Request Dialog POP Up
+    GoLive Dialog POP Up
     <v-ons-page>
       <v-ons-toolbar>
-        <div class="center">Make a live stream request</div>
+        <div class="center">Make a live stream GoLive</div>
       </v-ons-toolbar>
       <v-ons-list>
         <v-ons-list-item>
           <div style="display:flex;flex-direction:column; padding:1rem">
-            <label for="">Request Title</label>
-            <textarea
-              class="textarea textarea--transparent"
-              placeholder="What do you want to watch?"
+            <label for="">GoLive Title</label>
+            <v-ons-input
+              style="border-bottom:solid 1px #ddd; width:100%"
+              placeholder="What are you going to stream?"
             >
-            </textarea>
+            </v-ons-input>
             <small>[10 words max]</small>
           </div>
         </v-ons-list-item>
@@ -56,9 +56,9 @@
             margin: 1rem auto;
             text-align: center;
             padding: 1rem;
-            background: #16dbdb;
+            background: #F73E2D;
             color: #000;"
-        @click="closeRequestDialog"
+        @click="closeGoLiveDialog"
       >
         Close
       </v-ons-button>
@@ -68,7 +68,7 @@
 
 <script>
 export default {
-  name: "RequestDialog",
+  name: "GoLiveDialog",
   props: {
     value: {
       type: Boolean,
@@ -83,10 +83,10 @@ export default {
     updateVisible(value) {
       this.$emit("input", value);
     },
-    closeRequestDialog() {
+    closeGoLiveDialog() {
+      // this.onClose();
       this.$emit("input", false);
-    },
-    submit() {}
+    }
   }
 };
 </script>

@@ -1,9 +1,9 @@
 <template>
-<v-ons-page id="walletPage">
+  <v-ons-page id="walletPage">
     <v-ons-card style="text-align:center">
-        <div class="title">List of Requests</div>
+      <div class="title">List of Requests</div>
     </v-ons-card>
-</v-ons-page>
+  </v-ons-page>
 </template>
 
 <style scoped>
@@ -13,11 +13,9 @@
 
 <script>
 export default {
-    name: "listview",
-    data() {
-        return {
-          
-        };
-    }
+  name: "listview",
+  data() {
+    return {};
+  }
 };
 </script>

@@ -4,11 +4,9 @@
   </div>
 </template>
 
-<style>
-</style>
+<style></style>
 
 <script>
-
 export default {
   name: "main_page",
   data() {
@@ -16,7 +14,7 @@ export default {
   },
   methods: {
     pushToViewStreamPage() {
-      console.log('go done')
+      console.log("go done");
       this.$emit("push-page");
     }
   }
