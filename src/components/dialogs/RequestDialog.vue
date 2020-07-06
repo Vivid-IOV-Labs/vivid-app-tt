@@ -177,8 +177,7 @@ export default {
         this.autocompleteVisible = true;
       };
       setTimeout(autcompleteSearch, 200);
-    },
-    submit() {}
+    }
   }
 };
 </script>
