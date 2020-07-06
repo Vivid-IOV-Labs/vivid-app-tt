@@ -2,19 +2,18 @@
   <v-ons-page>
     <v-ons-toolbar>
       <div class="left">
-        <v-ons-button style="background-color: Transparent;">
+        <!-- <v-ons-button style="background-color: Transparent;">
           <ons-icon
             style="color: #1d1d1b;"
             size="12px"
             icon="fa-bars"
           ></ons-icon>
-        </v-ons-button>
+        </v-ons-button> -->
       </div>
       <div class="center">
         <div style="display:flex;flex-direction:column; padding:0.4rem 0 0">
           <v-ons-search-input
             id="search"
-            style="width:100%"
             placeholder="Search something"
             v-model.lazy="searchAddress"
             @input="onSearchAddress"
@@ -49,7 +48,7 @@
         </v-ons-segment> -->
       </div>
       <div class="right">
-        <v-ons-button
+        <!-- <v-ons-button
           @click="pushToFilterStreamPage"
           style="background-color: Transparent;"
         >
@@ -58,7 +57,7 @@
             size="12px"
             icon="fa-filter"
           ></ons-icon>
-        </v-ons-button>
+        </v-ons-button> -->
       </div>
     </v-ons-toolbar>
 
