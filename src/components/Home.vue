@@ -11,14 +11,42 @@
         </v-ons-button>
       </div>
       <div class="center">
-        <v-ons-segment
+        <div style="display:flex;flex-direction:column; padding:0.4rem 0 0">
+          <v-ons-search-input
+            id="search"
+            style="width:100%"
+            placeholder="Search something"
+            v-model.lazy="searchAddress"
+            @input="onSearchAddress"
+          ></v-ons-search-input>
+          <v-ons-popover
+            style="z-index:99999999"
+            :cover-target="false"
+            target="#search"
+            :visible="autocompleteVisible"
+            cancelable
+            direction="down"
+          >
+            <v-ons-list>
+              <v-ons-list-item
+                v-for="item in autocompleteAdresses"
+                :key="item.label"
+                @click="onSelectAddress(item)"
+                modifier="tappable"
+              >
+                {{ item.label }}
+              </v-ons-list-item>
+            </v-ons-list>
+          </v-ons-popover>
+        </div>
+        <!-- <v-ons-segment
           tabbar-id="homeTabbar"
           :index.sync="segmentIndex"
           style="width: 8em"
         >
           <button>List</button>
           <button>Request</button>
-        </v-ons-segment>
+        </v-ons-segment> -->
       </div>
       <div class="right">
         <v-ons-button
@@ -57,11 +85,17 @@ import RequestStreamFilters from "@/components/RequestStreamFilters.vue";
 
 import ViewStream from "@/components/ViewStream.vue";
 import SupplyStream from "@/components/SupplyStream.vue";
+import { EsriProvider } from "leaflet-geosearch";
 
+const myProvider = new EsriProvider();
 export default {
   name: "home",
   data() {
     return {
+      autocompleteAdresses: [],
+      autocompleteVisible: false,
+      selectedAddress: "",
+      searchAddress: "",
       tabs: [
         {
           page: ListView,
@@ -101,6 +135,19 @@ export default {
     },
     popViewPage() {
       this.$emit("back-page");
+    },
+    onSelectAddress(address) {
+      this.searchAddress = address.label;
+      this.autocompleteVisible = false;
+      this.$store.dispatch("newSearchLocation", address);
+    },
+    onSearchAddress(event) {
+      const autcompleteSearch = async () => {
+        const results = await myProvider.search({ query: event.target.value });
+        this.autocompleteAdresses = results;
+        this.autocompleteVisible = true;
+      };
+      setTimeout(autcompleteSearch, 200);
     }
   }
 };

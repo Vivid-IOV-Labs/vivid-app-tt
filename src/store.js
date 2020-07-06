@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import Vue from "vue";
 import Vuex from "vuex";
 // import createPersistedState from 'vuex-persistedstate'
@@ -15,7 +16,8 @@ export default new Vuex.Store({
     inBuiltRequestDemo: true,
     //baseURL: 'http://127.0.0.1:1336/',
     baseURL: env.web_service_url,
-    myWalletAddress: "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7"
+    myWalletAddress: "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
+    searchLocation: null
   },
   mutations: {
     setInBuiltRequestDemo(state, n) {
@@ -24,9 +26,13 @@ export default new Vuex.Store({
   },
   getters: {
     isInBuiltRequestDemo: state => state.inBuiltRequestDemo,
-    myWalletAddress: state => state.myWalletAddress
+    myWalletAddress: state => state.myWalletAddress,
+    searchLocation: state => state.searchLocation
   },
   actions: {
+    newSearchLocation({ state }, location) {
+      state.searchLocation = location;
+    },
     async find_all_requests({ state }) {
       const response = await RequestService.find_all_requests({}, state);
 
@@ -34,7 +40,6 @@ export default new Vuex.Store({
     },
     async add({ state }, model) {
       const response = await RequestService.add(model, state);
-
       return response;
     },
     async get_requests({ state }) {
@@ -50,7 +55,6 @@ export default new Vuex.Store({
         findWhereModel,
         state
       );
-
       if (!(findWhereResponse.data && findWhereResponse.data.length)) {
         response = await RequestService.create(model, state);
       } else {
