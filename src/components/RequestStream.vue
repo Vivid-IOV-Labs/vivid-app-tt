@@ -201,19 +201,21 @@ export default {
         //var popupText = markers[i][2];
         var lon = markers[i].location.feature.geometry.y;
         var lat = markers[i].location.feature.geometry.x;
+        const marker = markers[i];
+        console.log(marker);
 
         L.marker([lon, lat], {
           icon: markers[i].streamer.live ? this.markerUsers : this.markerNew
         })
           .addTo(this.map)
-          .bindPopup(this.templateSupplyStreamButton, {
+          .bindPopup(this.templateSupplyStreamButton(marker), {
             maxWidth: 1060
           })
           .on("popupopen", () => {
             document
-              .getElementById("button-submit")
+              .getElementById("button-golive")
               .addEventListener("click", () => {
-                this.fromSupply();
+                this.pushToSupplyStreamPage();
               });
           });
       }
@@ -355,16 +357,26 @@ export default {
     this.templateForm = requestModel => `
       <div>
       <h3>${requestModel.mapPin.details}<h3>
-      <p>${requestModel.mapPin.twitterHashTags.split(",")}<p>
-        <v-ons-button id="button-submit" type="button">Join</v-ons-button>
+      <p>${requestModel.mapPin.twitterHashTags
+        .reduce((acc, tag) => {
+          acc += ` #${tag},`;
+          return acc;
+        }, "")
+        .slice(1, -1)}<p>
+      <v-ons-button id="button-submit" type="button">Join</v-ons-button>
       </div>
       `;
 
     this.templateSupplyStreamButton = requestModel => `
     <div>
       <h3>${requestModel.mapPin.details}<h3>
-      <p>${requestModel.mapPin.twitterHashTags.split(",")}<p>
-      <v-ons-button id="button-submit" type="button">Supply</v-ons-button>
+      <p>${requestModel.mapPin.twitterHashTags
+        .reduce((acc, tag) => {
+          acc += ` #${tag},`;
+          return acc;
+        }, "")
+        .slice(1, -1)}<p>
+      <v-ons-button id="button-golive" type="button">Go Live</v-ons-button>
     </div>
     `;
 
@@ -443,7 +455,7 @@ export default {
         })
         .on("popupopen", () => {
           document
-            .getElementById("button-submit")
+            .getElementById("button-golive")
             .addEventListener("click", () => {
               this.fromSupply();
             });

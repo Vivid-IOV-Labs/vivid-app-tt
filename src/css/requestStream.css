@@ -260,7 +260,20 @@ html,
   border: solid 1px #F73E2D;
   color: #F73E2D;
 }
-
+#button-golive{
+  color: #fff;
+  background-color: #F73E2D;
+  margin-top: 5%;
+  margin-right: 15%;
+  margin-bottom: 5%;
+  margin-left: 15%;
+  padding-top: 10% !important;
+  padding-left: 10% !important;
+  padding-bottom: 10% !important;
+  padding-right: 10% !important;
+  font-weight: 550;
+  border-radius: 5px;
+}
 .slimPinIcon {
 }
 
