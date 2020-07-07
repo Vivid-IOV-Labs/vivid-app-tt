@@ -51,8 +51,15 @@
       </section>
     </div>
     <div></div>
-    <join-dialog v-model="isJoinDialog" :markers="joinMarkers"></join-dialog>
-    <go-live-dialog v-model="isGoLiveDialog"></go-live-dialog>
+    <join-dialog
+      @push-viewstream="pushToViewStreamPage"
+      v-model="isJoinDialog"
+      :markers="joinMarkers"
+    ></join-dialog>
+    <go-live-dialog
+      @push-supplystream="pushToSupplyStreamPage"
+      v-model="isGoLiveDialog"
+    ></go-live-dialog>
     <request-dialog
       v-model="isRequestDialog"
       :on-close="geoSearchEvent"

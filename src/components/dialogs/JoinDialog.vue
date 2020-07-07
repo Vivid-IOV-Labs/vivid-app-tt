@@ -77,7 +77,11 @@ export default {
     close() {
       this.$emit("input", false);
     },
-    join() {}
+    join() {
+      this.$emit("input", false);
+
+      this.$emit("push-viewstream");
+    }
   }
 };
 </script>

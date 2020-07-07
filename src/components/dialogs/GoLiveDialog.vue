@@ -102,7 +102,6 @@
 <script>
 import { EsriProvider } from "leaflet-geosearch";
 import { mapGetters } from "vuex";
-import ViewStream from "@/components/ViewStream.vue";
 
 const myProvider = new EsriProvider();
 export default {
@@ -172,7 +171,9 @@ export default {
       setTimeout(autcompleteSearch, 200);
     },
     pushToSupplyStreamPage() {
-      this.$emit("push-page", ViewStream);
+      this.$emit("input", false);
+
+      this.$emit("push-supplystream");
     }
   }
 };
