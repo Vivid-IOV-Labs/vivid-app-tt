@@ -6,7 +6,7 @@
         <div class="center">About my Live Stream</div>
         <div class="right">
           <v-ons-button
-            style="float:right; background:transparent; border:none"
+            style="float:right; box-shadow:none; background:transparent; border:none"
             @click="close"
           >
             <v-ons-icon class="btn__icon--white" icon="fa-times"></v-ons-icon>
