@@ -59,6 +59,7 @@
     <go-live-dialog
       @push-supplystream="pushToSupplyStreamPage"
       v-model="isGoLiveDialog"
+      :on-close="geoSearchEvent"
     ></go-live-dialog>
     <request-dialog
       v-model="isRequestDialog"
