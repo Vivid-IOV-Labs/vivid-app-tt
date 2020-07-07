@@ -93,7 +93,7 @@
             color: #fff;"
         @click="closeGoLiveDialog"
       >
-        Close
+        Confirm
       </v-ons-button>
     </v-ons-page>
   </v-ons-dialog>
