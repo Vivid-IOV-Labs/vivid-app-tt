@@ -143,8 +143,8 @@ export default {
       markerNew: null,
       markerUsers: null,
       markerProfile: null,
-      templateForm: null,
-      templateSupplyStreamButton: null,
+      templateJoin: null,
+      templateGoLive: null,
       current_request_list: null,
       request_raw_data: null,
       isRequestDialog: false,
@@ -205,12 +205,17 @@ export default {
         console.log(marker);
 
         L.marker([lon, lat], {
-          icon: markers[i].streamer.live ? this.markerUsers : this.markerNew
+          icon: marker.streamer.live ? this.markerUsers : this.markerNew
         })
           .addTo(this.map)
-          .bindPopup(this.templateSupplyStreamButton(marker), {
-            maxWidth: 1060
-          })
+          .bindPopup(
+            marker.streamer.live
+              ? this.templateJoin(marker)
+              : this.templateGoLive(marker),
+            {
+              maxWidth: 1060
+            }
+          )
           .on("popupopen", () => {
             document
               .getElementById("button-golive")
@@ -354,7 +359,7 @@ export default {
       }
     });
 
-    this.templateForm = requestModel => `
+    this.templateJoin = requestModel => `
       <div>
       <h3>${requestModel.mapPin.details}</h3>
       <p>${requestModel.mapPin.twitterHashTags
@@ -363,11 +368,11 @@ export default {
           return acc;
         }, "")
         .slice(1, -1)}</p>
-      <v-ons-button id="button-submit" type="button">Join</v-ons-button>
+      <v-ons-button id="button-join" type="button">Join</v-ons-button>
       </div>
       `;
 
-    this.templateSupplyStreamButton = requestModel => `
+    this.templateGoLive = requestModel => `
     <div>
       <h3>${requestModel.mapPin.details}</h3>
       <p>${requestModel.mapPin.twitterHashTags
@@ -450,7 +455,7 @@ export default {
     //   this.map.addLayer(marker);
     //   marker
     //     //.bindPopup(popupText)
-    //     .bindPopup(this.templateSupplyStreamButton, {
+    //     .bindPopup(this.templateGoLive, {
     //       maxWidth: 1060
     //     })
     //     .on("popupopen", () => {
