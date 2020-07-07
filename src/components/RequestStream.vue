@@ -203,7 +203,6 @@ export default {
         var lon = markers[i].location.feature.geometry.y;
         var lat = markers[i].location.feature.geometry.x;
         const marker = markers[i];
-        console.log(marker);
 
         L.marker([lon, lat], {
           icon: marker.streamer.live ? this.markerUsers : this.markerNew

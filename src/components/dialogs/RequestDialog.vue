@@ -94,11 +94,13 @@
       <v-ons-button
         style="width: 90%;
             display: block;
+            border-radius:0.3rem;
             margin: 1rem auto;
             text-align: center;
-            padding: 1rem;
+            padding: 0.6rem 1rem;
             background: #16dbdb;
-            color: #000;"
+            font-weight:550;
+            color: #fff;"
         @click="closeRequestDialog"
       >
         Confirm
