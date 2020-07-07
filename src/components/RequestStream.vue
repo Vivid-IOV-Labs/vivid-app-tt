@@ -52,12 +52,12 @@
     </div>
     <div></div>
     <join-dialog
-      @push-viewstream="pushToViewStreamPage"
+      @push-viewstream="fromJoin"
       v-model="isJoinDialog"
       :markers="joinMarkers"
     ></join-dialog>
     <go-live-dialog
-      @push-supplystream="pushToSupplyStreamPage"
+      @push-supplystream="fromSupply"
       v-model="isGoLiveDialog"
       :on-close="geoSearchEvent"
     ></go-live-dialog>
@@ -229,18 +229,18 @@ export default {
               ? document
                   .getElementById("button-join")
                   .addEventListener("click", () => {
-                    this.pushToViewStreamPage();
+                    this.fromJoin();
                   })
               : document
                   .getElementById("button-golive")
                   .addEventListener("click", () => {
-                    this.pushToSupplyStreamPage();
+                    this.fromSupply();
                   });
           });
       }
     },
     fromJoin() {
-      this._setInBuiltRequestDemo(true);
+      this._setInBuiltRequestDemo(false);
       this.pushToViewStreamPage();
     },
     fromSupply() {
