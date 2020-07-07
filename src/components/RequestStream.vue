@@ -50,6 +50,7 @@
         </div>
       </section>
     </div>
+    <div></div>
     <join-dialog v-model="isJoinDialog" :markers="joinMarkers"></join-dialog>
     <go-live-dialog v-model="isGoLiveDialog"></go-live-dialog>
     <request-dialog
@@ -217,11 +218,17 @@ export default {
             }
           )
           .on("popupopen", () => {
-            document
-              .getElementById("button-golive")
-              .addEventListener("click", () => {
-                this.pushToSupplyStreamPage();
-              });
+            marker.streamer.live
+              ? document
+                  .getElementById("button-join")
+                  .addEventListener("click", () => {
+                    this.pushToViewStreamPage();
+                  })
+              : document
+                  .getElementById("button-golive")
+                  .addEventListener("click", () => {
+                    this.pushToSupplyStreamPage();
+                  });
           });
       }
     },
