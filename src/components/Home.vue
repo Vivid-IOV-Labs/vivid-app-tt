@@ -19,12 +19,11 @@
             @input="onSearchAddress"
           ></v-ons-search-input>
           <v-ons-popover
-            style="z-index:99999999"
-            :cover-target="false"
+            style="z-index:99999999;
+  transform: translate(2%,-20%);"
             target="#search"
             :visible="autocompleteVisible"
             cancelable
-            direction="down"
           >
             <v-ons-list>
               <v-ons-list-item

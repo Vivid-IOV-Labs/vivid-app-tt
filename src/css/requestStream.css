@@ -289,6 +289,18 @@ html,
 .tabbar{
   background-color: #1b778c ;
 }
+#search {
+  text-align: center;
+}
 #search .search-input{
+  width: auto;
   background-color:#fff
+}
+.toolbar--material{
+  height: 4rem;
+}
+
+.popover {
+ left: auto;
+ width: auto;
 }
