@@ -51,7 +51,7 @@
           playsinline
         ></video>
       </div>
-      <div v-show="!isInBuiltRequestDemo()">
+      <div v-show="!isInBuiltRequestDemo()" style="flex:1">
         <div id="video_info">
           Stream will start playing automatically
           <br />when it is live
@@ -168,7 +168,8 @@ export default {
   },
   mounted() {
     this.webRTCAdaptor = new WebRTCAdaptor({
-      websocket_url: "wss://app.vividiov.media:5443/WebRTCAppEE/websocket",
+      websocket_url: "wss://stream.vividiov.media:5443/WebRTCAppEE/websocket",
+      //websocket_url: "wss://app.vividiov.media:5443/WebRTCAppEE/websocket",
       mediaConstraints: this.mediaConstraints,
       peerconnection_config: this.pc_config,
       sdp_constraints: this.sdpConstraints,
