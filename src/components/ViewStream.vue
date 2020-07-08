@@ -10,61 +10,74 @@
         <span class="onsPageTitleStyle">View Stream</span>
       </div>
     </v-ons-toolbar>
-    <v-ons-list>
-      <v-ons-list-item id="optionsPanel_section_viewStream">
-        <div id="pay-info-section">
-          <v-ons-button
-            v-show="isInBuiltRequestDemo()"
-            id="payingLabel"
-            class="badge badge-warning"
-          >
-            Tip
-            <strong>
-              <!-- <i>{{PayToUserName}}</i> -->
-              <i>User</i>
-            </strong>
-          </v-ons-button>
-          <span id="payment-ticker" class="badge badge-pill badge-info">{{
-            defaultTipAmount + " TT"
-          }}</span>
-        </div>
-        <div class="expandable-content">
-          <div id="options_panel"></div>
-        </div>
-      </v-ons-list-item>
-    </v-ons-list>
-    <div id="view-video-panel">
-      <div v-show="isInBuiltRequestDemo()" class="container">
-        <div class="jumbotron">
-          <video
-            id="inBuiltVideoExample"
-            src="../assets/video/santa5.mp4"
-            playsinline
-          ></video>
-        </div>
-      </div>
-      <div v-show="!isInBuiltRequestDemo()" class="container">
-        <div class="jumbotron">
-          <div id="video_info">
-            Stream will start playing automatically
-            <br />when it is live
-          </div>
-          <video id="remoteVideo" autoplay controls></video>
-          <!-- <img id="play_button" src="images/play.png" @click="playVideo" /> -->
-          <!-- <input type="text" class="form-control" v-model="streamId" id="streamName" placeholder="Type stream name" /> -->
-        </div>
-      </div>
-    </div>
-    <section
-      v-show="isInBuiltRequestDemo()"
-      id="view_stream_nav_buttons_section"
+
+    <div
+      id="view-video-panel"
+      style="height: 100%;display: flex;flex-direction: column;"
     >
-      <div id="view_stream_nav_buttons_panel">
-        <v-ons-button id="endStreamButton" @click="endViewingStream()">
-          End Stream
-        </v-ons-button>
+      <v-ons-list>
+        <v-ons-list-item id="optionsPanel_section_viewStream">
+          <div id="pay-info-section">
+            <v-ons-button
+              v-show="isInBuiltRequestDemo()"
+              id="payingLabel"
+              class="badge badge-warning"
+            >
+              Tip
+              <strong>
+                <!-- <i>{{PayToUserName}}</i> -->
+                <i>User</i>
+              </strong>
+            </v-ons-button>
+            <span id="payment-ticker" class="badge badge-pill badge-info">{{
+              defaultTipAmount + " TT"
+            }}</span>
+          </div>
+          <div class="expandable-content">
+            <div id="options_panel"></div>
+          </div>
+        </v-ons-list-item>
+      </v-ons-list>
+      <div v-show="isInBuiltRequestDemo()" style="flex:1">
+        <video
+          id="inBuiltVideoExample"
+          src="../assets/video/santa5.mp4"
+          style="object-fit: cover;
+          height: 100%;
+          min-height: 100%; "
+          autoplay
+          muted
+          controls
+          playsinline
+        ></video>
       </div>
-    </section>
+      <div v-show="!isInBuiltRequestDemo()">
+        <div id="video_info">
+          Stream will start playing automatically
+          <br />when it is live
+        </div>
+        <video
+          id="remoteVideo"
+          style="object-fit: cover;
+          height: 100%;
+          min-height: 100%; "
+          autoplay
+          controls
+        ></video>
+        <!-- <img id="play_button" src="images/play.png" @click="playVideo" /> -->
+        <!-- <input type="text" class="form-control" v-model="streamId" id="streamName" placeholder="Type stream name" /> -->
+      </div>
+      <section
+        v-show="isInBuiltRequestDemo()"
+        id="view_stream_nav_buttons_section"
+      >
+        <div style="padding:1rem" id="view_stream_nav_buttons_panel">
+          <v-ons-button id="endStreamButton" @click="endViewingStream()">
+            End Stream
+          </v-ons-button>
+        </div>
+      </section>
+    </div>
   </v-ons-page>
 </template>
 

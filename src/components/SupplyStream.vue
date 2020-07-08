@@ -8,45 +8,53 @@
         <span class="onsPageTitleStyle">Supply Stream</span>
       </div>
     </v-ons-toolbar>
-    <div id="view-video-panel">
-      <div class="container">
-        <div class="jumbotron">
-          <p>
-            <video id="localVideo" autoplay muted controls playsinline></video>
-          </p>
-          <v-ons-input
-            v-show="false"
-            type="text"
-            class="form-control"
-            v-model="streamNameBox"
-            id="streamName"
-            placeholder="Type stream name"
-          ></v-ons-input>
-          <p>
-            <v-ons-button
-              @click="startPublishing"
-              class="btn btn-info"
-              :disabled="start_publish_button.disabled"
-              id="start_publish_button"
-              >Start Publishing</v-ons-button
-            >
-            <v-ons-button
-              @click="stopPublishing"
-              class="btn btn-info"
-              :disabled="stop_publish_button.disabled"
-              id="stop_publish_button"
-              >Stop Publishing</v-ons-button
-            >
-          </p>
-
-          <span
-            v-show="!this.stop_publish_button.disabled"
-            class="btn"
-            id="broadcastingInfo"
-            >Publishing</span
-          >
-        </div>
+    <div
+      id="view-video-panel"
+      style="height: 100%;display: flex;flex-direction: column;"
+    >
+      <div class="videoWrapper" style="flex:1">
+        <video
+          id="localVideo"
+          style="object-fit: cover;
+          height: 100%;
+          min-height: 100%; "
+          autoplay
+          muted
+          controls
+          playsinline
+        ></video>
       </div>
+      <v-ons-input
+        v-show="false"
+        type="text"
+        class="form-control"
+        v-model="streamNameBox"
+        id="streamName"
+        placeholder="Type stream name"
+      ></v-ons-input>
+      <div style="display:flex; padding:1rem; justify-content:space-between">
+        <v-ons-button
+          @click="startPublishing"
+          class="btn btn-info"
+          :disabled="start_publish_button.disabled"
+          id="start_publish_button"
+          >Start Publishing</v-ons-button
+        >
+        <v-ons-button
+          @click="stopPublishing"
+          class="btn btn-info"
+          :disabled="stop_publish_button.disabled"
+          id="stop_publish_button"
+          >Stop Publishing</v-ons-button
+        >
+      </div>
+
+      <span
+        v-show="!this.stop_publish_button.disabled"
+        class="btn"
+        id="broadcastingInfo"
+        >Publishing</span
+      >
     </div>
   </v-ons-page>
 </template>
