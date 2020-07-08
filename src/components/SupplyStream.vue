@@ -1,50 +1,57 @@
 <template>
   <v-ons-page id="supplyStreamPage">
     <v-ons-toolbar>
-        <div class="left">
-            <v-ons-back-button></v-ons-back-button>
-        </div>
-        <div class="center">
-            <span class="onsPageTitleStyle">Supply Stream</span>
-        </div>
+      <div class="left">
+        <v-ons-back-button></v-ons-back-button>
+      </div>
+      <div class="center">
+        <span class="onsPageTitleStyle">Supply Stream</span>
+      </div>
     </v-ons-toolbar>
     <div id="view-video-panel">
-    <div class="container">
-      <div class="jumbotron">
-        <p>
-          <video id="localVideo" autoplay muted controls playsinline></video>
-        </p>
-        <v-ons-input
-          v-show="false"
-          type="text"
-          class="form-control"
-          v-model="streamNameBox"
-          id="streamName"
-          placeholder="Type stream name"
-        ></v-ons-input>
-        <p>
-          <v-ons-button
-            @click="startPublishing"
-            class="btn btn-info"
-            :disabled="start_publish_button.disabled"
-            id="start_publish_button"
-          >Start Publishing</v-ons-button>
-          <v-ons-button
-            @click="stopPublishing"
-            class="btn btn-info"
-            :disabled="stop_publish_button.disabled"
-            id="stop_publish_button"
-          >Stop Publishing</v-ons-button>
-        </p>
+      <div class="container">
+        <div class="jumbotron">
+          <p>
+            <video id="localVideo" autoplay muted controls playsinline></video>
+          </p>
+          <v-ons-input
+            v-show="false"
+            type="text"
+            class="form-control"
+            v-model="streamNameBox"
+            id="streamName"
+            placeholder="Type stream name"
+          ></v-ons-input>
+          <p>
+            <v-ons-button
+              @click="startPublishing"
+              class="btn btn-info"
+              :disabled="start_publish_button.disabled"
+              id="start_publish_button"
+              >Start Publishing</v-ons-button
+            >
+            <v-ons-button
+              @click="stopPublishing"
+              class="btn btn-info"
+              :disabled="stop_publish_button.disabled"
+              id="stop_publish_button"
+              >Stop Publishing</v-ons-button
+            >
+          </p>
 
-        <span v-show="!this.stop_publish_button.disabled" class="btn" id="broadcastingInfo">Publishing</span>
+          <span
+            v-show="!this.stop_publish_button.disabled"
+            class="btn"
+            id="broadcastingInfo"
+            >Publishing</span
+          >
+        </div>
       </div>
-    </div>
     </div>
   </v-ons-page>
 </template>
 
-<style >
+<style>
 @import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import "../css/player.css";
 /* @import "../css/supplyStream.css"; */
@@ -87,25 +94,20 @@ export default {
 
       document.querySelector("ons-navigator").popPage({
         refresh: true
-
       });
     },
     startPublishing() {
       this.streamId = this.streamNameBox;
-      this.webRTCAdaptor.publish(this.streamId,"287084795627827033631286");
-
+      this.webRTCAdaptor.publish(this.streamId, "287084795627827033631286");
     },
     stopPublishing() {
       this.webRTCAdaptor.stop(this.streamId);
-
     },
     enableDesktopCapture(_enable) {
       if (_enable == true) {
         this.webRTCAdaptor.switchDesktopCapture(this.streamId);
-        
       } else {
         this.webRTCAdaptor.switchVideoCapture(this.streamId);
-        
       }
     },
     startAnimation() {
@@ -132,13 +134,11 @@ export default {
     this.sdpConstraints = {
       OfferToReceiveAudio: false,
       OfferToReceiveVideo: false
-
     };
 
     this.mediaConstraints = {
       video: true,
       audio: true
-      
     };
 
     this.webRTCAdaptor = new WebRTCAdaptor({

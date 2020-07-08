@@ -1,5 +1,4 @@
  #requestStreamPage {
-  height: 100vh !important;
   width: 100vw !important;
   display: flex;
 }
@@ -240,7 +239,7 @@ html,
   color: #16dbdb;
   font-weight: 550;
   border-radius: 0.3rem;
-  padding: 1rem;
+  padding: 0.6rem 0.8rem;
   margin: 0;
 }
 #pushToViewStreamPageButton > .button  .btn__icon--white{
@@ -260,8 +259,20 @@ html,
   border: solid 1px #F73E2D;
   color: #F73E2D;
 }
+#button-golive{
+  color: #fff;
+  background-color: #F73E2D;
+  padding: 0.8rem 1rem;
+  margin: 0.4rem;
+  border-radius: 0.3rem;
+}
 
-.slimPinIcon {
+#button-join {
+  color: #fff;
+  background-color: #73E335;
+  padding: 0.8rem 1rem;
+  margin: 0.4rem;
+  border-radius: 0.3rem;
 }
 
 .profilePic {
@@ -274,16 +285,22 @@ html,
   height: 5em !important;
 }
 
-#button-submit {
-  background-color: greenyellow;
-  margin-top: 5%;
-  margin-right: 15%;
-  margin-bottom: 5%;
-  margin-left: 15%;
-  padding-top: 10% !important;
-  padding-left: 10% !important;
-  padding-bottom: 10% !important;
-  padding-right: 10% !important;
-  font-weight: 550;
-  border-radius: 5px;
+
+.tabbar{
+  background-color: #1b778c ;
+}
+#search {
+  text-align: center;
+}
+#search .search-input{
+  width: auto;
+  background-color:#fff
+}
+.toolbar--material{
+  height: 4rem;
+}
+
+.popover {
+ left: auto;
+ width: auto;
 }

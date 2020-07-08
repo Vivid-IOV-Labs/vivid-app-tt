@@ -1,12 +1,14 @@
 <template>
-<v-ons-page id="viewStreamPage">
+  <v-ons-page id="viewStreamPage">
     <v-ons-toolbar>
-        <div class="left">
-            <v-ons-back-button @click.prevent="endViewingStream()"></v-ons-back-button>
-        </div>
-        <div class="center">
-            <span class="onsPageTitleStyle">View Stream</span>
-        </div>
+      <div class="left">
+        <v-ons-back-button
+          @click.prevent="endViewingStream()"
+        ></v-ons-back-button>
+      </div>
+      <div class="center">
+        <span class="onsPageTitleStyle">View Stream</span>
+      </div>
     </v-ons-toolbar>
     <v-ons-list>
         <v-ons-list-item id="optionsPanel_section_viewStream">
@@ -30,31 +32,38 @@
         </v-ons-list-item>
     </v-ons-list>
     <div id="view-video-panel">
-        <div v-show="isInBuiltRequestDemo()" class="container">
-            <div class="jumbotron">
-                <video id="inBuiltVideoExample" src="../assets/video/santa5.mp4" playsinline></video>
-            </div>
+      <div v-show="isInBuiltRequestDemo()" class="container">
+        <div class="jumbotron">
+          <video
+            id="inBuiltVideoExample"
+            src="../assets/video/santa5.mp4"
+            playsinline
+          ></video>
         </div>
-        <div v-show="!isInBuiltRequestDemo()" class="container">
-            <div class="jumbotron">
-                <div id="video_info">
-                    Stream will start playing automatically
-                    <br />when it is live
-                </div>
-                <video id="remoteVideo" autoplay controls></video>
-                <!-- <img id="play_button" src="images/play.png" @click="playVideo" /> -->
-                <!-- <input type="text" class="form-control" v-model="streamId" id="streamName" placeholder="Type stream name" /> -->
-            </div>
+      </div>
+      <div v-show="!isInBuiltRequestDemo()" class="container">
+        <div class="jumbotron">
+          <div id="video_info">
+            Stream will start playing automatically
+            <br />when it is live
+          </div>
+          <video id="remoteVideo" autoplay controls></video>
+          <!-- <img id="play_button" src="images/play.png" @click="playVideo" /> -->
+          <!-- <input type="text" class="form-control" v-model="streamId" id="streamName" placeholder="Type stream name" /> -->
         </div>
+      </div>
     </div>
-    <section v-show="isInBuiltRequestDemo()" id="view_stream_nav_buttons_section">
-        <div id="view_stream_nav_buttons_panel">
-            <v-ons-button id="endStreamButton" @click="endViewingStream()">
-                End Stream
-            </v-ons-button>
-        </div>
+    <section
+      v-show="isInBuiltRequestDemo()"
+      id="view_stream_nav_buttons_section"
+    >
+      <div id="view_stream_nav_buttons_panel">
+        <v-ons-button id="endStreamButton" @click="endViewingStream()">
+          End Stream
+        </v-ons-button>
+      </div>
     </section>
-</v-ons-page>
+  </v-ons-page>
 </template>
 
 <style>
@@ -67,12 +76,6 @@
 import Web3 from 'web3'
 import { address, ABI } from "@/util/constants/tippingContract"
 
-
-
-
-
-
-
 import {
     mapMutations,
     mapGetters
@@ -80,9 +83,7 @@ import {
 
 import "webrtc-adapter";
 
-import {
-    WebRTCAdaptor
-} from "@/js/webrtc_adaptor.js";
+import { WebRTCAdaptor } from "@/js/webrtc_adaptor.js";
 
 import SupplyStream from "@/components/SupplyStream.vue";
 
@@ -251,8 +252,6 @@ mounted() {
                 //alert(JSON.stringify(error));
             }
         });
-
     },
-
 };
 </script>

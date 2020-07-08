@@ -18,7 +18,11 @@
       >
         <span id="expandable_section_title">tags</span>
         <div class="expandable-content">
-          <v-ons-list-item v-for="(tagOption, $index) in tagOptions" :key="tagOption" tappable>
+          <v-ons-list-item
+            v-for="(tagOption, $index) in tagOptions"
+            :key="tagOption"
+            tappable
+          >
             <label class="left">
               <v-ons-checkbox
                 :input-id="'checkbox-' + $index"
@@ -26,7 +30,9 @@
                 v-model="tagOptionsChecked"
               ></v-ons-checkbox>
             </label>
-            <label class="center" :for="'checkbox-' + $index">{{ tagOption }}</label>
+            <label class="center" :for="'checkbox-' + $index">{{
+              tagOption
+            }}</label>
           </v-ons-list-item>
         </div>
       </v-ons-list-item>
@@ -75,7 +81,6 @@ export default {
       currencyView: false,
       currencyTickers: ["USD", "GBP", "NEAR"],
       currencyTickerSelected: "NEAR"
-      
     };
   },
   methods: {
@@ -105,7 +110,7 @@ export default {
           this.tagsPanelView = false;
 
           break;
-        
+
         default:
           // code block
           console.log(arguments);

@@ -1,16 +1,17 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+/* eslint-disable no-debugger */
+import Vue from "vue";
+import Vuex from "vuex";
 // import createPersistedState from 'vuex-persistedstate'
-import RequestService from '@/js/RequestService'
+import RequestService from "@/js/RequestService";
 
-import env from "@/js/env.js"
+import env from "@/js/env.js";
 
 import getWeb3 from '@/util/getWeb3'
 
 
 Vue.use(Vuex)
 
-//THIS VUEX 'STORE' HAS BEEN CREATED TO ACT AS A CENTRAL PALCE TO 
+//THIS VUEX 'STORE' HAS BEEN CREATED TO ACT AS A CENTRAL PALCE TO
 //SAVE INFORMATION THAT CAN BE MADE AVAILABLE TO EVERY COMPONENT IN THE VUE APP.
 export default new Vuex.Store({
     // plugins: [createPersistedState()],
@@ -19,6 +20,7 @@ export default new Vuex.Store({
         //baseURL: 'http://127.0.0.1:1336/',
         baseURL: env.web_service_url,
         myWalletAddress: '0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7',
+        searchLocation: null,
         localCopyOfRequestPins: null,
         selectedPin: null,
         streamerWalletAddress: null,
@@ -73,8 +75,7 @@ export default new Vuex.Store({
         setWeb3Instance(state, n) {
             state.web3.web3Instance = n
 
-        },
-
+        }
     },
     getters: {
         isInBuiltRequestDemo: state => state.inBuiltRequestDemo,
@@ -82,10 +83,14 @@ export default new Vuex.Store({
         getLocalCopyOfRequestPins: state => state.localCopyOfRequestPins,
         getSelectedPin: state => state.selectedPin,
         getStreamerWalletAddress: state => state.streamerWalletAddress,
+        searchLocation: state => state.searchLocation
 
 
     },
     actions: {
+        newSearchLocation({ state }, location) {
+            state.searchLocation = location;
+        },
         async find_all_requests({ state }) {
 
             const response = await RequestService.find_all_requests({
@@ -149,9 +154,6 @@ export default new Vuex.Store({
 
             return response;
 
-        },
-
-
-
+        }
     }
-})
+});
