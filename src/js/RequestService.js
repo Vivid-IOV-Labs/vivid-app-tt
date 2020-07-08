@@ -23,4 +23,8 @@ export default {
         return Api(state).get(`requests?openLocationCode=${code}`)
 
     },
+    update(params, state) {
+        return Api(state).patch(`requests/${params.id}`, params)
+
+    },
 }

@@ -11,14 +11,18 @@
     <v-ons-list>
         <v-ons-list-item id="optionsPanel_section_viewStream">
             <div id="pay-info-section">
-                <v-ons-button v-show="isInBuiltRequestDemo()" id="payingLabel" class="badge badge-warning">
-                    Tip
+                <v-ons-button id="payingLabel" class="badge badge-warning" @click="tipStreamer()">
+                    
                     <strong>
+                        Tip
+                        <span id="payment-ticker" class="badge badge-pill badge-info">{{ defaultTipAmount + " TT"}}</span>
                         <!-- <i>{{PayToUserName}}</i> -->
-                        <i>User</i>
+                        
                     </strong>
+                    
                 </v-ons-button>
-                <span id="payment-ticker" class="badge badge-pill badge-info">{{ defaultTipAmount + " TT"}}</span>
+                <span id="streamer-name" class="badge badge-pill badge-info" style="background-color:none!important" ><i>@streamer</i></span>
+                
             </div>
             <div class="expandable-content">
                 <div id="options_panel"></div>
@@ -60,6 +64,15 @@
 </style>
 
 <script>
+import Web3 from 'web3'
+import { address, ABI } from "@/util/constants/tippingContract"
+
+
+
+
+
+
+
 import {
     mapMutations,
     mapGetters
@@ -100,17 +113,19 @@ export default {
             metaTag: null,
             config: null,
             nearTotalTickerAmount: 0,
-            defaultTipAmount:1.00
-            
+            defaultTipAmount: 1.00
+
         };
     },
     methods: {
         ...mapMutations({
-            _setInBuiltRequestDemo: 'setInBuiltRequestDemo'
+            _setInBuiltRequestDemo: 'setInBuiltRequestDemo',
+            _setStreamerWalletAddress: 'setStreamerWalletAddress'
 
         }),
         ...mapGetters({
-            isInBuiltRequestDemo: 'isInBuiltRequestDemo'
+            isInBuiltRequestDemo: 'isInBuiltRequestDemo',
+            _getStreamerWalletAddress: 'getStreamerWalletAddress'
 
         }),
         pauseViewingStream() {},
@@ -150,12 +165,48 @@ export default {
             this.$emit("back-page");
 
         },
-       
-    },
-    mounted() {
+        async tipStreamer(){
+
+        let amount = 1
+
+        var web3Instance = new Web3(window.web3.currentProvider)
+
+        console.log(web3Instance)
+
+        let tippingContract = await window.web3.eth.contract(ABI)
+        let tippingContractInstance = await tippingContract.at(address)
+
+        console.log(tippingContract)
+        console.log(tippingContractInstance)
+
+        await tippingContractInstance.tip(this._getStreamerWalletAddress(), {
+                gas: 300000,
+                gasPrice: '0x14f46b0400',
+                value: window.web3.toWei(String(amount), 'ether'),
+                from: this.$store.state.web3.coinbase
+            }, (err) => {
+                if (err) {
+                    console.log(err)
+                } else {
+                    // let TipEvent = tippingContractInstance.Tip()
+                    // TipEvent.watch((err, result) => {
+                    //     if (err) {
+                    //         console.log('could not get event Won()')
+                    //     } else {
+                    //         console.log(result)
+                    //         //Show notification that tip has been sent.
+                    //     }
+                    // })
+                }
+            })
+
+    }
+
+},
+mounted() {
 
         this.webRTCAdaptor = new WebRTCAdaptor({
-            websocket_url: "wss://app.vividiov.media:5443/WebRTCAppEE/websocket",
+            websocket_url: "wss://stream.vividiov.media:5443/WebRTCAppEE/websocket",
             mediaConstraints: this.mediaConstraints,
             peerconnection_config: this.pc_config,
             sdp_constraints: this.sdpConstraints,
@@ -168,7 +219,7 @@ export default {
                     this.webRTCAdaptor.getStreamInfo(this.streamId);
                 } else if (info == "streamInformation") {
                     console.log("stream information");
-                    this.webRTCAdaptor.play(this.streamId, "762007030599962020550620" );
+                    this.webRTCAdaptor.play(this.streamId, "762007030599962020550620");
                 } else if (info == "play_started") {
                     //joined the stream
                     console.log("play started");
@@ -202,6 +253,6 @@ export default {
         });
 
     },
-   
+
 };
 </script>

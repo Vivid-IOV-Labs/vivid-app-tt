@@ -3,7 +3,7 @@
     <!-- <my-elaborate-popup-content v-show="false" ref="foo"></my-elaborate-popup-content> -->
     <v-ons-list>
         <v-ons-list-item id="optionsPanel_section" expandable :expanded.sync="optionsPanelView">
-            <span id="optionsPanel_section_title">requestor options</span>
+            <span id="optionsPanel_section_title">requester options</span>
             <div class="expandable-content">
                 <div id="options_panel">
                     <v-ons-row>
@@ -22,17 +22,18 @@
             </div>
         </v-ons-list-item>
     </v-ons-list>
+
     <div id="map-container">
-        <img id="vivid_logo" src="@/logo/Vivid_logo design2020-05.png" />
+        <!-- <img id="vivid_logo" src="@/logo/Vivid_logo design2020-05.png" /> -->
         <div id="map" class="map"></div>
         <section id="nav_buttons">
             <div class="flex">
              <v-ons-button class="btn--locate flex-right" @click="geolocateMe()"><v-ons-icon class="btn__icon--white" icon="fa-location-arrow"></v-ons-icon></v-ons-button>
             </div>
             <div id="pushToViewStreamPageButton">
-                <v-ons-button class="btn--join" @click="fromRequest()">Join <v-ons-icon class="btn__icon--white" icon="fa-users"></v-ons-icon></v-ons-button>
-                <v-ons-button class="btn--request" @click="fromRequest()">Request <v-ons-icon class="btn__icon--white" icon="fa-flag"></v-ons-icon></v-ons-button>
-                <v-ons-button class="btn--create" @click="fromRequest()">Go Live <v-ons-icon class="btn__icon--white" icon="fa-video"></v-ons-icon></v-ons-button>
+                <v-ons-button class="btn--join" @click="fromRequest()">Join <v-ons-icon class="btn__icon--white" icon="md-face"></v-ons-icon></v-ons-button>
+                <v-ons-button class="btn--request" @click="fromRequest()">Request <v-ons-icon class="btn__icon--white" icon="md-face"></v-ons-icon></v-ons-button>
+                <v-ons-button class="btn--create" @click="fromRequest()">Go Live <v-ons-icon class="btn__icon--white" icon="md-face"></v-ons-icon></v-ons-button>
             </div>
         </section>
     </div>
@@ -52,7 +53,6 @@
 </style>
 
 <script>
-
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css"; // Re-uses images from ~leaflet package
 import * as L from "leaflet";
@@ -133,8 +133,8 @@ export default {
                     walletAddress: this._myWalletAddress()
                 },
                 location: null,
-                streamer:{
-                    live:false,
+                streamer: {
+                    live: false,
                     walletAddress: null
 
                 }
@@ -144,6 +144,9 @@ export default {
     methods: {
         ...mapMutations({
             _setInBuiltRequestDemo: 'setInBuiltRequestDemo',
+            _setLocalCopyOfRequestPins: 'setLocalCopyOfRequestPins',
+            _setSelectedPin: 'setSelectedPin',
+            _setStreamerWalletAddress: 'setStreamerWalletAddress'
 
         }),
         ...mapActions({
@@ -151,9 +154,13 @@ export default {
             _add: 'add',
             _get_requests: 'get_requests',
             _create: 'create',
+            _updateRequestModel: 'update',
         }),
         ...mapGetters({
             _myWalletAddress: 'myWalletAddress',
+            _getLocalCopyOfRequestPins: 'getLocalCopyOfRequestPins',
+            _getSelectedPin: 'getSelectedPin',
+            _getStreamerWalletAddress: 'getStreamerWalletAddress'
 
         }),
         addMarkersLoop(markers) {
@@ -178,7 +185,16 @@ export default {
                             this.fromSupply()
 
                         });
-                    })
+                    }).on('click', (e) => {
+
+                        var locationcode = openLocationCode.encode(e.latlng.lng, e.latlng.lat, 11);
+
+                        let obj = this._getLocalCopyOfRequestPins().find(obj => obj.openLocationCode === locationcode);
+
+                        this._setSelectedPin(obj)
+
+                    });
+
             }
 
         },
@@ -188,13 +204,33 @@ export default {
 
         },
         fromSupply() {
+            let selectedPin = this._getSelectedPin()
+
+            selectedPin = Object.assign({}, selectedPin, {
+                streamer: {
+                    live: true,
+                    walletAddress: this._myWalletAddress()
+                }
+            })
+
+            this._setSelectedPin(selectedPin)
+
+            this._updateRequestModel(selectedPin)
+
             this._setInBuiltRequestDemo(false);
             this.pushToSupplyStreamPage()
 
         },
         fromRequest() {
-            this._setInBuiltRequestDemo(false);
-            this.pushToViewStreamPage()
+            const selectedPin = this._getSelectedPin()
+            if(selectedPin){
+                this._setStreamerWalletAddress(selectedPin.streamer.walletAddress)
+
+                this._setInBuiltRequestDemo(false);
+                this.pushToViewStreamPage()
+            }
+
+            
 
         },
         pushToViewStreamPage() {
@@ -284,7 +320,9 @@ export default {
 
             document.getElementById("optionsPanel_section").showExpansion();
 
-        },
+        }
+
+        ,
         initLayers() {
             this.tileLayer = L.tileLayer(
                 "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWEwNnJpaSIsImEiOiJjazZkeTU2NnAxbWF4M2xxajN6NWIyb2l6In0.4iTjEpS8cIa_Um3zhE9keQ", {
@@ -297,22 +335,36 @@ export default {
             ).addTo(this.map);
 
         },
-       
+
     },
     mounted() {
 
         io.socket.on('requests', (msg) => {
 
-            if (msg.data.user.walletAddress !== this._myWalletAddress()) {
-                if (msg.data && msg.data.length) {
-                    this.addMarkersLoop([msg.data])
-                }
+            console.log(msg)
+
+            //if (msg.data.user.walletAddress !== this._myWalletAddress()) {
+            //if (msg.data && msg.data.length) {
+            if (msg.data) {
+                this.addMarkersLoop([msg.data])
+
+                var localCopyOfRequestPins = this._getLocalCopyOfRequestPins()
+                localCopyOfRequestPins.forEach((element, index) => {
+                    if (element.id === msg.id) {
+                        localCopyOfRequestPins[index] = Object.assign({}, localCopyOfRequestPins[index], msg.data)
+                        this._setLocalCopyOfRequestPins(localCopyOfRequestPins)
+
+                    }
+                });
+
             }
+            //}
         })
 
         io.socket.get('/requests', (resData) => {
             if (resData && resData.length) {
                 this.addMarkersLoop(resData)
+                this._setLocalCopyOfRequestPins(resData)
 
             }
         });
@@ -320,10 +372,6 @@ export default {
         this.templateForm = `<v-ons-button id="button-submit" type="button">Join</v-ons-button>`
 
         this.templateSupplyStreamButton = `<v-ons-button id="button-submit" type="button">Supply</v-ons-button>`
-
-        this.initMap();
-
-        this.initLayers();
 
         this.slimPinIcon = L.icon({
             //iconUrl: "slim_pin.svg",
@@ -338,27 +386,9 @@ export default {
 
         });
 
-        this.markerUsers = L.icon({
-            iconUrl: require('@/assets/markers/marker-users.svg'),
-            iconSize: [55, 80], // size of the icon
-            iconAnchor: [13, 63],
-            className: 'markerUsers',
-            popupAnchor: [0, -60],
-        });
-        this.markerNew = L.icon({
-            iconUrl: require('@/assets/markers/marker-new.svg'),
-            iconSize: [55, 80], // size of the icon
-            iconAnchor: [13, 63],
-            className: 'markerNew',
-            popupAnchor: [0, -60],
-        });
-        this.markerProfile=  L.icon({
-            iconUrl: require('@/assets/markers/marker-profile.svg'),
-            iconSize: [55, 80], // size of the icon
-            iconAnchor: [13, 63],
-            className: 'markerNew',
-            popupAnchor: [0, -60],
-        });
+        this.initMap();
+
+        this.initLayers();
 
         var london = new L.LatLng(51.5056, -0.1213);
 
@@ -368,9 +398,10 @@ export default {
         // This tidy formatted section could even be generated by a server-side script
         // or fetched seperately as a jsonp request.
         var markers = [
-            [-0.1244324, 51.5006728, "Big Ben","new"],
-            [-0.119623, 51.503308, "London Eye","join"],
-            [-0.1279688, 51.5077286, "Nelson's Column<br><a href=\"https://en.wikipedia.org/wiki/Nelson's_Column\">wp</a>","new"]
+            [-0.1244324, 51.5006728, "Big Ben"],
+            [-0.119623, 51.503308, "London Eye"],
+            //[-0.1279688, 51.5077286, "Nelson's Column<br><a href=\"https://en.wikipedia.org/wiki/Nelson's_Column\">wp</a>"]
+            [-0.1279688, 51.5077286, "Nelson's Column"]
 
         ];
 
@@ -379,27 +410,32 @@ export default {
 
             var lon = markers[i][0];
             var lat = markers[i][1];
-            //var popupText = markers[i][2];
-            var iconType = markers[i][3];
+            var popupText = markers[i][2];
 
-            var markerLocation = new L.LatLng(lat, lon);
-            var marker = new L.Marker(markerLocation, {
-                icon: iconType == "new" ? this.markerNew : this.markerUsers
-            });
-            this.map.addLayer(marker);
+            // var markerLocation = new L.LatLng(lat, lon);
+            // var marker = new L.Marker(markerLocation, {
+            //     icon: this.slimPinIcon
+            // });
+            // this.map.addLayer(marker);
 
-            marker
-                //.bindPopup(popupText)
-                .bindPopup(this.templateSupplyStreamButton, {
-                    maxWidth: 1060
+            // marker
+            //     //.bindPopup(popupText)
+            //     .bindPopup(this.templateSupplyStreamButton, {
+            //         maxWidth: 1060
+            //     })
+            //     .on('popupopen', () => {
+            //         document.getElementById('button-submit').addEventListener("click", () => {
+            //             this.fromSupply()
+
+            //         });
+            //     })
+
+            L.marker([lon, lat], {
+                    icon: this.slimPinIcon
                 })
-                .on('popupopen', () => {
-                    document.getElementById('button-submit').addEventListener("click", () => {
-                        this.fromSupply()
-
-                    });
-                })
-
+                .addTo(this.map)
+                .bindPopup(popupText)
+                
         }
 
         this.map.on("locationfound", this.onLocationFound);
@@ -407,6 +443,11 @@ export default {
         this.map.on("locationerror", this.onLocationError);
 
     },
-    
+    beforeCreate() {
+        console.log('registerWeb3 Action dispatched')
+        this.$store.dispatch('registerWeb3')
+
+    },
+
 };
 </script>
