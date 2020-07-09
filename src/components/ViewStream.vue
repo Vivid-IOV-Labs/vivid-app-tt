@@ -13,21 +13,22 @@
       <v-ons-list>
         <v-ons-list-item id="optionsPanel_section_viewStream">
           <div id="pay-info-section">
-            <v-ons-button
-              v-show="isInBuiltRequestDemo()"
-              id="payingLabel"
-              class="badge badge-warning"
-            >
-              Tip
+            <v-ons-button id="payingLabel" class="badge badge-warning" @click="tipStreamer()">
               <strong>
+                Tip
+                <span
+                  id="payment-ticker"
+                  class="badge badge-pill badge-info"
+                >{{ defaultTipAmount + " TT"}}</span>
                 <!-- <i>{{PayToUserName}}</i> -->
-                <i>User</i>
               </strong>
             </v-ons-button>
-            <span id="payment-ticker" class="badge badge-pill badge-info">
-              {{
-              defaultTipAmount + " TT"
-              }}
+            <span
+              id="streamer-name"
+              class="badge badge-pill badge-info"
+              style="background-color:none!important"
+            >
+              <i>@streamer</i>
             </span>
           </div>
           <div class="expandable-content">
