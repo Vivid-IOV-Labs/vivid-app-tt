@@ -101,7 +101,8 @@ export default {
     return {
       webRTCAdaptor: null,
       streamId1: "streamId",
-      streamId: "stream2",
+      //streamNameBox: "stream2",
+      streamId: this.$store.state.selectedPin.openLocationCode,
       pc_config: null,
       sdpConstraints: {
         OfferToReceiveAudio: true,

@@ -8,10 +8,7 @@
         <span class="onsPageTitleStyle">Supply Stream</span>
       </div>
     </v-ons-toolbar>
-    <div
-      id="view-video-panel"
-      style="height: 100%;display: flex;flex-direction: column;"
-    >
+    <div id="view-video-panel" style="height: 100%;display: flex;flex-direction: column;">
       <div class="videoWrapper" style="flex:1">
         <video
           id="localVideo"
@@ -38,23 +35,16 @@
           class="btn btn-info"
           :disabled="start_publish_button.disabled"
           id="start_publish_button"
-          >Start Publishing</v-ons-button
-        >
+        >Start Publishing</v-ons-button>
         <v-ons-button
           @click="stopPublishing"
           class="btn btn-info"
           :disabled="stop_publish_button.disabled"
           id="stop_publish_button"
-          >Stop Publishing</v-ons-button
-        >
+        >Stop Publishing</v-ons-button>
       </div>
 
-      <span
-        v-show="!this.stop_publish_button.disabled"
-        class="btn"
-        id="broadcastingInfo"
-        >Publishing</span
-      >
+      <span v-show="!this.stop_publish_button.disabled" class="btn" id="broadcastingInfo">Publishing</span>
     </div>
   </v-ons-page>
 </template>
@@ -85,7 +75,8 @@ export default {
       screen_share_checkbox: "",
       install_extension_link: "",
       //streamNameBox: {value:'stream1'},
-      streamNameBox: "stream2",
+      //streamNameBox: "stream2",
+      streamNameBox: this.$store.state.selectedPin.openLocationCode,
       streamId: "",
       name: "",
       pc_config: "",
