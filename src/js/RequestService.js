@@ -1,5 +1,6 @@
 import Api from "@/js/api.js";
 
+
 export default {
     find_all_requests(params, state) {
         return Api(state).post("request/find/addresses/", params)
@@ -19,12 +20,12 @@ export default {
     },
     findWhere(params, state) {
         let code = params.openLocationCode
-        code = code.replace("+", "%2B")
+        //code = code.replace("+", "%2B")
         return Api(state).get(`requests?openLocationCode=${code}`)
 
     },
     update(params, state) {
         return Api(state).patch(`requests/${params.id}`, params)
 
-    },
+    }
 }
