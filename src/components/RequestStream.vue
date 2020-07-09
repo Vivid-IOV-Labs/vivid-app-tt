@@ -292,14 +292,10 @@ export default {
       this._setSelectedPin(selectedPin);
 
       //this._updateRequestModel(selectedPin);
-      io.socket.post(
-        "/request/sockets/update/address",
-        {
-          streamName: selectedPin.openLocationCode,
-          address: selectedPin.streamer.walletAddress
-        },
-        resData => {}
-      );
+      io.socket.post("/request/sockets/update/address", {
+        streamName: selectedPin.openLocationCode,
+        address: selectedPin.streamer.walletAddress
+      });
 
       this._setInBuiltRequestDemo(false);
       this.pushToSupplyStreamPage();
