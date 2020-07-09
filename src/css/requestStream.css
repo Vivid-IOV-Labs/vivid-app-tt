@@ -110,7 +110,8 @@ html,
 } */
 
 #map-container {
-  flex:1;
+  flex: 1;
+  height: 100%;
   position: relative;
 }
 

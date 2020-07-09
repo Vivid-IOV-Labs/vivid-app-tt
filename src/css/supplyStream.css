@@ -2,7 +2,18 @@
   width: 100vw !important;
   display: flex;
 }
-
+#view-video-panel{
+  height: 100%;
+  display: flex;
+}
+.videoWrapper{
+  flex:1
+}
+video#localVideo{
+  object-fit: fill;
+  height:100% ;
+  width: auto;
+}
 /* Desktop/Laptop Styles */
 @media all and (min-width: 414px) {
   #supplyStreamPage {
@@ -13,6 +24,7 @@
 
 video {
   width: 100%;
+    
   /* max-width: 640px; */
 }
 
