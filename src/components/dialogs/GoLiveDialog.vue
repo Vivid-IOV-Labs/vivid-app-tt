@@ -16,35 +16,31 @@
       <v-ons-list>
         <v-ons-list-item>
           <div style="display:flex;flex-direction:column; padding:1rem">
-            <label for="">Stream Title</label>
+            <label for>Stream Title</label>
             <textarea
               class="textarea textarea--transparent"
               placeholder="What do you want to watch?"
               v-model="requestModel.mapPin.details"
-            >
-            </textarea>
+            ></textarea>
             <small>[10 words max]</small>
           </div>
         </v-ons-list-item>
         <v-ons-list-item>
           <div style="display:flex;flex-direction:column; padding:1rem">
-            <label for="">Add Hashtags</label>
+            <label for>Add Hashtags</label>
             <v-ons-list>
               <div>
                 <v-ons-list-item>
-                  <span>#</span
-                  ><v-ons-input placeholder="What do you want to watch?" float>
-                  </v-ons-input>
+                  <span>#</span>
+                  <v-ons-input placeholder="What do you want to watch?" float></v-ons-input>
                 </v-ons-list-item>
                 <v-ons-list-item>
-                  <span>#</span
-                  ><v-ons-input placeholder="What do you want to watch? ">
-                  </v-ons-input>
+                  <span>#</span>
+                  <v-ons-input placeholder="What do you want to watch? "></v-ons-input>
                 </v-ons-list-item>
                 <v-ons-list-item>
-                  <span>#</span
-                  ><v-ons-input placeholder="What do you want to watch? ">
-                  </v-ons-input>
+                  <span>#</span>
+                  <v-ons-input placeholder="What do you want to watch? "></v-ons-input>
                 </v-ons-list-item>
               </div>
             </v-ons-list>
@@ -52,7 +48,7 @@
         </v-ons-list-item>
         <v-ons-list-item>
           <div style="display:flex;flex-direction:column; padding:1rem">
-            <label for="">Add Location</label>
+            <label for>Add Location</label>
             <v-ons-search-input
               id="search"
               style="width:100%"
@@ -66,16 +62,14 @@
               :visible="autocompleteVisible"
               cancelable
               direction="up"
-            > -->
+            >-->
             <v-ons-list v-if="autocompleteVisible">
               <v-ons-list-item
                 v-for="item in autocompleteAdresses"
                 :key="item.label"
                 @click="onSelectAddress(item)"
                 modifier="tappable"
-              >
-                {{ item.label }}
-              </v-ons-list-item>
+              >{{ item.label }}</v-ons-list-item>
             </v-ons-list>
             <!-- </v-ons-popover> -->
           </div>
@@ -92,16 +86,21 @@
             font-weight:550;
             color: #fff;"
         @click="closeGoLiveDialog"
-      >
-        Confirm
-      </v-ons-button>
+      >Confirm</v-ons-button>
     </v-ons-page>
   </v-ons-dialog>
 </template>
 
 <script>
 import { EsriProvider } from "leaflet-geosearch";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
+
+import code_transforms from "@/js/location_code_string_prep.js";
+
+import OpenLocationCodeJS from "open-location-code";
+let OpenLocationCode = OpenLocationCodeJS.OpenLocationCode;
+
+var openLocationCode = new OpenLocationCode();
 
 const myProvider = new EsriProvider();
 export default {
@@ -120,12 +119,13 @@ export default {
         },
         location: null,
         user: {
-          walletAddress: this._myWalletAddress()
+          walletAddress: null
         },
         streamer: {
           live: false,
           walletAddress: null
-        }
+        },
+        openLocationCode: null
       }
     };
   },
@@ -142,6 +142,9 @@ export default {
   methods: {
     ...mapGetters({
       _myWalletAddress: "myWalletAddress"
+    }),
+    ...mapMutations({
+      _setSelectedPin: "setSelectedPin"
     }),
     updateVisible(value) {
       this.$emit("input", value);
@@ -161,6 +164,17 @@ export default {
       this.searchAddress = address.label;
       this.requestModel.location = address;
       this.autocompleteVisible = false;
+
+      var locationcode = openLocationCode.encode(address.x, address.y, 11);
+
+      this.requestModel.openLocationCode = code_transforms.replace_plus_symbol(
+        locationcode
+      );
+
+      this.requestModel.user.walletAddress = this._myWalletAddress();
+      this.requestModel.streamer.walletAddress = this._myWalletAddress();
+
+      this._setSelectedPin(this.requestModel);
     },
     onSearchAddress(event) {
       const autcompleteSearch = async () => {
