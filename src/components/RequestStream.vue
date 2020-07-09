@@ -21,50 +21,40 @@
                 </div>
             </div>
         </v-ons-list-item>
-    </v-ons-list> -->
+    </v-ons-list>-->
     <div id="map-container">
       <!-- <img id="vivid_logo" src="@/logo/Vivid_logo design2020-05.png" /> -->
       <div id="map" class="map"></div>
       <section id="nav_buttons">
         <div class="flex">
-          <v-ons-button class="btn--locate flex-right" @click="geolocateMe()"
-            ><v-ons-icon
-              class="btn__icon--white"
-              icon="fa-location-arrow"
-            ></v-ons-icon
-          ></v-ons-button>
+          <v-ons-button class="btn--locate flex-right" @click="geolocateMe()">
+            <v-ons-icon class="btn__icon--white" icon="fa-location-arrow"></v-ons-icon>
+          </v-ons-button>
         </div>
         <div id="pushToViewStreamPageButton">
-          <v-ons-button class="btn--join" @click="showJoinDialog()"
-            >Join
-            <v-ons-icon class="btn__icon--white" icon="fa-users"></v-ons-icon
-          ></v-ons-button>
-          <v-ons-button class="btn--request" @click="showRequestDialog()"
-            >Request
-            <v-ons-icon class="btn__icon--white" icon="fa-flag"></v-ons-icon
-          ></v-ons-button>
-          <v-ons-button class="btn--create" @click="showGoliveDialog()"
-            >Go Live
-            <v-ons-icon class="btn__icon--white" icon="fa-video"></v-ons-icon
-          ></v-ons-button>
+          <v-ons-button class="btn--join" @click="showJoinDialog()">
+            Join
+            <v-ons-icon class="btn__icon--white" icon="fa-users"></v-ons-icon>
+          </v-ons-button>
+          <v-ons-button class="btn--request" @click="showRequestDialog()">
+            Request
+            <v-ons-icon class="btn__icon--white" icon="fa-flag"></v-ons-icon>
+          </v-ons-button>
+          <v-ons-button class="btn--create" @click="showGoliveDialog()">
+            Go Live
+            <v-ons-icon class="btn__icon--white" icon="fa-video"></v-ons-icon>
+          </v-ons-button>
         </div>
       </section>
     </div>
     <div></div>
-    <join-dialog
-      @push-viewstream="fromJoin"
-      v-model="isJoinDialog"
-      :markers="joinMarkers"
-    ></join-dialog>
+    <join-dialog @push-viewstream="fromJoin_list" v-model="isJoinDialog" :markers="joinMarkers"></join-dialog>
     <go-live-dialog
-      @push-supplystream="fromSupply"
+      @push-supplystream="fromSupply_golive"
       v-model="isGoLiveDialog"
-      :on-close="geoSearchEvent"
+      :on-close="geoSearchEvent_golive"
     ></go-live-dialog>
-    <request-dialog
-      v-model="isRequestDialog"
-      :on-close="geoSearchEvent"
-    ></request-dialog>
+    <request-dialog v-model="isRequestDialog" :on-close="geoSearchEvent"></request-dialog>
   </v-ons-page>
 </template>
 
@@ -96,6 +86,8 @@ import socketIOClient from "socket.io-client";
 import sailsIOClient from "sails.io.js";
 
 import env from "@/js/env.js";
+
+import code_transforms from "@/js/location_code_string_prep.js";
 
 let io;
 
@@ -172,7 +164,8 @@ export default {
         streamer: {
           live: false,
           walletAddress: null
-        }
+        },
+        openLocationCode: null
       }
     };
   },
@@ -191,16 +184,23 @@ export default {
   },
   methods: {
     ...mapMutations({
-      _setInBuiltRequestDemo: "setInBuiltRequestDemo"
+      _setInBuiltRequestDemo: "setInBuiltRequestDemo",
+      _setLocalCopyOfRequestPins: "setLocalCopyOfRequestPins",
+      _setSelectedPin: "setSelectedPin",
+      _setStreamerWalletAddress: "setStreamerWalletAddress"
     }),
     ...mapActions({
       _find_all_requests: "find_all_requests",
       _add: "add",
       _get_requests: "get_requests",
-      _create: "create"
+      _create: "create",
+      _updateRequestModel: "update"
     }),
     ...mapGetters({
-      _myWalletAddress: "myWalletAddress"
+      _myWalletAddress: "myWalletAddress",
+      _getLocalCopyOfRequestPins: "getLocalCopyOfRequestPins",
+      _getSelectedPin: "getSelectedPin",
+      _getStreamerWalletAddress: "getStreamerWalletAddress"
     }),
     addMarkersLoop(markers) {
       //Loop through the markers array
@@ -236,20 +236,82 @@ export default {
                   .addEventListener("click", () => {
                     this.fromSupply();
                   });
+          })
+          .on("click", e => {
+            var locationcode = openLocationCode.encode(
+              e.latlng.lng,
+              e.latlng.lat,
+              11
+            );
+
+            locationcode = code_transforms.replace_plus_symbol(locationcode);
+
+            let obj = this._getLocalCopyOfRequestPins().find(
+              obj => obj.openLocationCode === locationcode
+            );
+
+            this._setSelectedPin(obj);
           });
       }
     },
-    fromJoin() {
+    fromJoin_list(_str) {
+      let obj = this._getLocalCopyOfRequestPins().find(
+        obj => obj.openLocationCode === _str
+      );
+
+      this._setSelectedPin(obj);
+      this._setStreamerWalletAddress(obj.streamer.walletAddress);
+
       this._setInBuiltRequestDemo(false);
       this.pushToViewStreamPage();
     },
+    fromJoin() {
+      const selectedPin = this._getSelectedPin();
+      if (selectedPin) {
+        this._setStreamerWalletAddress(selectedPin.streamer.walletAddress);
+
+        this._setInBuiltRequestDemo(false);
+        this.pushToViewStreamPage();
+      }
+    },
+    fromSupply_golive() {
+      let selectedPin = this._getSelectedPin();
+
+      selectedPin.streamer.walletAddress = this._myWalletAddress();
+
+      this._setSelectedPin(selectedPin);
+
+      this._setInBuiltRequestDemo(false);
+      this.pushToSupplyStreamPage();
+    },
     fromSupply() {
+      let selectedPin = this._getSelectedPin();
+
+      selectedPin.streamer.walletAddress = this._myWalletAddress();
+
+      this._setSelectedPin(selectedPin);
+
+      //this._updateRequestModel(selectedPin);
+      io.socket.post(
+        "/request/sockets/update/address",
+        {
+          streamName: selectedPin.openLocationCode,
+          address: selectedPin.streamer.walletAddress
+        },
+        resData => {}
+      );
+
       this._setInBuiltRequestDemo(false);
       this.pushToSupplyStreamPage();
     },
     fromRequest() {
-      this._setInBuiltRequestDemo(false);
-      this.pushToViewStreamPage();
+      const selectedPin = this._getSelectedPin();
+      if (selectedPin) {
+        this._setStreamerWalletAddress(selectedPin.streamer.walletAddress);
+
+        this._setInBuiltRequestDemo(false);
+        this.pushToViewStreamPage();
+      }
     },
     showRequestDialog() {
       this.isRequestDialog = true;
@@ -266,6 +328,34 @@ export default {
     pushToSupplyStreamPage() {
       this.$emit("push-supply");
     },
+    geoSearchEvent_golive(_data) {
+      // Encode a location, default accuracy: var code = openLocationCode.encode(47.365590, 8.524997); console.log(code);
+      // Encode a location using one stage of additional refinement:
+      //#encode(latitude, longitude, code_length = PAIR_CODE_LENGTH) ⇒ String
+      // var code = openLocationCode.encode(
+      //   _data.location.x,
+      //   _data.location.y,
+      //   11
+      // );
+      this.requestModel.mapPin = _data.mapPin;
+
+      // this.requestModel.mapPin.twitterHashTags = _data.mapPin.twitterHashTags;
+      this.requestModel.mapPin.twitterHashTags = _data.mapPin.twitterHashTags.map(
+        a => `#${a}`
+      );
+      this.requestModel.location = _data.location.raw;
+      this.requestModel.openLocationCode = _data.openLocationCode;
+      this.request_raw_data = _data.location.raw;
+
+      this.requestModel.user.walletAddress = _data.user.walletAddress;
+      this.requestModel.streamer.walletAddress = _data.user.walletAddress;
+
+      this._create(JSON.parse(JSON.stringify(this.requestModel)));
+
+      this.addMarkersLoop([this.requestModel]);
+
+      this.map.setView([_data.location.y, _data.location.x], 15);
+    },
     geoSearchEvent(_data) {
       // Encode a location, default accuracy: var code = openLocationCode.encode(47.365590, 8.524997); console.log(code);
       // Encode a location using one stage of additional refinement:
@@ -276,8 +366,13 @@ export default {
         11
       );
       this.requestModel.mapPin = _data.mapPin;
+      this.requestModel.mapPin.twitterHashTags = _data.mapPin.twitterHashTags.map(
+        a => `#${a}`
+      );
       this.requestModel.location = _data.location.raw;
-      this.requestModel.openLocationCode = code;
+      this.requestModel.openLocationCode = code_transforms.replace_plus_symbol(
+        code
+      );
       this.request_raw_data = _data.location.raw;
 
       this._create(JSON.parse(JSON.stringify(this.requestModel)));
@@ -357,19 +452,81 @@ export default {
       ).addTo(this.map);
     }
   },
+  beforeCreate() {
+    console.log("registerWeb3 Action dispatched");
+    this.$store.dispatch("registerWeb3");
+  },
   async mounted() {
+    // io.socket.on("requests", msg => {
+    //   if (msg.data.user.walletAddress !== this._myWalletAddress()) {
+    //     if (msg.data && msg.data.length) {
+    //       this.addMarkersLoop([msg.data]);
+    //     }
+    //   }
+    // });
+
+    // io.socket.get("/requests", resData => {
+    //   if (resData && resData.length) {
+    //     this.joinMarkers = resData.filter(markers => markers.streamer.live);
+    //     this.addMarkersLoop(resData);
+    //   }
+    // });
+
     io.socket.on("requests", msg => {
-      if (msg.data.user.walletAddress !== this._myWalletAddress()) {
-        if (msg.data && msg.data.length) {
-          this.addMarkersLoop([msg.data]);
+      //if (msg.data.user.walletAddress !== this._myWalletAddress()) {
+      //if (msg.data && msg.data.length) {
+      if (msg.data) {
+        this.addMarkersLoop([msg.data]);
+
+        var localCopyOfRequestPins = this._getLocalCopyOfRequestPins();
+
+        //If the local pins are present then loop through them and update the relevant record.
+        if (localCopyOfRequestPins) {
+          localCopyOfRequestPins.forEach((element, index) => {
+            if (element.openLocationCode === msg.data.openLocationCode) {
+              localCopyOfRequestPins[index] = Object.assign(
+                {},
+                localCopyOfRequestPins[index],
+                msg.data
+              );
+
+              if (msg.data.streamer.live == true) {
+                this.joinMarkers.push(localCopyOfRequestPins[index]);
+              }
+
+              this._setLocalCopyOfRequestPins(localCopyOfRequestPins);
+            }
+          });
+        } else {
+          //If the local pins are not present then set the first pin
+          this._setLocalCopyOfRequestPins([msg.data]);
+
+          if (msg.data.streamer.live == true) {
+            this.joinMarkers.push(msg.data);
+          }
+        }
+
+        if (msg.verb == "created") {
+          if (localCopyOfRequestPins) {
+            localCopyOfRequestPins.push(msg.data);
+            this._setLocalCopyOfRequestPins(localCopyOfRequestPins);
+          } else {
+            this._setLocalCopyOfRequestPins([msg.data]);
+          }
+
+          if (msg.data.streamer.live == true) {
+            this.joinMarkers.push(msg.data);
+          }
         }
       }
+      //}
     });
 
     io.socket.get("/requests", resData => {
       if (resData && resData.length) {
         this.joinMarkers = resData.filter(markers => markers.streamer.live);
         this.addMarkersLoop(resData);
+        this._setLocalCopyOfRequestPins(resData);
       }
     });
 
