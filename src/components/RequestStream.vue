@@ -27,20 +27,23 @@
       <div id="map" class="map"></div>
       <section id="nav_buttons">
         <div class="flex">
-          <v-ons-button class="btn--locate flex-right" @click="geolocateMe()">
+          <v-ons-button
+            class="btn btn--locate flex-right"
+            @click="geolocateMe()"
+          >
             <v-ons-icon class="btn__icon" icon="fa-location-arrow"></v-ons-icon>
           </v-ons-button>
         </div>
         <div id="pushToViewStreamPageButton">
-          <v-ons-button class="btn--join" @click="showJoinDialog()">
+          <v-ons-button class="btn btn--join" @click="showJoinDialog()">
             Join
             <v-ons-icon class="btn__icon" icon="fa-users"></v-ons-icon>
           </v-ons-button>
-          <v-ons-button class="btn--request" @click="showRequestDialog()">
+          <v-ons-button class="btn btn--request" @click="showRequestDialog()">
             Request
             <v-ons-icon class="btn__icon" icon="fa-flag"></v-ons-icon>
           </v-ons-button>
-          <v-ons-button class="btn--create" @click="showGoliveDialog()">
+          <v-ons-button class="btn btn--golive" @click="showGoliveDialog()">
             Go Live
             <v-ons-icon class="btn__icon" icon="fa-video"></v-ons-icon>
           </v-ons-button>

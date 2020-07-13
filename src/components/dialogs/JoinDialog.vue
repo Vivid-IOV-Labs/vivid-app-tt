@@ -1,6 +1,5 @@
 <template>
   <v-ons-dialog cancelable :visible="value" @update:visible="updateVisible">
-    Join Dialog POP Up
     <v-ons-page>
       <v-ons-toolbar>
         <div class="center">Latest Live Streams</div>
@@ -13,32 +12,34 @@
           </v-ons-button>
         </div>
       </v-ons-toolbar>
-      <v-ons-list>
+      <v-ons-list style="flex:1">
         <v-ons-list-item v-for="marker in markers" :key="marker.id">
-          <div style="display: flex;padding: 1rem;width: 100%; align-items: center;">
+          <div
+            style="display: flex;padding: 1rem;width: 100%; align-items: center;"
+          >
             <div>
               <h3>{{ marker.mapPin.details }}</h3>
               <p>
                 {{
-                marker.mapPin.twitterHashTags
-                .reduce((acc, tag) => {
-                acc += ` #${tag},`;
-                return acc;
-                }, "")
-                .slice(1, -1)
+                  marker.mapPin.twitterHashTags
+                    .reduce((acc, tag) => {
+                      acc += ` #${tag},`;
+                      return acc;
+                    }, "")
+                    .slice(1, -1)
                 }}
               </p>
             </div>
 
             <div style="margin-left:auto">
               <v-ons-button
+                class="btn btn--join"
                 style="
             text-align: center;
-            padding: 0.6rem 1rem;
-            background: #73E335;
-            color: #000;"
+            padding: 0.6rem 1rem;"
                 @click="join(marker.openLocationCode)"
-              >Join</v-ons-button>
+                >Join <v-ons-icon class="btn__icon" icon="fa-users"></v-ons-icon
+              ></v-ons-button>
             </div>
           </div>
         </v-ons-list-item>

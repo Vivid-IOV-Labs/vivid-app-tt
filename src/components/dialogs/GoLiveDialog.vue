@@ -12,13 +12,13 @@
           </v-ons-button>
         </div>
       </v-ons-toolbar>
-      <v-ons-list>
+      <v-ons-list style="flex:1">
         <v-ons-list-item>
           <div style="display:flex;flex-direction:column; padding:1rem">
             <textarea
               title="Stream Title"
               class="textarea textarea--transparent"
-              placeholder="What do you want to watch?What is the live Stream about?"
+              placeholder="What is the live Stream about?"
               v-model="requestModel.mapPin.details"
             ></textarea>
             <small>[10 words max]</small>
@@ -85,18 +85,17 @@
         </v-ons-list-item>
       </v-ons-list>
       <v-ons-button
+        class="btn btn--golive"
         style="width: 90%;
             display: block;
             border-radius:0.3rem;
             margin: 1rem auto;
             text-align: center;
             padding: 0.6rem 1rem;
-            background: #F73E2D;
-            font-weight:550;
-            color: #fff;"
+            font-weight:550;"
         @click="closeGoLiveDialog"
-        >Confirm</v-ons-button
-      >
+        >Confirm <v-ons-icon class="btn__icon" icon="fa-video"></v-ons-icon
+      ></v-ons-button>
     </v-ons-page>
   </v-ons-dialog>
 </template>

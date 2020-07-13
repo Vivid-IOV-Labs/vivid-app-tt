@@ -143,8 +143,9 @@ html,
 }
 
 .page__content {
-  background-color: #3daec1 !important;
   width: 100% !important;
+  display: flex;
+    flex-direction: column;
 }
 
 #requestStreamPage .page__content {
@@ -237,30 +238,34 @@ html,
   display: flex;
   justify-content: center;
 }
-
+.btn{
+    text-align: center;
+    background-color: #1d1d1b;
+    font-weight: 550;
+    border-radius: 0.3rem;
+    padding: 0.4rem 0.6rem;
+}
 #pushToViewStreamPageButton > .button {
-  margin: 1em;
   flex: 1;
+  text-align: center;
   background-color: #1d1d1b;
-  color: #16dbdb;
   font-weight: 550;
   border-radius: 0.3rem;
   padding: 0.6rem 0.8rem;
-  margin: 0;
 }
-#pushToViewStreamPageButton > .button  .btn__icon{
+.btn__icon{
   margin-left: 0.2rem;
 }
 
-#pushToViewStreamPageButton .btn--join {
+ .btn--join {
   border: solid 1px #73E335;
   color: #73E335;
 }
-#pushToViewStreamPageButton .btn--request {
+ .btn--request {
   border: solid 1px #16dbdb;
   color: #16dbdb;
 }
-#pushToViewStreamPageButton .btn--create {
+ .btn--golive {
   border: solid 1px #F73E2D;
   color: #F73E2D;
 }

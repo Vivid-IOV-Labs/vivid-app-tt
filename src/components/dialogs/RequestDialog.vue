@@ -12,7 +12,7 @@
           </v-ons-button>
         </div>
       </v-ons-toolbar>
-      <v-ons-list>
+      <v-ons-list style="flex:1">
         <v-ons-list-item>
           <div style="display:flex;flex-direction:column; padding:1rem">
             <textarea
@@ -93,18 +93,15 @@
         </v-ons-list-item>
       </v-ons-list>
       <v-ons-button
+        class="btn btn--request"
         style="width: 90%;
             display: block;
-            border-radius:0.3rem;
             margin: 1rem auto;
-            text-align: center;
             padding: 0.6rem 1rem;
-            background: #16dbdb;
-            font-weight:550;
-            color: #fff;"
+            font-weight:550;"
         @click="closeRequestDialog"
       >
-        Confirm
+        Confirm <v-ons-icon class="btn__icon" icon="fa-flag"></v-ons-icon>
       </v-ons-button>
     </v-ons-page>
   </v-ons-dialog>
