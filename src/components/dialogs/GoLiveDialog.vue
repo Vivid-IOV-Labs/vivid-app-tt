@@ -1,6 +1,5 @@
 <template>
   <v-ons-dialog cancelable :visible="value" @update:visible="updateVisible">
-    GoLive Dialog POP Up
     <v-ons-page>
       <v-ons-toolbar>
         <div class="center">About my Live Stream</div>
@@ -16,10 +15,10 @@
       <v-ons-list>
         <v-ons-list-item>
           <div style="display:flex;flex-direction:column; padding:1rem">
-            <label for>Stream Title</label>
             <textarea
+              title="Stream Title"
               class="textarea textarea--transparent"
-              placeholder="What do you want to watch?"
+              placeholder="What do you want to watch?What is the live Stream about?"
               v-model="requestModel.mapPin.details"
             ></textarea>
             <small>[10 words max]</small>
@@ -27,20 +26,29 @@
         </v-ons-list-item>
         <v-ons-list-item>
           <div style="display:flex;flex-direction:column; padding:1rem">
-            <label for>Add Hashtags</label>
             <v-ons-list>
               <div>
                 <v-ons-list-item>
                   <span>#</span>
-                  <v-ons-input placeholder="What do you want to watch?" float></v-ons-input>
+                  <v-ons-input
+                    title="Add Hashtags"
+                    placeholder="Add Hashtags"
+                    float
+                  ></v-ons-input>
                 </v-ons-list-item>
                 <v-ons-list-item>
                   <span>#</span>
-                  <v-ons-input placeholder="What do you want to watch? "></v-ons-input>
+                  <v-ons-input
+                    title="Add Hashtags"
+                    placeholder="Add Hashtags"
+                  ></v-ons-input>
                 </v-ons-list-item>
                 <v-ons-list-item>
                   <span>#</span>
-                  <v-ons-input placeholder="What do you want to watch? "></v-ons-input>
+                  <v-ons-input
+                    title="Add Hashtags"
+                    placeholder="Add Hashtags"
+                  ></v-ons-input>
                 </v-ons-list-item>
               </div>
             </v-ons-list>
@@ -48,11 +56,11 @@
         </v-ons-list-item>
         <v-ons-list-item>
           <div style="display:flex;flex-direction:column; padding:1rem">
-            <label for>Add Location</label>
             <v-ons-search-input
               id="search"
               style="width:100%"
-              placeholder="Search something"
+              title="Add Location"
+              placeholder="Add Location"
               v-model.lazy="searchAddress"
               @input="onSearchAddress"
             ></v-ons-search-input>
@@ -69,7 +77,8 @@
                 :key="item.label"
                 @click="onSelectAddress(item)"
                 modifier="tappable"
-              >{{ item.label }}</v-ons-list-item>
+                >{{ item.label }}</v-ons-list-item
+              >
             </v-ons-list>
             <!-- </v-ons-popover> -->
           </div>
@@ -86,7 +95,8 @@
             font-weight:550;
             color: #fff;"
         @click="closeGoLiveDialog"
-      >Confirm</v-ons-button>
+        >Confirm</v-ons-button
+      >
     </v-ons-page>
   </v-ons-dialog>
 </template>
