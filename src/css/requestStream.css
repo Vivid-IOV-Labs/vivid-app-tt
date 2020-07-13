@@ -44,12 +44,17 @@ html,
 }
 
 #nav_buttons .btn--locate{
-  background-color: #1d1d1b;
-  color: #bbbbba;
+  background-color: #4a4a48 ;
+  color:#bbbbba;
   border-radius: 0.3rem;
   margin: 0.4rem;
   margin-left: auto;
   }
+  #nav_buttons .btn--locate:hover{
+    background-color: #bbbbba ;
+    color:#4a4a48 ;
+    cursor: pointer;
+    }
 
   .btn__icon--white{
     color: #fff;
@@ -292,10 +297,19 @@ html,
 #search {
   text-align: center;
 }
-#search .search-input{
+.toolbar #search .search-input{
   width: auto;
   background-color: #4a4a48 ;
   color:#bbbbba
+}
+.leaflet-bar a{
+  background-color: #4a4a48 ;
+  color:#bbbbba
+}
+.leaflet-bar a:hover{
+  background-color: #bbbbba ;
+  color:#4a4a48 ;
+  cursor: pointer;
 }
 .toolbar--material{
   height: 4rem;
