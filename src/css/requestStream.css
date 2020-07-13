@@ -45,7 +45,7 @@ html,
 
 #nav_buttons .btn--locate{
   background-color: #1d1d1b;
-  color: #16dbdb;
+  color: #bbbbba;
   border-radius: 0.3rem;
   margin: 0.4rem;
   margin-left: auto;
@@ -243,9 +243,8 @@ html,
   padding: 0.6rem 0.8rem;
   margin: 0;
 }
-#pushToViewStreamPageButton > .button  .btn__icon--white{
+#pushToViewStreamPageButton > .button  .btn__icon{
   margin-left: 0.2rem;
-  color: #fff;
 }
 
 #pushToViewStreamPageButton .btn--join {
