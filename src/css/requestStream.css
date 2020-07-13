@@ -294,7 +294,8 @@ html,
 }
 #search .search-input{
   width: auto;
-  background-color:#fff
+  background-color: #4a4a48 ;
+  color:#bbbbba
 }
 .toolbar--material{
   height: 4rem;
