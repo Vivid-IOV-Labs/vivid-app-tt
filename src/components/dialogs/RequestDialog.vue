@@ -1,9 +1,8 @@
 <template>
   <v-ons-dialog cancelable :visible="value" @update:visible="updateVisible">
-    Request Dialog POP Up
     <v-ons-page>
       <v-ons-toolbar>
-        <div class="center">Make a live stream request</div>
+        <div class="center">Request A Stream</div>
         <div class="right">
           <v-ons-button
             style="float:right; box-shadow:none; background:transparent; border:none"
@@ -16,10 +15,10 @@
       <v-ons-list>
         <v-ons-list-item>
           <div style="display:flex;flex-direction:column; padding:1rem">
-            <label for="">Request Title</label>
             <textarea
+              title="Request Title"
               class="textarea textarea--transparent"
-              placeholder="What do you want to watch?"
+              placeholder="What do you want to see?"
               v-model="requestModel.mapPin.details"
             >
             </textarea>
@@ -28,14 +27,14 @@
         </v-ons-list-item>
         <v-ons-list-item>
           <div style="display:flex;flex-direction:column; padding:1rem">
-            <label for="">Add Hashtags</label>
             <v-ons-list>
               <div>
                 <v-ons-list-item>
                   <span>#</span
                   ><v-ons-input
+                    title="Add Hashtags"
                     v-model="requestModel.mapPin.twitterHashTags[0]"
-                    placeholder="What do you want to watch?"
+                    placeholder="Add Hashtag"
                     float
                   >
                   </v-ons-input>
@@ -43,16 +42,18 @@
                 <v-ons-list-item>
                   <span>#</span
                   ><v-ons-input
+                    title="Add Hashtags"
                     v-model="requestModel.mapPin.twitterHashTags[1]"
-                    placeholder="What do you want to watch? "
+                    placeholder="Add Hashtag "
                   >
                   </v-ons-input>
                 </v-ons-list-item>
                 <v-ons-list-item>
                   <span>#</span
                   ><v-ons-input
+                    title="Add Hashtags"
                     v-model="requestModel.mapPin.twitterHashTags[2]"
-                    placeholder="What do you want to watch? "
+                    placeholder="Add Hashtag "
                   >
                   </v-ons-input>
                 </v-ons-list-item>
@@ -62,11 +63,11 @@
         </v-ons-list-item>
         <v-ons-list-item>
           <div style="display:flex;flex-direction:column; padding:1rem">
-            <label for="">Add Location</label>
             <v-ons-search-input
+              title="Add Location"
               id="search"
               style="width:100%"
-              placeholder="Search something"
+              placeholder="Add Location"
               v-model.lazy="searchAddress"
               @input="onSearchAddress"
             ></v-ons-search-input>
