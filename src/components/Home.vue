@@ -14,7 +14,7 @@
         <div style="display:flex;flex-direction:column; padding:0.4rem 0 0">
           <v-ons-search-input
             id="search"
-            placeholder="Search something"
+            placeholder="Search Location"
             v-model.lazy="searchAddress"
             @input="onSearchAddress"
           ></v-ons-search-input>
