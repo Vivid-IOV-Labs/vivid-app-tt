@@ -72,7 +72,7 @@ video {
   margin-right: 0%;
   margin-bottom: 0%;
   margin-left: 3%;
-  background-color: #1b778c;
+  background-color: #1d1d1b;
 }
 
 #streamer-name {
@@ -82,7 +82,7 @@ video {
   margin-right: 6%;
   margin-bottom: 0%;
   margin-left: 5%;
-  background-color: #1b778c !important;
+  background-color: #1d1d1b !important;
   color: #ebf4f4;
 }
 
@@ -175,15 +175,15 @@ video {
 }
 
 #start_publish_button {
-  background-color: #1b778c !important;
+  background-color: #1d1d1b !important;
   color: #ebf4f4 !important;
-  border-color: #1b778c !important;
+  border-color: #1d1d1b !important;
 }
 
 #stop_publish_button {
-  background-color: #1b778c !important;
+  background-color: #1d1d1b !important;
   color: #ebf4f4 !important;
-  border-color: #1b778c !important;
+  border-color: #1d1d1b !important;
 }
 
 #broadcastingInfo {
