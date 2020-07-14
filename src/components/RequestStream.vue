@@ -27,10 +27,7 @@
       <div id="map" class="map"></div>
       <section id="nav_buttons">
         <div class="flex">
-          <v-ons-button
-            class="btn btn--locate flex-right"
-            @click="geolocateMe()"
-          >
+          <v-ons-button class="btn btn--locate flex-right" @click="geolocateMe()">
             <v-ons-icon class="btn__icon" icon="fa-location-arrow"></v-ons-icon>
           </v-ons-button>
         </div>
@@ -51,20 +48,13 @@
       </section>
     </div>
     <div></div>
-    <join-dialog
-      @push-viewstream="fromJoin_list"
-      v-model="isJoinDialog"
-      :markers="joinMarkers"
-    ></join-dialog>
+    <join-dialog @push-viewstream="fromJoin_list" v-model="isJoinDialog" :markers="joinMarkers"></join-dialog>
     <go-live-dialog
       @push-supplystream="fromSupply_golive"
       v-model="isGoLiveDialog"
       :on-close="geoSearchEvent_golive"
     ></go-live-dialog>
-    <request-dialog
-      v-model="isRequestDialog"
-      :on-close="geoSearchEvent"
-    ></request-dialog>
+    <request-dialog v-model="isRequestDialog" :on-close="geoSearchEvent"></request-dialog>
   </v-ons-page>
 </template>
 
@@ -533,6 +523,44 @@ export default {
         this.joinMarkers = resData.filter(markers => markers.streamer.live);
         this.addMarkersLoop(resData);
         this._setLocalCopyOfRequestPins(resData);
+      }
+    });
+
+    io.socket.on("livestreamended", resData => {
+      if (resData.data) {
+        let arrrayOfLayerIDsToRemove = [];
+
+        //Loop through the map layers to remove map pins corresponding to the live stream which has ended.
+        for (const property in this.map._layers) {
+          if (this.map._layers[property]._latlng) {
+            if (
+              resData.data.location.feature.geometry.x ==
+                this.map._layers[property]._latlng.lng &&
+              resData.data.location.feature.geometry.y ==
+                this.map._layers[property]._latlng.lat
+            ) {
+              //Create an array of map layer ids to delete
+              arrrayOfLayerIDsToRemove.push(property);
+            }
+          }
+        }
+
+        //Loop through map layer ids and delete from map
+        arrrayOfLayerIDsToRemove.forEach(id => {
+          this.map._layers[id].remove();
+        });
+
+        //Remove map pin from join marker popup list
+        this.joinMarkers = this.joinMarkers.filter(
+          markers => markers.openLocationCode != resData.data.openLocationCode
+        );
+
+        //Remove marker from local copy of map pin data
+        let localCopyOfRequestPins = this._getLocalCopyOfRequestPins();
+        localCopyOfRequestPins = localCopyOfRequestPins.filter(
+          markers => markers.openLocationCode != resData.data.openLocationCode
+        );
+        this._setLocalCopyOfRequestPins(localCopyOfRequestPins);
       }
     });
 
