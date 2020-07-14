@@ -569,7 +569,7 @@ export default {
       <h3>${requestModel.mapPin.details}</h3>
       <p>${requestModel.mapPin.twitterHashTags
         .reduce((acc, tag) => {
-          acc += ` #${tag},`;
+          acc += ` ${tag},`;
           return acc;
         }, "")
         .slice(1, -1)}</p>
@@ -582,7 +582,7 @@ export default {
       <h3>${requestModel.mapPin.details}</h3>
       <p>${requestModel.mapPin.twitterHashTags
         .reduce((acc, tag) => {
-          acc += ` #${tag},`;
+          acc += ` ${tag},`;
           return acc;
         }, "")
         .slice(1, -1)}</p>
