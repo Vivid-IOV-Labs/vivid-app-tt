@@ -5,7 +5,7 @@
         <v-ons-back-button></v-ons-back-button>
       </div>
       <div class="center">
-        <span class="onsPageTitleStyle">Supply Stream</span>
+        <span class="onsPageTitleStyle">GO LIVE</span>
       </div>
     </v-ons-toolbar>
     <div id="view-video-panel" style="height: 100%;display: flex;flex-direction: column;">

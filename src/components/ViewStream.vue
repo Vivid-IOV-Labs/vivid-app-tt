@@ -5,7 +5,7 @@
         <v-ons-back-button @click.prevent="endViewingStream()"></v-ons-back-button>
       </div>
       <div class="center">
-        <span class="onsPageTitleStyle">View Stream</span>
+        <span class="onsPageTitleStyle">JOIN</span>
       </div>
     </v-ons-toolbar>
 
