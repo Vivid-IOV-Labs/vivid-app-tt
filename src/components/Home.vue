@@ -8,7 +8,7 @@
             size="12px"
             icon="fa-bars"
           ></ons-icon>
-        </v-ons-button> -->
+        </v-ons-button>-->
       </div>
       <div class="center">
         <div style="display:flex;flex-direction:column; padding:0.4rem 0 0">
@@ -31,9 +31,7 @@
                 :key="item.label"
                 @click="onSelectAddress(item)"
                 modifier="tappable"
-              >
-                {{ item.label }}
-              </v-ons-list-item>
+              >{{ item.label }}</v-ons-list-item>
             </v-ons-list>
           </v-ons-popover>
         </div>
@@ -44,7 +42,7 @@
         >
           <button>List</button>
           <button>Request</button>
-        </v-ons-segment> -->
+        </v-ons-segment>-->
       </div>
       <div class="right">
         <!-- <v-ons-button
@@ -56,18 +54,24 @@
             size="12px"
             icon="fa-filter"
           ></ons-icon>
-        </v-ons-button> -->
+        </v-ons-button>-->
       </div>
     </v-ons-toolbar>
 
-    <v-ons-tabbar
+    <!-- <v-ons-tabbar
       id="homeTabbar"
       :tabs="tabs"
       :index.sync="tabbarIndex"
       @push-page="pushToViewStreamPage"
       @push-supply="pushToSupplyStreamPage"
       @back-page="popViewPage"
-    ></v-ons-tabbar>
+    ></v-ons-tabbar>-->
+
+    <request-stream
+      @push-page="pushToViewStreamPage"
+      @push-supply="pushToSupplyStreamPage"
+      @back-page="popViewPage"
+    ></request-stream>
   </v-ons-page>
 </template>
 
@@ -88,6 +92,9 @@ import { EsriProvider } from "leaflet-geosearch";
 const myProvider = new EsriProvider();
 export default {
   name: "home",
+  components: {
+    RequestStream
+  },
   data() {
     return {
       autocompleteAdresses: [],
