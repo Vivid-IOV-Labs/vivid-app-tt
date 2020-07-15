@@ -22,6 +22,16 @@
       >
     </noscript>
     <div id="app"></div>
+    <script>
+      if (window.location.protocol !== "https:") {
+        if (
+          window.location.hostname !== "127.0.0.1" &&
+          window.location.hostname !== "localhost"
+        ) {
+          window.location.href = "https://peerkat.live";
+        }
+      }
+    </script>
     <!-- built files will be auto injected -->
   </body>
 </html>
