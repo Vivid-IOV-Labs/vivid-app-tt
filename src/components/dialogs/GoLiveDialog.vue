@@ -32,6 +32,7 @@
                   <span>#</span>
                   <v-ons-input
                     title="Add Hashtags"
+                    v-model="requestModel.mapPin.twitterHashTags[0]"
                     placeholder="Add Hashtags"
                     float
                   ></v-ons-input>
@@ -40,6 +41,7 @@
                   <span>#</span>
                   <v-ons-input
                     title="Add Hashtags"
+                    v-model="requestModel.mapPin.twitterHashTags[1]"
                     placeholder="Add Hashtags"
                   ></v-ons-input>
                 </v-ons-list-item>
@@ -47,6 +49,7 @@
                   <span>#</span>
                   <v-ons-input
                     title="Add Hashtags"
+                    v-model="requestModel.mapPin.twitterHashTags[3]"
                     placeholder="Add Hashtags"
                   ></v-ons-input>
                 </v-ons-list-item>
@@ -77,8 +80,7 @@
                 :key="item.label"
                 @click="onSelectAddress(item)"
                 modifier="tappable"
-                >{{ item.label }}</v-ons-list-item
-              >
+              >{{ item.label }}</v-ons-list-item>
             </v-ons-list>
             <!-- </v-ons-popover> -->
           </div>
@@ -94,8 +96,10 @@
             padding: 0.6rem 1rem;
             font-weight:550;"
         @click="closeGoLiveDialog"
-        >Confirm <v-ons-icon class="btn__icon" icon="fa-video"></v-ons-icon
-      ></v-ons-button>
+      >
+        Confirm
+        <v-ons-icon class="btn__icon" icon="fa-video"></v-ons-icon>
+      </v-ons-button>
     </v-ons-page>
   </v-ons-dialog>
 </template>
