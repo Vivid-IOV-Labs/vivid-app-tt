@@ -335,10 +335,8 @@ export default {
       // );
       this.requestModel.mapPin = _data.mapPin;
 
-      // this.requestModel.mapPin.twitterHashTags = _data.mapPin.twitterHashTags;
-      this.requestModel.mapPin.twitterHashTags = _data.mapPin.twitterHashTags.map(
-        a => `#${a}`
-      );
+      this.requestModel.mapPin.twitterHashTags = _data.mapPin.twitterHashTags;
+
       this.requestModel.location = _data.location.raw;
       this.requestModel.openLocationCode = _data.openLocationCode;
       this.request_raw_data = _data.location.raw;
@@ -362,9 +360,7 @@ export default {
         11
       );
       this.requestModel.mapPin = _data.mapPin;
-      this.requestModel.mapPin.twitterHashTags = _data.mapPin.twitterHashTags.map(
-        a => `#${a}`
-      );
+
       this.requestModel.location = _data.location.raw;
       this.requestModel.openLocationCode = code_transforms.replace_plus_symbol(
         code
@@ -569,7 +565,7 @@ export default {
       <h3>${requestModel.mapPin.details}</h3>
       <p>${requestModel.mapPin.twitterHashTags
         .reduce((acc, tag) => {
-          acc += ` ${tag},`;
+          acc += ` #${tag},`;
           return acc;
         }, "")
         .slice(1, -1)}</p>
@@ -582,7 +578,7 @@ export default {
       <h3>${requestModel.mapPin.details}</h3>
       <p>${requestModel.mapPin.twitterHashTags
         .reduce((acc, tag) => {
-          acc += ` ${tag},`;
+          acc += ` #${tag},`;
           return acc;
         }, "")
         .slice(1, -1)}</p>
