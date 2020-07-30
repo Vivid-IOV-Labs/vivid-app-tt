@@ -31,7 +31,8 @@
                 :key="item.label"
                 @click="onSelectAddress(item)"
                 modifier="tappable"
-              >{{ item.label }}</v-ons-list-item>
+                >{{ item.label }}</v-ons-list-item
+              >
             </v-ons-list>
           </v-ons-popover>
         </div>
@@ -45,6 +46,17 @@
         </v-ons-segment>-->
       </div>
       <div class="right">
+        <v-ons-button
+          @click="pushToStreamer"
+          style="background-color: Transparent;"
+        >
+          <ons-icon
+            style="color: #1d1d1b;"
+            size="12px"
+            icon="fa-video"
+          ></ons-icon>
+          stream
+        </v-ons-button>
         <!-- <v-ons-button
           @click="pushToFilterStreamPage"
           style="background-color: Transparent;"
@@ -72,7 +84,9 @@
       @push-supply="pushToSupplyStreamPage"
       @back-page="popViewPage"
     ></request-stream>
-    <v-ons-bottom-toolbar style="background-color: #1d1d1b !important;"></v-ons-bottom-toolbar>
+    <v-ons-bottom-toolbar
+      style="background-color: #1d1d1b !important;"
+    ></v-ons-bottom-toolbar>
   </v-ons-page>
 </template>
 
@@ -88,6 +102,7 @@ import RequestStreamFilters from "@/components/RequestStreamFilters.vue";
 
 import ViewStream from "@/components/ViewStream.vue";
 import SupplyStream from "@/components/SupplyStream.vue";
+import Streamer from "@/components/Streamer.vue";
 import { EsriProvider } from "leaflet-geosearch";
 
 const myProvider = new EsriProvider();
@@ -135,6 +150,9 @@ export default {
     },
     pushToViewStreamPage() {
       this.$emit("push-page", ViewStream);
+    },
+    pushToStreamer() {
+      this.$emit("push-page", Streamer);
     },
     pushToSupplyStreamPage() {
       this.$emit("push-page", SupplyStream);
