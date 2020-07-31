@@ -11,7 +11,10 @@
       </v-ons-button>
     </div>
 
-    <video ref="video" class="video-js"></video>
+    <video
+      ref="video"
+      class="video-js video-js vjs-default-skin vjs-16-9"
+    ></video>
   </div>
 </template>
 
@@ -65,8 +68,16 @@ export default {
 <style>
 .video__container {
   width: 100%;
+  object-fit: cover;
+  height: 100%;
+  min-height: 100%;
 }
 .video__controls {
   padding: 1rem;
+  position: absolute;
+  z-index: 9999;
+}
+.video__container .video-js {
+  height: 100%;
 }
 </style>
