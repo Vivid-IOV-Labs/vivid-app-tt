@@ -1,6 +1,6 @@
 <template>
   <div class="video__container">
-    <div class="video__controls">
+    <!-- <div class="video__controls">
       <v-ons-button classes="btn btn--info" @click="playPause">
         <v-ons-icon
           class="btn__icon"
@@ -9,7 +9,7 @@
         ></v-ons-icon>
         <v-ons-icon class="btn__icon" v-else icon="fa-pause"></v-ons-icon>
       </v-ons-button>
-    </div>
+    </div> -->
 
     <video
       ref="video"
@@ -79,5 +79,9 @@ export default {
 }
 .video__container .video-js {
   height: 100%;
+}
+.video__container .vjs-tech {
+  object-fit: cover;
+  min-height: 100%;
 }
 </style>
