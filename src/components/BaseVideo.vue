@@ -1,19 +1,8 @@
 <template>
   <div class="video__container">
-    <!-- <div class="video__controls">
-      <v-ons-button classes="btn btn--info" @click="playPause">
-        <v-ons-icon
-          class="btn__icon"
-          v-if="isPaused"
-          icon="fa-play"
-        ></v-ons-icon>
-        <v-ons-icon class="btn__icon" v-else icon="fa-pause"></v-ons-icon>
-      </v-ons-button>
-    </div> -->
-
     <video
       ref="video"
-      class="video-js video-js vjs-default-skin vjs-16-9"
+      class="video-js video-js vjs-default-skin vjs-16-9 vjs-fill"
     ></video>
   </div>
 </template>
@@ -29,32 +18,28 @@ export default {
       type: Object,
       default() {
         return {};
+      },
+      isPaused: {
+        type: Boolean,
+        default: false
       }
     }
   },
   data() {
     return {
-      player: null,
-      isPaused: true
+      player: null
     };
-  },
-  methods: {
-    playPause() {
-      if (this.isPaused) {
-        this.player.play();
-      } else {
-        this.player.pause();
-      }
-    }
   },
   mounted() {
     this.player = videojs(this.$refs.video, this.options);
-
+    console.log(this.player);
     this.player.on("pause", () => {
+      this.$emit("pause");
       this.isPaused = true;
     });
 
     this.player.on("play", () => {
+      this.$emit("play");
       this.isPaused = false;
     });
   },
@@ -68,20 +53,16 @@ export default {
 <style>
 .video__container {
   width: 100%;
-  object-fit: cover;
   height: 100%;
-  min-height: 100%;
+  position: relative;
 }
 .video__controls {
   padding: 1rem;
   position: absolute;
   z-index: 9999;
 }
-.video__container .video-js {
-  height: 100%;
-}
 .video__container .vjs-tech {
   object-fit: cover;
-  min-height: 100%;
+  min-height: 100%; /* not good for the aspect ratio set square or landscape or vertical instead*/
 }
 </style>
