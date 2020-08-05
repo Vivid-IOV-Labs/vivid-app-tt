@@ -55,7 +55,10 @@
 
 <script>
 import videojs from "video.js";
+import Web3 from "web3";
+import { address, ABI } from "@/util/constants/tippingContract";
 
+import { mapMutations, mapGetters } from "vuex";
 import BaseVideo from "@/components/BaseVideo.vue";
 /**
 ffmpeg -re -i https://eric-test-livepeer.s3.amazonaws.com/bbb_1080p.mp4 -c:v copy -c:a copy -f flv rtmp://chi-origin.livepeer.live/bf2d-r2cd-ul0i/mmcb+bbb_test
@@ -84,7 +87,10 @@ export default {
       },
       isPaused: false,
       isMute: false,
-      player: null
+      player: null,
+      //Ike 0xca14007073589C4F4d48116AD4393c81f03D401A
+      //Daniele 0xD249F5A7Bcbd0E291f41Db7acD7b8E0388dc9f25
+      walletAddress: "0xca14007073589C4F4d48116AD4393c81f03D401A"
     };
   },
   components: {
@@ -92,18 +98,17 @@ export default {
   },
   mounted() {
     this.player = videojs.getPlayer(this.$refs.videoplayer.$refs.video);
+    this._setStreamerWalletAddress(this.walletAddress);
   },
-  computed: {
-    // player() {
-    //   return this.$refs.videoplayer && this.$refs.videoplayer.$refs.video
-    //     ? videojs.getPlayer(this.$refs.videoplayer.$refs.video)
-    //     : null;
-    // },
-    // isMute() {
-    //   return this.player ? this.player.muted() : false;
-    // }
-  },
+
   methods: {
+    ...mapMutations({
+      _setStreamerWalletAddress: "setStreamerWalletAddress"
+    }),
+    ...mapGetters({
+      _myWalletAddress: "myWalletAddress",
+      _getStreamerWalletAddress: "getStreamerWalletAddress"
+    }),
     playPause() {
       if (this.isPaused) {
         this.player.play();
@@ -120,7 +125,43 @@ export default {
         this.player.muted(false);
       }
     },
-    tipStreamer() {}
+    async tipStreamer() {
+      let amount = 1;
+      var web3Instance = new Web3(window.web3.currentProvider);
+
+      console.log(web3Instance);
+
+      let tippingContract = await window.web3.eth.contract(ABI);
+      let tippingContractInstance = await tippingContract.at(address);
+
+      console.log(tippingContract);
+      console.log(tippingContractInstance);
+
+      await tippingContractInstance.tip(
+        this._getStreamerWalletAddress(),
+        {
+          gas: 300000,
+          gasPrice: "0x14f46b0400",
+          value: window.web3.toWei(String(amount), "ether"),
+          from: this.$store.state.web3.coinbase
+        },
+        err => {
+          if (err) {
+            console.log(err);
+          } else {
+            // let TipEvent = tippingContractInstance.Tip()
+            // TipEvent.watch((err, result) => {
+            //     if (err) {
+            //         console.log('could not get event Won()')
+            //     } else {
+            //         console.log(result)
+            //         //Show notification that tip has been sent.
+            //     }
+            // })
+          }
+        }
+      );
+    }
   }
 };
 </script>
