@@ -15,8 +15,13 @@
           <span>101</span>
         </v-ons-button>
 
-        <v-ons-button class="btn btn--default ml-auto" @click="playPause">
-          <v-ons-icon class="btn__icon" icon="fa-volume-mute"></v-ons-icon>
+        <v-ons-button class="btn btn--default ml-auto" @click="muteUnmute">
+          <span v-if="isMute">
+            <v-ons-icon class="btn__icon" icon="fa-volume-mute"></v-ons-icon>
+          </span>
+          <span v-else>
+            <v-ons-icon class="btn__icon" icon="fa-volume-up"></v-ons-icon>
+          </span>
         </v-ons-button>
       </div>
       <base-video
@@ -49,6 +54,8 @@
 </template>
 
 <script>
+import videojs from "video.js";
+
 import BaseVideo from "@/components/BaseVideo.vue";
 /**
 ffmpeg -re -i https://eric-test-livepeer.s3.amazonaws.com/bbb_1080p.mp4 -c:v copy -c:a copy -f flv rtmp://chi-origin.livepeer.live/bf2d-r2cd-ul0i/mmcb+bbb_test
@@ -63,6 +70,7 @@ export default {
     return {
       videoOptions: {
         autoplay: true,
+        muted: false,
         controls: false,
         responsive: true,
         fill: true,
@@ -74,16 +82,26 @@ export default {
           }
         ]
       },
-      isPaused: false
+      isPaused: false,
+      isMute: false,
+      player: null
     };
   },
   components: {
     BaseVideo
   },
+  mounted() {
+    this.player = videojs.getPlayer(this.$refs.videoplayer.$refs.video);
+  },
   computed: {
-    player() {
-      return this.$refs.videoplayer.$refs.video;
-    }
+    // player() {
+    //   return this.$refs.videoplayer && this.$refs.videoplayer.$refs.video
+    //     ? videojs.getPlayer(this.$refs.videoplayer.$refs.video)
+    //     : null;
+    // },
+    // isMute() {
+    //   return this.player ? this.player.muted() : false;
+    // }
   },
   methods: {
     playPause() {
@@ -91,6 +109,15 @@ export default {
         this.player.play();
       } else {
         this.player.pause();
+      }
+    },
+    muteUnmute() {
+      if (this.isMute) {
+        this.isMute = true;
+        this.player.muted(false);
+      } else {
+        this.isMute = false;
+        this.player.muted(true);
       }
     },
     tipStreamer() {}
