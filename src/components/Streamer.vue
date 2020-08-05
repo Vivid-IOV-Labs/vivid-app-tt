@@ -10,7 +10,7 @@
     </v-ons-toolbar>
     <div class="streamer__container">
       <div class="streamer__controls streamer__controls--top">
-        <v-ons-button class="btn btn--default flex-coulumn" @click="playPause">
+        <v-ons-button class="btn btn--default flex-coulumn">
           <v-ons-icon class="btn__icon" icon="fa-eye"></v-ons-icon>
           <span>101</span>
         </v-ons-button>
