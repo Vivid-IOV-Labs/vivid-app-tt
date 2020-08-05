@@ -38,7 +38,7 @@ html,
   position: absolute;
   width: 100%;
   z-index: 9999;
-  bottom: 2rem;
+  bottom: 4rem;
   text-align: center !important;
   padding: 0.8rem;
 }
