@@ -27,7 +27,7 @@
       ></base-video>
 
       <div class="streamer__controls streamer__controls--bottom">
-        <v-ons-button class="btn btn--golive " @click="playPause">
+        <v-ons-button class="btn btn--golive" @click="playPause">
           <span v-if="isPaused">
             Start Streaming
             <v-ons-icon class="btn__icon" icon="fa-play"></v-ons-icon>
@@ -38,13 +38,11 @@
           </span>
         </v-ons-button>
         <a class="btn-tip ml-auto" @click.prevent="tipStreamer()">
-          <img src="../assets/tipping.png" alt="" />
+          <img src="../assets/tipping.png" alt />
         </a>
       </div>
     </div>
-    <v-ons-bottom-toolbar
-      style="background-color: #1d1d1b !important;"
-    ></v-ons-bottom-toolbar>
+    <v-ons-bottom-toolbar style="background-color: #1d1d1b !important;"></v-ons-bottom-toolbar>
   </v-ons-page>
 </template>
 
@@ -69,7 +67,7 @@ export default {
         fluid: false,
         sources: [
           {
-            src: "https://v0chi.lp-distro.com/mmcb%2Bbbb_test/index.m3u8",
+            src: "https://fra-cdn.livepeer.com/hls/wt8fwav9t1ulj75u/index.m3u8",
             type: "application/x-mpegURL"
           }
         ]
