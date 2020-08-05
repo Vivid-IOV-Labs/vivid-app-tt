@@ -32,7 +32,6 @@ export default {
   },
   mounted() {
     this.player = videojs(this.$refs.video, this.options);
-    console.log(this.player);
     this.player.on("pause", () => {
       this.$emit("pause");
       this.isPaused = true;
