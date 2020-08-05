@@ -9,6 +9,16 @@
       </div>
     </v-ons-toolbar>
     <div class="streamer__container">
+      <div class="streamer__controls streamer__controls--top">
+        <v-ons-button class="btn btn--default flex-coulumn" @click="playPause">
+          <v-ons-icon class="btn__icon" icon="fa-eye"></v-ons-icon>
+          <span>101</span>
+        </v-ons-button>
+
+        <v-ons-button class="btn btn--default ml-auto" @click="playPause">
+          <v-ons-icon class="btn__icon" icon="fa-volume-mute"></v-ons-icon>
+        </v-ons-button>
+      </div>
       <base-video
         ref="videoplayer"
         :options="videoOptions"
@@ -16,7 +26,7 @@
         @play="isPaused = false"
       ></base-video>
 
-      <div class="streamer__controls">
+      <div class="streamer__controls streamer__controls--bottom">
         <v-ons-button class="btn btn--golive " @click="playPause">
           <span v-if="isPaused">
             Start Streaming
@@ -97,17 +107,27 @@ export default {
   flex-direction: column;
 }
 .streamer__controls {
-  bottom: 1.2rem;
   padding: 1rem;
   position: absolute;
   z-index: 9999;
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+.streamer__controls--bottom {
+  bottom: 1.2rem;
+}
+.streamer__controls--top {
+  top: 1.2rem;
 }
 .streamer__container .vjs-tech {
   object-fit: cover;
   min-height: 100%; /* not good for the aspect ratio set square or landscape or vertical instead*/
+}
+.flex-coulumn {
+  display: flex;
+  flex-direction: column;
 }
 .btn {
   text-align: center;
@@ -119,17 +139,26 @@ export default {
   background-color: #1d1d1b;
   font-weight: 550;
   border-radius: 0.3rem;
+  height: fit-content;
   padding: 0.6rem 0.8rem;
 }
 .btn__icon {
   margin-left: 0.2rem;
 }
+.btn--default {
+  background: #fff;
+}
+.btn--default .btn__icon {
+  margin-left: 0.2rem;
+  font-size: 1.2rem;
+  color: #1d1d1b;
+}
 .btn-tip {
   display: block;
-  width: 3rem;
+  height: 5rem;
 }
 .btn-tip img {
-  width: 100%;
+  height: 100%;
 }
 .btn--join {
   border: solid 1px #73e335;
