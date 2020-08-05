@@ -112,12 +112,12 @@ export default {
       }
     },
     muteUnmute() {
-      if (this.isMute) {
+      if (!this.isMute) {
         this.isMute = true;
-        this.player.muted(false);
+        this.player.muted(true);
       } else {
         this.isMute = false;
-        this.player.muted(true);
+        this.player.muted(false);
       }
     },
     tipStreamer() {}
