@@ -181,13 +181,14 @@ export default {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 .streamer__controls--bottom {
   bottom: 1.2rem;
+  align-items: flex-end;
 }
 .streamer__controls--top {
   top: 1.2rem;
+  align-items: flex-start;
 }
 .streamer__container .vjs-tech {
   object-fit: cover;
@@ -223,7 +224,7 @@ export default {
 }
 .btn-tip {
   display: block;
-  height: 5rem;
+  height: 3.2rem;
 }
 .btn-tip img {
   height: 100%;

@@ -34,13 +34,12 @@ html,
 }
 
 #nav_buttons {
-  height: 12vh;
   position: absolute;
   width: 100%;
   z-index: 9999;
-  bottom: 4rem;
+  bottom: 1.2rem;
   text-align: center !important;
-  padding: 0.8rem;
+  padding:1rem;
 }
 
 #nav_buttons .btn--locate{
