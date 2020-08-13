@@ -46,17 +46,6 @@
         </v-ons-segment>-->
       </div>
       <div class="right">
-        <v-ons-button
-          @click="pushToStreamer"
-          style="background-color: Transparent;"
-        >
-          <ons-icon
-            style="color: #1d1d1b;"
-            size="12px"
-            icon="fa-video"
-          ></ons-icon>
-          stream
-        </v-ons-button>
         <!-- <v-ons-button
           @click="pushToFilterStreamPage"
           style="background-color: Transparent;"
@@ -80,6 +69,8 @@
     ></v-ons-tabbar>-->
 
     <request-stream
+      @push-broadcast="pushToBroadcaster"
+      @push-stream="pushToStreamer"
       @push-page="pushToViewStreamPage"
       @push-supply="pushToSupplyStreamPage"
       @back-page="popViewPage"
@@ -103,6 +94,7 @@ import RequestStreamFilters from "@/components/RequestStreamFilters.vue";
 import ViewStream from "@/components/ViewStream.vue";
 import SupplyStream from "@/components/SupplyStream.vue";
 import Streamer from "@/components/Streamer.vue";
+import Broadcaster from "@/components/Broadcaster.vue";
 import { EsriProvider } from "leaflet-geosearch";
 
 const myProvider = new EsriProvider();
@@ -153,6 +145,9 @@ export default {
     },
     pushToStreamer() {
       this.$emit("push-page", Streamer);
+    },
+    pushToBroadcaster() {
+      this.$emit("push-page", Broadcaster);
     },
     pushToSupplyStreamPage() {
       this.$emit("push-page", SupplyStream);
