@@ -69,6 +69,7 @@
     ></v-ons-tabbar>-->
 
     <request-stream
+      @push-broadcast="pushToBroadcaster"
       @push-stream="pushToStreamer"
       @push-page="pushToViewStreamPage"
       @push-supply="pushToSupplyStreamPage"
@@ -93,6 +94,7 @@ import RequestStreamFilters from "@/components/RequestStreamFilters.vue";
 import ViewStream from "@/components/ViewStream.vue";
 import SupplyStream from "@/components/SupplyStream.vue";
 import Streamer from "@/components/Streamer.vue";
+import Broadcaster from "@/components/Broadcaster.vue";
 import { EsriProvider } from "leaflet-geosearch";
 
 const myProvider = new EsriProvider();
@@ -143,6 +145,9 @@ export default {
     },
     pushToStreamer() {
       this.$emit("push-page", Streamer);
+    },
+    pushToBroadcaster() {
+      this.$emit("push-page", Broadcaster);
     },
     pushToSupplyStreamPage() {
       this.$emit("push-page", SupplyStream);
