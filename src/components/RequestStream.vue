@@ -242,7 +242,11 @@ export default {
               ? document
                   .getElementById("button-join")
                   .addEventListener("click", () => {
-                    this.fromJoin();
+                    if (marker.mapPin.twitterHashTags.includes("testing")) {
+                      this.pushToStream();
+                    } else {
+                      this.fromJoin();
+                    }
                   })
               : document
                   .getElementById("button-golive")
@@ -336,6 +340,9 @@ export default {
     },
     pushToSupplyStreamPage() {
       this.$emit("push-supply");
+    },
+    pushToStream() {
+      this.$emit("push-stream");
     },
     geoSearchEvent_golive(_data) {
       // Encode a location, default accuracy: var code = openLocationCode.encode(47.365590, 8.524997); console.log(code);

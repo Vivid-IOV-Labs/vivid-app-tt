@@ -46,17 +46,6 @@
         </v-ons-segment>-->
       </div>
       <div class="right">
-        <v-ons-button
-          @click="pushToStreamer"
-          style="background-color: Transparent;"
-        >
-          <ons-icon
-            style="color: #1d1d1b;"
-            size="12px"
-            icon="fa-video"
-          ></ons-icon>
-          stream
-        </v-ons-button>
         <!-- <v-ons-button
           @click="pushToFilterStreamPage"
           style="background-color: Transparent;"
@@ -80,6 +69,7 @@
     ></v-ons-tabbar>-->
 
     <request-stream
+      @push-stream="pushToStreamer"
       @push-page="pushToViewStreamPage"
       @push-supply="pushToSupplyStreamPage"
       @back-page="popViewPage"
