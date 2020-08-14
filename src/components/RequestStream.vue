@@ -27,10 +27,7 @@
       <div id="map" class="map"></div>
       <section id="nav_buttons">
         <div class="flex">
-          <v-ons-button
-            class="btn btn--locate flex-right"
-            @click="geolocateMe()"
-          >
+          <v-ons-button class="btn btn--locate flex-right" @click="geolocateMe()">
             <v-ons-icon class="btn__icon" icon="fa-location-arrow"></v-ons-icon>
           </v-ons-button>
         </div>
@@ -51,20 +48,13 @@
       </section>
     </div>
     <div></div>
-    <join-dialog
-      @push-viewstream="fromJoin_list"
-      v-model="isJoinDialog"
-      :markers="joinMarkers"
-    ></join-dialog>
+    <join-dialog @push-viewstream="fromJoin_list" v-model="isJoinDialog" :markers="joinMarkers"></join-dialog>
     <go-live-dialog
       @push-supplystream="fromSupply_golive"
       v-model="isGoLiveDialog"
       :on-close="geoSearchEvent_golive"
     ></go-live-dialog>
-    <request-dialog
-      v-model="isRequestDialog"
-      :on-close="geoSearchEvent"
-    ></request-dialog>
+    <request-dialog v-model="isRequestDialog" :on-close="geoSearchEvent"></request-dialog>
   </v-ons-page>
 </template>
 
@@ -617,6 +607,15 @@ export default {
       <v-ons-button id="button-golive" type="button">Go Live</v-ons-button>
     </div>
     `;
+
+    this.templateLivepeerJoin = () => `
+    <div>
+      <h3>Livepeer Test</h3>
+      <p>#stream</p>
+      <v-ons-button id="button-join" type="button">Join</v-ons-button>
+    </div>
+    `;
+
     this.initMap();
 
     this.initLayers();
@@ -679,7 +678,8 @@ export default {
     var markers = [
       [-0.1244324, 51.5006728, "Big Ben", "livepeer"],
       [-0.0963224, 51.5049318, "KFC", "kfc"],
-      [-0.1433256, 51.502528, "Carabao", "carabao"]
+      [-0.1433256, 51.502528, "Carabao", "carabao"],
+      [-0.1094099, 51.50176, "Location", "join"]
     ];
 
     //Loop through the markers array
@@ -701,23 +701,50 @@ export default {
             : this.markerCarabao
       });
       this.map.addLayer(marker);
-      marker
-        //.bindPopup(popupText)
-        .bindPopup(
-          iconType == "livepeer"
-            ? this.templateLivepeer(marker)
-            : this.templateGoLive(marker),
-          {
+      // marker
+      //   //.bindPopup(popupText)
+      //   .bindPopup(
+      //     iconType == "livepeer"
+      //       ? this.templateLivepeer(marker)
+      //       : this.templateGoLive(marker),
+      //     {
+      //       maxWidth: 1060
+      //     }
+      //   )
+      //   .on("popupopen", () => {
+      //     document
+      //       .getElementById("button-golive")
+      //       .addEventListener("click", () => {
+      //         this.pushToBroadcaster();
+      //       });
+      //   });
+      if (iconType == "livepeer") {
+        marker
+          .bindPopup(this.templateLivepeer(marker), {
             maxWidth: 1060
-          }
-        )
-        .on("popupopen", () => {
-          document
-            .getElementById("button-golive")
-            .addEventListener("click", () => {
-              this.pushToBroadcaster();
-            });
-        });
+          })
+          .on("popupopen", () => {
+            document
+              .getElementById("button-golive")
+              .addEventListener("click", () => {
+                this.pushToBroadcaster();
+              });
+          });
+      }
+
+      if (iconType == "join") {
+        marker
+          .bindPopup(this.templateLivepeerJoin(marker), {
+            maxWidth: 1060
+          })
+          .on("popupopen", () => {
+            document
+              .getElementById("button-join")
+              .addEventListener("click", () => {
+                this.pushToStream();
+              });
+          });
+      }
     }
 
     this.map.on("locationfound", this.onLocationFound);
