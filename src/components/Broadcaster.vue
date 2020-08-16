@@ -30,16 +30,10 @@
       <div class="streamer__controls streamer__controls--bottom">
         <v-ons-button
           class="btn btn--golive btn--full-width"
-          @click="playPause"
+          @click="startBrodcasting"
+          :disabled="isConnecting"
         >
-          <span v-if="isPaused">
-            Start Streaming
-            <v-ons-icon class="btn__icon" icon="fa-play"></v-ons-icon>
-          </span>
-          <span v-else>
-            End Stream
-            <v-ons-icon class="btn__icon" icon="fa-pause"></v-ons-icon>
-          </span>
+          <v-ons-icon class="btn__icon" icon="fa-television"></v-ons-icon>
         </v-ons-button>
       </div>
     </div>
@@ -78,14 +72,55 @@ export default {
         ]
       },
       isPaused: false,
-      player: null
+      isConnecting: false,
+      player: null,
+      peerconnection: null,
+      rtmpUri: "rtmp://fra-rtmp.livepeer.com/live",
+      streamKey: "yzkf-5fpw-9cgu-923l",
+      protocol: window.location.protocol == "https:" ? "wss://" : "ws://"
     };
   },
   components: {
     BaseVideo
   },
+  computed: {
+    testWS() {
+      return new WebSocket(this.protocol + window.location.host + "/echo");
+    }
+  },
   mounted() {
     this.player = videojs.getPlayer(this.$refs.videoplayer.$refs.video);
+    this.testWS.onmessage = event => {
+      console.log("Hey cool, a message!", event.data);
+      var msg = JSON.parse(event.data);
+
+      switch (msg.type) {
+        case "answer":
+          console.log("Received an answer to my call");
+
+          this.peerconnection.setRemoteDescription(msg).catch(this.reportError);
+
+          break;
+
+        case "ice-candidate":
+          console.log("Got a candidate");
+
+          if (msg.candidate == null) {
+            console.log("Last candidate received");
+          } else {
+            var candidate = new RTCIceCandidate(msg.candidate);
+            this.peerconnection
+              .addIceCandidate(candidate)
+              .catch(this.reportError);
+          }
+
+          break;
+
+        default:
+          console.log("Ignoring unknown message type: ", msg);
+          break;
+      }
+    };
   },
 
   methods: {
@@ -95,6 +130,85 @@ export default {
       } else {
         this.player.pause();
       }
+    },
+    startBrodcasting() {
+      this.isConnecting = true;
+      this.createPeerConnection();
+    },
+    reportError(event) {
+      console.log("Error:", event);
+    },
+    createPeerConnection() {
+      this.peerconnection = new RTCPeerConnection({
+        iceServers: [
+          {
+            urls: "stun:stun.l.google.com:19302"
+          }
+        ]
+      });
+
+      this.peerconnection.onicecandidate = event => {
+        console.log("onicecandidate", event);
+        if (event.candidate == null) {
+          console.log("Last candidate received");
+        } else {
+          this.testWS.send(
+            JSON.stringify({
+              type: "ice-candidate",
+              candidate: event.candidate
+            })
+          );
+        }
+      };
+
+      this.peerconnection.onicecandidateerror = function(event) {
+        console.log("onicecandidateerror", event);
+      };
+
+      this.peerconnection.onnegotiationneeded = function(event) {
+        console.log("onnegotiationneeded", event);
+      };
+
+      this.peerconnection.oniceconnectionstatechange = function(event) {
+        console.log("oniceconnectionstatechange", event);
+      };
+
+      this.peerconnection.onicegatheringstatechange = function(event) {
+        console.log("onicegatheringstatechange", event);
+      };
+
+      this.peerconnection.onsignalingstatechange = function(event) {
+        console.log("onsignalingstatechange", event);
+      };
+
+      navigator.mediaDevices
+        .getUserMedia({ audio: true, video: true })
+        .then(localStream => {
+          const vid = this.player.tech().el();
+          vid.srcObject = localStream;
+          localStream
+            .getTracks()
+            .forEach(track => this.peerconnection.addTrack(track, localStream));
+
+          this.peerconnection
+            .createOffer()
+            .then(offer => {
+              return this.peerconnection.setLocalDescription(offer);
+            })
+            .then(() => {
+              var msg = {
+                rtmp_uri: this.rtmpUri.value + "/" + this.streamKey.value,
+                sdp: this.peerconnection.localDescription.sdp,
+                type: this.peerconnection.localDescription.type
+              };
+              var sdpMsg = JSON.stringify(msg);
+              this.testWS.send(sdpMsg);
+            })
+            .catch(this.reportError);
+        })
+        .catch(event => {
+          console.log("Error doing media stuff: ", event);
+        });
     }
   }
 };
