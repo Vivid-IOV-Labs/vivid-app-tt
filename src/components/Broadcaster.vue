@@ -17,7 +17,7 @@
 
         <v-ons-button class="btn btn--default ml-auto flex-coulumn">
           <v-ons-icon class="btn__icon" icon="fa-clock"></v-ons-icon>
-          <span>00:00</span>
+          <span>{{ liveTime }}</span>
         </v-ons-button>
       </div>
       <base-video ref="videoplayer" :options="videoOptions"></base-video>
@@ -61,7 +61,7 @@ export default {
     return {
       videoOptions: {
         autoplay: true,
-        muted: false,
+        muted: true,
         controls: false,
         responsive: true,
         fill: true,
@@ -88,6 +88,11 @@ export default {
   computed: {
     testWS() {
       return new WebSocket(this.protocol + window.location.host + "/echo");
+    },
+    liveTime() {
+      return this.player
+        ? this.player.currentTime().toFixed(2) + " s"
+        : "00:00 s";
     }
   },
   mounted() {
