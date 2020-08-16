@@ -20,20 +20,22 @@
           <span>00:00</span>
         </v-ons-button>
       </div>
-      <base-video
-        ref="videoplayer"
-        :options="videoOptions"
-        @pause="isPaused = true"
-        @play="isPaused = false"
-      ></base-video>
+      <base-video ref="videoplayer" :options="videoOptions"></base-video>
 
       <div class="streamer__controls streamer__controls--bottom">
         <v-ons-button
           class="btn btn--golive btn--full-width"
-          @click="startBrodcasting"
-          :disabled="isConnecting"
+          @click="endBroadCasting"
+          v-if="isConnecting"
         >
-          <v-ons-icon class="btn__icon" icon="fa-television"></v-ons-icon>
+          End stream
+        </v-ons-button>
+        <v-ons-button
+          class="btn btn--golive btn--full-width"
+          @click="startBrodcasting"
+          v-else
+        >
+          Start stream
         </v-ons-button>
       </div>
     </div>
@@ -124,16 +126,14 @@ export default {
   },
 
   methods: {
-    playPause() {
-      if (this.isPaused) {
-        this.player.play();
-      } else {
-        this.player.pause();
-      }
-    },
     startBrodcasting() {
-      this.isConnecting = true;
       this.createPeerConnection();
+      this.isConnecting = true;
+    },
+    endBroadCasting() {
+      this.peerconnection.close();
+      this.mediaStream.stop();
+      this.isConnecting = false;
     },
     reportError(event) {
       console.log("Error:", event);
@@ -184,12 +184,17 @@ export default {
       navigator.mediaDevices
         .getUserMedia({ audio: true, video: true })
         .then(localStream => {
-          const vid = this.player.tech().el();
-          vid.srcObject = localStream;
-          localStream
+          this.mediaStream = localStream;
+          this.mediaStream
             .getTracks()
             .forEach(track => this.peerconnection.addTrack(track, localStream));
-
+          this.mediaStream.stop = () => {
+            this.mediaStream.getTracks().forEach(function(track) {
+              track.stop();
+            });
+          };
+          const vid = this.player.tech().el();
+          vid.srcObject = this.mediaStream;
           this.peerconnection
             .createOffer()
             .then(offer => {
