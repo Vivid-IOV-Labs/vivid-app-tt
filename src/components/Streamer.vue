@@ -42,12 +42,19 @@
             <v-ons-icon class="btn__icon" icon="fa-pause"></v-ons-icon>
           </span>
         </v-ons-button>
-        <a class="btn-tip ml-auto" @click.prevent="tipStreamer()">
-          <img src="../assets/tipping.png" alt />
-        </a>
+        <div class=" ml-auto flex-column ">
+          <v-ons-button class="btn btn--default  mb-4">
+            <v-ons-icon class="btn__icon" icon="fa-shopping-cart"></v-ons-icon>
+          </v-ons-button>
+          <a class="btn-tip " @click.prevent="tipStreamer()">
+            <img src="../assets/tipping.png" alt />
+          </a>
+        </div>
       </div>
     </div>
-    <v-ons-bottom-toolbar style="background-color: #1d1d1b !important;"></v-ons-bottom-toolbar>
+    <v-ons-bottom-toolbar
+      style="background-color: #1d1d1b !important;"
+    ></v-ons-bottom-toolbar>
   </v-ons-page>
 </template>
 
@@ -237,6 +244,9 @@ export default {
 }
 .ml-auto {
   margin-left: auto;
+}
+.mb-4 {
+  margin-bottom: 1rem;
 }
 .btn--golive {
   border: solid 1px #f73e2d;
