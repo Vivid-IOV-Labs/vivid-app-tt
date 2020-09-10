@@ -229,7 +229,9 @@ export default {
 }
 .btn-tip {
   display: block;
-  height: 3.2rem;
+  height: 3.4rem;
+  cursor: pointer;
+  padding: 0.2rem;
 }
 .btn-tip img {
   height: 100%;

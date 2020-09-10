@@ -2,25 +2,33 @@
   <v-ons-page id="viewStreamPage">
     <v-ons-toolbar>
       <div class="left">
-        <v-ons-back-button @click.prevent="endViewingStream()"></v-ons-back-button>
+        <v-ons-back-button
+          @click.prevent="endViewingStream()"
+        ></v-ons-back-button>
       </div>
       <div class="center">
         <span class="onsPageTitleStyle">JOIN</span>
       </div>
     </v-ons-toolbar>
 
-    <div id="view-video-panel" style="height: 100%;display: flex;flex-direction: column;">
-      <v-ons-list>
+    <div
+      id="view-video-panel"
+      style="height: 100%;display: flex;flex-direction: column;"
+    >
+      <!-- <v-ons-list>
         <v-ons-list-item id="optionsPanel_section_viewStream">
           <div id="pay-info-section">
-            <v-ons-button id="payingLabel" class="badge badge-warning" @click="tipStreamer()">
+            <v-ons-button
+              id="payingLabel"
+              class="badge badge-warning"
+              @click="tipStreamer()"
+            >
               <strong>
                 Tip
-                <span
-                  id="payment-ticker"
-                  class="badge badge-pill badge-info"
-                >{{ defaultTipAmount + " TT"}}</span>
-                <!-- <i>{{PayToUserName}}</i> -->
+                <span id="payment-ticker" class="badge badge-pill badge-info">{{
+                  defaultTipAmount + " TT"
+                }}</span>
+
               </strong>
             </v-ons-button>
             <span
@@ -35,8 +43,56 @@
             <div id="options_panel"></div>
           </div>
         </v-ons-list-item>
-      </v-ons-list>
-      <div v-show="isInBuiltRequestDemo()" style="flex:1">
+      </v-ons-list> -->
+      <div class="streamer__container">
+        <div class="streamer__controls streamer__controls--top">
+          <v-ons-button class="btn btn--default flex-coulumn">
+            <v-ons-icon class="btn__icon" icon="fa-eye"></v-ons-icon>
+            <span>101</span>
+          </v-ons-button>
+
+          <v-ons-button class="btn btn--default ml-auto">
+            <v-ons-icon class="btn__icon" icon="fa-volume-mute"></v-ons-icon>
+          </v-ons-button>
+        </div>
+        <div
+          id="video_info"
+          style="
+          height: 100%;
+          min-height: 100%; "
+        >
+          Stream will start playing automatically
+          <br />when it is live
+        </div>
+        <video
+          id="remoteVideo"
+          style="object-fit: cover;
+          height: 100%;
+          min-height: 100%; "
+          autoplay
+          controls
+        ></video>
+
+        <div class="streamer__controls streamer__controls--bottom">
+          <v-ons-button id="endStreamButton" @click="endViewingStream()"
+            >End Stream
+            <v-ons-icon class="btn__icon" icon="fa-pause"></v-ons-icon>
+          </v-ons-button>
+
+          <div class=" ml-auto flex-column ">
+            <v-ons-button class="btn btn--default  mb-4">
+              <v-ons-icon
+                class="btn__icon"
+                icon="fa-shopping-cart"
+              ></v-ons-icon>
+            </v-ons-button>
+            <a class="btn-tip " @click.prevent="tipStreamer()">
+              <img src="../assets/tipping.png" alt />
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- <div v-show="isInBuiltRequestDemo()" style="flex:1">
         <video
           id="inBuiltVideoExample"
           src="../assets/video/santa5.mp4"
@@ -62,14 +118,17 @@
           autoplay
           controls
         ></video>
-        <!-- <img id="play_button" src="images/play.png" @click="playVideo" /> -->
-        <!-- <input type="text" class="form-control" v-model="streamId" id="streamName" placeholder="Type stream name" /> -->
       </div>
-      <section v-show="isInBuiltRequestDemo()" id="view_stream_nav_buttons_section">
+      <section
+        v-show="isInBuiltRequestDemo()"
+        id="view_stream_nav_buttons_section"
+      >
         <div style="padding:1rem" id="view_stream_nav_buttons_panel">
-          <v-ons-button id="endStreamButton" @click="endViewingStream()">End Stream</v-ons-button>
+          <v-ons-button id="endStreamButton" @click="endViewingStream()"
+            >End Stream</v-ons-button
+          >
         </div>
-      </section>
+      </section> -->
     </div>
   </v-ons-page>
 </template>
@@ -205,7 +264,7 @@ export default {
   },
   mounted() {
     this.webRTCAdaptor = new WebRTCAdaptor({
-      websocket_url: "wss://stream.vividiov.media:5443/WebRTCAppEE/websocket",
+      websocket_url: "wss://streams.vividiov.media:5443/WebRTCAppEE/websocket",
       mediaConstraints: this.mediaConstraints,
       peerconnection_config: this.pc_config,
       sdp_constraints: this.sdpConstraints,
@@ -253,3 +312,88 @@ export default {
   }
 };
 </script>
+<style>
+.streamer__container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.streamer__controls {
+  padding: 1rem;
+  position: absolute;
+  z-index: 9999;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.streamer__controls--bottom {
+  bottom: 1.2rem;
+  align-items: flex-end;
+}
+.streamer__controls--top {
+  top: 1.2rem;
+  align-items: flex-start;
+}
+.streamer__container .vjs-tech {
+  object-fit: cover;
+  min-height: 100%; /* not good for the aspect ratio set square or landscape or vertical instead*/
+}
+.flex-coulumn {
+  display: flex;
+  flex-direction: column;
+}
+.btn {
+  text-align: center;
+  background-color: #6d6d3d;
+  font-weight: 550;
+  border-radius: 0.3rem;
+  padding: 0.4rem 0.6rem;
+  text-align: center;
+  background-color: #1d1d1b;
+  font-weight: 550;
+  border-radius: 0.3rem;
+  height: fit-content;
+  padding: 0.6rem 0.8rem;
+}
+.btn__icon {
+  margin-left: 0.2rem;
+}
+.btn--default {
+  background: #fff;
+}
+.btn--default .btn__icon {
+  margin-left: 0.2rem;
+  font-size: 1.2rem;
+  color: #1d1d1b;
+}
+.btn-tip {
+  display: block;
+  height: 3.4rem;
+  cursor: pointer;
+  padding: 0.2rem;
+}
+.btn-tip img {
+  height: 100%;
+}
+.btn--join {
+  border: solid 1px #73e335;
+  color: #73e335;
+}
+.btn--request {
+  border: solid 1px #16dbdb;
+  color: #16dbdb;
+}
+.ml-auto {
+  margin-left: auto;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
+.btn--golive {
+  border: solid 1px #f73e2d;
+  color: #f73e2d;
+}
+</style>

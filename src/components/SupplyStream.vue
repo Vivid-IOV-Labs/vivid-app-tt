@@ -8,7 +8,52 @@
         <span class="onsPageTitleStyle">GO LIVE</span>
       </div>
     </v-ons-toolbar>
-    <div id="view-video-panel" style="height: 100%;display: flex;flex-direction: column;">
+    <div class="streamer__container">
+      <div class="streamer__controls streamer__controls--top">
+        <v-ons-button class="btn btn--default flex-coulumn">
+          <v-ons-icon class="btn__icon" icon="fa-eye"></v-ons-icon>
+          <span>101</span>
+        </v-ons-button>
+
+        <v-ons-button class="btn btn--default ml-auto flex-coulumn">
+          <v-ons-icon class="btn__icon" icon="fa-clock"></v-ons-icon>
+          <span>1 sec</span>
+        </v-ons-button>
+      </div>
+      <video
+        id="localVideo"
+        style="object-fit: cover;
+          height: 100%;
+          min-height: 100%; "
+        autoplay
+        muted
+        controls
+        playsinline
+      ></video>
+
+      <div class="streamer__controls streamer__controls--bottom">
+        <v-ons-button
+          @click="startPublishing"
+          class="btn btn-golive"
+          v-if="!start_publish_button.disabled"
+          id="start_publish_button"
+          >Start Streaming
+          <v-ons-icon class="btn__icon" icon="fa-play"></v-ons-icon>
+        </v-ons-button>
+        <v-ons-button
+          @click="stopPublishing"
+          class="btn btn-golive"
+          v-if="!stop_publish_button.disabled"
+          id="stop_publish_button"
+          >End Streaming
+          <v-ons-icon class="btn__icon" icon="fa-pause"></v-ons-icon
+        ></v-ons-button>
+      </div>
+    </div>
+    <!-- <div
+      id="view-video-panel"
+      style="height: 100%;display: flex;flex-direction: column;"
+    >
       <div class="videoWrapper" style="flex:1">
         <video
           id="localVideo"
@@ -35,17 +80,24 @@
           class="btn btn-info"
           :disabled="start_publish_button.disabled"
           id="start_publish_button"
-        >Start Publishing</v-ons-button>
+          >Start Publishing</v-ons-button
+        >
         <v-ons-button
           @click="stopPublishing"
           class="btn btn-info"
           :disabled="stop_publish_button.disabled"
           id="stop_publish_button"
-        >Stop Publishing</v-ons-button>
+          >Stop Publishing</v-ons-button
+        >
       </div>
 
-      <span v-show="!this.stop_publish_button.disabled" class="btn" id="broadcastingInfo">Publishing</span>
-    </div>
+      <span
+        v-show="!this.stop_publish_button.disabled"
+        class="btn"
+        id="broadcastingInfo"
+        >Publishing</span
+      >
+    </div> -->
   </v-ons-page>
 </template>
 
@@ -141,7 +193,7 @@ export default {
     };
 
     this.webRTCAdaptor = new WebRTCAdaptor({
-      websocket_url: "wss://stream.vividiov.media:5443/WebRTCAppEE/websocket",
+      websocket_url: "wss://streams.vividiov.media:5443/WebRTCAppEE/websocket",
       mediaConstraints: this.mediaConstraints,
       peerconnection_config: this.pc_config,
       sdp_constraints: this.sdpConstraints,
