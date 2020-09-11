@@ -5,7 +5,7 @@
         <v-ons-back-button></v-ons-back-button>
       </div>
       <div class="center">
-        <span class="onsPageTitleStyle">GO LIVE</span>
+        <span class="onsPageTitleStyle">Live Stream in progress</span>
       </div>
     </v-ons-toolbar>
     <div class="streamer__container">

@@ -7,7 +7,7 @@
         ></v-ons-back-button>
       </div>
       <div class="center">
-        <span class="onsPageTitleStyle">JOIN</span>
+        <span class="onsPageTitleStyle">Trending</span>
       </div>
     </v-ons-toolbar>
 

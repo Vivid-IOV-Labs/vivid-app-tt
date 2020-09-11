@@ -27,17 +27,20 @@
       <div id="map" class="map"></div>
       <section id="nav_buttons">
         <div class="flex">
-          <v-ons-button class="btn btn--locate flex-right" @click="geolocateMe()">
+          <v-ons-button
+            class="btn btn--locate flex-right"
+            @click="geolocateMe()"
+          >
             <v-ons-icon class="btn__icon" icon="fa-location-arrow"></v-ons-icon>
           </v-ons-button>
         </div>
         <div id="pushToViewStreamPageButton">
           <v-ons-button class="btn btn--join" @click="showJoinDialog()">
-            Join
+            Trending
             <v-ons-icon class="btn__icon" icon="fa-users"></v-ons-icon>
           </v-ons-button>
           <v-ons-button class="btn btn--request" @click="showRequestDialog()">
-            Request
+            Request Video
             <v-ons-icon class="btn__icon" icon="fa-flag"></v-ons-icon>
           </v-ons-button>
           <v-ons-button class="btn btn--golive" @click="showGoliveDialog()">
@@ -48,13 +51,20 @@
       </section>
     </div>
     <div></div>
-    <join-dialog @push-viewstream="fromJoin_list" v-model="isJoinDialog" :markers="joinMarkers"></join-dialog>
+    <join-dialog
+      @push-viewstream="fromJoin_list"
+      v-model="isJoinDialog"
+      :markers="joinMarkers"
+    ></join-dialog>
     <go-live-dialog
       @push-supplystream="fromSupply_golive"
       v-model="isGoLiveDialog"
       :on-close="geoSearchEvent_golive"
     ></go-live-dialog>
-    <request-dialog v-model="isRequestDialog" :on-close="geoSearchEvent"></request-dialog>
+    <request-dialog
+      v-model="isRequestDialog"
+      :on-close="geoSearchEvent"
+    ></request-dialog>
   </v-ons-page>
 </template>
 
