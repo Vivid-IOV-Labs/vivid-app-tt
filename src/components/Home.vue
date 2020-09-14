@@ -2,6 +2,21 @@
   <v-ons-page>
     <v-ons-toolbar>
       <div class="left">
+        <span>
+          <img
+            style="margin: 0 0.8rem"
+            width="30"
+            src="../img/logopeerkat.png"
+            alt=""
+          />
+          <span
+            style="    color: #999;
+    font-size: 0.8rem;
+    font-weight: 700;"
+            >BETA</span
+          >
+        </span>
+
         <!-- <v-ons-button style="background-color: Transparent;">
           <ons-icon
             style="color: #1d1d1b;"
