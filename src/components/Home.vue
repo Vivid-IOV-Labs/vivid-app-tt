@@ -16,14 +16,6 @@
             >BETA</span
           >
         </span>
-
-        <!-- <v-ons-button style="background-color: Transparent;">
-          <ons-icon
-            style="color: #1d1d1b;"
-            size="12px"
-            icon="fa-bars"
-          ></ons-icon>
-        </v-ons-button>-->
       </div>
       <div class="center">
         <div style="display:flex;flex-direction:column; padding:0.4rem 0 0">
@@ -61,16 +53,48 @@
         </v-ons-segment>-->
       </div>
       <div class="right">
-        <!-- <v-ons-button
-          @click="pushToFilterStreamPage"
-          style="background-color: Transparent;"
+        <v-ons-toolbar-button @click="showPopover">
+          <v-ons-icon
+            style="color:#fff"
+            class="btn__icon"
+            icon="fa-bars"
+          ></v-ons-icon>
+        </v-ons-toolbar-button>
+        <v-ons-popover
+          cancelable
+          :visible.sync="popoverVisible"
+          :target="popoverTarget"
+          :direction="popoverDirection"
+          :cover-target="coverTarget"
+          style="z-index: 99999; text-align:center"
         >
-          <ons-icon
-            style="color: #1d1d1b;"
-            size="12px"
-            icon="fa-filter"
-          ></ons-icon>
-        </v-ons-button>-->
+          <h6 class="text-center">Peerkat <small>BETA</small></h6>
+          <v-ons-list class="text-center">
+            <v-ons-list-item class="text-center" modifier="tappable"
+              >User Guide</v-ons-list-item
+            >
+            <v-ons-list-item class="text-center" modifier="tappable"
+              >User Policy</v-ons-list-item
+            >
+            <v-ons-list-item class="text-center" modifier="tappable"
+              >Report Bug</v-ons-list-item
+            >
+            <v-ons-list-item class="text-center" modifier="tappable"
+              >Customer Support</v-ons-list-item
+            >
+          </v-ons-list>
+          <div class="flex justify-center">
+            <v-ons-button class="btn btn--default">
+              <v-ons-icon class="btn__icon" icon="fa-twitter"></v-ons-icon>
+            </v-ons-button>
+            <v-ons-button class="btn btn--default">
+              <v-ons-icon class="btn__icon" icon="fa-telegram"></v-ons-icon>
+            </v-ons-button>
+          </div>
+          <small class="text-center"
+            >© 2020 Peerkat. All rights reserved.
+          </small>
+        </v-ons-popover>
       </div>
     </v-ons-toolbar>
 
@@ -124,6 +148,10 @@ export default {
       autocompleteVisible: false,
       selectedAddress: "",
       searchAddress: "",
+      popoverVisible: false,
+      popoverTarget: null,
+      popoverDirection: "up",
+      coverTarget: false,
       tabs: [
         {
           page: ListView,
@@ -143,6 +171,12 @@ export default {
   methods: {
     log(...args) {
       console.log(...args);
+    },
+    showPopover(event, direction, coverTarget = false) {
+      this.popoverTarget = event;
+      this.popoverDirection = direction;
+      this.coverTarget = coverTarget;
+      this.popoverVisible = true;
     },
     pushToFilterStreamPage() {
       this.$emit("push-page", {
@@ -186,3 +220,17 @@ export default {
   }
 };
 </script>
+<style>
+.justify-center {
+  justify-content: center;
+}
+.text-center {
+  text-align: center!;
+}
+.list-item__center {
+  justify-content: center;
+}
+.popover {
+  padding: 1rem;
+}
+</style>
