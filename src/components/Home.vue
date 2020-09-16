@@ -43,14 +43,6 @@
             </v-ons-list>
           </v-ons-popover>
         </div>
-        <!-- <v-ons-segment
-          tabbar-id="homeTabbar"
-          :index.sync="segmentIndex"
-          style="width: 8em"
-        >
-          <button>List</button>
-          <button>Request</button>
-        </v-ons-segment>-->
       </div>
       <div class="right">
         <v-ons-toolbar-button @click="showPopover">
@@ -97,23 +89,16 @@
         </v-ons-popover>
       </div>
     </v-ons-toolbar>
+    <keep-alive>
+      <request-stream
+        @push-broadcast="pushToBroadcaster"
+        @push-stream="pushToStreamer"
+        @push-page="pushToViewStreamPage"
+        @push-supply="pushToSupplyStreamPage"
+        @back-page="popViewPage"
+      ></request-stream>
+    </keep-alive>
 
-    <!-- <v-ons-tabbar
-      id="homeTabbar"
-      :tabs="tabs"
-      :index.sync="tabbarIndex"
-      @push-page="pushToViewStreamPage"
-      @push-supply="pushToSupplyStreamPage"
-      @back-page="popViewPage"
-    ></v-ons-tabbar>-->
-
-    <request-stream
-      @push-broadcast="pushToBroadcaster"
-      @push-stream="pushToStreamer"
-      @push-page="pushToViewStreamPage"
-      @push-supply="pushToSupplyStreamPage"
-      @back-page="popViewPage"
-    ></request-stream>
     <v-ons-bottom-toolbar
       style="background-color: #1d1d1b !important;"
     ></v-ons-bottom-toolbar>
@@ -134,6 +119,9 @@ import ViewStream from "@/components/ViewStream.vue";
 import SupplyStream from "@/components/SupplyStream.vue";
 import Streamer from "@/components/Streamer.vue";
 import Broadcaster from "@/components/Broadcaster.vue";
+
+import OnBoarding from "@/components/OnBoarding.vue";
+
 import { EsriProvider } from "leaflet-geosearch";
 
 const myProvider = new EsriProvider();
@@ -167,6 +155,9 @@ export default {
       walletBalance2: 0,
       getSender2: null
     };
+  },
+  created() {
+    this.$emit("push-page", OnBoarding);
   },
   methods: {
     log(...args) {
@@ -228,7 +219,7 @@ export default {
   text-align: center!;
 }
 .list-item__center {
-  justify-content: center;
+  justify-content: space-between;
 }
 .popover {
   padding: 1rem;
