@@ -20,50 +20,16 @@
       <div class="center">
         Welcome To Peerkat
       </div>
-      <!-- <div class="right">
-        <v-ons-toolbar-button @click="showPopover">
+      <div class="right">
+        <v-ons-toolbar-button style="color:#FFF" @click="endOnBoarding">
+          Skip
           <v-ons-icon
             style="color:#fff"
             class="btn__icon"
-            icon="fa-bars"
+            icon="fa-angle-right"
           ></v-ons-icon>
         </v-ons-toolbar-button>
-        <v-ons-popover
-          cancelable
-          :visible.sync="popoverVisible"
-          :target="popoverTarget"
-          :direction="popoverDirection"
-          :cover-target="coverTarget"
-          style="z-index: 99999; text-align:center"
-        >
-          <h6 class="text-center">Peerkat <small>BETA</small></h6>
-          <v-ons-list class="text-center">
-            <v-ons-list-item class="text-center" modifier="tappable"
-              >User Guide</v-ons-list-item
-            >
-            <v-ons-list-item class="text-center" modifier="tappable"
-              >User Policy</v-ons-list-item
-            >
-            <v-ons-list-item class="text-center" modifier="tappable"
-              >Report Bug</v-ons-list-item
-            >
-            <v-ons-list-item class="text-center" modifier="tappable"
-              >Customer Support</v-ons-list-item
-            >
-          </v-ons-list>
-          <div class="flex justify-center">
-            <v-ons-button class="btn btn--default">
-              <v-ons-icon class="btn__icon" icon="fa-twitter"></v-ons-icon>
-            </v-ons-button>
-            <v-ons-button class="btn btn--default">
-              <v-ons-icon class="btn__icon" icon="fa-telegram"></v-ons-icon>
-            </v-ons-button>
-          </div>
-          <small class="text-center"
-            >© 2020 Peerkat. All rights reserved.
-          </small>
-        </v-ons-popover>
-      </div> -->
+      </div>
     </v-ons-toolbar>
     <v-ons-carousel
       fullscreen
