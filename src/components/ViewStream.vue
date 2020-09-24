@@ -2,134 +2,58 @@
   <v-ons-page id="viewStreamPage">
     <v-ons-toolbar>
       <div class="left">
-        <v-ons-back-button
-          @click.prevent="endViewingStream()"
+        <v-ons-back-button @click.prevent="endViewingStream()">
+          <v-ons-icon
+            style="color:#fff"
+            class="btn__icon"
+            icon="fa-angle-left"
+          ></v-ons-icon
         ></v-ons-back-button>
       </div>
       <div class="center">
         <span class="onsPageTitleStyle">Trending</span>
       </div>
     </v-ons-toolbar>
+    <div class="streamer__container">
+      <div class="streamer__controls streamer__controls--top">
+        <v-ons-button class="btn btn--default flex-coulumn">
+          <v-ons-icon class="btn__icon" icon="fa-eye"></v-ons-icon>
+          <span>101</span>
+        </v-ons-button>
 
-    <div
-      id="view-video-panel"
-      style="height: 100%;display: flex;flex-direction: column;"
-    >
-      <!-- <v-ons-list>
-        <v-ons-list-item id="optionsPanel_section_viewStream">
-          <div id="pay-info-section">
-            <v-ons-button
-              id="payingLabel"
-              class="badge badge-warning"
-              @click="tipStreamer()"
-            >
-              <strong>
-                Tip
-                <span id="payment-ticker" class="badge badge-pill badge-info">{{
-                  defaultTipAmount + " TT"
-                }}</span>
-
-              </strong>
-            </v-ons-button>
-            <span
-              id="streamer-name"
-              class="badge badge-pill badge-info"
-              style="background-color:none!important"
-            >
-              <i>@streamer</i>
-            </span>
-          </div>
-          <div class="expandable-content">
-            <div id="options_panel"></div>
-          </div>
-        </v-ons-list-item>
-      </v-ons-list> -->
-      <div class="streamer__container">
-        <div class="streamer__controls streamer__controls--top">
-          <v-ons-button class="btn btn--default flex-coulumn">
-            <v-ons-icon class="btn__icon" icon="fa-eye"></v-ons-icon>
-            <span>101</span>
-          </v-ons-button>
-
-          <v-ons-button class="btn btn--default ml-auto">
-            <v-ons-icon class="btn__icon" icon="fa-volume-mute"></v-ons-icon>
-          </v-ons-button>
-        </div>
-        <div
-          id="video_info"
-          style="
-          height: 100%;
-          min-height: 100%; "
-        >
-          Stream will start playing automatically
-          <br />when it is live
-        </div>
-        <video
-          id="remoteVideo"
-          style="object-fit: cover;
-          height: 100%;
-          min-height: 100%; "
-          autoplay
-          controls
-        ></video>
-
-        <div class="streamer__controls streamer__controls--bottom">
-          <v-ons-button id="endStreamButton" @click="endViewingStream()"
-            >End Stream
-            <v-ons-icon class="btn__icon" icon="fa-pause"></v-ons-icon>
-          </v-ons-button>
-
-          <div class=" ml-auto flex-column ">
-            <v-ons-button class="btn btn--default  mb-4">
-              <v-ons-icon
-                class="btn__icon"
-                icon="fa-shopping-cart"
-              ></v-ons-icon>
-            </v-ons-button>
-            <a class="btn-tip " @click.prevent="tipStreamer()">
-              <img src="../assets/tipping.png" alt />
-            </a>
-          </div>
-        </div>
+        <v-ons-button class="btn btn--default ml-auto">
+          <v-ons-icon class="btn__icon" icon="fa-volume-mute"></v-ons-icon>
+        </v-ons-button>
       </div>
-      <!-- <div v-show="isInBuiltRequestDemo()" style="flex:1">
-        <video
-          id="inBuiltVideoExample"
-          src="../assets/video/santa5.mp4"
-          style="object-fit: cover;
+      <div
+        id="video_info"
+        style="
           height: 100%;
           min-height: 100%; "
-          autoplay
-          muted
-          controls
-          playsinline
-        ></video>
-      </div>
-      <div v-show="!isInBuiltRequestDemo()" style="flex:1">
-        <div id="video_info">
-          Stream will start playing automatically
-          <br />when it is live
-        </div>
-        <video
-          id="remoteVideo"
-          style="object-fit: cover;
-          height: 100%;
-          min-height: 100%; "
-          autoplay
-          controls
-        ></video>
-      </div>
-      <section
-        v-show="isInBuiltRequestDemo()"
-        id="view_stream_nav_buttons_section"
       >
-        <div style="padding:1rem" id="view_stream_nav_buttons_panel">
-          <v-ons-button id="endStreamButton" @click="endViewingStream()"
-            >End Stream</v-ons-button
-          >
+        Stream will start playing automatically
+        <br />when it is live
+      </div>
+      <base-video ref="videoplayer" :options="videoOptions"></base-video>
+      <div class="streamer__controls streamer__controls--bottom">
+        <v-ons-button id="endStreamButton" @click="endViewingStream()"
+          >End Stream
+          <v-ons-icon class="btn__icon" icon="fa-pause"></v-ons-icon>
+        </v-ons-button>
+
+        <div class=" ml-auto flex-column ">
+          <v-ons-button class="btn btn--default  mb-4">
+            <v-ons-icon class="btn__icon" icon="fa-shopping-cart"></v-ons-icon>
+          </v-ons-button>
+          <a class="btn-tip " @click.prevent="tipStreamer()">
+            <img src="../assets/tipping.png" alt />
+          </a>
         </div>
-      </section> -->
+      </div>
     </div>
+    <v-ons-bottom-toolbar
+      style="background-color: #1d1d1b !important;"
+    ></v-ons-bottom-toolbar>
   </v-ons-page>
 </template>
 
@@ -140,6 +64,8 @@
 </style>
 
 <script>
+import videojs from "video.js";
+import BaseVideo from "@/components/BaseVideo.vue";
 import Web3 from "web3";
 import { address, ABI } from "@/util/constants/tippingContract";
 
@@ -156,8 +82,20 @@ export default {
   // props:{
   //     inBuiltRequest:Boolean
   // },
+  components: {
+    BaseVideo
+  },
   data() {
     return {
+      player: null,
+      videoOptions: {
+        autoplay: true,
+        muted: true,
+        controls: false,
+        responsive: true,
+        fill: true,
+        fluid: false
+      },
       webRTCAdaptor: null,
       streamId1: "streamId",
       //streamNameBox: "stream2",
@@ -201,9 +139,9 @@ export default {
       this.$emit("push-page", SupplyStream);
     },
     playVideo() {
-      document.getElementById("remoteVideo").style.display = "block";
-      document
-        .getElementById("remoteVideo")
+      this.player
+        .tech()
+        .el()
         .play()
         .then(function() {
           //autoplay started
@@ -263,12 +201,14 @@ export default {
     }
   },
   mounted() {
+    this.player = videojs.getPlayer(this.$refs.videoplayer.$refs.video);
+
     this.webRTCAdaptor = new WebRTCAdaptor({
       websocket_url: "wss://streams.vividiov.media:5443/WebRTCAppEE/websocket",
       mediaConstraints: this.mediaConstraints,
       peerconnection_config: this.pc_config,
       sdp_constraints: this.sdpConstraints,
-      remoteVideoId: "remoteVideo",
+      remoteVideoId: this.player.tech().el(),
       isPlayMode: true,
       debug: true,
       callback: (info, description) => {

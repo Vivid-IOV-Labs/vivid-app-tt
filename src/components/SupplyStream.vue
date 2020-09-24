@@ -1,8 +1,8 @@
 <template>
-  <v-ons-page id="supplyStreamPage">
+  <v-ons-page id="Streamer">
     <v-ons-toolbar>
       <div class="left">
-        <v-ons-back-button></v-ons-back-button>
+        <v-ons-back-button>Back</v-ons-back-button>
       </div>
       <div class="center">
         <span class="onsPageTitleStyle">Live Stream in progress</span>
@@ -17,24 +17,15 @@
 
         <v-ons-button class="btn btn--default ml-auto flex-coulumn">
           <v-ons-icon class="btn__icon" icon="fa-clock"></v-ons-icon>
-          <span>1 sec</span>
+          <span>{{ liveTime }}</span>
         </v-ons-button>
       </div>
-      <video
-        id="localVideo"
-        style="object-fit: cover;
-          height: 100%;
-          min-height: 100%; "
-        autoplay
-        muted
-        controls
-        playsinline
-      ></video>
+      <base-video ref="videoplayer" :options="videoOptions"></base-video>
 
       <div class="streamer__controls streamer__controls--bottom">
         <v-ons-button
           @click="startPublishing"
-          class="btn btn-golive"
+          class="btn btn--golive btn--full-width"
           v-if="!start_publish_button.disabled"
           id="start_publish_button"
           >Start Streaming
@@ -42,7 +33,7 @@
         </v-ons-button>
         <v-ons-button
           @click="stopPublishing"
-          class="btn btn-golive"
+          class="btn btn--golive btn--full-width"
           v-if="!stop_publish_button.disabled"
           id="stop_publish_button"
           >End Streaming
@@ -50,57 +41,11 @@
         ></v-ons-button>
       </div>
     </div>
-    <!-- <div
-      id="view-video-panel"
-      style="height: 100%;display: flex;flex-direction: column;"
-    >
-      <div class="videoWrapper" style="flex:1">
-        <video
-          id="localVideo"
-          style="object-fit: cover;
-          height: 100%;
-          min-height: 100%; "
-          autoplay
-          muted
-          controls
-          playsinline
-        ></video>
-      </div>
-      <v-ons-input
-        v-show="false"
-        type="text"
-        class="form-control"
-        v-model="streamNameBox"
-        id="streamName"
-        placeholder="Type stream name"
-      ></v-ons-input>
-      <div style="display:flex; padding:1rem; justify-content:space-between">
-        <v-ons-button
-          @click="startPublishing"
-          class="btn btn-info"
-          :disabled="start_publish_button.disabled"
-          id="start_publish_button"
-          >Start Publishing</v-ons-button
-        >
-        <v-ons-button
-          @click="stopPublishing"
-          class="btn btn-info"
-          :disabled="stop_publish_button.disabled"
-          id="stop_publish_button"
-          >Stop Publishing</v-ons-button
-        >
-      </div>
-
-      <span
-        v-show="!this.stop_publish_button.disabled"
-        class="btn"
-        id="broadcastingInfo"
-        >Publishing</span
-      >
-    </div> -->
+    <v-ons-bottom-toolbar
+      style="background-color: #1d1d1b !important;"
+    ></v-ons-bottom-toolbar>
   </v-ons-page>
 </template>
-
 <style>
 @import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import "../css/player.css";
@@ -109,6 +54,8 @@
 </style>
 
 <script>
+import videojs from "video.js";
+import BaseVideo from "@/components/BaseVideo.vue";
 import "webrtc-adapter";
 import $ from "jquery";
 
@@ -116,8 +63,20 @@ import { WebRTCAdaptor } from "@/js/webrtc_adaptor.js";
 
 export default {
   name: "supplyStream",
+  components: {
+    BaseVideo
+  },
   data() {
     return {
+      player: null,
+      videoOptions: {
+        autoplay: true,
+        muted: true,
+        controls: false,
+        responsive: true,
+        fill: true,
+        fluid: false
+      },
       start_publish_button: {
         disabled: true
       },
@@ -136,6 +95,13 @@ export default {
       mediaConstraints: "",
       webRTCAdaptor: ""
     };
+  },
+  computed: {
+    liveTime() {
+      return this.player
+        ? this.player.currentTime().toFixed(2) + " s"
+        : "00:00 s";
+    }
   },
   methods: {
     closeVideoStream() {
@@ -180,6 +146,8 @@ export default {
     }
   },
   mounted() {
+    this.player = videojs.getPlayer(this.$refs.videoplayer.$refs.video);
+
     this.pc_config = null;
 
     this.sdpConstraints = {
@@ -197,7 +165,7 @@ export default {
       mediaConstraints: this.mediaConstraints,
       peerconnection_config: this.pc_config,
       sdp_constraints: this.sdpConstraints,
-      localVideoId: "localVideo",
+      localVideoId: this.player.tech().el(),
       debug: true,
       callback: (info, description) => {
         if (info == "initialized") {
@@ -275,3 +243,79 @@ export default {
   }
 };
 </script>
+<style>
+.streamer__container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.streamer__controls {
+  padding: 1rem;
+  position: absolute;
+  z-index: 9999;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.streamer__controls--bottom {
+  bottom: 1.2rem;
+  align-items: flex-end;
+}
+.streamer__controls--top {
+  top: 1.2rem;
+  align-items: flex-start;
+}
+.streamer__container .vjs-tech {
+  object-fit: cover;
+  min-height: 100%; /* not good for the aspect ratio set square or landscape or vertical instead*/
+}
+.flex-coulumn {
+  display: flex;
+  flex-direction: column;
+}
+.btn {
+  text-align: center;
+  background-color: #6d6d3d;
+  font-weight: 550;
+  border-radius: 0.3rem;
+  padding: 0.4rem 0.6rem;
+  text-align: center;
+  background-color: #1d1d1b;
+  font-weight: 550;
+  border-radius: 0.3rem;
+  height: fit-content;
+  padding: 0.6rem 0.8rem;
+}
+.btn__icon {
+  margin-left: 0.2rem;
+}
+.btn--default {
+  background: #fff;
+}
+.btn--default .btn__icon {
+  margin-left: 0.2rem;
+  font-size: 1.2rem;
+  color: #1d1d1b;
+}
+.btn--full-width {
+  width: 100%;
+}
+.btn--join {
+  border: solid 1px #73e335;
+  color: #73e335;
+}
+.btn--request {
+  border: solid 1px #16dbdb;
+  color: #16dbdb;
+}
+.ml-auto {
+  margin-left: auto;
+}
+.btn--golive {
+  border: solid 1px #f73e2d;
+  color: #f73e2d;
+}
+</style>
