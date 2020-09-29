@@ -63,25 +63,62 @@
           <h6 class="text-center">Peerkat <small>BETA</small></h6>
           <v-ons-list class="text-center">
             <v-ons-list-item class="text-center" modifier="tappable"
-              >User Guide</v-ons-list-item
+              ><a class="menu__link" href="#" @click="toOnboarding">
+                User Guide
+              </a>
+            </v-ons-list-item>
+            <v-ons-list-item class="text-center" modifier="tappable"
+              ><a
+                class="menu__link"
+                href="https://www.vividiov.com/terms"
+                target="_blank"
+              >
+                User Terms
+              </a>
+            </v-ons-list-item>
+            <v-ons-list-item class="text-center" modifier="tappable"
+              ><a
+                class="menu__link"
+                href="https://www.vividiov.com/privacy"
+                target="_blank"
+              >
+                Privacy Policy
+              </a></v-ons-list-item
             >
             <v-ons-list-item class="text-center" modifier="tappable"
-              >User Policy</v-ons-list-item
+              ><a
+                class="menu__link"
+                href="mailto:info@vividiov.com?subject=Report Bug"
+                target="_blank"
+              >
+                Report Bug
+              </a></v-ons-list-item
             >
             <v-ons-list-item class="text-center" modifier="tappable"
-              >Report Bug</v-ons-list-item
-            >
-            <v-ons-list-item class="text-center" modifier="tappable"
-              >Customer Support</v-ons-list-item
+              ><a
+                class="menu__link"
+                href="mailto:info@vividiov.com?subject=Customer Support"
+                target="_blank"
+              >
+                Customer Support
+              </a></v-ons-list-item
             >
           </v-ons-list>
           <div class="flex justify-center">
-            <v-ons-button class="btn btn--default">
+            <a
+              href="https://twitter.com/PeerkatLive"
+              target="_blank"
+              class="btn btn--default"
+            >
               <v-ons-icon class="btn__icon" icon="fa-twitter"></v-ons-icon>
-            </v-ons-button>
-            <v-ons-button class="btn btn--default">
+            </a>
+            <a
+              href="https://t.me/joinchat/M90RPBklSbAkMzfLl02Qcw"
+              target="_blank"
+              class="btn btn--default"
+            >
               <v-ons-icon class="btn__icon" icon="fa-telegram"></v-ons-icon>
-            </v-ons-button>
+            </a>
           </div>
           <small class="text-center"
             >© 2020 Peerkat. All rights reserved.
@@ -157,11 +194,14 @@ export default {
     };
   },
   created() {
-    this.$emit("push-page", OnBoarding);
+    this.toOnboarding();
   },
   methods: {
     log(...args) {
       console.log(...args);
+    },
+    toOnboarding() {
+      this.$emit("push-page", OnBoarding);
     },
     showPopover(event, direction, coverTarget = false) {
       this.popoverTarget = event;
@@ -223,5 +263,12 @@ export default {
 }
 .popover {
   padding: 1rem;
+}
+.menu__link {
+  text-decoration: none;
+  color: #222;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 </style>
