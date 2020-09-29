@@ -231,7 +231,6 @@ export default {
         });
         const isDisabled = this.isDisabled(pin);
         const disabled = isDisabled ? "disabled" : "none";
-        console.log(isDisabled);
         pin
           .addTo(this.map)
           .bindPopup(
@@ -491,7 +490,6 @@ export default {
         coords: { latitude, longitude }
       } = this.myPosition;
       const myPosition = L.marker([latitude, longitude]);
-      console.log(pin.getLatLng(), myPosition.getLatLng());
 
       const distanceInKm =
         pin
