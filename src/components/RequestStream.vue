@@ -141,6 +141,7 @@ export default {
         maximumAge: 0
       },
       myLocation: null,
+      myPosition: null,
       myLocationCircle: null,
       geoSearchLocation: null,
       geoSearchLocationCircle: null,
@@ -225,35 +226,43 @@ export default {
         var lon = markers[i].location.feature.geometry.y;
         var lat = markers[i].location.feature.geometry.x;
         const marker = markers[i];
-
-        L.marker([lon, lat], {
+        const pin = L.marker([lon, lat], {
           icon: marker.streamer.live ? this.markerUsers : this.markerNew
-        })
+        });
+        const isDisabled = this.isDisabled(pin);
+        const disabled = isDisabled ? "disabled" : "none";
+        console.log(isDisabled);
+        pin
           .addTo(this.map)
           .bindPopup(
             marker.streamer.live
               ? this.templateJoin(marker)
-              : this.templateGoLive(marker),
+              : this.templateGoLive(marker, disabled),
             {
               maxWidth: 1060
             }
           )
           .on("popupopen", () => {
-            marker.streamer.live
-              ? document
-                  .getElementById("button-join")
-                  .addEventListener("click", () => {
-                    if (marker.mapPin.twitterHashTags.includes("testing")) {
-                      this.pushToStream();
-                    } else {
-                      this.fromJoin();
-                    }
-                  })
-              : document
-                  .getElementById("button-golive")
-                  .addEventListener("click", () => {
-                    this.fromSupply();
-                  });
+            if (marker.streamer.live) {
+              document
+                .getElementById("button-join")
+                .addEventListener("click", () => {
+                  if (marker.mapPin.twitterHashTags.includes("testing")) {
+                    this.pushToStream();
+                  } else {
+                    this.fromJoin();
+                  }
+                });
+            } else {
+              document
+                .getElementById("button-golive")
+                .addEventListener("click", () => {
+                  if (isDisabled) {
+                    return;
+                  }
+                  this.fromSupply();
+                });
+            }
           })
           .on("click", e => {
             var locationcode = openLocationCode.encode(
@@ -270,6 +279,8 @@ export default {
 
             this._setSelectedPin(obj);
           });
+        const opacity = isDisabled ? 0.6 : 1;
+        pin.setOpacity(opacity);
       }
     },
     fromJoin_list(_str) {
@@ -402,7 +413,6 @@ export default {
     },
     onLocationFound(e) {
       var radius = e.accuracy;
-
       var myProfileIcon = L.icon({
         iconUrl: require("@/assets/markers/marker-profile.svg"),
         iconSize: [38, 95],
@@ -466,6 +476,30 @@ export default {
           id: "mapbox/streets-v11"
         }
       ).addTo(this.map);
+    },
+    getLocation() {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(position => {
+          this.myPosition = position;
+        });
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    },
+    isDisabled(pin) {
+      const {
+        coords: { latitude, longitude }
+      } = this.myPosition;
+      const myPosition = L.marker([latitude, longitude]);
+      console.log(pin.getLatLng(), myPosition.getLatLng());
+
+      const distanceInKm =
+        pin
+          .getLatLng()
+          .distanceTo(myPosition.getLatLng())
+          .toFixed(0) / 1000;
+      const rangeInKm = 1.6;
+      return distanceInKm > rangeInKm;
     }
   },
   beforeCreate() {
@@ -473,6 +507,7 @@ export default {
     this.$store.dispatch("registerWeb3");
   },
   async mounted() {
+    this.getLocation();
     // io.socket.on("requests", msg => {
     //   if (msg.data.user.walletAddress !== this._myWalletAddress()) {
     //     if (msg.data && msg.data.length) {
@@ -587,27 +622,27 @@ export default {
 
     this.templateJoin = requestModel => `
       <div>
-      <h3>${requestModel.mapPin.details}</h3>
+      <h3>${requestModel.mapPin.details} </h3>
       <p>${requestModel.mapPin.twitterHashTags
         .reduce((acc, tag) => {
           acc += ` #${tag},`;
           return acc;
         }, "")
         .slice(1, -1)}</p>
-      <v-ons-button id="button-join" type="button">Join</v-ons-button>
+      <button class="btn btn--join"  id="button-join" type="button">Join</button>
       </div>
       `;
 
-    this.templateGoLive = requestModel => `
+    this.templateGoLive = (requestModel, isDisabled) => `
     <div>
-      <h3>${requestModel.mapPin.details}</h3>
+      <h3>${requestModel.mapPin.details} }</h3>
       <p>${requestModel.mapPin.twitterHashTags
         .reduce((acc, tag) => {
           acc += ` #${tag},`;
           return acc;
         }, "")
         .slice(1, -1)}</p>
-      <v-ons-button id="button-golive" type="button">Go Live</v-ons-button>
+      <button class="btn btn--golive" disabled="${isDisabled}" id="button-golive" type="button">Go Live</button>
     </div>
     `;
     this.templateLivepeer = () => `
@@ -766,3 +801,8 @@ export default {
   }
 };
 </script>
+<style>
+button:disabled {
+  opacity: 0.4;
+}
+</style>
