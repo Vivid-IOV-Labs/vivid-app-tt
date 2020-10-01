@@ -36,15 +36,12 @@
         </div>
         <div id="pushToViewStreamPageButton">
           <v-ons-button class="btn btn--join" @click="showJoinDialog()">
-            Trending
             <v-ons-icon class="btn__icon" icon="fa-users"></v-ons-icon>
           </v-ons-button>
           <v-ons-button class="btn btn--request" @click="showRequestDialog()">
-            Request Video
             <v-ons-icon class="btn__icon" icon="fa-flag"></v-ons-icon>
           </v-ons-button>
           <v-ons-button class="btn btn--golive" @click="showGoliveDialog()">
-            Go Live
             <v-ons-icon class="btn__icon" icon="fa-video"></v-ons-icon>
           </v-ons-button>
         </div>
@@ -229,7 +226,8 @@ export default {
         const pin = L.marker([lon, lat], {
           icon: marker.streamer.live ? this.markerUsers : this.markerNew
         });
-        const isDisabled = this.isDisabled(pin);
+        const isDisabled = !marker.streamer.live && this.isDisabled(pin);
+        console.log(isDisabled, "isDisabled");
         const disabled = isDisabled ? "disabled" : "none";
         pin
           .addTo(this.map)
