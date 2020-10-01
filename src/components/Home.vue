@@ -193,9 +193,6 @@ export default {
       getSender2: null
     };
   },
-  created() {
-    this.toOnboarding();
-  },
   methods: {
     log(...args) {
       console.log(...args);

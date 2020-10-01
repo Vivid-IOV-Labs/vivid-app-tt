@@ -4,7 +4,9 @@
     <v-ons-list style="flex:1">
       <v-ons-list-item style="display:flex; padding:1rem">
         <div class="flex-center">
-          <div class="btn btn--large btn--join btn--fake">Trending</div>
+          <div class="btn btn--large btn--join btn--fake">
+            <v-ons-icon class="btn__icon" icon="fa-users"></v-ons-icon>
+          </div>
         </div>
         <div class="flex-center">
           <p>FOLLOW THE LATEST LIST OF TRENDING LIVE STREAMS</p>

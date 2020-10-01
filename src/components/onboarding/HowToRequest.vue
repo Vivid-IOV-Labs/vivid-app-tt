@@ -4,7 +4,9 @@
     <v-ons-list style="flex:1">
       <v-ons-list-item style="display:flex; padding:1rem">
         <div class="flex-center">
-          <div class="btn btn--large btn--request btn--fake">Request Video</div>
+          <div class="btn btn--large btn--request btn--fake">
+            <v-ons-icon class="btn__icon" icon="fa-flag"></v-ons-icon>
+          </div>
         </div>
         <div class="flex-center">
           <p>CLICK THE REQUEST VIDEO BUTTON TO ASK FOR A LIVE STREAM</p>
@@ -59,5 +61,6 @@ export default {
 .btn--fake {
   background: #fff;
   border-width: 2px;
+  padding: 1rem 2rem;
 }
 </style>

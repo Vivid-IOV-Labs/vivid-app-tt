@@ -21,13 +21,13 @@ body {
 </style>
 
 <script>
-import Home from "@/components/Home.vue";
+import RootLoading from "@/components/RootLoading.vue";
 
 export default {
   name: "main_page",
   data() {
     return {
-      pageStack: [Home]
+      pageStack: [RootLoading]
     };
   }
   //   mounted() {

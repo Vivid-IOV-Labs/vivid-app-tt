@@ -4,7 +4,9 @@
     <v-ons-list style="flex:1">
       <v-ons-list-item style="display:flex; padding:1rem">
         <div class="flex-center">
-          <div class="btn btn--large btn--golive btn--fake">Go Live</div>
+          <div class="btn btn--large btn--golive btn--fake">
+            <v-ons-icon class="btn__icon" icon="fa-video"></v-ons-icon>
+          </div>
         </div>
         <div class="flex-center">
           <p>TO INSTANTLY BROADCAST TO YOUR PEERS, CLICK GO LIVE</p>

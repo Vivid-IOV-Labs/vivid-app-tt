@@ -75,6 +75,7 @@
 import HowToRequest from "@/components/onboarding/HowToRequest.vue";
 import HowToGoLive from "@/components/onboarding/HowToGoLive.vue";
 import HowToSee from "@/components/onboarding/HowToSee.vue";
+import Home from "@/components/Home.vue";
 
 export default {
   name: "OnBoarding",
@@ -106,7 +107,7 @@ export default {
   },
   methods: {
     endOnBoarding() {
-      this.$emit("back-page");
+      this.$emit("push-page", Home);
     }
   }
 };
