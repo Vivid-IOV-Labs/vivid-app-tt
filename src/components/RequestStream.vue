@@ -138,7 +138,6 @@ export default {
         maximumAge: 0
       },
       myLocation: null,
-      myPosition: null,
       myLocationCircle: null,
       geoSearchLocation: null,
       geoSearchLocationCircle: null,
@@ -191,7 +190,10 @@ export default {
   computed: {
     searchLocation() {
       return this.$store.state.searchLocation;
-    }
+    },
+    ...mapGetters({
+      myPosition: "getPosition"
+    })
   },
   methods: {
     ...mapMutations({
@@ -227,7 +229,6 @@ export default {
           icon: marker.streamer.live ? this.markerUsers : this.markerNew
         });
         const isDisabled = !marker.streamer.live && this.isDisabled(pin);
-        console.log(isDisabled, "isDisabled");
         const disabled = isDisabled ? "disabled" : "none";
         pin
           .addTo(this.map)
@@ -474,15 +475,6 @@ export default {
         }
       ).addTo(this.map);
     },
-    getLocation() {
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(position => {
-          this.myPosition = position;
-        });
-      } else {
-        alert("Geolocation is not supported by this browser.");
-      }
-    },
     isDisabled(pin) {
       const {
         coords: { latitude, longitude }
@@ -503,7 +495,6 @@ export default {
     this.$store.dispatch("registerWeb3");
   },
   async mounted() {
-    this.getLocation();
     // io.socket.on("requests", msg => {
     //   if (msg.data.user.walletAddress !== this._myWalletAddress()) {
     //     if (msg.data && msg.data.length) {
@@ -631,7 +622,7 @@ export default {
 
     this.templateGoLive = (requestModel, isDisabled) => `
     <div>
-      <h3>${requestModel.mapPin.details} }</h3>
+      <h3>${requestModel.mapPin.details}</h3>
       <p>${requestModel.mapPin.twitterHashTags
         .reduce((acc, tag) => {
           acc += ` #${tag},`;
