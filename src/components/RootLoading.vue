@@ -4,6 +4,9 @@
       <img class="loading-page__img" src="@/img/logopeerkat.png" />
       <h1 class="loading-page__title">PEERKAT</h1>
       <div id="google-signin-btn"></div>
+      <v-ons-button @click="loginTwitter" class="btn btn-default"
+        >Sign In <v-ons-icon icon="fa-twitter"></v-ons-icon
+      ></v-ons-button>
     </div>
   </v-ons-page>
 </template>
@@ -11,7 +14,7 @@
 <script>
 /* eslint-disable no-undef */
 import OnBoarding from "@/components/OnBoarding.vue";
-
+import hello from "hellojs/dist/hello.all.js";
 const getPosition = options => {
   return new Promise((resolve, reject) =>
     navigator.geolocation.getCurrentPosition(resolve, reject, options)
@@ -27,7 +30,13 @@ export default {
   methods: {
     async onSignIn(user) {
       const profile = user.getBasicProfile();
-      await this.$store.dispatch("setUser", profile);
+      const basicUser = {
+        id: profile.getId(),
+        name: profile.getName(),
+        email: profile.getEmail(),
+        avatar: profile.getImageUrl()
+      };
+      await this.$store.dispatch("setUser", basicUser);
       this.$emit("push-page", OnBoarding);
     },
     signOut() {
@@ -53,10 +62,46 @@ export default {
       } catch (err) {
         console.error(err.message);
       }
+    },
+    twws() {
+      hello.init(
+        {
+          twitter: "SV1vE3rmhNj2aYBMMloNlsXqu"
+        },
+        {
+          scope: "email",
+          redirect_uri: "http://peerkatlocal.live:8080/login"
+        }
+      );
+    },
+    loginTwitter() {
+      hello("twitter").login();
+      // Listen to signin requests
+      hello.on("auth.login", r => {
+        // Get Profile
+        hello(r.network)
+          .api("/me")
+          .then(p => {
+            console.log(p);
+            this.createUserFromTwitter(p); // output user information
+          })
+          .catch(console.log);
+      });
+    },
+    async createUserFromTwitter(user) {
+      const profile = {
+        twitterID: user.id,
+        name: user.name,
+        email: user.email,
+        loaction: user.loaction,
+        avatar: user.profile_image_url
+      };
+      await this.$store.dispatch("setUser", profile);
+      this.$emit("push-page", OnBoarding);
     }
   },
-  created() {},
   async mounted() {
+    this.twws();
     await this.getLocation();
     window.addEventListener("google-loaded", this.renderGoogleLoginButton);
   }

@@ -24,7 +24,7 @@
           <v-ons-list class="profile__details">
             <v-ons-list-item>
               <span class="left">Location</span>
-              <span class="right">London</span>
+              <span class="right">{{ profile.location }}</span>
             </v-ons-list-item>
             <v-ons-list-item>
               <span class="left">Bio</span>
@@ -86,31 +86,12 @@ export default {
   name: "Profile",
   computed: {
     ...mapGetters({
-      user: "getUser"
-    }),
-    profile() {
-      if (this.user) {
-        const basicUser = {
-          id: this.user.getId(),
-          name: this.user.getName(),
-          email: this.user.getEmail(),
-          avatar: this.user.getImageUrl()
-        };
-        return basicUser;
-      } else {
-        return null;
-      }
-    }
+      profile: "getUser"
+    })
   },
   methods: {
     toOnboarding() {
       this.$emit("push-page", OnBoarding);
-    },
-    signOut() {
-      var auth2 = gapi.auth2.getAuthInstance();
-      auth2.signOut().then(() => {
-        location.reload(true);
-      });
     }
   }
 };

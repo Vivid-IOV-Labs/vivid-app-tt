@@ -7,12 +7,17 @@
       <v-ons-button @click="signIn" class="btn btn-default"
         >Sign In <v-ons-icon icon="fa-google"></v-ons-icon
       ></v-ons-button>
+      <v-ons-button @click="loginTwitter" class="btn btn-default"
+        >Sign In <v-ons-icon icon="fa-twitter"></v-ons-icon
+      ></v-ons-button>
     </div>
   </v-ons-page>
 </template>
 
 <script>
-import Profile from "./Profile.vue";
+/* eslint-disable no-undef */
+import OnBoarding from "@/components/OnBoarding.vue";
+import hello from "hellojs/dist/hello.all.js";
 /* eslint-disable no-undef */
 
 const getPosition = options => {
@@ -37,10 +42,8 @@ export default {
   methods: {
     async onSignIn(payload) {
       const user = payload.getBasicProfile();
-      // eslint-disable-next-line no-debugger
-      debugger;
       await this.$store.dispatch("setUser", user);
-      this.$emit("push-page", Profile);
+      this.$emit("push-page", OnBoarding);
     },
     signIn() {
       this.handleAuthClick();
@@ -102,11 +105,36 @@ export default {
     },
     updateSigninStatus() {
       this.setSigninStatus();
+    },
+    twws() {
+      hello.init(
+        {
+          twitter: process.env.VUE_APP_TWITTER_API_SECRET
+        },
+        {
+          scope: "email",
+          redirect_uri: "http://localhost:8080"
+        }
+      );
+    },
+    loginTwitter() {
+      hello("twitter").login();
+      // Listen to signin requests
+      hello.on("auth.login", r => {
+        // Get Profile
+        hello(r.network)
+          .api("/me")
+          .then(p => {
+            window.console.log(p); // output user information
+          });
+      });
     }
   },
   created() {},
   async mounted() {
+    this.twws();
     await this.getLocation();
+
     window.addEventListener("google-loaded", this.handleClientLoad);
   }
 };
