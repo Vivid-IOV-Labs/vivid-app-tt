@@ -67,6 +67,9 @@ export default new Vuex.Store({
     },
     setPosition(state, position) {
       state.myPosition = position;
+    },
+    setUser(state, user) {
+      state.user = user;
     }
   },
   getters: {
@@ -76,11 +79,15 @@ export default new Vuex.Store({
     getSelectedPin: state => state.selectedPin,
     getStreamerWalletAddress: state => state.streamerWalletAddress,
     searchLocation: state => state.searchLocation,
-    getPosition: state => state.myPosition
+    getPosition: state => state.myPosition,
+    getUser: state => state.user
   },
   actions: {
     setPosition({ commit }, position) {
       commit("setPosition", position);
+    },
+    setUser({ commit }, user) {
+      commit("setUser", user);
     },
     newSearchLocation({ state }, location) {
       state.searchLocation = location;

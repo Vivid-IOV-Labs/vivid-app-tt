@@ -45,85 +45,10 @@
         </div>
       </div>
       <div class="right">
-        <v-ons-toolbar-button @click="showPopover">
-          <v-ons-icon
-            style="color:#fff"
-            class="btn__icon"
-            icon="fa-bars"
-          ></v-ons-icon>
-        </v-ons-toolbar-button>
-        <v-ons-popover
-          cancelable
-          :visible.sync="popoverVisible"
-          :target="popoverTarget"
-          :direction="popoverDirection"
-          :cover-target="coverTarget"
-          style="z-index: 99999; text-align:center"
-        >
-          <h6 class="text-center">Peerkat <small>BETA</small></h6>
-          <v-ons-list class="text-center">
-            <v-ons-list-item class="text-center" modifier="tappable"
-              ><a class="menu__link" href="#" @click="toOnboarding">
-                User Guide
-              </a>
-            </v-ons-list-item>
-            <v-ons-list-item class="text-center" modifier="tappable"
-              ><a
-                class="menu__link"
-                href="https://www.vividiov.com/terms"
-                target="_blank"
-              >
-                User Terms
-              </a>
-            </v-ons-list-item>
-            <v-ons-list-item class="text-center" modifier="tappable"
-              ><a
-                class="menu__link"
-                href="https://www.vividiov.com/privacy"
-                target="_blank"
-              >
-                Privacy Policy
-              </a></v-ons-list-item
-            >
-            <v-ons-list-item class="text-center" modifier="tappable"
-              ><a
-                class="menu__link"
-                href="mailto:info@vividiov.com?subject=Report Bug"
-                target="_blank"
-              >
-                Report Bug
-              </a></v-ons-list-item
-            >
-            <v-ons-list-item class="text-center" modifier="tappable"
-              ><a
-                class="menu__link"
-                href="mailto:info@vividiov.com?subject=Customer Support"
-                target="_blank"
-              >
-                Customer Support
-              </a></v-ons-list-item
-            >
-          </v-ons-list>
-          <div class="flex justify-center">
-            <a
-              href="https://twitter.com/PeerkatLive"
-              target="_blank"
-              class="btn btn--default"
-            >
-              <v-ons-icon class="btn__icon" icon="fa-twitter"></v-ons-icon>
-            </a>
-            <a
-              href="https://t.me/joinchat/M90RPBklSbAkMzfLl02Qcw"
-              target="_blank"
-              class="btn btn--default"
-            >
-              <v-ons-icon class="btn__icon" icon="fa-telegram"></v-ons-icon>
-            </a>
-          </div>
-          <small class="text-center"
-            >© 2020 Peerkat. All rights reserved.
-          </small>
-        </v-ons-popover>
+        <head-menu
+          @push-onboarding="toOnboarding"
+          @push-profile="toProfile"
+        ></head-menu>
       </div>
     </v-ons-toolbar>
     <keep-alive>
@@ -158,6 +83,9 @@ import Streamer from "@/components/Streamer.vue";
 import Broadcaster from "@/components/Broadcaster.vue";
 
 import OnBoarding from "@/components/OnBoarding.vue";
+import Profile from "@/components/Profile.vue";
+
+import HeadMenu from "@/components/HeadMenu.vue";
 
 import { EsriProvider } from "leaflet-geosearch";
 
@@ -165,7 +93,8 @@ const myProvider = new EsriProvider();
 export default {
   name: "home",
   components: {
-    RequestStream
+    RequestStream,
+    HeadMenu
   },
   data() {
     return {
@@ -199,6 +128,9 @@ export default {
     },
     toOnboarding() {
       this.$emit("push-page", OnBoarding);
+    },
+    toProfile() {
+      this.$emit("push-page", Profile);
     },
     showPopover(event, direction, coverTarget = false) {
       this.popoverTarget = event;
