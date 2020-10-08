@@ -104,7 +104,7 @@ export default {
     twws() {
       hello.init(
         {
-          twitter: process.env.VUE_APP_TWITTER_API_KEY
+          twitter: "SV1vE3rmhNj2aYBMMloNlsXqu"
         },
         {
           scope: "email",
