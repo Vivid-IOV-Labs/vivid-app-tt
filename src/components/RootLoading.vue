@@ -3,8 +3,10 @@
     <div class="loading-page">
       <img class="loading-page__img" src="@/img/logopeerkat.png" />
       <h1 class="loading-page__title">PEERKAT</h1>
-      <div id="google-signin-btn"></div>
-      <v-ons-button @click="loginTwitter" class="btn btn-default"
+      <v-ons-button @click="handleAuthClick" class="btn btn--login"
+        >Sign In <v-ons-icon icon="fa-google"></v-ons-icon
+      ></v-ons-button>
+      <v-ons-button @click="loginTwitter" class="btn btn--login"
         >Sign In <v-ons-icon icon="fa-twitter"></v-ons-icon
       ></v-ons-button>
     </div>
@@ -13,6 +15,9 @@
 
 <script>
 /* eslint-disable no-undef */
+var GoogleAuth;
+var scope = "profile email";
+var clientId = process.env.VUE_APP_GOOGLE_ID;
 import OnBoarding from "@/components/OnBoarding.vue";
 import hello from "hellojs/dist/hello.all.js";
 const getPosition = options => {
@@ -24,7 +29,9 @@ export default {
   name: "RootLoading",
   data() {
     return {
-      profile: null
+      GoogleAuth,
+      scope,
+      clientId
     };
   },
   methods: {
@@ -39,17 +46,6 @@ export default {
       await this.$store.dispatch("setUser", basicUser);
       this.$emit("push-page", OnBoarding);
     },
-    signOut() {
-      var auth2 = gapi.auth2.getAuthInstance();
-      auth2.signOut().then(() => {
-        location.reload(true);
-      });
-    },
-    renderGoogleLoginButton() {
-      gapi.signin2.render("google-signin-btn", {
-        onsuccess: this.onSignIn
-      });
-    },
     async getLocation() {
       const options = {
         timeout: 1000,
@@ -62,6 +58,48 @@ export default {
       } catch (err) {
         console.error(err.message);
       }
+    },
+    handleClientLoad() {
+      gapi.load("client:auth2", this.initClient);
+    },
+    initClient() {
+      gapi.client
+        .init({
+          clientId,
+          scope
+        })
+        .then(() => {
+          this.GoogleAuth = gapi.auth2.getAuthInstance();
+
+          this.GoogleAuth.isSignedIn.listen(this.updateSigninStatus);
+
+          const user = this.GoogleAuth.currentUser.get();
+          if (this.GoogleAuth.isSignedIn.get()) {
+            this.onSignIn(user);
+          }
+        });
+    },
+    handleAuthClick() {
+      if (this.GoogleAuth.isSignedIn.get()) {
+        this.GoogleAuth.signOut();
+      } else {
+        this.GoogleAuth.signIn();
+      }
+    },
+    revokeAccess() {
+      this.GoogleAuth.disconnect();
+    },
+    setSigninStatus() {
+      var user = this.GoogleAuth.currentUser.get();
+      var isAuthorized = user.hasGrantedScopes(scope);
+      if (isAuthorized) {
+        this.onSignIn(user);
+      } else {
+        console.log("sign out");
+      }
+    },
+    updateSigninStatus() {
+      this.setSigninStatus();
     },
     twws() {
       hello.init(
@@ -103,7 +141,7 @@ export default {
   async mounted() {
     this.twws();
     await this.getLocation();
-    window.addEventListener("google-loaded", this.renderGoogleLoginButton);
+    window.addEventListener("google-loaded", this.handleClientLoad);
   }
 };
 </script>
@@ -124,5 +162,11 @@ export default {
 }
 .loading-page .loading-page__img {
   width: 40%;
+}
+.btn--login {
+  margin-bottom: 1rem;
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 0.8rem 1rem;
 }
 </style>
