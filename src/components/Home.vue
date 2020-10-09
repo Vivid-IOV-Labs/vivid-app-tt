@@ -22,7 +22,7 @@
           <v-ons-search-input
             id="search"
             placeholder="Search Location"
-            v-model.lazy="searchAddress"
+            v-model="searchAddress"
             @input="onSearchAddress"
           ></v-ons-search-input>
           <v-ons-popover
@@ -174,8 +174,6 @@ export default {
         const results = await myProvider.search({ query: event.target.value });
         this.autocompleteAdresses = results;
         this.autocompleteVisible = true;
-        // eslint-disable-next-line no-debugger
-        debugger;
       };
       setTimeout(autcompleteSearch, 200);
     }
