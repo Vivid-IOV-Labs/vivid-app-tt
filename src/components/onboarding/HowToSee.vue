@@ -28,7 +28,7 @@
         <div class="flex-center">
           <img
             style="margin:0 auto; display:block;max-height:4rem"
-            src="../../assets/tipping.png"
+            src="../../assets/payid.png"
             alt
           />
         </div>

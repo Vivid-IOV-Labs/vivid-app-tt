@@ -494,8 +494,8 @@ export default {
     }
   },
   beforeCreate() {
-    console.log("registerWeb3 Action dispatched");
-    this.$store.dispatch("registerWeb3");
+    // console.log("registerWeb3 Action dispatched");
+    // this.$store.dispatch("registerWeb3");
   },
   async mounted() {
     // io.socket.on("requests", msg => {
@@ -637,7 +637,7 @@ export default {
     `;
     this.templateLivepeer = () => `
     <div>
-      <h3>Livepeer Test</h3>
+      <h3>Go-Live Test</h3>
       <p>#broadcast</p>
       <v-ons-button id="button-golive" type="button">Go Live</v-ons-button>
     </div>
@@ -645,7 +645,7 @@ export default {
 
     this.templateLivepeerJoin = () => `
     <div>
-      <h3>Livepeer Test</h3>
+      <h3>Join Test</h3>
       <p>#stream</p>
       <v-ons-button id="button-join" type="button">Join</v-ons-button>
     </div>

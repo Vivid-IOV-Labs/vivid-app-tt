@@ -33,12 +33,12 @@
         <div class="flex-center">
           <img
             style="margin:0 auto; display:block;max-height:4rem"
-            src="../../assets/tipping.png"
+            src="../../assets/payid.png"
             alt
           />
         </div>
         <div class="flex-center">
-          <p>CLICK ON GOLD COIN TO SEND 1 TT TIP TO THE STREAMER</p>
+          <p>CLICK ON XRP COIN TO SEND A TIP TO THE STREAMER</p>
         </div>
       </v-ons-list-item>
     </v-ons-list>

@@ -47,7 +47,7 @@
             <v-ons-icon class="btn__icon" icon="fa-shopping-cart"></v-ons-icon>
           </v-ons-button>
           <a class="btn-tip " @click.prevent="tipStreamer()">
-            <img src="../assets/tipping.png" alt />
+            <img src="../assets/payid.png" alt />
           </a>
         </div>
       </div>

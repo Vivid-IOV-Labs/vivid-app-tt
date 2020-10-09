@@ -34,7 +34,8 @@ export default new Vuex.Store({
       balance: null,
       error: null
     },
-    contractInstance: null
+    contractInstance: null,
+    payiduserid: null
   },
   mutations: {
     setInBuiltRequestDemo(state, n) {
@@ -75,6 +76,9 @@ export default new Vuex.Store({
     },
     setPayIdUserName(state, payidusername) {
       state.payidusername = payidusername;
+    },
+    setPayIdUserID(state, payiduserid) {
+      state.payiduserid = payiduserid;
     }
   },
   getters: {
@@ -86,7 +90,8 @@ export default new Vuex.Store({
     searchLocation: state => state.searchLocation,
     getPosition: state => state.myPosition,
     getUser: state => state.user,
-    getPayIdUsername: state => state.payidusername
+    getPayIdUsername: state => state.payidusername,
+    getPayIdUserID: state => state.payiduserid
   },
   actions: {
     setPosition({ commit }, position) {
@@ -95,31 +100,82 @@ export default new Vuex.Store({
     setPayIdUserName({ commit }, payidusername) {
       commit("setPayIdUserName", payidusername);
     },
-    async setUser({ commit, state }, user) {
-      const userID = user.name.toLowerCase().replace(/\s/g, "");
+    async createPayidUser({ commit, state }, userID) {
+      console.log(userID)
       try {
-        const { message } = await axios.get(`${state.baseURL}payid/user`, {
+        const payidCreate = await axios.post(`${state.baseURL}payid/create`, {
+          domain: "payid.peerkat.live",
+          userID
+        });
+
+        if (payidCreate) {
+          if (payidCreate.response == "user successfully created") {
+            commit("setPayIdUserName", `${userID}$payid.peerkat.live`);
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async setUser({ commit, dispatch, state }, user) {
+      //const userID = user.name.toLowerCase().replace(/\s/g, "");
+
+      let atPosition = user.email.indexOf("@");
+      const userID = user.email.substring(0, atPosition);
+      commit("setPayIdUserID", userID);
+
+      try {
+        const payidUserResponse = await axios.get(`${state.baseURL}payid/user`, {
           params: { userID }
         });
-        commit("setPayIdUserName", message);
-      } catch (getpayiderr) {
-        console.log(getpayiderr);
-        try {
-          await axios.post(`${state.baseURL}payid/create`, {
-            domain: "payid.peerkat.live",
-            userID
-          });
-          const { message } = await axios.get(`${state.baseURL}payid/user`, {
-            params: { userID }
-          });
-          commit("setPayIdUserName", message);
-        } catch (error) {
-          console.log(error);
+
+        console.log(payidUserResponse.data.success)
+
+        if (payidUserResponse) {
+          //commit("setPayIdUserName", `${user}$payid.peerkat.live`);
+          if (payidUserResponse.data.success) {
+            commit("setPayIdUserName", payidUserResponse.data.message);
+          } else {
+            dispatch('createPayidUser', userID)
+          }
         }
+
+      } catch (error) {
+        console.log(error);
+
       }
 
       commit("setUser", user);
     },
+    // async setUser({ commit, state }, user) {
+    //   const userID = user.name.toLowerCase().replace(/\s/g, "");
+    //   try {
+    //     const { success, message } = await axios.get(`${state.baseURL}payid/user`, {
+    //       params: { userID }
+    //     });
+
+    //     if (success) {
+    //       commit("setPayIdUserName", message);
+    //     }
+
+    //   } catch (getpayiderr) {
+    //     console.log(getpayiderr);
+    //     try {
+    //       await axios.post(`${state.baseURL}payid/create`, {
+    //         domain: "payid.peerkat.live",
+    //         userID
+    //       });
+    //       const { message } = await axios.get(`${state.baseURL}payid/user`, {
+    //         params: { userID }
+    //       });
+    //       commit("setPayIdUserName", message);
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   }
+
+    //   commit("setUser", user);
+    // },
     newSearchLocation({ state }, location) {
       state.searchLocation = location;
     },

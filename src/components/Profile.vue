@@ -36,6 +36,9 @@
               <span class="left">HashTags</span>
               <span class="right">#tag, #tag, #tag</span>
             </v-ons-list-item>
+            <v-ons-list-item>
+              <v-ons-button class="btn btn--profile" @click="_createPayidUser(userid)">Get Payid </v-ons-button>
+            </v-ons-list-item>
           </v-ons-list>
           <v-ons-list style="padding:1rem; border:solid 1px ">
             <v-ons-list-item>
@@ -59,7 +62,7 @@
           <div
             style="display:flex; justify-content:space-between; margin-top:1rem"
           >
-            <v-ons-button class="btn btn--profile" @click="showJoinDialog()">
+            <v-ons-button class="btn btn--profile">
               Balance
               <img style="height: 16px;" src="../assets/payid.png" alt />
             </v-ons-button>
@@ -81,7 +84,7 @@
 
 <script>
 /* eslint-disable no-undef */
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import OnBoarding from "@/components/OnBoarding.vue";
 
 export default {
@@ -89,10 +92,14 @@ export default {
   computed: {
     ...mapGetters({
       profile: "getUser",
-      payid: "getPayIdUsername"
+      payid: "getPayIdUsername",
+      userid: "getPayIdUserID"
     })
   },
   methods: {
+    ...mapActions({
+      _createPayidUser: "createPayidUser"
+    }),
     toOnboarding() {
       this.$emit("push-page", OnBoarding);
     }
