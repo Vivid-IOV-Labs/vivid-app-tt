@@ -27,7 +27,7 @@
           ></v-ons-search-input>
           <v-ons-popover
             style="z-index:99999999;
-  transform: translate(2%,-20%);"
+  transform: translate(2%, 0%);"
             target="#search"
             :visible="autocompleteVisible"
             cancelable
@@ -87,9 +87,8 @@ import Profile from "@/components/Profile.vue";
 
 import HeadMenu from "@/components/HeadMenu.vue";
 
-import { EsriProvider } from "leaflet-geosearch";
-
-const myProvider = new EsriProvider();
+import { OpenStreetMapProvider } from "leaflet-geosearch";
+const myProvider = new OpenStreetMapProvider();
 export default {
   name: "home",
   components: {
@@ -172,10 +171,10 @@ export default {
     onSearchAddress(event) {
       const autcompleteSearch = async () => {
         const results = await myProvider.search({ query: event.target.value });
-        this.autocompleteAdresses = results;
+        this.autocompleteAdresses = [...results.slice(0, 5)];
         this.autocompleteVisible = true;
       };
-      setTimeout(autcompleteSearch, 200);
+      setTimeout(autcompleteSearch, 800);
     }
   }
 };
