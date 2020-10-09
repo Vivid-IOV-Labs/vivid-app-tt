@@ -174,6 +174,8 @@ export default {
         const results = await myProvider.search({ query: event.target.value });
         this.autocompleteAdresses = results;
         this.autocompleteVisible = true;
+        // eslint-disable-next-line no-debugger
+        debugger;
       };
       setTimeout(autcompleteSearch, 200);
     }
