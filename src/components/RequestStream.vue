@@ -475,19 +475,22 @@ export default {
         }
       ).addTo(this.map);
     },
+    // eslint-disable-next-line no-unused-vars
     isDisabled(pin) {
-      const {
-        coords: { latitude, longitude }
-      } = this.myPosition;
-      const myPosition = L.marker([latitude, longitude]);
+      return false;
+      // const {
+      //   coords: { latitude, longitude }
+      // } = this.myPosition;
+      // const myPosition = L.marker([latitude, longitude]);
 
-      const distanceInKm =
-        pin
-          .getLatLng()
-          .distanceTo(myPosition.getLatLng())
-          .toFixed(0) / 1000;
-      const rangeInKm = 1.6;
-      return distanceInKm > rangeInKm;
+      // const distanceInKm =
+      //   pin
+      //     .getLatLng()
+      //     .distanceTo(myPosition.getLatLng())
+      //     .toFixed(0) / 1000;
+      // const rangeInKm = 1.6;
+
+      // return distanceInKm > rangeInKm;
     }
   },
   beforeCreate() {
