@@ -111,9 +111,9 @@ let OpenLocationCode = OpenLocationCodeJS.OpenLocationCode;
 
 var openLocationCode = new OpenLocationCode();
 
-// import { GeoSearchControl, EsriProvider } from "leaflet-geosearch";
+// import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 
-// const myProvider = new EsriProvider();
+// const myProvider = new OpenStreetMapProvider();
 
 import { mapMutations, mapActions, mapGetters } from "vuex";
 import RequestDialog from "@/components/dialogs/RequestDialog.vue";
