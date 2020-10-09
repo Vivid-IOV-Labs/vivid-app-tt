@@ -3,12 +3,22 @@
     <div class="loading-page">
       <img class="loading-page__img" src="@/img/logopeerkat.png" />
       <h1 class="loading-page__title">PEERKAT</h1>
-      <v-ons-button @click="handleAuthClick" class="btn btn--login"
+      <v-ons-button
+        :disabled="isLoading"
+        @click="handleAuthClick"
+        class="btn btn--login"
         >Sign In <v-ons-icon icon="fa-google"></v-ons-icon
       ></v-ons-button>
-      <v-ons-button @click="loginTwitter" class="btn btn--login"
+      <v-ons-button
+        :disabled="isLoading"
+        @click="loginTwitter"
+        class="btn btn--login"
         >Sign In <v-ons-icon icon="fa-twitter"></v-ons-icon
       ></v-ons-button>
+      <v-ons-progress-circular
+        v-if="isLoading"
+        indeterminate
+      ></v-ons-progress-circular>
     </div>
   </v-ons-page>
 </template>
@@ -20,10 +30,7 @@ const scope = "profile email";
 const googleClientID = process.env.VUE_APP_GOOGLE_ID;
 const twitterClientID = process.env.VUE_APP_TWITTER_API_KEY;
 const appUrl = process.env.VUE_APP_APP_URL;
-// window.location.href returns the href (URL) of the current page
-// window.location.hostname returns the domain name of the web host
-// window.location.pathname returns the path and filename of the current page
-// window.location.protocol
+
 const twitterCallback = `${appUrl}/login`;
 import OnBoarding from "@/components/OnBoarding.vue";
 import hello from "hellojs/dist/hello.all.js";
@@ -38,7 +45,8 @@ export default {
     return {
       GoogleAuth,
       scope,
-      googleClientID
+      googleClientID,
+      isLoading: false
     };
   },
   methods: {
@@ -52,6 +60,8 @@ export default {
         location: ""
       };
       await this.$store.dispatch("setUser", basicUser);
+      this.isLoading = false;
+
       this.$emit("push-page", OnBoarding);
     },
     async getLocation() {
@@ -77,10 +87,13 @@ export default {
           scope
         })
         .then(() => {
+          this.isLoading = false;
+
           this.GoogleAuth = gapi.auth2.getAuthInstance();
           this.GoogleAuth.isSignedIn.listen(this.updateSigninStatus);
 
           const user = this.GoogleAuth.currentUser.get();
+
           if (this.GoogleAuth.isSignedIn.get()) {
             this.onSignIn(user);
           }
@@ -100,6 +113,8 @@ export default {
       var user = this.GoogleAuth.currentUser.get();
       var isAuthorized = user.hasGrantedScopes(scope);
       if (isAuthorized) {
+        this.isLoading = true;
+
         this.onSignIn(user);
       } else {
         console.log("sign out");
@@ -120,6 +135,8 @@ export default {
       );
     },
     loginTwitter() {
+      this.isLoading = true;
+
       hello("twitter").login();
       // Listen to signin requests
       hello.on("auth.login", r => {
@@ -142,6 +159,8 @@ export default {
         avatar: user.profile_image_url
       };
       await this.$store.dispatch("setUser", profile);
+      this.isLoading = false;
+
       this.$emit("push-page", OnBoarding);
     }
   },
