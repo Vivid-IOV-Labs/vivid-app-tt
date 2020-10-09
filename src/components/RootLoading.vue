@@ -16,8 +16,9 @@
 <script>
 /* eslint-disable no-undef */
 var GoogleAuth;
-var scope = "profile email";
-var clientId = process.env.VUE_APP_GOOGLE_ID;
+const scope = "profile email";
+const googleClientID = process.env.VUE_APP_GOOGLE_ID;
+const twitterClientID = process.env.VUE_APP_TWITTER_API_KEY;
 import OnBoarding from "@/components/OnBoarding.vue";
 import hello from "hellojs/dist/hello.all.js";
 const getPosition = options => {
@@ -31,7 +32,7 @@ export default {
     return {
       GoogleAuth,
       scope,
-      clientId
+      googleClientID
     };
   },
   methods: {
@@ -65,12 +66,11 @@ export default {
     initClient() {
       gapi.client
         .init({
-          clientId,
+          clientId: googleClientID,
           scope
         })
         .then(() => {
           this.GoogleAuth = gapi.auth2.getAuthInstance();
-
           this.GoogleAuth.isSignedIn.listen(this.updateSigninStatus);
 
           const user = this.GoogleAuth.currentUser.get();
@@ -104,7 +104,7 @@ export default {
     twws() {
       hello.init(
         {
-          twitter: "SV1vE3rmhNj2aYBMMloNlsXqu"
+          twitter: twitterClientID
         },
         {
           scope: "email",
