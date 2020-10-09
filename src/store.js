@@ -6,7 +6,7 @@ import RequestService from "@/js/RequestService";
 
 import env from "@/js/env.js";
 
-import getWeb3 from "@/util/getWeb3";
+//import getWeb3 from "@/util/getWeb3";
 
 Vue.use(Vuex);
 
@@ -131,20 +131,20 @@ export default new Vuex.Store({
       commit("setIsInjected", payload.injectedWeb3);
       commit("setWeb3Instance", payload.web3);
     },
-    registerWeb3({ commit, dispatch }) {
+    registerWeb3(/*{ commit, dispatch }*/) {
       console.log("registerWeb3 Action being executed");
-      getWeb3
-        .then(result => {
-          console.log("committing result to registerWeb3Instance mutation");
-          console.log(result.coinbase);
-          commit("setMyWalletAddress", result.coinbase);
-          //commit('registerWeb3Instance', result)
-          dispatch("registerWeb3Instance2", result);
-          console.log(result);
-        })
-        .catch(e => {
-          console.log("error in action registerWeb3", e);
-        });
+      // getWeb3
+      //   .then(result => {
+      //     console.log("committing result to registerWeb3Instance mutation");
+      //     console.log(result.coinbase);
+      //     commit("setMyWalletAddress", result.coinbase);
+      //     //commit('registerWeb3Instance', result)
+      //     dispatch("registerWeb3Instance2", result);
+      //     console.log(result);
+      //   })
+      //   .catch(e => {
+      //     console.log("error in action registerWeb3", e);
+      //   });
     },
     async update({ state }, model) {
       let response = await RequestService.update(model, state);

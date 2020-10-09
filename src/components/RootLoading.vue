@@ -19,6 +19,11 @@ var GoogleAuth;
 const scope = "profile email";
 const googleClientID = process.env.VUE_APP_GOOGLE_ID;
 const twitterClientID = process.env.VUE_APP_TWITTER_API_KEY;
+// window.location.href returns the href (URL) of the current page
+// window.location.hostname returns the domain name of the web host
+// window.location.pathname returns the path and filename of the current page
+// window.location.protocol
+const twitterCallback = `http://peerkatlocal.live:8080/login`;
 import OnBoarding from "@/components/OnBoarding.vue";
 import hello from "hellojs/dist/hello.all.js";
 const getPosition = options => {
@@ -42,7 +47,8 @@ export default {
         id: profile.getId(),
         name: profile.getName(),
         email: profile.getEmail(),
-        avatar: profile.getImageUrl()
+        avatar: profile.getImageUrl(),
+        location: ""
       };
       await this.$store.dispatch("setUser", basicUser);
       this.$emit("push-page", OnBoarding);
@@ -108,7 +114,7 @@ export default {
         },
         {
           scope: "email",
-          redirect_uri: "http://peerkatlocal.live:8080/login"
+          redirect_uri: twitterCallback
         }
       );
     },

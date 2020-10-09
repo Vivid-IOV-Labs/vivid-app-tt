@@ -18,11 +18,13 @@
       <v-ons-card v-if="profile">
         <img class="profile__avatar" :src="profile.avatar" />
         <div class="title text-center">
-          {{ profile.name }}
+          <h2>
+            {{ profile.name }} <small>{{ profile.email }}</small>
+          </h2>
         </div>
         <div class="content">
           <v-ons-list class="profile__details">
-            <v-ons-list-item>
+            <v-ons-list-item v-if="profile.location">
               <span class="left">Location</span>
               <span class="right">{{ profile.location }}</span>
             </v-ons-list-item>
