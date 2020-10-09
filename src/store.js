@@ -98,18 +98,18 @@ export default new Vuex.Store({
     async setUser({ commit, state }, user) {
       const userID = user.name.toLowerCase().replace(/\s/g, "");
       try {
-        const { message } = await axios.get(`${state.baseURL}/payid/user`, {
+        const { message } = await axios.get(`${state.baseURL}payid/user`, {
           params: { userID }
         });
         commit("setPayIdUserName", message);
       } catch (getpayiderr) {
         console.log(getpayiderr);
         try {
-          await axios.post(`${state.baseURL}/payid/create`, {
+          await axios.post(`${state.baseURL}payid/create`, {
             domain: "payid.peerkat.live",
             userID
           });
-          const { message } = await axios.get(`${state.baseURL}/payid/user`, {
+          const { message } = await axios.get(`${state.baseURL}payid/user`, {
             params: { userID }
           });
           commit("setPayIdUserName", message);
