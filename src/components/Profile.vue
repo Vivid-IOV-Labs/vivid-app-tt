@@ -40,7 +40,7 @@
           <v-ons-list style="padding:1rem; border:solid 1px ">
             <v-ons-list-item>
               <span class="left">PayId</span>
-              <span class="right">#tag, #tag, #tag</span>
+              <span class="right">{{ payid }}</span>
             </v-ons-list-item>
             <v-ons-list-item>
               <span class="left">Peerkat</span>
@@ -88,7 +88,8 @@ export default {
   name: "Profile",
   computed: {
     ...mapGetters({
-      profile: "getUser"
+      profile: "getUser",
+      payid: "getPayIdUsername"
     })
   },
   methods: {

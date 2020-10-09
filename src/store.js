@@ -3,7 +3,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 // import createPersistedState from 'vuex-persistedstate'
 import RequestService from "@/js/RequestService";
-
+import axios from "axios";
 import env from "@/js/env.js";
 
 //import getWeb3 from "@/util/getWeb3";
@@ -24,6 +24,8 @@ export default new Vuex.Store({
     selectedPin: null,
     streamerWalletAddress: null,
     myPosition: null,
+    user: null,
+    payidusername: null,
     web3: {
       isInjected: false,
       web3Instance: null,
@@ -70,6 +72,9 @@ export default new Vuex.Store({
     },
     setUser(state, user) {
       state.user = user;
+    },
+    setPayIdUserName(state, payidusername) {
+      state.payidusername = payidusername;
     }
   },
   getters: {
@@ -80,13 +85,39 @@ export default new Vuex.Store({
     getStreamerWalletAddress: state => state.streamerWalletAddress,
     searchLocation: state => state.searchLocation,
     getPosition: state => state.myPosition,
-    getUser: state => state.user
+    getUser: state => state.user,
+    getPayIdUsername: state => state.payidusername
   },
   actions: {
     setPosition({ commit }, position) {
       commit("setPosition", position);
     },
-    setUser({ commit }, user) {
+    setPayIdUserName({ commit }, payidusername) {
+      commit("setPayIdUserName", payidusername);
+    },
+    async setUser({ commit, state }, user) {
+      const userID = user.name.toLowerCase().replace(/\s/g, "");
+      try {
+        const { message } = await axios.get(`${state.baseURL}/payid/user`, {
+          params: { userID }
+        });
+        commit("setPayIdUserName", message);
+      } catch (getpayiderr) {
+        console.log(getpayiderr);
+        try {
+          await axios.post(`${state.baseURL}/payid/create`, {
+            domain: "payid.peerkat.live",
+            userID
+          });
+          const { message } = await axios.get(`${state.baseURL}/payid/user`, {
+            params: { userID }
+          });
+          commit("setPayIdUserName", message);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
       commit("setUser", user);
     },
     newSearchLocation({ state }, location) {
