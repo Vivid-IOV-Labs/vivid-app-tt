@@ -19,11 +19,12 @@ var GoogleAuth;
 const scope = "profile email";
 const googleClientID = process.env.VUE_APP_GOOGLE_ID;
 const twitterClientID = process.env.VUE_APP_TWITTER_API_KEY;
+const appUrl = process.env.VUE_APP_APP_URL;
 // window.location.href returns the href (URL) of the current page
 // window.location.hostname returns the domain name of the web host
 // window.location.pathname returns the path and filename of the current page
 // window.location.protocol
-const twitterCallback = `http://peerkatlocal.live:8080/login`;
+const twitterCallback = `${appUrl}/login`;
 import OnBoarding from "@/components/OnBoarding.vue";
 import hello from "hellojs/dist/hello.all.js";
 const getPosition = options => {
