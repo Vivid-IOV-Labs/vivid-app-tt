@@ -19,6 +19,29 @@
         v-if="isLoading"
         indeterminate
       ></v-ons-progress-circular>
+      <v-ons-bottom-toolbar>
+ 
+<div class="text-center" style="background: #000;">
+  <a
+          href="https://twitter.com/PeerkatLive"
+          target="_blank"
+          class="btn btn--default"
+          style="color:white; background: #000;"
+          
+        >
+          Follow us <v-ons-icon class="btn__icon" icon="fa-twitter" style="color:white;"></v-ons-icon>
+        </a>
+        <a
+          href="https://t.me/joinchat/M90RPBklSbAkMzfLl02Qcw"
+          target="_blank"
+          class="btn btn--default"
+          style="color:white; background: #000;"
+        >
+        Chat here
+          <v-ons-icon class="btn__icon" icon="fa-telegram" style="color:white; "></v-ons-icon>
+        </a>
+  </div>
+</v-ons-bottom-toolbar>
     </div>
   </v-ons-page>
 </template>
