@@ -5,7 +5,7 @@
       <h1 class="loading-page__title">PEERKAT</h1>
       <v-ons-button
         :disabled="isLoading"
-        @click="handleAuthClick"
+        id="google-auth"
         class="btn btn--login"
         >Sign In <v-ons-icon icon="fa-google"></v-ons-icon
       ></v-ons-button>
@@ -20,35 +20,41 @@
         indeterminate
       ></v-ons-progress-circular>
       <v-ons-bottom-toolbar>
- 
-<div class="text-center" style="background: #000;">
-  <a
-          href="https://twitter.com/PeerkatLive"
-          target="_blank"
-          class="btn btn--default"
-          style="color:white; background: #000;"
-          
-        >
-          Follow us <v-ons-icon class="btn__icon" icon="fa-twitter" style="color:white;"></v-ons-icon>
-        </a>
-        <a
-          href="https://t.me/joinchat/M90RPBklSbAkMzfLl02Qcw"
-          target="_blank"
-          class="btn btn--default"
-          style="color:white; background: #000;"
-        >
-        Chat here
-          <v-ons-icon class="btn__icon" icon="fa-telegram" style="color:white; "></v-ons-icon>
-        </a>
-  </div>
-</v-ons-bottom-toolbar>
+        <div class="text-center" style="background: #000;">
+          <a
+            href="https://twitter.com/PeerkatLive"
+            target="_blank"
+            class="btn btn--default"
+            style="color:white; background: #000;"
+          >
+            Follow us
+            <v-ons-icon
+              class="btn__icon"
+              icon="fa-twitter"
+              style="color:white;"
+            ></v-ons-icon>
+          </a>
+          <a
+            href="https://t.me/joinchat/M90RPBklSbAkMzfLl02Qcw"
+            target="_blank"
+            class="btn btn--default"
+            style="color:white; background: #000;"
+          >
+            Chat here
+            <v-ons-icon
+              class="btn__icon"
+              icon="fa-telegram"
+              style="color:white; "
+            ></v-ons-icon>
+          </a>
+        </div>
+      </v-ons-bottom-toolbar>
     </div>
   </v-ons-page>
 </template>
 
 <script>
 /* eslint-disable no-undef */
-var GoogleAuth;
 const scope = "profile email";
 const googleClientID = process.env.VUE_APP_GOOGLE_ID;
 const twitterClientID = process.env.VUE_APP_TWITTER_API_KEY;
@@ -66,14 +72,13 @@ export default {
   name: "RootLoading",
   data() {
     return {
-      GoogleAuth,
       scope,
       googleClientID,
       isLoading: false
     };
   },
   methods: {
-    async onSignIn(user) {
+    async createUserFromGoogle(user) {
       const profile = user.getBasicProfile();
       const basicUser = {
         id: profile.getId(),
@@ -100,53 +105,30 @@ export default {
         console.error(err.message);
       }
     },
-    handleClientLoad() {
-      gapi.load("client:auth2", this.initClient);
-    },
-    initClient() {
-      gapi.client
-        .init({
-          clientId: googleClientID,
-          scope
-        })
-        .then(() => {
-          this.isLoading = false;
-
-          this.GoogleAuth = gapi.auth2.getAuthInstance();
-          this.GoogleAuth.isSignedIn.listen(this.updateSigninStatus);
-
-          const user = this.GoogleAuth.currentUser.get();
-
-          if (this.GoogleAuth.isSignedIn.get()) {
-            this.onSignIn(user);
+    loadGoogleAuth() {
+      let auth2;
+      const attachSignin = element => {
+        auth2.attachClickHandler(
+          element,
+          {},
+          googleUser => {
+            this.createUserFromGoogle(googleUser);
+          },
+          error => {
+            console.log(JSON.stringify(error, undefined, 2));
           }
+        );
+      };
+      gapi.load("auth2", () => {
+        auth2 = gapi.auth2.init({
+          clientId: googleClientID,
+          scope,
+          cookiepolicy: "single_host_origin"
         });
+        attachSignin(document.getElementById("google-auth"));
+      });
     },
-    handleAuthClick() {
-      if (this.GoogleAuth.isSignedIn.get()) {
-        this.GoogleAuth.signOut();
-      } else {
-        this.GoogleAuth.signIn();
-      }
-    },
-    revokeAccess() {
-      this.GoogleAuth.disconnect();
-    },
-    setSigninStatus() {
-      var user = this.GoogleAuth.currentUser.get();
-      var isAuthorized = user.hasGrantedScopes(scope);
-      if (isAuthorized) {
-        this.isLoading = true;
-
-        this.onSignIn(user);
-      } else {
-        console.log("sign out");
-      }
-    },
-    updateSigninStatus() {
-      this.setSigninStatus();
-    },
-    twws() {
+    loadTwitterAuth() {
       hello.init(
         {
           twitter: twitterClientID
@@ -188,9 +170,9 @@ export default {
     }
   },
   async mounted() {
-    this.twws();
+    this.loadTwitterAuth();
+    this.loadGoogleAuth();
     await this.getLocation();
-    window.addEventListener("google-loaded", this.handleClientLoad);
   }
 };
 </script>

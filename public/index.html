@@ -4,10 +4,6 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <meta
-      name="google-signin-client_id"
-      content="671634252961-9l2f1t8cle49jqt9flo50ocq397r0tt9.apps.googleusercontent.com"
-    />
     <!-- <meta name="viewport" content="width=device-width,initial-scale=1.0" /> -->
     <meta
       name="viewport"
@@ -33,17 +29,12 @@
           window.location.hostname !== "127.0.0.1" &&
           window.location.hostname !== "localhost"
         ) {
-          //window.location.href = "https://peerkat.live";
+          window.location.href = "https://peerkat.live";
         }
       }
     </script>
-    <script type="text/javascript">
-      function triggerGoogleLoaded() {
-        window.dispatchEvent(new Event("google-loaded"));
-      }
-    </script>
     <script
-      src="https://apis.google.com/js/platform.js?onload=triggerGoogleLoaded"
+      src="https://apis.google.com/js/platform.js"
       async
       defer
     ></script>

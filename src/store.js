@@ -101,7 +101,7 @@ export default new Vuex.Store({
       commit("setPayIdUserName", payidusername);
     },
     async createPayidUser({ commit, state }, userID) {
-      console.log(userID)
+      console.log(userID);
       try {
         const payidCreate = await axios.post(`${state.baseURL}payid/create`, {
           domain: "payid.peerkat.live",
@@ -125,24 +125,25 @@ export default new Vuex.Store({
       commit("setPayIdUserID", userID);
 
       try {
-        const payidUserResponse = await axios.get(`${state.baseURL}payid/user`, {
-          params: { userID }
-        });
+        const payidUserResponse = await axios.get(
+          `${state.baseURL}payid/user`,
+          {
+            params: { userID }
+          }
+        );
 
-        console.log(payidUserResponse.data.success)
+        console.log(payidUserResponse.data.success);
 
         if (payidUserResponse) {
           //commit("setPayIdUserName", `${user}$payid.peerkat.live`);
           if (payidUserResponse.data.success) {
             commit("setPayIdUserName", payidUserResponse.data.message);
           } else {
-            dispatch('createPayidUser', userID)
+            dispatch("createPayidUser", userID);
           }
         }
-
       } catch (error) {
         console.log(error);
-
       }
 
       commit("setUser", user);

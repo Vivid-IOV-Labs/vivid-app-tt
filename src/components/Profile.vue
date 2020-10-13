@@ -37,7 +37,11 @@
               <span class="right">#tag, #tag, #tag</span>
             </v-ons-list-item>
             <v-ons-list-item>
-              <v-ons-button class="btn btn--profile" @click="_createPayidUser(userid)">Get Payid </v-ons-button>
+              <v-ons-button
+                class="btn btn--profile"
+                @click="_createPayidUser(userid)"
+                >Get Payid
+              </v-ons-button>
             </v-ons-list-item>
           </v-ons-list>
           <v-ons-list style="padding:1rem; border:solid 1px ">
