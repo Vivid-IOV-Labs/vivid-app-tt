@@ -13,87 +13,6 @@
       <div class="center">
         <span class="onsPageTitleStyle">Trending</span>
       </div>
-      <div class="right">
-        <v-ons-toolbar-button @click="showPopover">
-          <v-ons-icon
-            style="color:#fff"
-            class="btn__icon"
-            icon="fa-bars"
-          ></v-ons-icon>
-        </v-ons-toolbar-button>
-        <v-ons-popover
-          cancelable
-          :visible.sync="popoverVisible"
-          :target="popoverTarget"
-          :direction="popoverDirection"
-          :cover-target="coverTarget"
-          style="z-index: 99999; text-align:center"
-        >
-          <h6 class="text-center">Peerkat <small>BETA</small></h6>
-          <v-ons-list class="text-center">
-            <v-ons-list-item class="text-center" modifier="tappable"
-              ><a class="menu__link" href="#" @click="toOnboarding">
-                User Guide
-              </a>
-            </v-ons-list-item>
-            <v-ons-list-item class="text-center" modifier="tappable"
-              ><a
-                class="menu__link"
-                href="https://www.vividiov.com/terms"
-                target="_blank"
-              >
-                User Terms
-              </a>
-            </v-ons-list-item>
-            <v-ons-list-item class="text-center" modifier="tappable"
-              ><a
-                class="menu__link"
-                href="https://www.vividiov.com/privacy"
-                target="_blank"
-              >
-                Privacy Policy
-              </a></v-ons-list-item
-            >
-            <v-ons-list-item class="text-center" modifier="tappable"
-              ><a
-                class="menu__link"
-                href="mailto:info@vividiov.com?subject=Report Bug"
-                target="_blank"
-              >
-                Report Bug
-              </a></v-ons-list-item
-            >
-            <v-ons-list-item class="text-center" modifier="tappable"
-              ><a
-                class="menu__link"
-                href="mailto:info@vividiov.com?subject=Customer Support"
-                target="_blank"
-              >
-                Customer Support
-              </a></v-ons-list-item
-            >
-          </v-ons-list>
-          <div class="flex justify-center">
-            <a
-              href="https://twitter.com/PeerkatLive"
-              target="_blank"
-              class="btn btn--default"
-            >
-              <v-ons-icon class="btn__icon" icon="fa-twitter"></v-ons-icon>
-            </a>
-            <a
-              href="https://t.me/joinchat/M90RPBklSbAkMzfLl02Qcw"
-              target="_blank"
-              class="btn btn--default"
-            >
-              <v-ons-icon class="btn__icon" icon="fa-telegram"></v-ons-icon>
-            </a>
-          </div>
-          <small class="text-center"
-            >© 2020 Peerkat. All rights reserved.
-          </small>
-        </v-ons-popover>
-      </div>
     </v-ons-toolbar>
     <div class="streamer__container">
       <div class="streamer__controls streamer__controls--top">
@@ -101,10 +20,25 @@
           <v-ons-icon class="btn__icon" icon="fa-eye"></v-ons-icon>
           <span>101</span>
         </v-ons-button>
-
-        <v-ons-button class="btn btn--default ml-auto">
-          <v-ons-icon class="btn__icon" icon="fa-volume-mute"></v-ons-icon>
-        </v-ons-button>
+        <div class="ml-auto flex-coulumn">
+          <v-ons-button class="btn btn--default mb-4">
+            <v-ons-icon class="btn__icon" icon="fa-volume-mute"></v-ons-icon>
+          </v-ons-button>
+          <v-ons-button @click="reportConfirm = true" class="btn btn--default ">
+            <v-ons-icon class="btn__icon" icon="fa-flag"></v-ons-icon>
+          </v-ons-button>
+          <v-ons-alert-dialog
+            modifier="rowfooter"
+            :title="'Report User'"
+            :footer="{
+              Cancel: () => (reportConfirm = false),
+              Ok: reportUser
+            }"
+            :visible.sync="reportConfirm"
+          >
+            Do you want to report this live?
+          </v-ons-alert-dialog>
+        </div>
       </div>
       <div
         id="video_info"
@@ -150,7 +84,7 @@ import BaseVideo from "@/components/BaseVideo.vue";
 import Web3 from "web3";
 import { address, ABI } from "@/util/constants/tippingContract";
 
-import { mapMutations, mapGetters } from "vuex";
+import { mapMutations, mapGetters, mapActions } from "vuex";
 
 import "webrtc-adapter";
 
@@ -198,7 +132,8 @@ export default {
       metaTag: null,
       config: null,
       nearTotalTickerAmount: 0,
-      defaultTipAmount: 1.0
+      defaultTipAmount: 1.0,
+      reportConfirm: false
     };
   },
   methods: {
@@ -209,6 +144,9 @@ export default {
     ...mapGetters({
       isInBuiltRequestDemo: "isInBuiltRequestDemo",
       _getStreamerWalletAddress: "getStreamerWalletAddress"
+    }),
+    ...mapActions({
+      _addFlag: "addFlag"
     }),
     pauseViewingStream() {},
     playViewingStream() {
@@ -241,6 +179,14 @@ export default {
     },
     endViewingStream() {
       this.$emit("back-page");
+    },
+    async reportUser() {
+      const body = {
+        walletAddress: this._getStreamerWalletAddress(),
+        openLocationCode: this.streamId
+      };
+      await this._addFlag(body);
+      this.reportConfirm = false;
     },
     async tipStreamer() {
       let amount = 1;

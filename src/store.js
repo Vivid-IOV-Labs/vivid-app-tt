@@ -3,6 +3,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 // import createPersistedState from 'vuex-persistedstate'
 import RequestService from "@/js/RequestService";
+import FlagService from "@/js/FlagService";
 
 import env from "@/js/env.js";
 
@@ -116,6 +117,14 @@ export default new Vuex.Store({
         console.log(response);
       }
       return response;
+    },
+    async addFlag({ state }, payload) {
+      try {
+        const response = await FlagService.add(payload, state);
+        return response;
+      } catch (err) {
+        console.log(err);
+      }
     },
     registerWeb3Instance2({ commit }, payload) {
       commit("setCoinbase", payload.coinbase);
