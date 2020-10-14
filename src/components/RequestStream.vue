@@ -157,7 +157,6 @@ export default {
       templateGoLive: null,
       templateLivepeer: null,
       current_request_list: null,
-      request_raw_data: null,
       isRequestDialog: false,
       isGoLiveDialog: false,
       isJoinDialog: false,
@@ -216,14 +215,9 @@ export default {
       _getStreamerWalletAddress: "getStreamerWalletAddress"
     }),
     addMarkersLoop(markers) {
-      //Loop through the markers array
-      // eslint-disable-next-line no-debugger
       for (var i = 0; i < markers.length; i++) {
-        // var lon = markers[i][0];
-        // var lat = markers[i][1];
-        //var popupText = markers[i][2];
-        var lon = markers[i].location.feature.geometry.y;
-        var lat = markers[i].location.feature.geometry.x;
+        var lon = markers[i].location.y;
+        var lat = markers[i].location.x;
         const marker = markers[i];
         const pin = L.marker([lon, lat], {
           icon: marker.streamer.live ? this.markerUsers : this.markerNew
@@ -358,21 +352,12 @@ export default {
       this.$emit("push-broadcast");
     },
     geoSearchEvent_golive(_data) {
-      // Encode a location, default accuracy: var code = openLocationCode.encode(47.365590, 8.524997); console.log(code);
-      // Encode a location using one stage of additional refinement:
-      //#encode(latitude, longitude, code_length = PAIR_CODE_LENGTH) ⇒ String
-      // var code = openLocationCode.encode(
-      //   _data.location.x,
-      //   _data.location.y,
-      //   11
-      // );
       this.requestModel.mapPin = _data.mapPin;
 
       this.requestModel.mapPin.twitterHashTags = _data.mapPin.twitterHashTags;
 
-      this.requestModel.location = _data.location.raw;
+      this.requestModel.location = _data.location;
       this.requestModel.openLocationCode = _data.openLocationCode;
-      this.request_raw_data = _data.location.raw;
 
       this.requestModel.user.walletAddress = _data.user.walletAddress;
       this.requestModel.streamer.walletAddress = _data.user.walletAddress;
@@ -392,13 +377,13 @@ export default {
         _data.location.y,
         11
       );
+
       this.requestModel.mapPin = _data.mapPin;
 
-      this.requestModel.location = _data.location.raw;
+      this.requestModel.location = _data.location;
       this.requestModel.openLocationCode = code_transforms.replace_plus_symbol(
         code
       );
-      this.request_raw_data = _data.location.raw;
 
       this._create(JSON.parse(JSON.stringify(this.requestModel)));
 
@@ -577,10 +562,9 @@ export default {
         for (const property in this.map._layers) {
           if (this.map._layers[property]._latlng) {
             if (
-              resData.data.location.feature.geometry.x ==
+              resData.data.location.x ==
                 this.map._layers[property]._latlng.lng &&
-              resData.data.location.feature.geometry.y ==
-                this.map._layers[property]._latlng.lat
+              resData.data.location.y == this.map._layers[property]._latlng.lat
             ) {
               //Create an array of map layer ids to delete
               arrrayOfLayerIDsToRemove.push(property);
