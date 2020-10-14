@@ -146,7 +146,11 @@ export default {
           live: false,
           walletAddress: null
         },
-        openLocationCode: null
+        openLocationCode: null,
+        statistics: {
+          totalNumberOfViewers: 0,
+          totalNumberOfFlags: 0
+        }
       }
     };
   },
