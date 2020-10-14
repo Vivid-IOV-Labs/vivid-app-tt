@@ -417,7 +417,7 @@ export default {
           .getLatLng()
           .distanceTo(myPosition.getLatLng())
           .toFixed(0) / 1000;
-      const rangeInKm = 1.6;
+      const rangeInKm = 25;
       return distanceInKm > rangeInKm;
     }
   },
