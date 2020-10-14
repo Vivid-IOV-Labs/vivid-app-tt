@@ -1,29 +1,6 @@
 <template>
   <v-ons-page id="requestStreamPage">
-    <!-- <my-elaborate-popup-content v-show="false" ref="foo"></my-elaborate-popup-content> -->
-    <!-- <v-ons-list>
-        <v-ons-list-item id="optionsPanel_section" expandable :expanded.sync="optionsPanelView">
-            <span id="optionsPanel_section_title">requester options</span>
-            <div class="expandable-content">
-                <div id="options_panel">
-                    <v-ons-row>
-                        <v-ons-col>
-                            <span class="optionsPanelRowTitle">Tags:</span>
-                            <span class="badge badge-pill badge-primary optionsPanelRow">Street View</span>
-                        </v-ons-col>
-                    </v-ons-row>
-                    <v-ons-row>
-                        <v-ons-col>
-                            <span class="optionsPanelRowTitle">Details:</span>
-                            <span class="optionsPanelRow">Side view of santa parade</span>
-                        </v-ons-col>
-                    </v-ons-row>
-                </div>
-            </div>
-        </v-ons-list-item>
-    </v-ons-list>-->
     <div id="map-container">
-      <!-- <img id="vivid_logo" src="@/logo/Vivid_logo design2020-05.png" /> -->
       <div id="map" class="map"></div>
       <section id="nav_buttons">
         <div class="flex">
@@ -102,7 +79,6 @@ if (socketIOClient.sails) {
   io = socketIOClient;
 } else {
   io = sailsIOClient(socketIOClient);
-  //io.sails.url = 'http://localhost:1336'
   io.sails.url = env.web_service_url;
 }
 
@@ -110,10 +86,6 @@ import OpenLocationCodeJS from "open-location-code";
 let OpenLocationCode = OpenLocationCodeJS.OpenLocationCode;
 
 var openLocationCode = new OpenLocationCode();
-
-// import { GeoSearchControl, EsriProvider } from "leaflet-geosearch";
-
-// const myProvider = new EsriProvider();
 
 import { mapMutations, mapActions, mapGetters } from "vuex";
 import RequestDialog from "@/components/dialogs/RequestDialog.vue";
@@ -423,37 +395,11 @@ export default {
     },
     initMap() {
       this.map = L.map("map").setView([51.520748, -0.08504], 15);
-
-      // new GeoSearchControl({
-      //   provider: myProvider, // required
-      //   showMarker: true, // optional: true|false  - default true
-      //   showPopup: false, // optional: true|false  - default false
-      //   marker: {
-      //     // optional: L.Marker    - default L.Icon.Default
-      //     icon: new L.Icon.Default(),
-      //     draggable: false
-      //   },
-      //   // popupFormat: ({
-      //   //     query,
-      //   //     result
-      //   // }) => result.label, // optional: function    - default returns result label
-      //   maxMarkers: 1, // optional: number      - default 1
-      //   retainZoomLevel: false, // optional: true|false  - default false
-      //   animateZoom: true, // optional: true|false  - default true
-      //   autoClose: true, // optional: true|false  - default false
-      //   searchLabel: "Enter address", // optional: string      - default 'Enter address'
-      //   keepResult: false
-      // }).addTo(this.map);
-
-      // this.map.on("geosearch/showlocation", this.geoSearchEvent);
-
-      //  document.getElementById("optionsPanel_section").showExpansion();
     },
     initLayers() {
       this.tileLayer = L.tileLayer(
         "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWEwNnJpaSIsImEiOiJjazZkeTU2NnAxbWF4M2xxajN6NWIyb2l6In0.4iTjEpS8cIa_Um3zhE9keQ",
         {
-          //attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
           attribution: false,
           maxZoom: 36,
           id: "mapbox/streets-v11"
@@ -480,25 +426,7 @@ export default {
     this.$store.dispatch("registerWeb3");
   },
   async mounted() {
-    // io.socket.on("requests", msg => {
-    //   if (msg.data.user.walletAddress !== this._myWalletAddress()) {
-    //     if (msg.data && msg.data.length) {
-    //       this.addMarkersLoop([msg.data]);
-    //     }
-    //   }
-    // });
-
-    // io.socket.get("/requests", resData => {
-    //   if (resData && resData.length) {
-    //     this.joinMarkers = resData.filter(markers => markers.streamer.live);
-    //     this.addMarkersLoop(resData);
-    //   }
-    // });
-
     io.socket.on("requests", msg => {
-      //if (msg.data.user.walletAddress !== this._myWalletAddress()) {
-      //if (msg.data && msg.data.length) {
-      // eslint-disable-next-line no-debugger
       if (msg.data) {
         this.addMarkersLoop([msg.data]);
 
@@ -543,7 +471,6 @@ export default {
           }
         }
       }
-      //}
     });
 
     io.socket.get("/requests", resData => {
