@@ -228,18 +228,15 @@ export default {
             }
           })
           .on("click", e => {
-            var locationcode = openLocationCode.encode(
+            const locationcode = this.createOpenLocationCode(
               e.latlng.lng,
-              e.latlng.lat,
-              11
+              e.latlng.lat
             );
 
-            locationcode = code_transforms.replace_plus_symbol(locationcode);
-
-            let obj = this._getLocalCopyOfRequestPins().find(
-              obj => obj.openLocationCode === locationcode
-            );
-
+            const localPins = this._getLocalCopyOfRequestPins();
+            let obj = localPins.find(obj => {
+              return obj.openLocationCode === locationcode;
+            });
             this._setSelectedPin(obj);
           });
         const opacity = isDisabled ? 0.6 : 1;
@@ -278,7 +275,6 @@ export default {
     },
     fromSupply() {
       let selectedPin = this._getSelectedPin();
-
       selectedPin.streamer.walletAddress = this._myWalletAddress();
 
       this._setSelectedPin(selectedPin);
@@ -343,19 +339,15 @@ export default {
       // Encode a location, default accuracy: var code = openLocationCode.encode(47.365590, 8.524997); console.log(code);
       // Encode a location using one stage of additional refinement:
       //#encode(latitude, longitude, code_length = PAIR_CODE_LENGTH) ⇒ String
-      var code = openLocationCode.encode(
+      const code = this.createOpenLocationCode(
         _data.location.x,
-        _data.location.y,
-        11
+        _data.location.y
       );
 
       this.requestModel.mapPin = _data.mapPin;
 
       this.requestModel.location = _data.location;
-      this.requestModel.openLocationCode = code_transforms.replace_plus_symbol(
-        code
-      );
-
+      this.requestModel.openLocationCode = code;
       this._create(JSON.parse(JSON.stringify(this.requestModel)));
 
       this.addMarkersLoop([this.requestModel]);
@@ -364,6 +356,11 @@ export default {
     },
     geolocateMe() {
       this.map.locate();
+    },
+    createOpenLocationCode(lon, lat) {
+      const code = openLocationCode.encode(Number(lon), Number(lat), 11);
+      const formatted = code_transforms.replace_plus_symbol(code);
+      return formatted;
     },
     onLocationFound(e) {
       var radius = e.accuracy;
@@ -430,7 +427,6 @@ export default {
         this.addMarkersLoop([msg.data]);
 
         var localCopyOfRequestPins = this._getLocalCopyOfRequestPins();
-
         //If the local pins are present then loop through them and update the relevant record.
         if (localCopyOfRequestPins) {
           localCopyOfRequestPins.forEach((element, index) => {
@@ -472,11 +468,11 @@ export default {
       }
     });
 
-    io.socket.get("/requests", resData => {
+    io.socket.get("/requests", async resData => {
       if (resData && resData.length) {
         this.joinMarkers = resData.filter(markers => markers.streamer.live);
+        await this._setLocalCopyOfRequestPins(resData);
         this.addMarkersLoop(resData);
-        this._setLocalCopyOfRequestPins(resData);
       }
     });
 
