@@ -195,13 +195,12 @@ export default {
           icon: marker.streamer.live ? this.markerUsers : this.markerNew
         });
         const isDisabled = !marker.streamer.live && this.isDisabled(pin);
-        const disabled = isDisabled ? "disabled" : "none";
         pin
           .addTo(this.map)
           .bindPopup(
             marker.streamer.live
               ? this.templateJoin(marker)
-              : this.templateGoLive(marker, disabled),
+              : this.templateGoLive(marker, isDisabled),
             {
               maxWidth: 1060
             }
@@ -531,7 +530,9 @@ export default {
       </div>
       `;
 
-    this.templateGoLive = (requestModel, isDisabled) => `
+    this.templateGoLive = (requestModel, isDisabled) => {
+      const disabledAttr = isDisabled ? `disabled = "true"` : "";
+      return `
     <div>
       <h3>${requestModel.mapPin.details}</h3>
       <p>${requestModel.mapPin.twitterHashTags
@@ -540,9 +541,10 @@ export default {
           return acc;
         }, "")
         .slice(1, -1)}</p>
-      <button class="btn btn--golive" disabled="${isDisabled}" id="button-golive" type="button">Go Live</button>
+      <button class="btn btn--golive" ${disabledAttr} id="button-golive" type="button">Go Live</button>
     </div>
     `;
+    };
     this.templateLivepeer = () => `
     <div>
       <h3>Livepeer Test</h3>
