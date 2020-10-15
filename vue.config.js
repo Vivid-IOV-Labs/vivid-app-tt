@@ -1,7 +1,4 @@
 module.exports = {
-  devServer: {
-    disableHostCheck: true
-  },
   publicPath:
     process.env.HEROKU_DEPLOY === "true" ||
     process.env.NODE_ENV === "development"
