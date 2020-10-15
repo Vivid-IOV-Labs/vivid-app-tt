@@ -195,9 +195,12 @@ export default {
         var lat = markers[i].location.y;
         var lon = markers[i].location.x;
         const marker = markers[i];
-        const pin = L.marker([lon, lat], {
-          icon: marker.streamer.live ? this.markerUsers : this.markerNew
-        });
+        const pin = L.marker(
+          { lon, lat },
+          {
+            icon: marker.streamer.live ? this.markerUsers : this.markerNew
+          }
+        );
         const isDisabled = !marker.streamer.live && this.isDisabled(pin);
         pin
           .addTo(this.map)
@@ -408,9 +411,9 @@ export default {
     },
     isDisabled(pin) {
       const {
-        coords: { latitude, longitude }
+        coords: { latitude: lat, longitude: lon }
       } = this.myPosition;
-      const myPosition = L.marker([latitude, longitude]);
+      const myPosition = L.marker({ lon, lat });
 
       const distanceInKm =
         pin
@@ -634,17 +637,19 @@ export default {
       //var popupText = markers[i][2];
       var iconType = markers[i][3];
 
-      var markerLocation = new L.LatLng(lat, lon);
-      var marker = new L.Marker(markerLocation, {
-        icon:
-          iconType == "new" || iconType == "livepeer"
-            ? this.markerNew
-            : iconType == "join"
-            ? this.markerUsers
-            : iconType == "kfc"
-            ? this.markerKfc
-            : this.markerCarabao
-      });
+      var marker = L.marker(
+        { lon, lat },
+        {
+          icon:
+            iconType == "new" || iconType == "livepeer"
+              ? this.markerNew
+              : iconType == "join"
+              ? this.markerUsers
+              : iconType == "kfc"
+              ? this.markerKfc
+              : this.markerCarabao
+        }
+      );
       this.map.addLayer(marker);
       // marker
       //   //.bindPopup(popupText)
