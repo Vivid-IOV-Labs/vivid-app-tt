@@ -111,7 +111,11 @@
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { mapGetters } from "vuex";
 
-const myProvider = new OpenStreetMapProvider();
+const myProvider = new OpenStreetMapProvider({
+  params: {
+    email: "peerkatlive@gmail.com" // auth for large number of requests
+  }
+});
 export default {
   name: "RequestDialog",
   props: {
@@ -159,11 +163,11 @@ export default {
       this.$emit("input", false);
     },
     closeRequestDialog() {
-      if (this.requestModel.location) {
-        this.onClose(this.requestModel);
+      //if (this.requestModel.location) {
+      this.onClose(this.requestModel);
 
-        this.$emit("input", false);
-      }
+      this.$emit("input", false);
+      // }
     },
     onSelectAddress(address) {
       this.searchAddress = address.label;
