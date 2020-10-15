@@ -192,8 +192,8 @@ export default {
     }),
     addMarkersLoop(markers) {
       for (var i = 0; i < markers.length; i++) {
-        var lon = markers[i].location.y;
-        var lat = markers[i].location.x;
+        var lat = markers[i].location.y;
+        var lon = markers[i].location.x;
         const marker = markers[i];
         const pin = L.marker([lon, lat], {
           icon: marker.streamer.live ? this.markerUsers : this.markerNew

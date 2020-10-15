@@ -113,7 +113,7 @@ import { mapGetters } from "vuex";
 
 const myProvider = new OpenStreetMapProvider({
   params: {
-    email: "peerkatlive@gmail.com" // auth for large number of requests
+    email: "peerkatlive@gmail.com"
   }
 });
 export default {
