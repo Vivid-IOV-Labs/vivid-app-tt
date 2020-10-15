@@ -343,9 +343,10 @@ export default {
       // Encode a location, default accuracy: var code = openLocationCode.encode(47.365590, 8.524997); console.log(code);
       // Encode a location using one stage of additional refinement:
       //#encode(latitude, longitude, code_length = PAIR_CODE_LENGTH) ⇒ String
-      const code =
-        "64FHXHJM_FQH" ||
-        this.createOpenLocationCode(_data.location.x, _data.location.y);
+      const code = this.createOpenLocationCode(
+        _data.location.x,
+        _data.location.y
+      );
 
       this.requestModel.mapPin = _data.mapPin;
 

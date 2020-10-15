@@ -163,11 +163,11 @@ export default {
       this.$emit("input", false);
     },
     closeRequestDialog() {
-      //if (this.requestModel.location) {
-      this.onClose(this.requestModel);
+      if (this.requestModel.location) {
+        this.onClose(this.requestModel);
 
-      this.$emit("input", false);
-      // }
+        this.$emit("input", false);
+      }
     },
     onSelectAddress(address) {
       this.searchAddress = address.label;
