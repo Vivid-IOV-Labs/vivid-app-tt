@@ -45,7 +45,7 @@ export default {
   },
   created() {},
   async mounted() {
-    this.getLocation();
+    await this.getLocation();
     await delay(2000);
     this.$emit("push-page", OnBoarding);
   }
