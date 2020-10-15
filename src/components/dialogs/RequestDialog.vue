@@ -108,14 +108,10 @@
 </template>
 
 <script>
-import { OpenStreetMapProvider } from "leaflet-geosearch";
+import { EsriProvider } from "leaflet-geosearch";
 import { mapGetters } from "vuex";
 
-const myProvider = new OpenStreetMapProvider({
-  params: {
-    email: "peerkatlive@gmail.com"
-  }
-});
+const myProvider = new EsriProvider();
 export default {
   name: "RequestDialog",
   props: {
