@@ -5,7 +5,7 @@
       <v-ons-list-item style="display:flex; padding:1rem">
         <div class="flex-center">
           <div class="btn btn--large btn--request btn--fake">
-            <v-ons-icon class="btn__icon" icon="fa-flag"></v-ons-icon>
+            <v-ons-icon class="btn__icon" icon="fa-hand-paper-o"></v-ons-icon>
           </div>
         </div>
         <div class="flex-center">

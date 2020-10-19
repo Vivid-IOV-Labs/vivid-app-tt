@@ -101,7 +101,8 @@
             font-weight:550;"
         @click="closeRequestDialog"
       >
-        Confirm <v-ons-icon class="btn__icon" icon="fa-flag"></v-ons-icon>
+        Confirm
+        <v-ons-icon class="btn__icon" icon="fa-hand-paper-o"></v-ons-icon>
       </v-ons-button>
     </v-ons-page>
   </v-ons-dialog>

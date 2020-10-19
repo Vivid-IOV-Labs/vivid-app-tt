@@ -16,7 +16,7 @@
             <v-ons-icon class="btn__icon" icon="fa-users"></v-ons-icon>
           </v-ons-button>
           <v-ons-button class="btn btn--request" @click="showRequestDialog()">
-            <v-ons-icon class="btn__icon" icon="fa-flag"></v-ons-icon>
+            <v-ons-icon class="btn__icon" icon="fa-hand-paper-o"></v-ons-icon>
           </v-ons-button>
           <v-ons-button class="btn btn--golive" @click="showGoliveDialog()">
             <v-ons-icon class="btn__icon" icon="fa-video"></v-ons-icon>
