@@ -29,14 +29,14 @@
           </v-ons-button>
           <v-ons-alert-dialog
             modifier="rowfooter"
-            :title="'Report User'"
+            :title="'Report live stream'"
             :footer="{
               Cancel: () => (reportConfirm = false),
               Ok: reportUser
             }"
             :visible.sync="reportConfirm"
           >
-            Do you want to report this live?
+            Are you sure you want to report this live stream?
           </v-ons-alert-dialog>
         </div>
       </div>
