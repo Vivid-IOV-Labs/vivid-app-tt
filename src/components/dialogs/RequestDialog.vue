@@ -95,14 +95,16 @@
       <v-ons-button
         class="btn btn--request"
         style="width: 90%;
-            display: block;
             margin: 1rem auto;
             padding: 0.6rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight:550;"
         @click="closeRequestDialog"
       >
         Confirm
-        <v-ons-icon class="btn__icon" icon="fa-hand-paper-o"></v-ons-icon>
+        <base-icon name="request"></base-icon>
       </v-ons-button>
     </v-ons-page>
   </v-ons-dialog>
@@ -111,10 +113,14 @@
 <script>
 import { EsriProvider } from "leaflet-geosearch";
 import { mapGetters } from "vuex";
+import BaseIcon from "@/components/BaseIcon";
 
 const myProvider = new EsriProvider();
 export default {
   name: "RequestDialog",
+  components: {
+    BaseIcon
+  },
   props: {
     value: {
       type: Boolean,

@@ -42,10 +42,9 @@ export default {
   height: 100%;
   padding: 0.6em;
   position: relative;
+  margin: 0 0.4rem;
 }
 .icon__svg {
-  font-size: 0.6rem;
-  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
