@@ -5,7 +5,7 @@
       <v-ons-list-item style="display:flex; padding:1rem">
         <div class="flex-center">
           <div class="btn btn--large btn--request btn--fake">
-            <v-ons-icon class="btn__icon" icon="fa-hand-paper-o"></v-ons-icon>
+            <base-icon name="request"></base-icon>
           </div>
         </div>
         <div class="flex-center">
@@ -46,8 +46,12 @@
 </template>
 
 <script>
+import BaseIcon from "@/components/BaseIcon";
 export default {
-  name: "HowToRequest"
+  name: "HowToRequest",
+  components: {
+    BaseIcon
+  }
 };
 </script>
 

@@ -16,7 +16,7 @@
             <v-ons-icon class="btn__icon" icon="fa-users"></v-ons-icon>
           </v-ons-button>
           <v-ons-button class="btn btn--request" @click="showRequestDialog()">
-            <v-ons-icon class="btn__icon" icon="fa-hand-paper-o"></v-ons-icon>
+            <base-icon name="request"></base-icon>
           </v-ons-button>
           <v-ons-button class="btn btn--golive" @click="showGoliveDialog()">
             <v-ons-icon class="btn__icon" icon="fa-video"></v-ons-icon>
@@ -91,13 +91,15 @@ import { mapMutations, mapActions, mapGetters } from "vuex";
 import RequestDialog from "@/components/dialogs/RequestDialog.vue";
 import GoLiveDialog from "@/components/dialogs/GoLiveDialog.vue";
 import JoinDialog from "@/components/dialogs/JoinDialog.vue";
+import BaseIcon from "@/components/BaseIcon";
 
 export default {
   name: "requestStream",
   components: {
     RequestDialog,
     JoinDialog,
-    GoLiveDialog
+    GoLiveDialog,
+    BaseIcon
   },
   data() {
     return {
