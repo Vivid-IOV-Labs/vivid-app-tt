@@ -21,7 +21,7 @@
           />
           <img
             style="margin:0 auto; display:block;max-height:3rem"
-            src="../../assets/peerkat.png"
+            src="../../assets/peerkat.svg"
             alt
           />
         </div>

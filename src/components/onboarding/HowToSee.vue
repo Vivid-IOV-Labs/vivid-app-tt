@@ -16,7 +16,7 @@
         <div class="flex-center">
           <img
             style="margin:0 auto; display:block;max-height:4rem"
-            src="../../assets/peerkat.png"
+            src="../../assets/peerkat.svg"
             alt
           />
         </div>
