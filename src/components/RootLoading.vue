@@ -26,9 +26,6 @@ const getPosition = options => {
 export default {
   name: "RootLoading",
   methods: {
-    endOnBoarding() {
-      this.$emit("back-page");
-    },
     async getLocation() {
       const options = {
         timeout: 1000,

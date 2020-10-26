@@ -44,7 +44,7 @@
         modifier="rowfooter"
         :title="'This Live stream has been reported'"
         :footer="{
-          Ok: closeVideoStream
+          Ok: closeReportedStream
         }"
         :visible.sync="streamReported"
       >
@@ -66,6 +66,7 @@
 <script>
 import videojs from "video.js";
 import BaseVideo from "@/components/BaseVideo.vue";
+import Home from "@/components/Home.vue";
 
 import "webrtc-adapter";
 import $ from "jquery";
@@ -140,7 +141,7 @@ export default {
     closeReportedStream() {
       this.webRTCAdaptor.closeStream();
       this.webRTCAdaptor.closePeerConnection();
-      this.$emit("reset-home-page");
+      this.$emit("push-page", Home);
     },
     startPublishing() {
       this.streamId = this.streamNameBox;

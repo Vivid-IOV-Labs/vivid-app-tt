@@ -2,7 +2,7 @@
   <v-ons-navigator
     swipeable
     :page-stack="pageStack"
-    @push-page="pageStack.push($event)"
+    @push-page="onPushPage"
     @back-page="pageStack.pop()"
     @reset-home-page="
       pageStack.pop();
@@ -29,16 +29,25 @@ export default {
     return {
       pageStack: [RootLoading]
     };
+  },
+  methods: {
+    onPushPage(event) {
+      const indexInPageStack = this.pageStack.findIndex(
+        page => page.name == event.name
+      );
+      if (indexInPageStack > -1) {
+        // this.pageStack.splice(
+        //   this.pageStack.length,
+        //   0,
+        //   this.pageStack.splice(indexInPageStack, 1)[0]
+        // );
+        //clear the stack and reload everytime the view
+        this.pageStack = [];
+        this.pageStack.push(event);
+      } else {
+        this.pageStack.push(event);
+      }
+    }
   }
-  //   mounted() {
-  //     this.importAll(
-  //       require.context(
-  //         "../node_modules/leaflet-extra-markers/dist/img",
-  //         true,
-  //         /\.png$/
-  //       )
-  //     );
-  //   }
-  //,
 };
 </script>
