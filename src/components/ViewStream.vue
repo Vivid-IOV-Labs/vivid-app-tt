@@ -187,6 +187,7 @@ export default {
       };
       await this._addFlag(body);
       this.reportConfirm = false;
+      this.endViewingStream();
     },
     async tipStreamer() {
       let amount = 1;

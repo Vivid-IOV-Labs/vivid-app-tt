@@ -40,6 +40,16 @@
           <v-ons-icon class="btn__icon" icon="fa-pause"></v-ons-icon
         ></v-ons-button>
       </div>
+      <v-ons-alert-dialog
+        modifier="rowfooter"
+        :title="'This Live stream has been reported'"
+        :footer="{
+          Ok: closeVideoStream
+        }"
+        :visible.sync="streamReported"
+      >
+        Are you sure you want to report this live stream?
+      </v-ons-alert-dialog>
     </div>
     <v-ons-bottom-toolbar
       style="background-color: #1d1d1b !important;"
@@ -56,11 +66,23 @@
 <script>
 import videojs from "video.js";
 import BaseVideo from "@/components/BaseVideo.vue";
+
 import "webrtc-adapter";
 import $ from "jquery";
 
 import { WebRTCAdaptor } from "@/js/webrtc_adaptor.js";
+import socketIOClient from "socket.io-client";
+import sailsIOClient from "sails.io.js";
 
+import env from "@/js/env.js";
+let io;
+
+if (socketIOClient.sails) {
+  io = socketIOClient;
+} else {
+  io = sailsIOClient(socketIOClient);
+  io.sails.url = env.web_service_url;
+}
 export default {
   name: "supplyStream",
   components: {
@@ -93,7 +115,9 @@ export default {
       pc_config: "",
       sdpConstraints: "",
       mediaConstraints: "",
-      webRTCAdaptor: ""
+      webRTCAdaptor: "",
+      streamReported: false,
+      openLocationCode: ""
     };
   },
   computed: {
@@ -112,6 +136,11 @@ export default {
       document.querySelector("ons-navigator").popPage({
         refresh: true
       });
+    },
+    closeReportedStream() {
+      this.webRTCAdaptor.closeStream();
+      this.webRTCAdaptor.closePeerConnection();
+      this.$emit("reset-home-page");
     },
     startPublishing() {
       this.streamId = this.streamNameBox;
@@ -146,6 +175,10 @@ export default {
     }
   },
   mounted() {
+    io.socket.on("reportFlagRaisedAndLiveStreamRemoved", ({ data }) => {
+      this.openLocationCode = data.openLocationCode;
+      this.streamReported = true;
+    });
     this.player = videojs.getPlayer(this.$refs.videoplayer.$refs.video);
 
     this.pc_config = null;
@@ -159,7 +192,6 @@ export default {
       video: true,
       audio: true
     };
-
     this.webRTCAdaptor = new WebRTCAdaptor({
       websocket_url: "wss://streams.vividiov.media:5443/WebRTCAppEE/websocket",
       mediaConstraints: this.mediaConstraints,

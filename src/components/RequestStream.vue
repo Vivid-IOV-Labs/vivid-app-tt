@@ -134,6 +134,7 @@ export default {
       isRequestDialog: false,
       isGoLiveDialog: false,
       isJoinDialog: false,
+      allPins: {},
       requestModel: {
         mapPin: {
           details: "Side view of santa parade",
@@ -203,9 +204,12 @@ export default {
             icon: marker.streamer.live ? this.markerUsers : this.markerNew
           }
         );
+        this.allPins[marker.openLocationCode] = pin;
         const isDisabled = !marker.streamer.live && this.isDisabled(pin);
+        // pin
+        //   .addTo(this.map)
+        this.map.addLayer(pin);
         pin
-          .addTo(this.map)
           .bindPopup(
             marker.streamer.live
               ? this.templateJoin(marker)
@@ -411,6 +415,10 @@ export default {
         }
       ).addTo(this.map);
     },
+    removePin(openLocationCode) {
+      const markerToRemove = this.allPins[openLocationCode];
+      markerToRemove.removeFrom(this.map);
+    },
     isDisabled(pin) {
       const {
         coords: { latitude: lat, longitude: lon }
@@ -484,7 +492,14 @@ export default {
         this.addMarkersLoop(resData);
       }
     });
-
+    io.socket.on("reportFlagRaisedAndLiveStreamRemoved", resData => {
+      this.map.whenReady(() => {
+        this.$nextTick(() => {
+          this.removePin(resData.data.openLocationCode);
+          this.map.invalidateSize();
+        });
+      });
+    });
     io.socket.on("livestreamended", resData => {
       if (resData.data) {
         let arrrayOfLayerIDsToRemove = [];
@@ -653,23 +668,6 @@ export default {
         }
       );
       this.map.addLayer(marker);
-      // marker
-      //   //.bindPopup(popupText)
-      //   .bindPopup(
-      //     iconType == "livepeer"
-      //       ? this.templateLivepeer(marker)
-      //       : this.templateGoLive(marker),
-      //     {
-      //       maxWidth: 1060
-      //     }
-      //   )
-      //   .on("popupopen", () => {
-      //     document
-      //       .getElementById("button-golive")
-      //       .addEventListener("click", () => {
-      //         this.pushToBroadcaster();
-      //       });
-      //   });
       if (iconType == "livepeer") {
         marker
           .bindPopup(this.templateLivepeer(marker), {
@@ -702,9 +700,6 @@ export default {
     this.map.on("locationfound", this.onLocationFound);
 
     this.map.on("locationerror", this.onLocationError);
-    // const results = await myProvider.search({ query: "walthamstow" });
-    // console.log(results)
-    // this.geoSearchEvent(results)
   }
 };
 </script>
