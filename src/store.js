@@ -126,6 +126,14 @@ export default new Vuex.Store({
         console.log(err);
       }
     },
+    async updateAddress({ state }, payload) {
+      try {
+        const response = await RequestService.updateAddress(payload, state);
+        return response;
+      } catch (err) {
+        console.log(err);
+      }
+    },
     registerWeb3Instance2({ commit }, payload) {
       commit("setCoinbase", payload.coinbase);
       commit("setNetworkID", payload.networkId);

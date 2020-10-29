@@ -185,7 +185,8 @@ export default {
       _add: "add",
       _get_requests: "get_requests",
       _create: "create",
-      _updateRequestModel: "update"
+      _updateRequestModel: "update",
+      _updateAddress: "updateAddress"
     }),
     ...mapGetters({
       _myWalletAddress: "myWalletAddress",
@@ -286,14 +287,14 @@ export default {
       this._setInBuiltRequestDemo(false);
       this.pushToSupplyStreamPage();
     },
-    fromSupply() {
+    async fromSupply() {
       let selectedPin = this._getSelectedPin();
       selectedPin.streamer.walletAddress = this._myWalletAddress();
 
       this._setSelectedPin(selectedPin);
 
       //this._updateRequestModel(selectedPin);
-      io.socket.post("/request/sockets/update/address", {
+      this._updateAddress({
         streamName: selectedPin.openLocationCode,
         address: selectedPin.streamer.walletAddress
       });
@@ -493,12 +494,7 @@ export default {
       }
     });
     io.socket.on("reportFlagRaisedAndLiveStreamRemoved", resData => {
-      this.map.whenReady(() => {
-        this.$nextTick(() => {
-          this.removePin(resData.data.openLocationCode);
-          this.map.invalidateSize();
-        });
-      });
+      this.removePin(resData.data.openLocationCode);
     });
     io.socket.on("livestreamended", resData => {
       if (resData.data) {
