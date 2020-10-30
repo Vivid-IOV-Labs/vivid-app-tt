@@ -495,6 +495,7 @@ export default {
     });
     io.socket.on("reportFlagRaisedAndLiveStreamRemoved", resData => {
       this.removePin(resData.data.openLocationCode);
+      console.log("report flag");
     });
     io.socket.on("livestreamended", resData => {
       if (resData.data) {
