@@ -205,7 +205,11 @@ export default {
             icon: marker.streamer.live ? this.markerUsers : this.markerNew
           }
         );
-        this.allPins[marker.openLocationCode] = pin;
+        if (this.allPins[marker.openLocationCode]) {
+          this.removePin(marker.openLocationCode);
+        } else {
+          this.allPins[marker.openLocationCode] = pin;
+        }
         const isDisabled = !marker.streamer.live && this.isDisabled(pin);
         // pin
         //   .addTo(this.map)
@@ -498,6 +502,7 @@ export default {
       console.log("report flag");
     });
     io.socket.on("livestreamended", resData => {
+      console.log("livestreamended");
       if (resData.data) {
         let arrrayOfLayerIDsToRemove = [];
 
