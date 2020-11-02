@@ -209,10 +209,10 @@ export default {
 
         if (this.allPins[marker.openLocationCode]) {
           this.removePin(marker.openLocationCode);
-        } else {
-          this.allPins[marker.openLocationCode] = pin;
-          this.map.addLayer(pin);
         }
+
+        this.allPins[marker.openLocationCode] = pin;
+        this.map.addLayer(pin);
 
         pin
           .bindPopup(
