@@ -518,7 +518,6 @@ export default {
               }
             }
           }
-          this.map.invalidateSize();
         });
       });
     });

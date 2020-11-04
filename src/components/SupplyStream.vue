@@ -42,13 +42,13 @@
       </div>
       <v-ons-alert-dialog
         modifier="rowfooter"
-        :title="'This Live stream has been reported'"
+        :title="'Live stream reported'"
         :footer="{
           Ok: closeReportedStream
         }"
         :visible.sync="streamReported"
       >
-        Are you sure you want to report this live stream?
+        This Live stream has been reported and therefor ended
       </v-ons-alert-dialog>
     </div>
     <v-ons-bottom-toolbar
