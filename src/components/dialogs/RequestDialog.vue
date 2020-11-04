@@ -111,11 +111,11 @@
 </template>
 
 <script>
-import { OpenStreetMapProvider } from "leaflet-geosearch";
+import { EsriProvider } from "leaflet-geosearch";
 import { mapGetters } from "vuex";
 import BaseIcon from "@/components/BaseIcon";
 
-const myProvider = new OpenStreetMapProvider();
+const myProvider = new EsriProvider();
 export default {
   name: "RequestDialog",
   components: {
