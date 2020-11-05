@@ -143,7 +143,7 @@ export default {
     }),
     ...mapGetters({
       isInBuiltRequestDemo: "isInBuiltRequestDemo",
-      _getStreamerWalletAddress: "getStreamerWalletAddress"
+      _myWalletAddress: "myWalletAddress"
     }),
     ...mapActions({
       _addFlag: "addFlag"
@@ -182,7 +182,7 @@ export default {
     },
     async reportUser() {
       const body = {
-        walletAddress: this._getStreamerWalletAddress(),
+        walletAddress: this._myWalletAddress(),
         openLocationCode: this.streamId
       };
       await this._addFlag(body);
