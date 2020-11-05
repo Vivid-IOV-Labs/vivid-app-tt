@@ -425,6 +425,7 @@ export default {
       markerToRemove.removeFrom(this.map);
     },
     isDisabled(pin) {
+      if (!this.myPosition) return true;
       const {
         coords: { latitude: lat, longitude: lon }
       } = this.myPosition;
