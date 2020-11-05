@@ -38,6 +38,16 @@
           >
             Are you sure you want to report this live stream?
           </v-ons-alert-dialog>
+          <v-ons-alert-dialog
+            modifier="rowfooter"
+            :title="'Live stream reported'"
+            :footer="{
+              Ok: endViewingStream
+            }"
+            :visible.sync="streamReported"
+          >
+            This Live stream has been reported and therefor ended
+          </v-ons-alert-dialog>
         </div>
       </div>
       <div
@@ -91,7 +101,18 @@ import "webrtc-adapter";
 import { WebRTCAdaptor } from "@/js/webrtc_adaptor.js";
 
 import SupplyStream from "@/components/SupplyStream.vue";
+import socketIOClient from "socket.io-client";
+import sailsIOClient from "sails.io.js";
 
+import env from "@/js/env.js";
+let io;
+
+if (socketIOClient.sails) {
+  io = socketIOClient;
+} else {
+  io = sailsIOClient(socketIOClient);
+  io.sails.url = env.web_service_url;
+}
 export default {
   name: "viewStream",
   // props:{
@@ -115,6 +136,7 @@ export default {
       streamId1: "streamId",
       //streamNameBox: "stream2",
       streamId: this.$store.state.selectedPin.openLocationCode,
+      streamReported: false,
       pc_config: null,
       sdpConstraints: {
         OfferToReceiveAudio: true,
@@ -229,6 +251,11 @@ export default {
     }
   },
   mounted() {
+    io.socket.on("reportFlagRaisedAndLiveStreamRemoved", ({ data }) => {
+      if (data.openLocationCode == this.streamId) {
+        this.streamReported = true;
+      }
+    });
     this.player = videojs.getPlayer(this.$refs.videoplayer.$refs.video);
 
     this.webRTCAdaptor = new WebRTCAdaptor({
