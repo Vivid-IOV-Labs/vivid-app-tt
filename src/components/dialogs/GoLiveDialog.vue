@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import { EsriProvider } from "leaflet-geosearch";
+import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { mapGetters, mapMutations } from "vuex";
 
 import code_transforms from "@/js/location_code_string_prep.js";
@@ -116,7 +116,7 @@ let OpenLocationCode = OpenLocationCodeJS.OpenLocationCode;
 
 var openLocationCode = new OpenLocationCode();
 
-const myProvider = new EsriProvider();
+const myProvider = new OpenStreetMapProvider();
 export default {
   name: "GoLiveDialog",
   data() {

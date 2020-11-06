@@ -159,9 +159,9 @@ import Broadcaster from "@/components/Broadcaster.vue";
 
 import OnBoarding from "@/components/OnBoarding.vue";
 
-import { EsriProvider } from "leaflet-geosearch";
+import { OpenStreetMapProvider } from "leaflet-geosearch";
 
-const myProvider = new EsriProvider();
+const myProvider = new OpenStreetMapProvider();
 export default {
   name: "home",
   components: {

@@ -2,7 +2,7 @@
   <v-ons-page id="Streamer">
     <v-ons-toolbar>
       <div class="left">
-        <v-ons-back-button>Back</v-ons-back-button>
+        <v-ons-back-button @click="closeVideoStream">Back</v-ons-back-button>
       </div>
       <div class="center">
         <span class="onsPageTitleStyle">Live Stream in progress</span>
@@ -44,7 +44,7 @@
         modifier="rowfooter"
         :title="'Live stream reported'"
         :footer="{
-          Ok: closeReportedStream
+          Ok: closeVideoStream
         }"
         :visible.sync="streamReported"
       >
@@ -130,15 +130,7 @@ export default {
   },
   methods: {
     closeVideoStream() {
-      this.webRTCAdaptor.closeStream();
-
-      this.webRTCAdaptor.closePeerConnection();
-
-      document.querySelector("ons-navigator").popPage({
-        refresh: true
-      });
-    },
-    closeReportedStream() {
+      this.stopPublishing();
       this.webRTCAdaptor.closeStream();
       this.webRTCAdaptor.closePeerConnection();
       this.$emit("push-page", Home);
