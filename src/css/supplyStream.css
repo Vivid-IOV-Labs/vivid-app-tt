@@ -17,7 +17,7 @@ video#localVideo{
 /* Desktop/Laptop Styles */
 @media all and (min-width: 414px) {
   #supplyStreamPage {
-    height: 736px !important;
+    height: 100%;
     width: 414px !important;
   }
 }

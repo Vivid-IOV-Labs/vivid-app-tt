@@ -26,6 +26,35 @@
         </v-ons-list-item>
         <v-ons-list-item>
           <div style="display:flex;flex-direction:column; padding:1rem">
+            <v-ons-search-input
+              id="search"
+              style="width:100%"
+              title="Add Location"
+              placeholder="Add Location"
+              v-model.lazy="searchAddress"
+              @input="onSearchAddress"
+            ></v-ons-search-input>
+            <!-- <v-ons-popover
+              :cover-target="false"
+              target="#search"
+              :visible="autocompleteVisible"
+              cancelable
+              direction="up"
+            >-->
+            <v-ons-list v-if="autocompleteVisible">
+              <v-ons-list-item
+                v-for="item in autocompleteAdresses"
+                :key="item.label"
+                @click="onSelectAddress(item)"
+                modifier="tappable"
+                >{{ item.label }}</v-ons-list-item
+              >
+            </v-ons-list>
+            <!-- </v-ons-popover> -->
+          </div>
+        </v-ons-list-item>
+        <v-ons-list-item>
+          <div style="display:flex;flex-direction:column; padding:1rem">
             <v-ons-list>
               <div>
                 <v-ons-list-item>
@@ -57,34 +86,6 @@
             </v-ons-list>
           </div>
         </v-ons-list-item>
-        <v-ons-list-item>
-          <div style="display:flex;flex-direction:column; padding:1rem">
-            <v-ons-search-input
-              id="search"
-              style="width:100%"
-              title="Add Location"
-              placeholder="Add Location"
-              v-model.lazy="searchAddress"
-              @input="onSearchAddress"
-            ></v-ons-search-input>
-            <!-- <v-ons-popover
-              :cover-target="false"
-              target="#search"
-              :visible="autocompleteVisible"
-              cancelable
-              direction="up"
-            >-->
-            <v-ons-list v-if="autocompleteVisible">
-              <v-ons-list-item
-                v-for="item in autocompleteAdresses"
-                :key="item.label"
-                @click="onSelectAddress(item)"
-                modifier="tappable"
-              >{{ item.label }}</v-ons-list-item>
-            </v-ons-list>
-            <!-- </v-ons-popover> -->
-          </div>
-        </v-ons-list-item>
       </v-ons-list>
       <v-ons-button
         class="btn btn--golive"
@@ -105,7 +106,7 @@
 </template>
 
 <script>
-import { EsriProvider } from "leaflet-geosearch";
+import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { mapGetters, mapMutations } from "vuex";
 
 import code_transforms from "@/js/location_code_string_prep.js";
@@ -115,7 +116,7 @@ let OpenLocationCode = OpenLocationCodeJS.OpenLocationCode;
 
 var openLocationCode = new OpenLocationCode();
 
-const myProvider = new EsriProvider();
+const myProvider = new OpenStreetMapProvider();
 export default {
   name: "GoLiveDialog",
   data() {

@@ -1,29 +1,6 @@
 <template>
   <v-ons-page id="requestStreamPage">
-    <!-- <my-elaborate-popup-content v-show="false" ref="foo"></my-elaborate-popup-content> -->
-    <!-- <v-ons-list>
-        <v-ons-list-item id="optionsPanel_section" expandable :expanded.sync="optionsPanelView">
-            <span id="optionsPanel_section_title">requester options</span>
-            <div class="expandable-content">
-                <div id="options_panel">
-                    <v-ons-row>
-                        <v-ons-col>
-                            <span class="optionsPanelRowTitle">Tags:</span>
-                            <span class="badge badge-pill badge-primary optionsPanelRow">Street View</span>
-                        </v-ons-col>
-                    </v-ons-row>
-                    <v-ons-row>
-                        <v-ons-col>
-                            <span class="optionsPanelRowTitle">Details:</span>
-                            <span class="optionsPanelRow">Side view of santa parade</span>
-                        </v-ons-col>
-                    </v-ons-row>
-                </div>
-            </div>
-        </v-ons-list-item>
-    </v-ons-list>-->
     <div id="map-container">
-      <!-- <img id="vivid_logo" src="@/logo/Vivid_logo design2020-05.png" /> -->
       <div id="map" class="map"></div>
       <section id="nav_buttons">
         <div class="flex">
@@ -36,15 +13,12 @@
         </div>
         <div id="pushToViewStreamPageButton">
           <v-ons-button class="btn btn--join" @click="showJoinDialog()">
-            Join
             <v-ons-icon class="btn__icon" icon="fa-users"></v-ons-icon>
           </v-ons-button>
           <v-ons-button class="btn btn--request" @click="showRequestDialog()">
-            Request
-            <v-ons-icon class="btn__icon" icon="fa-flag"></v-ons-icon>
+            &nbsp; <base-icon name="request"></base-icon>
           </v-ons-button>
           <v-ons-button class="btn btn--golive" @click="showGoliveDialog()">
-            Go Live
             <v-ons-icon class="btn__icon" icon="fa-video"></v-ons-icon>
           </v-ons-button>
         </div>
@@ -105,7 +79,6 @@ if (socketIOClient.sails) {
   io = socketIOClient;
 } else {
   io = sailsIOClient(socketIOClient);
-  //io.sails.url = 'http://localhost:1336'
   io.sails.url = env.web_service_url;
 }
 
@@ -114,21 +87,19 @@ let OpenLocationCode = OpenLocationCodeJS.OpenLocationCode;
 
 var openLocationCode = new OpenLocationCode();
 
-// import { GeoSearchControl, EsriProvider } from "leaflet-geosearch";
-
-// const myProvider = new EsriProvider();
-
 import { mapMutations, mapActions, mapGetters } from "vuex";
 import RequestDialog from "@/components/dialogs/RequestDialog.vue";
 import GoLiveDialog from "@/components/dialogs/GoLiveDialog.vue";
 import JoinDialog from "@/components/dialogs/JoinDialog.vue";
+import BaseIcon from "@/components/BaseIcon";
 
 export default {
   name: "requestStream",
   components: {
     RequestDialog,
     JoinDialog,
-    GoLiveDialog
+    GoLiveDialog,
+    BaseIcon
   },
   data() {
     return {
@@ -158,11 +129,12 @@ export default {
       markerCarabao: null,
       templateJoin: null,
       templateGoLive: null,
+      templateLivepeer: null,
       current_request_list: null,
-      request_raw_data: null,
       isRequestDialog: false,
       isGoLiveDialog: false,
       isJoinDialog: false,
+      allPins: {},
       requestModel: {
         mapPin: {
           details: "Side view of santa parade",
@@ -177,7 +149,11 @@ export default {
           live: false,
           walletAddress: null
         },
-        openLocationCode: null
+        openLocationCode: null,
+        statistics: {
+          totalNumberOfViewers: 0,
+          totalNumberOfFlags: 0
+        }
       }
     };
   },
@@ -192,7 +168,10 @@ export default {
   computed: {
     searchLocation() {
       return this.$store.state.searchLocation;
-    }
+    },
+    ...mapGetters({
+      myPosition: "getPosition"
+    })
   },
   methods: {
     ...mapMutations({
@@ -206,7 +185,8 @@ export default {
       _add: "add",
       _get_requests: "get_requests",
       _create: "create",
-      _updateRequestModel: "update"
+      _updateRequestModel: "update",
+      _updateAddress: "updateAddress"
     }),
     ...mapGetters({
       _myWalletAddress: "myWalletAddress",
@@ -215,56 +195,70 @@ export default {
       _getStreamerWalletAddress: "getStreamerWalletAddress"
     }),
     addMarkersLoop(markers) {
-      //Loop through the markers array
-      // eslint-disable-next-line no-debugger
       for (var i = 0; i < markers.length; i++) {
-        // var lon = markers[i][0];
-        // var lat = markers[i][1];
-        //var popupText = markers[i][2];
-        var lon = markers[i].location.feature.geometry.y;
-        var lat = markers[i].location.feature.geometry.x;
+        var lat = markers[i].location.y;
+        var lon = markers[i].location.x;
         const marker = markers[i];
+        const pin = L.marker(
+          { lon, lat },
+          {
+            icon: marker.streamer.live ? this.markerUsers : this.markerNew
+          }
+        );
+        const isDisabled = !marker.streamer.live && this.isDisabled(pin);
 
-        L.marker([lon, lat], {
-          icon: marker.streamer.live ? this.markerUsers : this.markerNew
-        })
-          .addTo(this.map)
+        if (this.allPins[marker.openLocationCode]) {
+          this.removePin(marker.openLocationCode);
+        }
+
+        this.allPins[marker.openLocationCode] = pin;
+        this.map.addLayer(pin);
+
+        pin
           .bindPopup(
             marker.streamer.live
               ? this.templateJoin(marker)
-              : this.templateGoLive(marker),
+              : this.templateGoLive(marker, isDisabled),
             {
               maxWidth: 1060
             }
           )
           .on("popupopen", () => {
-            marker.streamer.live
-              ? document
-                  .getElementById("button-join")
-                  .addEventListener("click", () => {
+            if (marker.streamer.live) {
+              document
+                .getElementById("button-join")
+                .addEventListener("click", () => {
+                  if (marker.mapPin.twitterHashTags.includes("testing")) {
+                    this.pushToStream();
+                  } else {
                     this.fromJoin();
-                  })
-              : document
-                  .getElementById("button-golive")
-                  .addEventListener("click", () => {
-                    this.fromSupply();
-                  });
+                  }
+                });
+            } else {
+              document
+                .getElementById("button-golive")
+                .addEventListener("click", () => {
+                  if (isDisabled) {
+                    return;
+                  }
+                  this.fromSupply();
+                });
+            }
           })
           .on("click", e => {
-            var locationcode = openLocationCode.encode(
+            const locationcode = this.createOpenLocationCode(
               e.latlng.lng,
-              e.latlng.lat,
-              11
+              e.latlng.lat
             );
 
-            locationcode = code_transforms.replace_plus_symbol(locationcode);
-
-            let obj = this._getLocalCopyOfRequestPins().find(
-              obj => obj.openLocationCode === locationcode
-            );
-
+            const localPins = this._getLocalCopyOfRequestPins();
+            let obj = localPins.find(obj => {
+              return obj.openLocationCode === locationcode;
+            });
             this._setSelectedPin(obj);
           });
+        const opacity = isDisabled ? 0.6 : 1;
+        pin.setOpacity(opacity);
       }
     },
     fromJoin_list(_str) {
@@ -297,15 +291,14 @@ export default {
       this._setInBuiltRequestDemo(false);
       this.pushToSupplyStreamPage();
     },
-    fromSupply() {
+    async fromSupply() {
       let selectedPin = this._getSelectedPin();
-
       selectedPin.streamer.walletAddress = this._myWalletAddress();
 
       this._setSelectedPin(selectedPin);
 
       //this._updateRequestModel(selectedPin);
-      io.socket.post("/request/sockets/update/address", {
+      this._updateAddress({
         streamName: selectedPin.openLocationCode,
         address: selectedPin.streamer.walletAddress
       });
@@ -337,22 +330,19 @@ export default {
     pushToSupplyStreamPage() {
       this.$emit("push-supply");
     },
+    pushToStream() {
+      this.$emit("push-stream");
+    },
+    pushToBroadcaster() {
+      this.$emit("push-broadcast");
+    },
     geoSearchEvent_golive(_data) {
-      // Encode a location, default accuracy: var code = openLocationCode.encode(47.365590, 8.524997); console.log(code);
-      // Encode a location using one stage of additional refinement:
-      //#encode(latitude, longitude, code_length = PAIR_CODE_LENGTH) ⇒ String
-      // var code = openLocationCode.encode(
-      //   _data.location.x,
-      //   _data.location.y,
-      //   11
-      // );
       this.requestModel.mapPin = _data.mapPin;
 
       this.requestModel.mapPin.twitterHashTags = _data.mapPin.twitterHashTags;
 
-      this.requestModel.location = _data.location.raw;
+      this.requestModel.location = _data.location;
       this.requestModel.openLocationCode = _data.openLocationCode;
-      this.request_raw_data = _data.location.raw;
 
       this.requestModel.user.walletAddress = _data.user.walletAddress;
       this.requestModel.streamer.walletAddress = _data.user.walletAddress;
@@ -367,19 +357,15 @@ export default {
       // Encode a location, default accuracy: var code = openLocationCode.encode(47.365590, 8.524997); console.log(code);
       // Encode a location using one stage of additional refinement:
       //#encode(latitude, longitude, code_length = PAIR_CODE_LENGTH) ⇒ String
-      var code = openLocationCode.encode(
+      const code = this.createOpenLocationCode(
         _data.location.x,
-        _data.location.y,
-        11
+        _data.location.y
       );
+
       this.requestModel.mapPin = _data.mapPin;
 
-      this.requestModel.location = _data.location.raw;
-      this.requestModel.openLocationCode = code_transforms.replace_plus_symbol(
-        code
-      );
-      this.request_raw_data = _data.location.raw;
-
+      this.requestModel.location = _data.location;
+      this.requestModel.openLocationCode = code;
       this._create(JSON.parse(JSON.stringify(this.requestModel)));
 
       this.addMarkersLoop([this.requestModel]);
@@ -389,9 +375,13 @@ export default {
     geolocateMe() {
       this.map.locate();
     },
+    createOpenLocationCode(lon, lat) {
+      const code = openLocationCode.encode(Number(lon), Number(lat), 11);
+      const formatted = code_transforms.replace_plus_symbol(code);
+      return formatted;
+    },
     onLocationFound(e) {
       var radius = e.accuracy;
-
       var myProfileIcon = L.icon({
         iconUrl: require("@/assets/markers/marker-profile.svg"),
         iconSize: [38, 95],
@@ -419,42 +409,35 @@ export default {
     },
     initMap() {
       this.map = L.map("map").setView([51.520748, -0.08504], 15);
-
-      // new GeoSearchControl({
-      //   provider: myProvider, // required
-      //   showMarker: true, // optional: true|false  - default true
-      //   showPopup: false, // optional: true|false  - default false
-      //   marker: {
-      //     // optional: L.Marker    - default L.Icon.Default
-      //     icon: new L.Icon.Default(),
-      //     draggable: false
-      //   },
-      //   // popupFormat: ({
-      //   //     query,
-      //   //     result
-      //   // }) => result.label, // optional: function    - default returns result label
-      //   maxMarkers: 1, // optional: number      - default 1
-      //   retainZoomLevel: false, // optional: true|false  - default false
-      //   animateZoom: true, // optional: true|false  - default true
-      //   autoClose: true, // optional: true|false  - default false
-      //   searchLabel: "Enter address", // optional: string      - default 'Enter address'
-      //   keepResult: false
-      // }).addTo(this.map);
-
-      // this.map.on("geosearch/showlocation", this.geoSearchEvent);
-
-      //  document.getElementById("optionsPanel_section").showExpansion();
     },
     initLayers() {
       this.tileLayer = L.tileLayer(
         "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWEwNnJpaSIsImEiOiJjazZkeTU2NnAxbWF4M2xxajN6NWIyb2l6In0.4iTjEpS8cIa_Um3zhE9keQ",
         {
-          //attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
           attribution: false,
           maxZoom: 36,
           id: "mapbox/streets-v11"
         }
       ).addTo(this.map);
+    },
+    removePin(openLocationCode) {
+      const markerToRemove = this.allPins[openLocationCode];
+      markerToRemove.removeFrom(this.map);
+    },
+    isDisabled(pin) {
+      if (!this.myPosition) return true;
+      const {
+        coords: { latitude: lat, longitude: lon }
+      } = this.myPosition;
+      const myPosition = L.marker({ lon, lat });
+
+      const distanceInKm =
+        pin
+          .getLatLng()
+          .distanceTo(myPosition.getLatLng())
+          .toFixed(0) / 1000;
+      const rangeInKm = 25;
+      return distanceInKm > rangeInKm;
     }
   },
   beforeCreate() {
@@ -462,30 +445,11 @@ export default {
     this.$store.dispatch("registerWeb3");
   },
   async mounted() {
-    // io.socket.on("requests", msg => {
-    //   if (msg.data.user.walletAddress !== this._myWalletAddress()) {
-    //     if (msg.data && msg.data.length) {
-    //       this.addMarkersLoop([msg.data]);
-    //     }
-    //   }
-    // });
-
-    // io.socket.get("/requests", resData => {
-    //   if (resData && resData.length) {
-    //     this.joinMarkers = resData.filter(markers => markers.streamer.live);
-    //     this.addMarkersLoop(resData);
-    //   }
-    // });
-
     io.socket.on("requests", msg => {
-      //if (msg.data.user.walletAddress !== this._myWalletAddress()) {
-      //if (msg.data && msg.data.length) {
-      // eslint-disable-next-line no-debugger
       if (msg.data) {
         this.addMarkersLoop([msg.data]);
 
         var localCopyOfRequestPins = this._getLocalCopyOfRequestPins();
-
         //If the local pins are present then loop through them and update the relevant record.
         if (localCopyOfRequestPins) {
           localCopyOfRequestPins.forEach((element, index) => {
@@ -525,18 +489,41 @@ export default {
           }
         }
       }
-      //}
     });
 
-    io.socket.get("/requests", resData => {
+    io.socket.get("/requests", async resData => {
       if (resData && resData.length) {
         this.joinMarkers = resData.filter(markers => markers.streamer.live);
+        await this._setLocalCopyOfRequestPins(resData);
         this.addMarkersLoop(resData);
-        this._setLocalCopyOfRequestPins(resData);
       }
     });
+    io.socket.on("reportFlagRaisedAndLiveStreamRemoved", resData => {
+      this.map.whenReady(() => {
+        this.$nextTick(() => {
+          this.removePin(resData.data.openLocationCode);
+          console.log("report flag");
+          let arrrayOfLayerIDsToRemove = [];
 
+          //Loop through the map layers to remove map pins corresponding to the live stream which has ended.
+          for (const property in this.map._layers) {
+            if (this.map._layers[property]._latlng) {
+              if (
+                resData.data.location.x ==
+                  this.map._layers[property]._latlng.lng &&
+                resData.data.location.y ==
+                  this.map._layers[property]._latlng.lat
+              ) {
+                //Create an array of map layer ids to delete
+                arrrayOfLayerIDsToRemove.push(property);
+              }
+            }
+          }
+        });
+      });
+    });
     io.socket.on("livestreamended", resData => {
+      console.log("livestreamended");
       if (resData.data) {
         let arrrayOfLayerIDsToRemove = [];
 
@@ -544,10 +531,9 @@ export default {
         for (const property in this.map._layers) {
           if (this.map._layers[property]._latlng) {
             if (
-              resData.data.location.feature.geometry.x ==
+              resData.data.location.x ==
                 this.map._layers[property]._latlng.lng &&
-              resData.data.location.feature.geometry.y ==
-                this.map._layers[property]._latlng.lat
+              resData.data.location.y == this.map._layers[property]._latlng.lat
             ) {
               //Create an array of map layer ids to delete
               arrrayOfLayerIDsToRemove.push(property);
@@ -576,18 +562,20 @@ export default {
 
     this.templateJoin = requestModel => `
       <div>
-      <h3>${requestModel.mapPin.details}</h3>
+      <h3>${requestModel.mapPin.details} </h3>
       <p>${requestModel.mapPin.twitterHashTags
         .reduce((acc, tag) => {
           acc += ` #${tag},`;
           return acc;
         }, "")
         .slice(1, -1)}</p>
-      <v-ons-button id="button-join" type="button">Join</v-ons-button>
+      <button class="btn btn--join"  id="button-join" type="button">Join</button>
       </div>
       `;
 
-    this.templateGoLive = requestModel => `
+    this.templateGoLive = (requestModel, isDisabled) => {
+      const disabledAttr = isDisabled ? `disabled = "true"` : "";
+      return `
     <div>
       <h3>${requestModel.mapPin.details}</h3>
       <p>${requestModel.mapPin.twitterHashTags
@@ -596,7 +584,23 @@ export default {
           return acc;
         }, "")
         .slice(1, -1)}</p>
+      <button class="btn btn--golive" ${disabledAttr} id="button-golive" type="button">Go Live</button>
+    </div>
+    `;
+    };
+    this.templateLivepeer = () => `
+    <div>
+      <h3>Livepeer Test</h3>
+      <p>#broadcast</p>
       <v-ons-button id="button-golive" type="button">Go Live</v-ons-button>
+    </div>
+    `;
+
+    this.templateLivepeerJoin = () => `
+    <div>
+      <h3>Livepeer Test</h3>
+      <p>#stream</p>
+      <v-ons-button id="button-join" type="button">Join</v-ons-button>
     </div>
     `;
 
@@ -660,16 +664,10 @@ export default {
     // This tidy formatted section could even be generated by a server-side script
     // or fetched seperately as a jsonp request.
     var markers = [
-      [-0.1244324, 51.5006728, "Big Ben", "new"],
-      [-0.119623, 51.503308, "London Eye", "join"],
+      [-0.1244324, 51.5006728, "Big Ben", "livepeer"],
       [-0.0963224, 51.5049318, "KFC", "kfc"],
       [-0.1433256, 51.502528, "Carabao", "carabao"],
-      [
-        -0.1279688,
-        51.5077286,
-        "Nelson's Column<br><a href=\"https://en.wikipedia.org/wiki/Nelson's_Column\">wp</a>",
-        "new"
-      ]
+      [-0.1094099, 51.50176, "Location", "join"]
     ];
 
     //Loop through the markers array
@@ -679,38 +677,57 @@ export default {
       //var popupText = markers[i][2];
       var iconType = markers[i][3];
 
-      var markerLocation = new L.LatLng(lat, lon);
-      var marker = new L.Marker(markerLocation, {
-        icon:
-          iconType == "new"
-            ? this.markerNew
-            : iconType == "join"
-            ? this.markerUsers
-            : iconType == "kfc"
-            ? this.markerKfc
-            : this.markerCarabao
-      });
+      var marker = L.marker(
+        { lon, lat },
+        {
+          icon:
+            iconType == "new" || iconType == "livepeer"
+              ? this.markerNew
+              : iconType == "join"
+              ? this.markerUsers
+              : iconType == "kfc"
+              ? this.markerKfc
+              : this.markerCarabao
+        }
+      );
       this.map.addLayer(marker);
-      marker
-        //.bindPopup(popupText)
-        .bindPopup(this.templateGoLive, {
-          maxWidth: 1060
-        })
-        .on("popupopen", () => {
-          document
-            .getElementById("button-golive")
-            .addEventListener("click", () => {
-              this.fromSupply();
-            });
-        });
+      if (iconType == "livepeer") {
+        marker
+          .bindPopup(this.templateLivepeer(marker), {
+            maxWidth: 1060
+          })
+          .on("popupopen", () => {
+            document
+              .getElementById("button-golive")
+              .addEventListener("click", () => {
+                this.pushToBroadcaster();
+              });
+          });
+      }
+
+      if (iconType == "join") {
+        marker
+          .bindPopup(this.templateLivepeerJoin(marker), {
+            maxWidth: 1060
+          })
+          .on("popupopen", () => {
+            document
+              .getElementById("button-join")
+              .addEventListener("click", () => {
+                this.pushToStream();
+              });
+          });
+      }
     }
 
     this.map.on("locationfound", this.onLocationFound);
 
     this.map.on("locationerror", this.onLocationError);
-    // const results = await myProvider.search({ query: "walthamstow" });
-    // console.log(results)
-    // this.geoSearchEvent(results)
   }
 };
 </script>
+<style>
+button:disabled {
+  opacity: 0.4;
+}
+</style>

@@ -5,6 +5,7 @@ node_modules
 # local env files
 .env.local
 .env.*.local
+.env
 
 # local script for deploying to github pages
 deploy-tt.sh
@@ -22,3 +23,4 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+ngrok
