@@ -2,7 +2,7 @@
   <v-ons-navigator
     swipeable
     :page-stack="pageStack"
-    @push-page="pageStack.push($event)"
+    @push-page="onPushPage"
     @back-page="pageStack.pop()"
     @reset-home-page="
       pageStack.pop();
@@ -12,28 +12,42 @@
 </template>
 
 <style>
+@import url("https://fonts.googleapis.com/css?family=Source Code Pro");
+
 @import "css/app.css";
+body {
+  font-family: "Source Code Pro";
+}
 </style>
 
 <script>
-import Home from "@/components/Home.vue";
+import RootLoading from "@/components/RootLoading.vue";
 
 export default {
   name: "main_page",
   data() {
     return {
-      pageStack: [Home]
+      pageStack: [RootLoading]
     };
+  },
+  methods: {
+    onPushPage(event) {
+      const indexInPageStack = this.pageStack.findIndex(
+        page => page.name == event.name
+      );
+      if (indexInPageStack > -1) {
+        // this.pageStack.splice(
+        //   this.pageStack.length,
+        //   0,
+        //   this.pageStack.splice(indexInPageStack, 1)[0]
+        // );
+        //clear the stack and reload everytime the view
+        this.pageStack = [];
+        this.pageStack.push(event);
+      } else {
+        this.pageStack.push(event);
+      }
+    }
   }
-  //   mounted() {
-  //     this.importAll(
-  //       require.context(
-  //         "../node_modules/leaflet-extra-markers/dist/img",
-  //         true,
-  //         /\.png$/
-  //       )
-  //     );
-  //   }
-  //,
 };
 </script>

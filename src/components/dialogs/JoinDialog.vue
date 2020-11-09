@@ -38,7 +38,8 @@
             text-align: center;
             padding: 0.6rem 1rem;"
                 @click="join(marker.openLocationCode)"
-                >Join <v-ons-icon class="btn__icon" icon="fa-users"></v-ons-icon
+                >Trending
+                <v-ons-icon class="btn__icon" icon="fa-users"></v-ons-icon
               ></v-ons-button>
             </div>
           </div>

@@ -2,75 +2,83 @@
   <v-ons-page id="viewStreamPage">
     <v-ons-toolbar>
       <div class="left">
-        <v-ons-back-button @click.prevent="endViewingStream()"></v-ons-back-button>
+        <v-ons-back-button @click.prevent="endViewingStream()">
+          <v-ons-icon
+            style="color:#fff"
+            class="btn__icon"
+            icon="fa-angle-left"
+          ></v-ons-icon
+        ></v-ons-back-button>
       </div>
       <div class="center">
-        <span class="onsPageTitleStyle">JOIN</span>
+        <span class="onsPageTitleStyle">Trending</span>
       </div>
     </v-ons-toolbar>
+    <div class="streamer__container">
+      <div class="streamer__controls streamer__controls--top">
+        <v-ons-button class="btn btn--default flex-coulumn">
+          <v-ons-icon class="btn__icon" icon="fa-eye"></v-ons-icon>
+          <span>101</span>
+        </v-ons-button>
+        <div class="ml-auto flex-coulumn">
+          <v-ons-button class="btn btn--default mb-4">
+            <v-ons-icon class="btn__icon" icon="fa-volume-mute"></v-ons-icon>
+          </v-ons-button>
+          <v-ons-button @click="reportConfirm = true" class="btn btn--default ">
+            <v-ons-icon class="btn__icon" icon="fa-flag"></v-ons-icon>
+          </v-ons-button>
+          <v-ons-alert-dialog
+            modifier="rowfooter"
+            :title="'Report live stream'"
+            :footer="{
+              Cancel: () => (reportConfirm = false),
+              Ok: reportUser
+            }"
+            :visible.sync="reportConfirm"
+          >
+            Are you sure you want to report this live stream?
+          </v-ons-alert-dialog>
+          <v-ons-alert-dialog
+            modifier="rowfooter"
+            :title="'Live stream reported'"
+            :footer="{
+              Ok: endViewingStream
+            }"
+            :visible.sync="streamReported"
+          >
+            This Live stream has been reported and therefor ended
+          </v-ons-alert-dialog>
+        </div>
+      </div>
+      <div
+        id="video_info"
+        style="
+          height: 100%;
+          min-height: 100%; "
+      >
+        Stream will start playing automatically
+        <br />when it is live
+      </div>
+      <base-video ref="videoplayer" :options="videoOptions"></base-video>
+      <div class="streamer__controls streamer__controls--bottom">
+        <v-ons-button id="endStreamButton" @click="endViewingStream()"
+          >End Stream
+          <v-ons-icon class="btn__icon" icon="fa-pause"></v-ons-icon>
+        </v-ons-button>
 
-    <div id="view-video-panel" style="height: 100%;display: flex;flex-direction: column;">
-      <v-ons-list>
-        <v-ons-list-item id="optionsPanel_section_viewStream">
-          <div id="pay-info-section">
-            <v-ons-button id="payingLabel" class="badge badge-warning" @click="tipStreamer()">
-              <strong>
-                Tip
-                <span
-                  id="payment-ticker"
-                  class="badge badge-pill badge-info"
-                >{{ defaultTipAmount + " TT"}}</span>
-                <!-- <i>{{PayToUserName}}</i> -->
-              </strong>
-            </v-ons-button>
-            <span
-              id="streamer-name"
-              class="badge badge-pill badge-info"
-              style="background-color:none!important"
-            >
-              <i>@streamer</i>
-            </span>
-          </div>
-          <div class="expandable-content">
-            <div id="options_panel"></div>
-          </div>
-        </v-ons-list-item>
-      </v-ons-list>
-      <div v-show="isInBuiltRequestDemo()" style="flex:1">
-        <video
-          id="inBuiltVideoExample"
-          src="../assets/video/santa5.mp4"
-          style="object-fit: cover;
-          height: 100%;
-          min-height: 100%; "
-          autoplay
-          muted
-          controls
-          playsinline
-        ></video>
-      </div>
-      <div v-show="!isInBuiltRequestDemo()" style="flex:1">
-        <div id="video_info">
-          Stream will start playing automatically
-          <br />when it is live
+        <div class=" ml-auto flex-column ">
+          <v-ons-button class="btn btn--default  mb-4">
+            <v-ons-icon class="btn__icon" icon="fa-shopping-cart"></v-ons-icon>
+          </v-ons-button>
+          <a class="btn-tip " @click.prevent="tipStreamer()">
+            <img src="../assets/tipping.png" alt />
+          </a>
         </div>
-        <video
-          id="remoteVideo"
-          style="object-fit: cover;
-          height: 100%;
-          min-height: 100%; "
-          autoplay
-          controls
-        ></video>
-        <!-- <img id="play_button" src="images/play.png" @click="playVideo" /> -->
-        <!-- <input type="text" class="form-control" v-model="streamId" id="streamName" placeholder="Type stream name" /> -->
       </div>
-      <section v-show="isInBuiltRequestDemo()" id="view_stream_nav_buttons_section">
-        <div style="padding:1rem" id="view_stream_nav_buttons_panel">
-          <v-ons-button id="endStreamButton" @click="endViewingStream()">End Stream</v-ons-button>
-        </div>
-      </section>
     </div>
+    <v-ons-bottom-toolbar
+      style="background-color: #1d1d1b !important;"
+    ></v-ons-bottom-toolbar>
   </v-ons-page>
 </template>
 
@@ -81,28 +89,54 @@
 </style>
 
 <script>
+import videojs from "video.js";
+import BaseVideo from "@/components/BaseVideo.vue";
 import Web3 from "web3";
 import { address, ABI } from "@/util/constants/tippingContract";
 
-import { mapMutations, mapGetters } from "vuex";
+import { mapMutations, mapGetters, mapActions } from "vuex";
 
 import "webrtc-adapter";
 
 import { WebRTCAdaptor } from "@/js/webrtc_adaptor.js";
 
 import SupplyStream from "@/components/SupplyStream.vue";
+import socketIOClient from "socket.io-client";
+import sailsIOClient from "sails.io.js";
 
+import env from "@/js/env.js";
+let io;
+
+if (socketIOClient.sails) {
+  io = socketIOClient;
+} else {
+  io = sailsIOClient(socketIOClient);
+  io.sails.url = env.web_service_url;
+}
 export default {
   name: "viewStream",
   // props:{
   //     inBuiltRequest:Boolean
   // },
+  components: {
+    BaseVideo
+  },
   data() {
     return {
+      player: null,
+      videoOptions: {
+        autoplay: true,
+        muted: true,
+        controls: false,
+        responsive: true,
+        fill: true,
+        fluid: false
+      },
       webRTCAdaptor: null,
       streamId1: "streamId",
       //streamNameBox: "stream2",
       streamId: this.$store.state.selectedPin.openLocationCode,
+      streamReported: false,
       pc_config: null,
       sdpConstraints: {
         OfferToReceiveAudio: true,
@@ -120,7 +154,8 @@ export default {
       metaTag: null,
       config: null,
       nearTotalTickerAmount: 0,
-      defaultTipAmount: 1.0
+      defaultTipAmount: 1.0,
+      reportConfirm: false
     };
   },
   methods: {
@@ -130,7 +165,10 @@ export default {
     }),
     ...mapGetters({
       isInBuiltRequestDemo: "isInBuiltRequestDemo",
-      _getStreamerWalletAddress: "getStreamerWalletAddress"
+      _myWalletAddress: "myWalletAddress"
+    }),
+    ...mapActions({
+      _addFlag: "addFlag"
     }),
     pauseViewingStream() {},
     playViewingStream() {
@@ -142,9 +180,9 @@ export default {
       this.$emit("push-page", SupplyStream);
     },
     playVideo() {
-      document.getElementById("remoteVideo").style.display = "block";
-      document
-        .getElementById("remoteVideo")
+      this.player
+        .tech()
+        .el()
         .play()
         .then(function() {
           //autoplay started
@@ -163,6 +201,15 @@ export default {
     },
     endViewingStream() {
       this.$emit("back-page");
+    },
+    async reportUser() {
+      const body = {
+        walletAddress: this._myWalletAddress(),
+        openLocationCode: this.streamId
+      };
+      await this._addFlag(body);
+      this.reportConfirm = false;
+      this.endViewingStream();
     },
     async tipStreamer() {
       let amount = 1;
@@ -204,12 +251,19 @@ export default {
     }
   },
   mounted() {
+    io.socket.on("reportFlagRaisedAndLiveStreamRemoved", ({ data }) => {
+      if (data.openLocationCode == this.streamId) {
+        this.streamReported = true;
+      }
+    });
+    this.player = videojs.getPlayer(this.$refs.videoplayer.$refs.video);
+
     this.webRTCAdaptor = new WebRTCAdaptor({
-      websocket_url: "wss://stream.vividiov.media:5443/WebRTCAppEE/websocket",
+      websocket_url: "wss://streams.vividiov.media:5443/WebRTCAppEE/websocket",
       mediaConstraints: this.mediaConstraints,
       peerconnection_config: this.pc_config,
       sdp_constraints: this.sdpConstraints,
-      remoteVideoId: "remoteVideo",
+      remoteVideoId: this.player.tech().el(),
       isPlayMode: true,
       debug: true,
       callback: (info, description) => {
@@ -253,3 +307,88 @@ export default {
   }
 };
 </script>
+<style>
+.streamer__container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.streamer__controls {
+  padding: 1rem;
+  position: absolute;
+  z-index: 9999;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.streamer__controls--bottom {
+  bottom: 1.2rem;
+  align-items: flex-end;
+}
+.streamer__controls--top {
+  top: 1.2rem;
+  align-items: flex-start;
+}
+.streamer__container .vjs-tech {
+  object-fit: cover;
+  min-height: 100%; /* not good for the aspect ratio set square or landscape or vertical instead*/
+}
+.flex-coulumn {
+  display: flex;
+  flex-direction: column;
+}
+.btn {
+  text-align: center;
+  background-color: #6d6d3d;
+  font-weight: 550;
+  border-radius: 0.3rem;
+  padding: 0.4rem 0.6rem;
+  text-align: center;
+  background-color: #1d1d1b;
+  font-weight: 550;
+  border-radius: 0.3rem;
+  height: fit-content;
+  padding: 0.6rem 0.8rem;
+}
+.btn__icon {
+  margin-left: 0.2rem;
+}
+.btn--default {
+  background: #fff;
+}
+.btn--default .btn__icon {
+  margin-left: 0.2rem;
+  font-size: 1.2rem;
+  color: #1d1d1b;
+}
+.btn-tip {
+  display: block;
+  height: 3.4rem;
+  cursor: pointer;
+  padding: 0.2rem;
+}
+.btn-tip img {
+  height: 100%;
+}
+.btn--join {
+  border: solid 1px #73e335;
+  color: #73e335;
+}
+.btn--request {
+  border: solid 1px #16dbdb;
+  color: #16dbdb;
+}
+.ml-auto {
+  margin-left: auto;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
+.btn--golive {
+  border: solid 1px #f73e2d;
+  color: #f73e2d;
+}
+</style>

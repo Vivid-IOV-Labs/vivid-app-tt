@@ -44,8 +44,8 @@ export function WebRTCAdaptor(initialValues) {
     }
   }
 
-  thiz.localVideo = document.getElementById(thiz.localVideoId);
-  thiz.remoteVideo = document.getElementById(thiz.remoteVideoId);
+  thiz.localVideo = thiz.localVideoId;
+  thiz.remoteVideo = thiz.remoteVideoId;
 
   if (!("WebSocket" in window)) {
     console.log("WebSocket not supported.");

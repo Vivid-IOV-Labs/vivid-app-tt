@@ -1,54 +1,61 @@
 <template>
-  <v-ons-page id="supplyStreamPage">
+  <v-ons-page id="Streamer">
     <v-ons-toolbar>
       <div class="left">
-        <v-ons-back-button></v-ons-back-button>
+        <v-ons-back-button @click="closeVideoStream">Back</v-ons-back-button>
       </div>
       <div class="center">
-        <span class="onsPageTitleStyle">GO LIVE</span>
+        <span class="onsPageTitleStyle">Live Stream in progress</span>
       </div>
     </v-ons-toolbar>
-    <div id="view-video-panel" style="height: 100%;display: flex;flex-direction: column;">
-      <div class="videoWrapper" style="flex:1">
-        <video
-          id="localVideo"
-          style="object-fit: cover;
-          height: 100%;
-          min-height: 100%; "
-          autoplay
-          muted
-          controls
-          playsinline
-        ></video>
+    <div class="streamer__container">
+      <div class="streamer__controls streamer__controls--top">
+        <v-ons-button class="btn btn--default flex-coulumn">
+          <v-ons-icon class="btn__icon" icon="fa-eye"></v-ons-icon>
+          <span>101</span>
+        </v-ons-button>
+
+        <v-ons-button class="btn btn--default ml-auto flex-coulumn">
+          <v-ons-icon class="btn__icon" icon="fa-clock"></v-ons-icon>
+          <span>{{ liveTime }}</span>
+        </v-ons-button>
       </div>
-      <v-ons-input
-        v-show="false"
-        type="text"
-        class="form-control"
-        v-model="streamNameBox"
-        id="streamName"
-        placeholder="Type stream name"
-      ></v-ons-input>
-      <div style="display:flex; padding:1rem; justify-content:space-between">
+      <base-video ref="videoplayer" :options="videoOptions"></base-video>
+
+      <div class="streamer__controls streamer__controls--bottom">
         <v-ons-button
           @click="startPublishing"
-          class="btn btn-info"
-          :disabled="start_publish_button.disabled"
+          class="btn btn--golive btn--full-width"
+          v-if="!start_publish_button.disabled"
           id="start_publish_button"
-        >Start Publishing</v-ons-button>
+          >Start Streaming
+          <v-ons-icon class="btn__icon" icon="fa-play"></v-ons-icon>
+        </v-ons-button>
         <v-ons-button
           @click="stopPublishing"
-          class="btn btn-info"
-          :disabled="stop_publish_button.disabled"
+          class="btn btn--golive btn--full-width"
+          v-if="!stop_publish_button.disabled"
           id="stop_publish_button"
-        >Stop Publishing</v-ons-button>
+          >End Streaming
+          <v-ons-icon class="btn__icon" icon="fa-pause"></v-ons-icon
+        ></v-ons-button>
       </div>
-
-      <span v-show="!this.stop_publish_button.disabled" class="btn" id="broadcastingInfo">Publishing</span>
+      <v-ons-alert-dialog
+        modifier="rowfooter"
+        :title="'Live stream reported'"
+        :footer="{
+          Ok: closeVideoStream
+        }"
+        :visible.sync="streamReported"
+      >
+        This Live stream has been reported and therefor ended
+      </v-ons-alert-dialog>
     </div>
+    <v-ons-bottom-toolbar
+      style="background-color: #1d1d1b !important;"
+    ></v-ons-bottom-toolbar>
   </v-ons-page>
 </template>
-
 <style>
 @import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import "../css/player.css";
@@ -57,15 +64,42 @@
 </style>
 
 <script>
+import videojs from "video.js";
+import BaseVideo from "@/components/BaseVideo.vue";
+import Home from "@/components/Home.vue";
+
 import "webrtc-adapter";
 import $ from "jquery";
 
 import { WebRTCAdaptor } from "@/js/webrtc_adaptor.js";
+import socketIOClient from "socket.io-client";
+import sailsIOClient from "sails.io.js";
 
+import env from "@/js/env.js";
+let io;
+
+if (socketIOClient.sails) {
+  io = socketIOClient;
+} else {
+  io = sailsIOClient(socketIOClient);
+  io.sails.url = env.web_service_url;
+}
 export default {
   name: "supplyStream",
+  components: {
+    BaseVideo
+  },
   data() {
     return {
+      player: null,
+      videoOptions: {
+        autoplay: true,
+        muted: true,
+        controls: false,
+        responsive: true,
+        fill: true,
+        fluid: false
+      },
       start_publish_button: {
         disabled: true
       },
@@ -82,18 +116,24 @@ export default {
       pc_config: "",
       sdpConstraints: "",
       mediaConstraints: "",
-      webRTCAdaptor: ""
+      webRTCAdaptor: "",
+      streamReported: false,
+      openLocationCode: ""
     };
+  },
+  computed: {
+    liveTime() {
+      return this.player
+        ? this.player.currentTime().toFixed(2) + " s"
+        : "00:00 s";
+    }
   },
   methods: {
     closeVideoStream() {
+      this.stopPublishing();
       this.webRTCAdaptor.closeStream();
-
       this.webRTCAdaptor.closePeerConnection();
-
-      document.querySelector("ons-navigator").popPage({
-        refresh: true
-      });
+      this.$emit("push-page", Home);
     },
     startPublishing() {
       this.streamId = this.streamNameBox;
@@ -128,6 +168,12 @@ export default {
     }
   },
   mounted() {
+    io.socket.on("reportFlagRaisedAndLiveStreamRemoved", ({ data }) => {
+      this.openLocationCode = data.openLocationCode;
+      this.streamReported = true;
+    });
+    this.player = videojs.getPlayer(this.$refs.videoplayer.$refs.video);
+
     this.pc_config = null;
 
     this.sdpConstraints = {
@@ -139,13 +185,12 @@ export default {
       video: true,
       audio: true
     };
-
     this.webRTCAdaptor = new WebRTCAdaptor({
-      websocket_url: "wss://stream.vividiov.media:5443/WebRTCAppEE/websocket",
+      websocket_url: "wss://streams.vividiov.media:5443/WebRTCAppEE/websocket",
       mediaConstraints: this.mediaConstraints,
       peerconnection_config: this.pc_config,
       sdp_constraints: this.sdpConstraints,
-      localVideoId: "localVideo",
+      localVideoId: this.player.tech().el(),
       debug: true,
       callback: (info, description) => {
         if (info == "initialized") {
@@ -223,3 +268,79 @@ export default {
   }
 };
 </script>
+<style>
+.streamer__container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.streamer__controls {
+  padding: 1rem;
+  position: absolute;
+  z-index: 9999;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.streamer__controls--bottom {
+  bottom: 1.2rem;
+  align-items: flex-end;
+}
+.streamer__controls--top {
+  top: 1.2rem;
+  align-items: flex-start;
+}
+.streamer__container .vjs-tech {
+  object-fit: cover;
+  min-height: 100%; /* not good for the aspect ratio set square or landscape or vertical instead*/
+}
+.flex-coulumn {
+  display: flex;
+  flex-direction: column;
+}
+.btn {
+  text-align: center;
+  background-color: #6d6d3d;
+  font-weight: 550;
+  border-radius: 0.3rem;
+  padding: 0.4rem 0.6rem;
+  text-align: center;
+  background-color: #1d1d1b;
+  font-weight: 550;
+  border-radius: 0.3rem;
+  height: fit-content;
+  padding: 0.6rem 0.8rem;
+}
+.btn__icon {
+  margin-left: 0.2rem;
+}
+.btn--default {
+  background: #fff;
+}
+.btn--default .btn__icon {
+  margin-left: 0.2rem;
+  font-size: 1.2rem;
+  color: #1d1d1b;
+}
+.btn--full-width {
+  width: 100%;
+}
+.btn--join {
+  border: solid 1px #73e335;
+  color: #73e335;
+}
+.btn--request {
+  border: solid 1px #16dbdb;
+  color: #16dbdb;
+}
+.ml-auto {
+  margin-left: auto;
+}
+.btn--golive {
+  border: solid 1px #f73e2d;
+  color: #f73e2d;
+}
+</style>
