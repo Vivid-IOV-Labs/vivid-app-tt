@@ -119,7 +119,6 @@ export default {
       streamerIcon: null,
       redMarker: null,
       buttonGo: null,
-      slimPinIcon: null,
       joinMarkers: [],
       markerNew: null,
       markerUsers: null,
@@ -606,18 +605,6 @@ export default {
     this.initMap();
 
     this.initLayers();
-
-    this.slimPinIcon = L.icon({
-      //iconUrl: "slim_pin.svg",
-      iconUrl: require("@/assets/markers/slim_pin.svg"),
-      iconSize: [28, 85], // size of the icon
-      // iconSize: [38, 95],
-      iconAnchor: [13, 63],
-      className: "slimPinIcon",
-      popupAnchor: [0, -60]
-      // shadowSize: [68, 95],
-      // shadowAnchor: [22, 94]
-    });
 
     this.markerUsers = L.icon({
       iconUrl: require("@/assets/markers/marker-users.svg"),
