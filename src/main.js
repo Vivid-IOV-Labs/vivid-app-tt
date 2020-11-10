@@ -1,6 +1,6 @@
 // Webpack CSS import
-import "onsenui/css/onsenui.css";
-import "onsenui/css/onsen-css-components.css";
+import "onsenui/css/onsenui.min.css";
+import "onsenui/css/onsen-css-components.min.css";
 
 import Vue from "vue";
 import VueOnsen from "vue-onsenui";
