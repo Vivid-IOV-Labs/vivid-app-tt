@@ -45,7 +45,6 @@
 <style>
 @import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import "../../node_modules/leaflet/dist/leaflet.css";
-@import "../css/player.css";
 @import "../../node_modules/leaflet-geosearch/assets/css/leaflet.css";
 @import "../css/requestStream.css";
 .dialog {

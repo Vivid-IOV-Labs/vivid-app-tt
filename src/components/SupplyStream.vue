@@ -58,8 +58,6 @@
 </template>
 <style>
 @import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-@import "../css/player.css";
-/* @import "../css/supplyStream.css"; */
 @import "../css/viewStream.css";
 </style>
 

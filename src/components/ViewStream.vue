@@ -84,7 +84,6 @@
 
 <style>
 @import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-@import "../css/player.css";
 @import "../css/viewStream.css";
 </style>
 
@@ -390,5 +389,15 @@ export default {
 .btn--golive {
   border: solid 1px #f73e2d;
   color: #f73e2d;
+}
+#video_info {
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-family: sans-serif;
+  line-height: 45px;
+  height: 100%;
 }
 </style>
