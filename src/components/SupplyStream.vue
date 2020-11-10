@@ -69,7 +69,6 @@ import BaseVideo from "@/components/BaseVideo.vue";
 import Home from "@/components/Home.vue";
 
 import "webrtc-adapter";
-import $ from "jquery";
 
 import { WebRTCAdaptor } from "@/js/webrtc_adaptor.js";
 import socketIOClient from "socket.io-client";
@@ -108,8 +107,6 @@ export default {
       },
       screen_share_checkbox: "",
       install_extension_link: "",
-      //streamNameBox: {value:'stream1'},
-      //streamNameBox: "stream2",
       streamNameBox: this.$store.state.selectedPin.openLocationCode,
       streamId: "",
       name: "",
@@ -150,21 +147,17 @@ export default {
       }
     },
     startAnimation() {
-      $("#broadcastingInfo").fadeIn(800, () => {
-        $("#broadcastingInfo").fadeOut(800, () => {
-          var state = this.webRTCAdaptor.signallingState(this.streamId);
-          if (state != null && state != "closed") {
-            var iceState = this.webRTCAdaptor.iceConnectionState(this.streamId);
-            if (
-              iceState != null &&
-              iceState != "failed" &&
-              iceState != "disconnected"
-            ) {
-              this.startAnimation();
-            }
-          }
-        });
-      });
+      var state = this.webRTCAdaptor.signallingState(this.streamId);
+      if (state != null && state != "closed") {
+        var iceState = this.webRTCAdaptor.iceConnectionState(this.streamId);
+        if (
+          iceState != null &&
+          iceState != "failed" &&
+          iceState != "disconnected"
+        ) {
+          this.startAnimation();
+        }
+      }
     }
   },
   mounted() {

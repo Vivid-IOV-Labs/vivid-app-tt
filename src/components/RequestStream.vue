@@ -48,7 +48,6 @@
 @import "../css/player.css";
 @import "../../node_modules/leaflet-geosearch/assets/css/leaflet.css";
 @import "../css/requestStream.css";
-/* @import "../css/leafletmarkers/leaflet.extra-markers.min.css"; */
 .dialog {
   top: 46%;
   height: 82%;
