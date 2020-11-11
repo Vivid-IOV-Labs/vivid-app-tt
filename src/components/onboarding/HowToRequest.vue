@@ -54,17 +54,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.flex-center {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.btn--fake {
-  background: #fff;
-  border-width: 2px;
-  padding: 1rem 2rem;
-}
-</style>

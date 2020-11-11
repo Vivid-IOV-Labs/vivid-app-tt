@@ -45,5 +45,3 @@ export default {
   name: "HowToSee"
 };
 </script>
-
-<style lang="scss" scoped></style>

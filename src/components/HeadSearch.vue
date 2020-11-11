@@ -58,24 +58,3 @@ export default {
   }
 };
 </script>
-<style>
-.justify-center {
-  justify-content: center;
-}
-.text-center {
-  text-align: center!;
-}
-.list-item__center {
-  justify-content: space-between;
-}
-.popover {
-  padding: 1rem;
-}
-.menu__link {
-  text-decoration: none;
-  color: #222;
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-</style>

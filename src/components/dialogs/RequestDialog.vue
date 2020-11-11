@@ -35,13 +35,6 @@
               v-model.lazy="searchAddress"
               @input="onSearchAddress"
             ></v-ons-search-input>
-            <!-- <v-ons-popover
-              :cover-target="false"
-              target="#search"
-              :visible="autocompleteVisible"
-              cancelable
-              direction="up"
-            > -->
             <v-ons-list v-if="autocompleteVisible">
               <v-ons-list-item
                 v-for="item in autocompleteAdresses"
@@ -52,7 +45,6 @@
                 {{ item.label }}
               </v-ons-list-item>
             </v-ons-list>
-            <!-- </v-ons-popover> -->
           </div>
         </v-ons-list-item>
         <v-ons-list-item>
@@ -188,5 +180,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped></style>

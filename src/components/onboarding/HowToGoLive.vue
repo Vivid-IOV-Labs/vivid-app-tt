@@ -46,5 +46,3 @@ export default {
   name: "HowToGoLive"
 };
 </script>
-
-<style scoped></style>

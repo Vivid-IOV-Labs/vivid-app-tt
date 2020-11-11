@@ -711,8 +711,3 @@ export default {
   }
 };
 </script>
-<style>
-button:disabled {
-  opacity: 0.4;
-}
-</style>

@@ -113,12 +113,6 @@ export default {
 };
 </script>
 <style>
-.justify-center {
-  justify-content: center;
-}
-.text-center {
-  text-align: center!;
-}
 .list-item__center {
   justify-content: space-between;
 }
