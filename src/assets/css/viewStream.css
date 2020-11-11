@@ -10,13 +10,9 @@
   margin-bottom: auto;
   margin-left: auto;
   padding: 6px 6px 6px 6px;
-  /* width: 7em; */
   border-radius: 5px;
 }
 
-#remoteVideo {
-  display: none;
-}
 
 #start_publish_button {
   background-color: #1d1d1b !important;

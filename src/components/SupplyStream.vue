@@ -193,7 +193,7 @@ export default {
           console.log("publish started");
           this.start_publish_button.disabled = true;
           this.stop_publish_button.disabled = false;
-          this.startAnimation();
+          //this.startAnimation();
         } else if (info == "publish_finished") {
           //stream is being finished
           console.log("publish finished");
