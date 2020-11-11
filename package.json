@@ -34,8 +34,6 @@
     "webrtc-adapter": "^7.7.0"
   },
   "devDependencies": {
-    "@fullhuman/postcss-purgecss": "^3.0.0",
-    "@fullhuman/vue-cli-plugin-purgecss": "~3.0.1",
     "@vue/cli-plugin-babel": "^4.5.8",
     "@vue/cli-plugin-eslint": "^4.5.8",
     "@vue/cli-service": "^4.5.8",
