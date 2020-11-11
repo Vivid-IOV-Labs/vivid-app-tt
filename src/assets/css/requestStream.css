@@ -1,9 +1,3 @@
-
-body {
-  padding: 0;
-  margin: 0;
-}
-
 html,
  body,
  #map
@@ -34,9 +28,6 @@ html,
     cursor: pointer;
     }
 
-  .btn__icon--white{
-    color: #fff;
-  }
 
 #map-container {
   flex: 1;
@@ -44,20 +35,10 @@ html,
   position: relative;
 }
 
-.page__content {
-  width: 100% !important;
-  display: flex;
-    flex-direction: column;
-}
-
 #requestStreamPage .page__content {
   height: 100%;
   display: flex;
   flex-direction: column;
-}
-
-.toolbar {
-  background-color: #1d1d1b !important;
 }
 
 .list-item--chevron:before,
@@ -76,23 +57,11 @@ html,
   width: 65%;
 }
 
-.flex{
-  display: flex;
-}
-.flex-right{
-  margin-left: auto;
-}
 #pushToViewStreamPageButton {
   display: flex;
   justify-content: center;
 }
-.btn{
-    text-align: center;
-    background-color: #1d1d1b;
-    font-weight: 550;
-    border-radius: 0.3rem;
-    padding: 0.4rem 0.6rem;
-}
+
 #pushToViewStreamPageButton > .button {
   flex: 1;
   text-align: center;
@@ -101,37 +70,6 @@ html,
   border-radius: 0.3rem;
   padding: 0.6rem 0.8rem;
 }
-.btn__icon{
-  margin-left: 0.2rem;
-}
-
- .btn--join {
-  border: solid 1px #73E335;
-  color: #73E335;
-}
- .btn--request {
-  border: solid 1px #16dbdb;
-  color: #16dbdb;
-}
- .btn--golive {
-  border: solid 1px #F73E2D;
-  color: #F73E2D;
-}
-#button-golive{
-  color: #fff;
-  background-color: #F73E2D;
-  padding: 0.8rem 1rem;
-  margin: 0.4rem;
-  border-radius: 0.3rem;
-}
-
-#button-join {
-  color: #fff;
-  background-color: #73E335;
-  padding: 0.8rem 1rem;
-  margin: 0.4rem;
-  border-radius: 0.3rem;
-}
 
 .profilePic {
   width: 5em !important;
@@ -139,12 +77,6 @@ html,
 }
 
 
-.tabbar{
-  background-color: #1d1d1b ;
-}
-#search {
-  text-align: center;
-}
 .toolbar #search .search-input{
   width: auto;
   background-color: #4a4a48 ;
@@ -158,9 +90,6 @@ html,
   background-color: #bbbbba ;
   color:#4a4a48 ;
   cursor: pointer;
-}
-.toolbar--material{
-  height: 4rem;
 }
 
 .popover {

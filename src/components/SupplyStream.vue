@@ -5,7 +5,7 @@
         <v-ons-back-button @click="closeVideoStream">Back</v-ons-back-button>
       </div>
       <div class="center">
-        <span class="onsPageTitleStyle">Live Stream in progress</span>
+        <span>Live Stream in progress</span>
       </div>
     </v-ons-toolbar>
     <div class="streamer__container">
@@ -56,10 +56,6 @@
     ></v-ons-bottom-toolbar>
   </v-ons-page>
 </template>
-<style>
-@import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-@import "../assets/css/viewStream.css";
-</style>
 
 <script>
 import videojs from "video.js";

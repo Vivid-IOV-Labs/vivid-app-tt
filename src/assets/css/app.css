@@ -24,6 +24,9 @@ button:disabled {
 .btn__icon {
   margin-left: 0.2rem;
 }
+.btn__icon--white{
+  color: #fff;
+}
 .btn--default {
   background: #fff;
 }
@@ -43,6 +46,10 @@ button:disabled {
   border: solid 1px #16dbdb;
   color: #16dbdb;
 }
+.btn--golive {
+  border: solid 1px #F73E2D;
+  color: #F73E2D;
+}
 .btn-tip {
   display: block;
   height: 3.4rem;
@@ -60,9 +67,29 @@ button:disabled {
   border-width: 2px;
   padding: 1rem 2rem;
 }
+#button-golive{
+  color: #fff;
+  background-color: #F73E2D;
+  padding: 0.8rem 1rem;
+  margin: 0.4rem;
+  border-radius: 0.3rem;
+}
 
+#button-join {
+  color: #fff;
+  background-color: #73E335;
+  padding: 0.8rem 1rem;
+  margin: 0.4rem;
+  border-radius: 0.3rem;
+}
 
 /** Atoms **/
+.flex{
+  display: flex;
+}
+.flex-right{
+  margin-left: auto;
+}
 .flex-center {
   flex: 1;
   display: flex;
@@ -114,4 +141,15 @@ button:disabled {
 .streamer__container .vjs-tech {
   object-fit: cover;
   min-height: 100%; /* not good for the aspect ratio set square or landscape or vertical instead*/
+}
+
+/** Onsen UI **/
+.toolbar__title {
+  color: #fff;
+}
+.toolbar {
+  background-color: #1d1d1b !important;
+}
+.toolbar--material{
+  height: 4rem;
 }

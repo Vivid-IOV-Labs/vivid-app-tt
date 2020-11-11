@@ -11,7 +11,7 @@
         ></v-ons-back-button>
       </div>
       <div class="center">
-        <span class="onsPageTitleStyle">Trending</span>
+        <span>Trending</span>
       </div>
     </v-ons-toolbar>
     <div class="streamer__container">
@@ -81,12 +81,6 @@
     ></v-ons-bottom-toolbar>
   </v-ons-page>
 </template>
-
-<style>
-@import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-@import "../assets/css/viewStream.css";
-</style>
-
 <script>
 import videojs from "video.js";
 import BaseVideo from "@/components/BaseVideo.vue";
