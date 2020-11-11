@@ -1,4 +1,4 @@
-import Api from "@/js/api.js";
+import Api from "./ApiService.js";
 
 export default {
   add(params, state) {

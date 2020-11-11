@@ -109,7 +109,7 @@
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { mapGetters, mapMutations } from "vuex";
 
-import code_transforms from "@/js/location_code_string_prep.js";
+import code_transforms from "@/util/location_code_string_prep.js";
 
 import OpenLocationCodeJS from "open-location-code";
 let OpenLocationCode = OpenLocationCodeJS.OpenLocationCode;

@@ -1,4 +1,4 @@
-import Api from "@/js/api.js";
+import Api from "./ApiService.js";
 
 export default {
   find_all_requests(params, state) {

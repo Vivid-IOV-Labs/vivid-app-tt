@@ -67,9 +67,9 @@ import "leaflet-defaulticon-compatibility";
 import socketIOClient from "socket.io-client";
 import sailsIOClient from "sails.io.js";
 
-import env from "@/js/env.js";
+import env from "@/env.js";
 
-import code_transforms from "@/js/location_code_string_prep.js";
+import code_transforms from "@/util/location_code_string_prep.js";
 
 let io;
 

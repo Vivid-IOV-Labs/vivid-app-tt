@@ -97,13 +97,13 @@ import { mapMutations, mapGetters, mapActions } from "vuex";
 
 import "webrtc-adapter";
 
-import { WebRTCAdaptor } from "@/js/webrtc_adaptor.js";
+import { WebRTCAdaptor } from "@/util/webrtc_adaptor.js";
 
 import SupplyStream from "@/components/SupplyStream.vue";
 import socketIOClient from "socket.io-client";
 import sailsIOClient from "sails.io.js";
 
-import env from "@/js/env.js";
+import env from "@/env.js";
 let io;
 
 if (socketIOClient.sails) {

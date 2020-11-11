@@ -2,10 +2,10 @@
 import Vue from "vue";
 import Vuex from "vuex";
 // import createPersistedState from 'vuex-persistedstate'
-import RequestService from "@/js/RequestService";
-import FlagService from "@/js/FlagService";
+import RequestService from "@/services/RequestService";
+import FlagService from "@/services/FlagService";
 
-import env from "@/js/env.js";
+import env from "@/env.js";
 
 import getWeb3 from "@/util/getWeb3";
 
