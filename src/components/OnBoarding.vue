@@ -6,7 +6,7 @@
           <img
             style="margin: 0 0.8rem"
             width="30"
-            src="../img/logopeerkat.png"
+            src="../assets/img/logopeerkat.png"
             alt=""
           />
           <span

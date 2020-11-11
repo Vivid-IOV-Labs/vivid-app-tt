@@ -14,7 +14,7 @@
 <style>
 @import url("https://fonts.googleapis.com/css?family=Source Code Pro");
 
-@import "css/app.css";
+@import "assets/css/app.css";
 body {
   font-family: "Source Code Pro";
 }

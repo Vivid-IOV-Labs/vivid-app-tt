@@ -1,7 +1,7 @@
 <template>
   <v-ons-page>
     <div class="loading-page">
-      <img class="loading-page__img" src="@/img/logopeerkat.png" />
+      <img class="loading-page__img" src="@/assets/img/logopeerkat.png" />
       <h1 class="loading-page__title">PEERKAT</h1>
     </div>
   </v-ons-page>

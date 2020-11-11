@@ -16,7 +16,7 @@
         <div class="flex-center">
           <img
             style="margin:0 auto; display:block;max-height:4rem"
-            src="../../assets/peerkat.svg"
+            src="../../assets/img/peerkat.svg"
             alt
           />
         </div>
@@ -28,7 +28,7 @@
         <div class="flex-center">
           <img
             style="margin:0 auto; display:block;max-height:4rem"
-            src="../../assets/tipping.png"
+            src="../../assets/img/tipping.png"
             alt
           />
         </div>

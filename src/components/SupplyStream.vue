@@ -58,7 +58,7 @@
 </template>
 <style>
 @import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-@import "../css/viewStream.css";
+@import "../assets/css/viewStream.css";
 </style>
 
 <script>

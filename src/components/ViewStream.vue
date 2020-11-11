@@ -71,7 +71,7 @@
             <v-ons-icon class="btn__icon" icon="fa-shopping-cart"></v-ons-icon>
           </v-ons-button>
           <a class="btn-tip " @click.prevent="tipStreamer()">
-            <img src="../assets/tipping.png" alt />
+            <img src="../assets/img/tipping.png" alt />
           </a>
         </div>
       </div>
@@ -84,7 +84,7 @@
 
 <style>
 @import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-@import "../css/viewStream.css";
+@import "../assets/css/viewStream.css";
 </style>
 
 <script>

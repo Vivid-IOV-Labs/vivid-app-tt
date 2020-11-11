@@ -16,7 +16,7 @@
         <div class="flex-center">
           <img
             style="margin:0 auto; display:block;max-height:4rem"
-            src="../../assets/hashtag.png"
+            src="../../assets/img/hashtag.png"
             alt
           />
         </div>
@@ -29,7 +29,7 @@
         <div class="flex-center">
           <img
             style="margin:0 auto; display:block;max-height:4rem"
-            src="../../assets/shopping.png"
+            src="../../assets/img/shopping.png"
             alt
           />
         </div>
