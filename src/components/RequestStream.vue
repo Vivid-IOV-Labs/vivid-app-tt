@@ -1,7 +1,8 @@
 <template>
   <v-ons-page id="requestStreamPage">
     <div id="map-container">
-      <div id="map" class="map"></div>
+      <div id="map"></div>
+
       <section id="nav_buttons">
         <div class="flex">
           <v-ons-button
@@ -24,7 +25,6 @@
         </div>
       </section>
     </div>
-    <div></div>
     <join-dialog
       @push-viewstream="fromJoin_list"
       v-model="isJoinDialog"
@@ -43,7 +43,6 @@
 </template>
 
 <style>
-@import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import "../../node_modules/leaflet/dist/leaflet.css";
 @import "../../node_modules/leaflet-geosearch/assets/css/leaflet.css";
 @import "../assets/css/requestStream.css";

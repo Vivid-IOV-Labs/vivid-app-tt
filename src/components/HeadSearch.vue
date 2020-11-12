@@ -7,8 +7,7 @@
       @input="onSearchAddress"
     ></v-ons-search-input>
     <v-ons-popover
-      style="z-index:99999999;
-  transform: translate(2%,-20%);"
+      style="z-index:99999999;"
       target="#search"
       :visible="autocompleteVisible"
       cancelable

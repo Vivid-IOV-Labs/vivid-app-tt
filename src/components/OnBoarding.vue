@@ -116,7 +116,4 @@ export default {
 .list-item__center {
   justify-content: space-between;
 }
-.popover {
-  padding: 1rem;
-}
 </style>

@@ -1,45 +1,33 @@
-html,
- body,
- #map
+#map
 {
   height: 100% !important;
   width: 100% !important;
 }
-
+#map-container {
+  height: 100%;
+  position: relative;
+}
 #nav_buttons {
   position: absolute;
   width: 100%;
   z-index: 9999;
   bottom: 1.2rem;
   text-align: center !important;
-  padding:1rem;
 }
 
 #nav_buttons .btn--locate{
   background-color: #4a4a48 ;
   color:#bbbbba;
   border-radius: 0.3rem;
-  margin: 0.4rem;
+  margin-bottom: 0.4rem;
   margin-left: auto;
+  margin-right: 1rem;
   }
   #nav_buttons .btn--locate:hover{
     background-color: #bbbbba ;
     color:#4a4a48 ;
     cursor: pointer;
     }
-
-
-#map-container {
-  flex: 1;
-  height: 100%;
-  position: relative;
-}
-
-#requestStreamPage .page__content {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
 
 .list-item--chevron:before,
 .list-item__expand-chevron {
@@ -58,6 +46,7 @@ html,
 }
 
 #pushToViewStreamPageButton {
+  padding: 1rem;
   display: flex;
   justify-content: center;
 }
@@ -92,7 +81,3 @@ html,
   cursor: pointer;
 }
 
-.popover {
- left: auto;
- width: auto;
-}

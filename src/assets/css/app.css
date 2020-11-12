@@ -1,3 +1,6 @@
+*{
+  box-sizing: border-box;
+}
 /* Desktop/Laptop Styles */
 @media all and (min-width: 414px) {
   body {

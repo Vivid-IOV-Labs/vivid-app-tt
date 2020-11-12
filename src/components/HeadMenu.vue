@@ -110,9 +110,6 @@ export default {
 .list-item__center {
   justify-content: space-between;
 }
-.popover {
-  padding: 1rem;
-}
 .menu__link {
   text-decoration: none;
   color: #222;
