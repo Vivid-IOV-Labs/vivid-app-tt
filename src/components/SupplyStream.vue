@@ -51,9 +51,7 @@
         This Live stream has been reported and therefor ended
       </v-ons-alert-dialog>
     </div>
-    <v-ons-bottom-toolbar
-      style="background-color: #1d1d1b !important;"
-    ></v-ons-bottom-toolbar>
+    <v-ons-bottom-toolbar></v-ons-bottom-toolbar>
   </v-ons-page>
 </template>
 

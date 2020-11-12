@@ -149,7 +149,7 @@ button:disabled {
 .toolbar__title {
   color: #fff;
 }
-.toolbar {
+.toolbar, .bottom-bar{
   background-color: #1d1d1b !important;
 }
 .toolbar--material{
