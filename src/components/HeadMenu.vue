@@ -1,11 +1,7 @@
 <template>
   <div>
     <v-ons-toolbar-button @click="showPopover">
-      <v-ons-icon
-        style="color:#fff"
-        class="btn__icon"
-        icon="fa-bars"
-      ></v-ons-icon>
+      <v-ons-icon class="btn__icon c-white" icon="fa-bars"></v-ons-icon>
     </v-ons-toolbar-button>
     <v-ons-popover
       cancelable
@@ -13,7 +9,6 @@
       :target="popoverTarget"
       :direction="popoverDirection"
       :cover-target="coverTarget"
-      style="z-index: 99999; text-align:center"
     >
       <h6 class="text-center">Peerkat <small>BETA</small></h6>
       <v-ons-list class="text-center">
@@ -81,7 +76,6 @@
 </template>
 
 <script>
-/* eslint-disable no-undef */
 export default {
   name: "HeadMenu",
   data() {

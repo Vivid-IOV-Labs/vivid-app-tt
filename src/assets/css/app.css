@@ -117,6 +117,9 @@ button:disabled {
 .mt-4 {
   margin-bottom: 1rem;
 }
+.c-white{
+  color: #fff;
+}
 
 /** Streamer Video View**/
 .streamer__container {
@@ -157,4 +160,7 @@ button:disabled {
 }
 .toolbar--material{
   height: 4rem;
+}
+.poopover{
+  z-index: 99999;
 }
