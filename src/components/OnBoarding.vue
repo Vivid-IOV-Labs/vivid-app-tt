@@ -2,32 +2,15 @@
   <v-ons-page>
     <v-ons-toolbar>
       <div class="left">
-        <span>
-          <img
-            style="margin: 0 0.8rem"
-            width="30"
-            src="../assets/img/logopeerkat.png"
-            alt=""
-          />
-          <span
-            style="    color: #999;
-    font-size: 0.8rem;
-    font-weight: 700;"
-            >BETA</span
-          >
-        </span>
+        <head-logo></head-logo>
       </div>
       <div class="center">
         Welcome To Peerkat
       </div>
       <div class="right">
-        <v-ons-toolbar-button style="color:#FFF" @click="endOnBoarding">
+        <v-ons-toolbar-button @click="endOnBoarding">
           Skip
-          <v-ons-icon
-            style="color:#fff"
-            class="btn__icon"
-            icon="fa-angle-right"
-          ></v-ons-icon>
+          <v-ons-icon class="btn__icon" icon="fa-angle-right"></v-ons-icon>
         </v-ons-toolbar-button>
       </div>
     </v-ons-toolbar>
@@ -47,8 +30,7 @@
     <div :style="dots">
       <button
         v-if="carouselIndex == onBoardingViews.length - 1"
-        class="btn btn--large btn--request"
-        style="margin-bottom:8px"
+        class="btn btn--large btn--request mt-4"
         @click="endOnBoarding"
       >
         ENTER PLANET PEERKAT
@@ -58,7 +40,6 @@
           :index="dotIndex - 1"
           v-for="dotIndex in onBoardingViews.length"
           :key="dotIndex"
-          style="cursor: pointer"
           @click="carouselIndex = dotIndex - 1"
         >
           {{ carouselIndex === dotIndex - 1 ? "\u25CF" : "\u25CB" }}
@@ -70,6 +51,8 @@
 </template>
 
 <script>
+import HeadLogo from "@/components/HeadLogo.vue";
+
 import HowToRequest from "@/components/onboarding/HowToRequest.vue";
 import HowToGoLive from "@/components/onboarding/HowToGoLive.vue";
 import HowToSee from "@/components/onboarding/HowToSee.vue";
@@ -77,11 +60,7 @@ import Home from "@/components/Home.vue";
 
 export default {
   name: "OnBoarding",
-  components: {
-    HowToRequest,
-    HowToGoLive,
-    HowToSee
-  },
+  components: { HeadLogo, HowToRequest, HowToGoLive, HowToSee },
   data() {
     return {
       onBoarding: false,
