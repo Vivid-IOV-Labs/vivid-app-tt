@@ -70,6 +70,23 @@ button:disabled {
   border-width: 2px;
   padding: 1rem 2rem;
 }
+.btn_close {
+  float: right;
+  box-shadow: none;
+  background: transparent;
+  border: none;
+}
+.btn--full {
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+}
+.btn--large {
+  border-radius: 0.3rem;
+  margin: 1rem auto;
+  padding: 0.6rem 1rem;
+  font-weight: 550;
+}
 #button-golive{
   color: #fff;
   background-color: #F73E2D;
@@ -92,8 +109,11 @@ button:disabled {
 .flex-right{
   margin-left: auto;
 }
-.flex-center {
-  flex: 1;
+.flex-center-y{
+  display: flex;
+  align-items: center;
+}
+.flex-center-xy{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -120,6 +140,8 @@ button:disabled {
 .mt-2 {
   margin-top: 0.5rem;
 }
+.p-4{padding: 1rem;}
+.p-2{padding: 0.5rem;}
 .c-white{
   color: #fff;
 }

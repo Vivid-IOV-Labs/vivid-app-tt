@@ -4,19 +4,14 @@
       <v-ons-toolbar>
         <div class="center">Latest Live Streams</div>
         <div class="right">
-          <v-ons-button
-            style="float:right;  box-shadow:none; background:transparent; border:none"
-            @click="close"
-          >
+          <v-ons-button class="btn_close" @click="close">
             <v-ons-icon class="btn__icon--white" icon="fa-times"></v-ons-icon>
           </v-ons-button>
         </div>
       </v-ons-toolbar>
-      <v-ons-list style="flex:1">
+      <v-ons-list>
         <v-ons-list-item v-for="marker in markers" :key="marker.id">
-          <div
-            style="display: flex;padding: 1rem;width: 100%; align-items: center;"
-          >
+          <div class="flex-center-y p-4">
             <div>
               <h3>{{ marker.mapPin.details }}</h3>
               <p>
@@ -31,12 +26,9 @@
               </p>
             </div>
 
-            <div style="margin-left:auto">
+            <div class="ml-auto">
               <v-ons-button
-                class="btn btn--join"
-                style="
-            text-align: center;
-            padding: 0.6rem 1rem;"
+                class="btn btn--join bnt--large text-center"
                 @click="join(marker.openLocationCode)"
                 >Trending
                 <v-ons-icon class="btn__icon" icon="fa-users"></v-ons-icon

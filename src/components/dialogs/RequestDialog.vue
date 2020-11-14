@@ -4,17 +4,14 @@
       <v-ons-toolbar>
         <div class="center">Request A Stream</div>
         <div class="right">
-          <v-ons-button
-            style="float:right; box-shadow:none; background:transparent; border:none"
-            @click="close"
-          >
+          <v-ons-button class="btn_close" @click="close">
             <v-ons-icon class="btn__icon--white" icon="fa-times"></v-ons-icon>
           </v-ons-button>
         </div>
       </v-ons-toolbar>
-      <v-ons-list style="flex:1">
+      <v-ons-list>
         <v-ons-list-item>
-          <div style="display:flex;flex-direction:column; padding:1rem">
+          <div class="flex-coulumn p-4">
             <textarea
               title="Request Title"
               class="textarea textarea--transparent"
@@ -26,11 +23,10 @@
           </div>
         </v-ons-list-item>
         <v-ons-list-item>
-          <div style="display:flex;flex-direction:column; padding:1rem">
+          <div class="flex-coulumn p-4">
             <v-ons-search-input
               title="Add Location"
               id="search"
-              style="width:100%"
               placeholder="Add Location"
               v-model.lazy="searchAddress"
               @input="onSearchAddress"
@@ -48,7 +44,7 @@
           </div>
         </v-ons-list-item>
         <v-ons-list-item>
-          <div style="display:flex;flex-direction:column; padding:1rem">
+          <div class="flex-coulumn p-4">
             <v-ons-list>
               <div>
                 <v-ons-list-item>
@@ -84,20 +80,15 @@
           </div>
         </v-ons-list-item>
       </v-ons-list>
-      <v-ons-button
-        class="btn btn--request"
-        style="width: 90%;
-            margin: 1rem auto;
-            padding: 0.6rem 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight:550;"
-        @click="closeRequestDialog"
-      >
-        Confirm
-        <base-icon name="request"></base-icon>
-      </v-ons-button>
+      <div class="flex-center-xy p-2">
+        <v-ons-button
+          class="btn btn--request btn--full btn--large"
+          @click="closeRequestDialog"
+        >
+          Confirm
+          <base-icon name="request"></base-icon>
+        </v-ons-button>
+      </div>
     </v-ons-page>
   </v-ons-dialog>
 </template>

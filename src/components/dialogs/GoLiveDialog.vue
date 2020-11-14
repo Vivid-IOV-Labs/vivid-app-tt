@@ -4,17 +4,14 @@
       <v-ons-toolbar>
         <div class="center">About my Live Stream</div>
         <div class="right">
-          <v-ons-button
-            style="float:right; box-shadow:none; background:transparent; border:none"
-            @click="close"
-          >
+          <v-ons-button class="btn_close" @click="close">
             <v-ons-icon class="btn__icon--white" icon="fa-times"></v-ons-icon>
           </v-ons-button>
         </div>
       </v-ons-toolbar>
-      <v-ons-list style="flex:1">
+      <v-ons-list>
         <v-ons-list-item>
-          <div style="display:flex;flex-direction:column; padding:1rem">
+          <div class="flex-coulumn p-4">
             <textarea
               title="Stream Title"
               class="textarea textarea--transparent"
@@ -25,22 +22,14 @@
           </div>
         </v-ons-list-item>
         <v-ons-list-item>
-          <div style="display:flex;flex-direction:column; padding:1rem">
+          <div class="flex-coulumn p-4">
             <v-ons-search-input
               id="search"
-              style="width:100%"
               title="Add Location"
               placeholder="Add Location"
               v-model.lazy="searchAddress"
               @input="onSearchAddress"
             ></v-ons-search-input>
-            <!-- <v-ons-popover
-              :cover-target="false"
-              target="#search"
-              :visible="autocompleteVisible"
-              cancelable
-              direction="up"
-            >-->
             <v-ons-list v-if="autocompleteVisible">
               <v-ons-list-item
                 v-for="item in autocompleteAdresses"
@@ -50,11 +39,10 @@
                 >{{ item.label }}</v-ons-list-item
               >
             </v-ons-list>
-            <!-- </v-ons-popover> -->
           </div>
         </v-ons-list-item>
         <v-ons-list-item>
-          <div style="display:flex;flex-direction:column; padding:1rem">
+          <div class="flex-coulumn p-4">
             <v-ons-list>
               <div>
                 <v-ons-list-item>
@@ -87,20 +75,15 @@
           </div>
         </v-ons-list-item>
       </v-ons-list>
-      <v-ons-button
-        class="btn btn--golive"
-        style="width: 90%;
-            display: block;
-            border-radius:0.3rem;
-            margin: 1rem auto;
-            text-align: center;
-            padding: 0.6rem 1rem;
-            font-weight:550;"
-        @click="closeGoLiveDialog"
-      >
-        Confirm
-        <v-ons-icon class="btn__icon" icon="fa-video"></v-ons-icon>
-      </v-ons-button>
+      <div class="flex-center-xy p-2">
+        <v-ons-button
+          class="btn btn--golive btn--full btn--large"
+          @click="closeGoLiveDialog"
+        >
+          Confirm
+          <v-ons-icon class="btn__icon" icon="fa-video"></v-ons-icon>
+        </v-ons-button>
+      </div>
     </v-ons-page>
   </v-ons-dialog>
 </template>
