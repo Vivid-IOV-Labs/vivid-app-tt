@@ -1,17 +1,13 @@
 <template>
-  <div style="display:flex;flex-direction:column; padding:0.4rem 0 0">
+  <span>
     <v-ons-search-input
       id="search"
+      class="mt-2"
       placeholder="Search Location"
       v-model.lazy="searchAddress"
       @input="onSearchAddress"
     ></v-ons-search-input>
-    <v-ons-popover
-      style="z-index:99999999;"
-      target="#search"
-      :visible="autocompleteVisible"
-      cancelable
-    >
+    <v-ons-popover target="#search" :visible="autocompleteVisible" cancelable>
       <v-ons-list>
         <v-ons-list-item
           v-for="item in autocompleteAdresses"
@@ -22,7 +18,7 @@
         >
       </v-ons-list>
     </v-ons-popover>
-  </div>
+  </span>
 </template>
 
 <script>

@@ -115,7 +115,10 @@ button:disabled {
   margin-bottom: 1rem;
 }
 .mt-4 {
-  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+.mt-2 {
+  margin-top: 0.5rem;
 }
 .c-white{
   color: #fff;
