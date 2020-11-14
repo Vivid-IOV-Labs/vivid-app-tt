@@ -3,11 +3,7 @@
     <v-ons-toolbar>
       <div class="left">
         <v-ons-back-button @click.prevent="endViewingStream()">
-          <v-ons-icon
-            style="color:#fff"
-            class="btn__icon"
-            icon="fa-angle-left"
-          ></v-ons-icon
+          <v-ons-icon class="btn__icon" icon="fa-angle-left"></v-ons-icon
         ></v-ons-back-button>
       </div>
       <div class="center">
@@ -50,12 +46,7 @@
           </v-ons-alert-dialog>
         </div>
       </div>
-      <div
-        id="video_info"
-        style="
-          height: 100%;
-          min-height: 100%; "
-      >
+      <div id="video_info">
         Stream will start playing automatically
         <br />when it is live
       </div>
@@ -308,5 +299,6 @@ export default {
   font-family: sans-serif;
   line-height: 45px;
   height: 100%;
+  min-height: 100%;
 }
 </style>
