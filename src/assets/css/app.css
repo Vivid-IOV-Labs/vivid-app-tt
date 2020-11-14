@@ -122,6 +122,9 @@ button:disabled {
   display: flex;
   flex-direction: column;
 }
+.flex-stretch{
+  flex: 1;
+}
 .justify-center {
   justify-content: center;
 }
@@ -188,4 +191,9 @@ button:disabled {
 }
 .poopover{
   z-index: 99999;
+}
+/**How TO **/
+
+.howtoicon{
+  margin:0 auto; display:block;max-height:4rem
 }
