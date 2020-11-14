@@ -1,17 +1,11 @@
 <template functional>
-  <span>
+  <span class="head_logo">
     <img
-      style="margin: 0 0.8rem"
-      width="30"
+      class="head_logo__img"
       src="../assets/img/logopeerkat.png"
-      alt=""
+      alt="Peerkat Logo"
     />
-    <span
-      style="    color: #999;
-    font-size: 0.8rem;
-    font-weight: 700;"
-      >BETA</span
-    >
+    <span class="head_logo__beta">BETA</span>
   </span>
 </template>
 <script>
@@ -19,3 +13,19 @@ export default {
   name: "HeadLogo"
 };
 </script>
+<style>
+.head_logo {
+  display: inline-flex;
+  align-items: center;
+}
+.head_logo__img {
+  width: 2rem;
+  margin: 0 0.8rem;
+}
+
+.head_logo__beta {
+  color: #999;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+</style>
