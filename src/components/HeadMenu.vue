@@ -1,9 +1,13 @@
 <template>
   <div>
     <v-ons-toolbar-button @click="showPopover">
+<<<<<<< Updated upstream
       <v-ons-icon class="btn__icon c-white" icon="fa-bars">
         <base-icon class="btn__icon--white" name="times"></base-icon>
       </v-ons-icon>
+=======
+      <base-icon class="btn__icon--white" name="bars"></base-icon>
+>>>>>>> Stashed changes
     </v-ons-toolbar-button>
     <v-ons-popover
       cancelable
@@ -13,7 +17,7 @@
       :cover-target="coverTarget"
     >
       <h6 class="text-center">Peerkat <small>BETA</small></h6>
-      <v-ons-list class="text-center">
+      <v-ons-list class="text-center p-2">
         <v-ons-list-item class="text-center" modifier="tappable"
           ><a class="menu__link" href="#" @click="toOnboarding">
             User Guide
@@ -62,17 +66,19 @@
           target="_blank"
           class="btn btn--default"
         >
-          <v-ons-icon class="btn__icon" icon="fa-twitter"></v-ons-icon>
+          <base-icon class="btn__icon" name="twitter"></base-icon>
         </a>
         <a
           href="https://t.me/joinchat/M90RPBklSbAkMzfLl02Qcw"
           target="_blank"
           class="btn btn--default"
         >
-          <v-ons-icon class="btn__icon" icon="fa-telegram"></v-ons-icon>
+          <base-icon class="btn__icon" name="telegram"></base-icon>
         </a>
       </div>
-      <small class="text-center">© 2020 Peerkat. All rights reserved. </small>
+      <div class="text-center p-1 ">
+        <small>© 2020 Peerkat. All rights reserved. </small>
+      </div>
     </v-ons-popover>
   </div>
 </template>
@@ -113,5 +119,8 @@ export default {
   display: block;
   width: 100%;
   height: 100%;
+}
+.menu__link:last {
+  border: none !important;
 }
 </style>

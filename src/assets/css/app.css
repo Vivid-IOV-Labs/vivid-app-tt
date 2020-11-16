@@ -121,6 +121,7 @@ button:disabled {
   flex-direction: column;
 }
 .flex-stretch{
+  width: 100%;
   flex: 1;
 }
 .justify-center {
@@ -143,6 +144,7 @@ button:disabled {
 }
 .p-4{padding: 1rem;}
 .p-2{padding: 0.5rem;}
+.p-1{padding: 0.25rem;}
 .c-white{
   color: #fff;
 }
