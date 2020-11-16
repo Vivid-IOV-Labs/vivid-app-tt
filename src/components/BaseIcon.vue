@@ -93,13 +93,7 @@ export default {
   margin-bottom: 0.125em;
   vertical-align: middle;
   width: 1.2em;
-<<<<<<< Updated upstream
-=======
   display: inline-block;
   pointer-events: none;
->>>>>>> Stashed changes
-}
-.icon__svg::before {
-  content: "&nbsp;";
 }
 </style>

@@ -1,13 +1,7 @@
 <template>
   <div>
     <v-ons-toolbar-button @click="showPopover">
-<<<<<<< Updated upstream
-      <v-ons-icon class="btn__icon c-white" icon="fa-bars">
-        <base-icon class="btn__icon--white" name="times"></base-icon>
-      </v-ons-icon>
-=======
       <base-icon class="btn__icon--white" name="bars"></base-icon>
->>>>>>> Stashed changes
     </v-ons-toolbar-button>
     <v-ons-popover
       cancelable
