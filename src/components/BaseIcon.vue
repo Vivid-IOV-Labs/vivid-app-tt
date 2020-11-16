@@ -1,6 +1,5 @@
 <template>
   <svg
-    aria-hidden="true"
     stroke-linecap="round"
     stroke-linejoin="round"
     stroke-width="2"
@@ -95,6 +94,7 @@ export default {
   vertical-align: middle;
   width: 1.2em;
   display: inline-block;
+  pointer-events: none;
 }
 .icon__svg::before {
   content: "\f19b";
