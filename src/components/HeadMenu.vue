@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-ons-toolbar-button @click="showPopover">
-      <v-ons-icon class="btn__icon c-white" icon="fa-bars">
-        <base-icon class="btn__icon--white" name="times"></base-icon>
-      </v-ons-icon>
+      menu
+      <base-icon class="btn__icon--white" name="bars"></base-icon>
+      menu
     </v-ons-toolbar-button>
     <v-ons-popover
       cancelable

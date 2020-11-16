@@ -94,8 +94,9 @@ export default {
   margin-bottom: 0.125em;
   vertical-align: middle;
   width: 1.2em;
+  display: inline-block;
 }
 .icon__svg::before {
-  content: "&nbsp;";
+  content: "\f19b";
 }
 </style>
