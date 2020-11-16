@@ -1,14 +1,17 @@
 <template>
-  <v-ons-navigator
-    swipeable
-    :page-stack="pageStack"
-    @push-page="onPushPage"
-    @back-page="pageStack.pop()"
-    @reset-home-page="
-      pageStack.pop();
-      pageStack.push($event);
-    "
-  ></v-ons-navigator>
+  <div>
+    <BaseIconSprite />
+    <v-ons-navigator
+      swipeable
+      :page-stack="pageStack"
+      @push-page="onPushPage"
+      @back-page="pageStack.pop()"
+      @reset-home-page="
+        pageStack.pop();
+        pageStack.push($event);
+      "
+    ></v-ons-navigator>
+  </div>
 </template>
 
 <style>
@@ -22,9 +25,13 @@ body {
 
 <script>
 import RootLoading from "@/components/RootLoading.vue";
+import BaseIconSprite from "@/components/BaseIconSprite.vue";
 
 export default {
   name: "main_page",
+  components: {
+    BaseIconSprite
+  },
   data() {
     return {
       pageStack: [RootLoading]
