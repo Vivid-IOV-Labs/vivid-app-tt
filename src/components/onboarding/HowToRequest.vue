@@ -1,5 +1,5 @@
 <template>
-  <v-ons-page>
+  <div>
     <h5 class="text-center">How To Request</h5>
     <v-ons-list>
       <v-ons-list-item class="flex p-4">
@@ -30,7 +30,7 @@
         </div>
       </v-ons-list-item>
     </v-ons-list>
-  </v-ons-page>
+  </div>
 </template>
 
 <script>
