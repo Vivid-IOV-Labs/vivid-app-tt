@@ -24,9 +24,7 @@ button:disabled {
   height: fit-content;
   padding: 0.6rem 0.8rem;
 }
-.btn__icon {
-  margin-left: 0.2rem;
-}
+
 .btn__icon--white{
   color: #fff;
 }

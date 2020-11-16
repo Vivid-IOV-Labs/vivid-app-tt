@@ -5,7 +5,7 @@
       <v-ons-list-item class="flex p-4">
         <div class="flex-center-xy flex-stretch">
           <div class="btn btn--large btn--join btn--fake">
-            <v-ons-icon class="btn__icon" icon="fa-users"></v-ons-icon>
+            <base-icon class="btn__icon" name="users"></base-icon>
           </div>
         </div>
         <div class="flex-center-xy flex-stretch">

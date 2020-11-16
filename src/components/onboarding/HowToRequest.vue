@@ -34,11 +34,7 @@
 </template>
 
 <script>
-import BaseIcon from "@/components/BaseIcon";
 export default {
-  name: "HowToRequest",
-  components: {
-    BaseIcon
-  }
+  name: "HowToRequest"
 };
 </script>

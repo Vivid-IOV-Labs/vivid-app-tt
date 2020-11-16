@@ -5,7 +5,7 @@
       <v-ons-list-item class="flex p-4">
         <div class="flex-center-xy flex-stretch">
           <div class="btn btn--large btn--golive btn--fake">
-            <v-ons-icon class="btn__icon" icon="fa-video"></v-ons-icon>
+            <base-icon class="btn__icon" name="video"></base-icon>
           </div>
         </div>
         <div class="flex-center-xy flex-stretch">

@@ -11,16 +11,16 @@
     <div class="streamer__container">
       <div class="streamer__controls streamer__controls--top">
         <v-ons-button class="btn btn--default flex-coulumn">
-          <v-ons-icon class="btn__icon" icon="fa-eye"></v-ons-icon>
+          <base-icon class="btn__icon" name="eye"></base-icon>
           <span>101</span>
         </v-ons-button>
 
         <v-ons-button class="btn btn--default ml-auto" @click="muteUnmute">
           <span v-if="isMute">
-            <v-ons-icon class="btn__icon" icon="fa-volume-mute"></v-ons-icon>
+            <base-icon class="btn__icon" name="volume-mute"></base-icon>
           </span>
           <span v-else>
-            <v-ons-icon class="btn__icon" icon="fa-volume-up"></v-ons-icon>
+            <base-icon class="btn__icon" name="volume-up"></base-icon>
           </span>
         </v-ons-button>
       </div>
@@ -35,16 +35,16 @@
         <v-ons-button class="btn btn--golive" @click="playPause">
           <span v-if="isPaused">
             Start Streaming
-            <v-ons-icon class="btn__icon" icon="fa-play"></v-ons-icon>
+            <base-icon class="btn__icon" name="play"></base-icon>
           </span>
           <span v-else>
             End Stream
-            <v-ons-icon class="btn__icon" icon="fa-pause"></v-ons-icon>
+            <base-icon class="btn__icon" name="pause"></base-icon>
           </span>
         </v-ons-button>
         <div class=" ml-auto flex-column ">
           <v-ons-button class="btn btn--default  mb-4">
-            <v-ons-icon class="btn__icon" icon="fa-shopping-cart"></v-ons-icon>
+            <base-icon class="btn__icon" name="shopping-cart"></base-icon>
           </v-ons-button>
           <a class="btn-tip " @click.prevent="tipStreamer()">
             <img src="../assets/img/tipping.png" alt />

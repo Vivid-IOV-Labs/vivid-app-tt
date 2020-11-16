@@ -3,7 +3,7 @@
     <v-ons-toolbar>
       <div class="left">
         <v-ons-back-button @click.prevent="endViewingStream()">
-          <v-ons-icon class="btn__icon" icon="fa-angle-left"></v-ons-icon
+          <base-icon class="btn__icon" name="angle-left"></base-icon
         ></v-ons-back-button>
       </div>
       <div class="center">
@@ -13,15 +13,15 @@
     <div class="streamer__container">
       <div class="streamer__controls streamer__controls--top">
         <v-ons-button class="btn btn--default flex-coulumn">
-          <v-ons-icon class="btn__icon" icon="fa-eye"></v-ons-icon>
+          <base-icon class="btn__icon" name="eye"></base-icon>
           <span>101</span>
         </v-ons-button>
         <div class="ml-auto flex-coulumn">
           <v-ons-button class="btn btn--default mb-4">
-            <v-ons-icon class="btn__icon" icon="fa-volume-mute"></v-ons-icon>
+            <base-icon class="btn__icon" name="volume-mute"></base-icon>
           </v-ons-button>
           <v-ons-button @click="reportConfirm = true" class="btn btn--default ">
-            <v-ons-icon class="btn__icon" icon="fa-flag"></v-ons-icon>
+            <base-icon class="btn__icon" name="flag"></base-icon>
           </v-ons-button>
           <v-ons-alert-dialog
             modifier="rowfooter"
@@ -54,12 +54,12 @@
       <div class="streamer__controls streamer__controls--bottom">
         <v-ons-button id="endStreamButton" @click="endViewingStream()"
           >End Stream
-          <v-ons-icon class="btn__icon" icon="fa-pause"></v-ons-icon>
+          <base-icon class="btn__icon" name="pause"></base-icon>
         </v-ons-button>
 
         <div class=" ml-auto flex-column ">
           <v-ons-button class="btn btn--default  mb-4">
-            <v-ons-icon class="btn__icon" icon="fa-shopping-cart"></v-ons-icon>
+            <base-icon class="btn__icon" name="shopping-cart"></base-icon>
           </v-ons-button>
           <a class="btn-tip " @click.prevent="tipStreamer()">
             <img src="../assets/img/tipping.png" alt />

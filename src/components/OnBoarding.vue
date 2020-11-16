@@ -10,7 +10,7 @@
       <div class="right">
         <v-ons-toolbar-button @click="endOnBoarding">
           Skip
-          <v-ons-icon class="btn__icon" icon="fa-angle-right"></v-ons-icon>
+          <base-icon class="btn__icon" name="angle-right"></base-icon>
         </v-ons-toolbar-button>
       </div>
     </v-ons-toolbar>

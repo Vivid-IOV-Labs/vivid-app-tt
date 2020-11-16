@@ -5,7 +5,7 @@
         <div class="center">About my Live Stream</div>
         <div class="right">
           <v-ons-button class="btn_close" @click="close">
-            <v-ons-icon class="btn__icon--white" icon="fa-times"></v-ons-icon>
+            <base-icon class="btn__icon--white" name="times"></base-icon>
           </v-ons-button>
         </div>
       </v-ons-toolbar>
@@ -81,7 +81,7 @@
           @click="closeGoLiveDialog"
         >
           Confirm
-          <v-ons-icon class="btn__icon" icon="fa-video"></v-ons-icon>
+          <base-icon class="btn__icon" name="video"></base-icon>
         </v-ons-button>
       </div>
     </v-ons-page>

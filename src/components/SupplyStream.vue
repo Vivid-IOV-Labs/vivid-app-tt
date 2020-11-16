@@ -11,12 +11,12 @@
     <div class="streamer__container">
       <div class="streamer__controls streamer__controls--top">
         <v-ons-button class="btn btn--default flex-coulumn">
-          <v-ons-icon class="btn__icon" icon="fa-eye"></v-ons-icon>
+          <base-icon class="btn__icon" name="eye"></base-icon>
           <span>101</span>
         </v-ons-button>
 
         <v-ons-button class="btn btn--default ml-auto flex-coulumn">
-          <v-ons-icon class="btn__icon" icon="fa-clock"></v-ons-icon>
+          <base-icon class="btn__icon" name="clock"></base-icon>
           <span>{{ liveTime }}</span>
         </v-ons-button>
       </div>
@@ -29,15 +29,14 @@
           v-if="!start_publish_button.disabled"
           id="start_publish_button"
           >Start Streaming
-          <v-ons-icon class="btn__icon" icon="fa-play"></v-ons-icon>
+          <base-icon class="btn__icon" name="play"></base-icon>
         </v-ons-button>
         <v-ons-button
           @click="stopPublishing"
           class="btn btn--golive btn--full-width"
           v-if="!stop_publish_button.disabled"
           id="stop_publish_button"
-          >End Streaming
-          <v-ons-icon class="btn__icon" icon="fa-pause"></v-ons-icon
+          >End Streaming <base-icon class="btn__icon" name="pause"></base-icon
         ></v-ons-button>
       </div>
       <v-ons-alert-dialog

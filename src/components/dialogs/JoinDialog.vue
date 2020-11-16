@@ -5,7 +5,7 @@
         <div class="center">Latest Live Streams</div>
         <div class="right">
           <v-ons-button class="btn_close" @click="close">
-            <v-ons-icon class="btn__icon--white" icon="fa-times"></v-ons-icon>
+            <base-icon class="btn__icon--white" name="times"></base-icon>
           </v-ons-button>
         </div>
       </v-ons-toolbar>
@@ -30,8 +30,7 @@
               <v-ons-button
                 class="btn btn--join bnt--large text-center"
                 @click="join(marker.openLocationCode)"
-                >Trending
-                <v-ons-icon class="btn__icon" icon="fa-users"></v-ons-icon
+                >Trending <base-icon class="btn__icon" name="users"></base-icon
               ></v-ons-button>
             </div>
           </div>

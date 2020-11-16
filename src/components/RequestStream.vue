@@ -9,18 +9,18 @@
             class="btn btn--locate flex-right"
             @click="geolocateMe()"
           >
-            <v-ons-icon class="btn__icon" icon="fa-location-arrow"></v-ons-icon>
+            <base-icon class="btn__icon" name="location-arrow"></base-icon>
           </v-ons-button>
         </div>
         <div id="pushToViewStreamPageButton">
           <v-ons-button class="btn btn--join" @click="showJoinDialog()">
-            <v-ons-icon class="btn__icon" icon="fa-users"></v-ons-icon>
+            <base-icon class="btn__icon" name="users"></base-icon>
           </v-ons-button>
           <v-ons-button class="btn btn--request" @click="showRequestDialog()">
             &nbsp; <base-icon name="request"></base-icon>
           </v-ons-button>
           <v-ons-button class="btn btn--golive" @click="showGoliveDialog()">
-            <v-ons-icon class="btn__icon" icon="fa-video"></v-ons-icon>
+            <base-icon class="btn__icon" name="video"></base-icon>
           </v-ons-button>
         </div>
       </section>
@@ -88,15 +88,13 @@ import { mapMutations, mapActions, mapGetters } from "vuex";
 import RequestDialog from "@/components/dialogs/RequestDialog.vue";
 import GoLiveDialog from "@/components/dialogs/GoLiveDialog.vue";
 import JoinDialog from "@/components/dialogs/JoinDialog.vue";
-import BaseIcon from "@/components/BaseIcon";
 
 export default {
   name: "requestStream",
   components: {
     RequestDialog,
     JoinDialog,
-    GoLiveDialog,
-    BaseIcon
+    GoLiveDialog
   },
   data() {
     return {
