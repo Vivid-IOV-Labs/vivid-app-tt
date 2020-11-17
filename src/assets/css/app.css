@@ -142,6 +142,9 @@ button:disabled {
 .mt-2 {
   margin-top: 0.5rem;
 }
+.m-2 {
+  margin: 0.5rem;
+}
 .p-4{padding: 1rem;}
 .p-2{padding: 0.5rem;}
 .p-1{padding: 0.25rem;}
@@ -182,12 +185,19 @@ button:disabled {
 /** Onsen UI **/
 .toolbar__title {
   color: #fff;
+  text-align: center;
+}
+.toolbar-button{
+  color: #fff;
 }
 .toolbar, .bottom-bar{
   background-color: #1d1d1b !important;
 }
 .toolbar--material{
   height: 4rem;
+}
+.page--material__background, .page__background {
+  background-color: #fff;
 }
 .poopover{
   z-index: 99999;
@@ -205,4 +215,37 @@ button:disabled {
 
 .howtoicon{
   margin:0 auto; display:block;max-height:4rem
+}
+
+/** OnBoarding **/
+.onboarding-page{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-evenly;
+}
+.onboarding-page .onboarding-page__title{
+  text-align: center;
+  font-size: 1.4rem;
+  padding: 0.8rem 0 0rem;
+}
+.onboarding-page__list{
+  flex: 1;  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.onboarding-page__bottom{
+  text-align: center;
+  padding: 0.4rem 0 0;
+  color: rgb(255, 255, 255);
+  font-size: 1.4rem;
+}
+.scroller {
+  display: block;
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  -ms-scroll-snap-type: mandatory;
 }

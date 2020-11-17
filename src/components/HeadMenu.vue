@@ -7,7 +7,7 @@
       cancelable
       :visible.sync="popoverVisible"
       :target="popoverTarget"
-      :direction="popoverDirection"
+      direction="left"
       :cover-target="coverTarget"
     >
       <h6 class="text-center">Peerkat <small>BETA</small></h6>

@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <h5 class="text-center">GO LIVE TO THE WORLD!</h5>
-    <v-ons-list>
-      <v-ons-list-item class="flex p-4">
+  <div class="onboarding-page">
+    <h4 class="onboarding-page__title">GO LIVE TO THE WORLD!</h4>
+    <v-ons-list class="onboarding-page__list">
+      <v-ons-list-item class="flex">
         <div class="flex-center-xy flex-stretch">
           <div class="btn btn--large btn--golive btn--fake">
             <base-icon class="btn__icon" name="video"></base-icon>
@@ -12,7 +12,7 @@
           <p>TO INSTANTLY BROADCAST TO YOUR PEERS, CLICK GO LIVE</p>
         </div>
       </v-ons-list-item>
-      <v-ons-list-item class="flex p-4">
+      <v-ons-list-item class="flex">
         <div class="flex-center-xy flex-stretch">
           <img class="howtoicon" src="../../assets/img/hashtag.png" alt />
         </div>
@@ -21,7 +21,7 @@
         </div>
       </v-ons-list-item>
 
-      <v-ons-list-item class="flex p-4">
+      <v-ons-list-item class="flex">
         <div class="flex-center-xy flex-stretch">
           <img class="howtoicon" src="../../assets/img/shopping.png" alt />
         </div>
