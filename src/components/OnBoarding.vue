@@ -27,26 +27,28 @@
         </keep-alive>
       </v-ons-carousel-item>
     </v-ons-carousel>
-    <div :style="dots">
-      <button
-        v-if="carouselIndex == onBoardingViews.length - 1"
-        class="btn btn--large btn--request mt-4"
-        @click="endOnBoarding"
-      >
-        ENTER PLANET PEERKAT
-      </button>
-      <div v-else>
-        <span
-          :index="dotIndex - 1"
-          v-for="dotIndex in onBoardingViews.length"
-          :key="dotIndex"
-          @click="carouselIndex = dotIndex - 1"
+
+    <v-ons-bottom-toolbar>
+      <div class="onboarding-page__bottom">
+        <v-ons-toolbar-button
+          v-if="carouselIndex == onBoardingViews.length - 1"
+          @click="endOnBoarding"
         >
-          {{ carouselIndex === dotIndex - 1 ? "\u25CF" : "\u25CB" }}
-        </span>
+          ENTER PLANET PEERKAT
+          <base-icon class="btn__icon" name="angle-right"></base-icon>
+        </v-ons-toolbar-button>
+        <div v-else>
+          <span
+            :index="dotIndex - 1"
+            v-for="dotIndex in onBoardingViews.length"
+            :key="dotIndex"
+            @click="carouselIndex = dotIndex - 1"
+          >
+            {{ carouselIndex === dotIndex - 1 ? "\u25CF" : "\u25CB" }}
+          </span>
+        </div>
       </div>
-    </div>
-    <v-ons-bottom-toolbar></v-ons-bottom-toolbar>
+    </v-ons-bottom-toolbar>
   </v-ons-page>
 </template>
 
@@ -65,16 +67,7 @@ export default {
     return {
       onBoarding: false,
       carouselIndex: 0,
-      onBoardingViews: ["HowToRequest", "HowToGoLive", "HowToSee"],
-      dots: {
-        textAlign: "center",
-        fontSize: "30px",
-        color: "#222",
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        right: 0
-      }
+      onBoardingViews: ["HowToRequest", "HowToGoLive", "HowToSee"]
     };
   },
   computed: {

@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <h5 class="text-center">How To Request</h5>
-    <v-ons-list>
-      <v-ons-list-item class="flex p-4">
+  <div class="onboarding-page">
+    <h4 class="onboarding-page__title">HOW TO REQUEST</h4>
+    <v-ons-list class="onboarding-page__list">
+      <v-ons-list-item class="flex">
         <div class="flex-center-xy flex-stretch">
           <div class="btn btn--large btn--request btn--fake">
             <base-icon name="request"></base-icon>
@@ -12,7 +12,7 @@
           <p>CLICK THE REQUEST VIDEO BUTTON TO ASK FOR A LIVE STREAM</p>
         </div>
       </v-ons-list-item>
-      <v-ons-list-item class="flex p-4">
+      <v-ons-list-item class="flex">
         <div class="flex-center-xy flex-stretch">
           <img class="howtoicon" src="../../assets/img/flag.png" alt />
           <img class="howtoicon" src="../../assets/img/peerkat.svg" alt />
@@ -21,7 +21,7 @@
           <p>WAIT FOR YOUR REQUEST FLAG TO TURN TO A LIVE PEERKAT STREAM</p>
         </div>
       </v-ons-list-item>
-      <v-ons-list-item class="flex p-4">
+      <v-ons-list-item class="flex">
         <div class="flex-center-xy flex-stretch">
           <img class="howtoicon" src="../../assets/img/tipping.png" alt />
         </div>
