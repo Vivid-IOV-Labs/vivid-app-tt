@@ -28,4 +28,12 @@ export default {
   font-size: 0.8rem;
   font-weight: 700;
 }
+@media all and (max-width: 414px) {
+  .head_logo__beta {
+    display: none;
+  }
+  .head_logo__img {
+    margin: 1rem 1rem 0;
+  }
+}
 </style>

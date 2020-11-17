@@ -1,6 +1,6 @@
 <template>
   <v-ons-dialog cancelable :visible="value" @update:visible="updateVisible">
-    <v-ons-page>
+    <v-ons-page class="scroller">
       <v-ons-toolbar>
         <div class="center">About my Live Stream</div>
         <div class="right">
