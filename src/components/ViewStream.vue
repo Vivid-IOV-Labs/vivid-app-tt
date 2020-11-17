@@ -78,8 +78,6 @@ import { address, ABI } from "@/util/constants/tippingContract";
 
 import { mapMutations, mapGetters, mapActions } from "vuex";
 
-import "webrtc-adapter";
-
 import { WebRTCAdaptor } from "@/util/webrtc_adaptor.js";
 
 import SupplyStream from "@/components/SupplyStream.vue";

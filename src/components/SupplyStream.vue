@@ -59,8 +59,6 @@ import videojs from "video.js";
 import BaseVideo from "@/components/BaseVideo.vue";
 import Home from "@/components/Home.vue";
 
-import "webrtc-adapter";
-
 import { WebRTCAdaptor } from "@/util/webrtc_adaptor.js";
 import socketIOClient from "socket.io-client";
 import sailsIOClient from "sails.io.js";
