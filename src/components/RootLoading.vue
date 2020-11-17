@@ -1,8 +1,8 @@
 <template>
   <v-ons-page>
-    <div class="loading-page">
-      <img class="loading-page__img" src="@/assets/img/logopeerkat.png" />
-      <h1 class="loading-page__title">PEERKAT</h1>
+    <div class="logo-page">
+      <img class="logo-page__img" src="@/assets/img/logopeerkat.png" />
+      <h1 class="logo-page__title">PEERKAT</h1>
     </div>
   </v-ons-page>
 </template>
@@ -49,7 +49,7 @@ export default {
 };
 </script>
 <style>
-.loading-page {
+.logo-page {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,13 +57,13 @@ export default {
   flex-direction: column;
   background: #000;
 }
-.loading-page .loading-page__title {
+.logo-page .logo-page__title {
   font-weight: bolder;
   color: #16dbdb;
   font-size: 2.3rem;
   margin: 0.6rem 0;
 }
-.loading-page .loading-page__img {
+.logo-page .logo-page__img {
   width: 40%;
 }
 </style>

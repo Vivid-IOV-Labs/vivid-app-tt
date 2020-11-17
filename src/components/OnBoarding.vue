@@ -23,21 +23,17 @@
     >
       <v-ons-carousel-item v-for="(value, key) in onBoardingViews" :key="key">
         <keep-alive>
-          <component v-bind:is="currentOnboarding"></component>
+          <component
+            v-bind:is="currentOnboarding"
+            :end-on-boarding="endOnBoarding"
+          ></component>
         </keep-alive>
       </v-ons-carousel-item>
     </v-ons-carousel>
 
     <v-ons-bottom-toolbar>
       <div class="onboarding-page__bottom">
-        <v-ons-toolbar-button
-          v-if="carouselIndex == onBoardingViews.length - 1"
-          @click="endOnBoarding"
-        >
-          ENTER PLANET PEERKAT
-          <base-icon class="btn__icon" name="angle-right"></base-icon>
-        </v-ons-toolbar-button>
-        <div v-else>
+        <div>
           <span
             :index="dotIndex - 1"
             v-for="dotIndex in onBoardingViews.length"
@@ -58,16 +54,22 @@ import HeadLogo from "@/components/HeadLogo.vue";
 import HowToRequest from "@/components/onboarding/HowToRequest.vue";
 import HowToGoLive from "@/components/onboarding/HowToGoLive.vue";
 import HowToSee from "@/components/onboarding/HowToSee.vue";
+import EnterPeerkat from "@/components/onboarding/EnterPeerkat.vue";
 import Home from "@/components/Home.vue";
 
 export default {
   name: "OnBoarding",
-  components: { HeadLogo, HowToRequest, HowToGoLive, HowToSee },
+  components: { HeadLogo, HowToRequest, HowToGoLive, HowToSee, EnterPeerkat },
   data() {
     return {
       onBoarding: false,
       carouselIndex: 0,
-      onBoardingViews: ["HowToRequest", "HowToGoLive", "HowToSee"]
+      onBoardingViews: [
+        "HowToRequest",
+        "HowToGoLive",
+        "HowToSee",
+        "EnterPeerkat"
+      ]
     };
   },
   computed: {

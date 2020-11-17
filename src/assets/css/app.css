@@ -84,6 +84,7 @@ button:disabled {
   margin: 1rem auto;
   padding: 0.6rem 1rem;
   font-weight: 550;
+  font-size: 1.2rem;
 }
 #button-golive{
   color: #fff;
@@ -240,6 +241,9 @@ button:disabled {
   padding: 0.4rem 0 0;
   color: rgb(255, 255, 255);
   font-size: 1.4rem;
+}
+.onboarding-page .onboarding-page--enter{
+  background: #fff;
 }
 .scroller {
   display: block;
