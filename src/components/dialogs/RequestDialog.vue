@@ -24,23 +24,12 @@
         </v-ons-list-item>
         <v-ons-list-item>
           <div class="flex-coulumn p-4">
-            <v-ons-search-input
-              title="Add Location"
-              id="search"
+            <geo-search-bar
+              id="request_location"
+              title="Search"
               placeholder="Add Location"
-              v-model.lazy="searchAddress"
-              @input="onSearchAddress"
-            ></v-ons-search-input>
-            <v-ons-list v-if="autocompleteVisible">
-              <v-ons-list-item
-                v-for="item in autocompleteAdresses"
-                :key="item.label"
-                @click="onSelectAddress(item)"
-                modifier="tappable"
-              >
-                {{ item.label }}
-              </v-ons-list-item>
-            </v-ons-list>
+              @change="onSelectAddress"
+            ></geo-search-bar>
           </div>
         </v-ons-list-item>
         <v-ons-list-item>
@@ -94,12 +83,14 @@
 </template>
 
 <script>
-import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { mapGetters } from "vuex";
+import GeoSearchBar from "@/components/GeoSearchBar.vue";
 
-const myProvider = new OpenStreetMapProvider();
 export default {
   name: "RequestDialog",
+  components: {
+    GeoSearchBar
+  },
   props: {
     value: {
       type: Boolean,
@@ -112,10 +103,6 @@ export default {
   },
   data() {
     return {
-      autocompleteAdresses: [],
-      autocompleteVisible: false,
-      selectedAddress: "",
-      searchAddress: "",
       requestModel: {
         mapPin: {
           details: "",
@@ -152,17 +139,7 @@ export default {
       }
     },
     onSelectAddress(address) {
-      this.searchAddress = address.label;
       this.requestModel.location = address;
-      this.autocompleteVisible = false;
-    },
-    onSearchAddress(event) {
-      const autcompleteSearch = async () => {
-        const results = await myProvider.search({ query: event.target.value });
-        this.autocompleteAdresses = results;
-        this.autocompleteVisible = true;
-      };
-      setTimeout(autcompleteSearch, 200);
     }
   }
 };

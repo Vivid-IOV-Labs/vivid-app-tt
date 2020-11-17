@@ -23,22 +23,12 @@
         </v-ons-list-item>
         <v-ons-list-item>
           <div class="flex-coulumn p-4">
-            <v-ons-search-input
-              id="search"
-              title="Add Location"
+            <geo-search-bar
+              id="golive_location"
+              title="Search"
               placeholder="Add Location"
-              v-model.lazy="searchAddress"
-              @input="onSearchAddress"
-            ></v-ons-search-input>
-            <v-ons-list v-if="autocompleteVisible">
-              <v-ons-list-item
-                v-for="item in autocompleteAdresses"
-                :key="item.label"
-                @click="onSelectAddress(item)"
-                modifier="tappable"
-                >{{ item.label }}</v-ons-list-item
-              >
-            </v-ons-list>
+              @change="onSelectAddress"
+            ></geo-search-bar>
           </div>
         </v-ons-list-item>
         <v-ons-list-item>
@@ -89,8 +79,8 @@
 </template>
 
 <script>
-import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { mapGetters, mapMutations } from "vuex";
+import GeoSearchBar from "@/components/GeoSearchBar.vue";
 
 import code_transforms from "@/util/location_code_string_prep.js";
 
@@ -99,15 +89,13 @@ let OpenLocationCode = OpenLocationCodeJS.OpenLocationCode;
 
 var openLocationCode = new OpenLocationCode();
 
-const myProvider = new OpenStreetMapProvider();
 export default {
   name: "GoLiveDialog",
+  components: {
+    GeoSearchBar
+  },
   data() {
     return {
-      autocompleteAdresses: [],
-      autocompleteVisible: false,
-      selectedAddress: "",
-      searchAddress: "",
       requestModel: {
         mapPin: {
           details: "",
@@ -158,10 +146,6 @@ export default {
       }
     },
     onSelectAddress(address) {
-      this.searchAddress = address.label;
-      this.requestModel.location = address;
-      this.autocompleteVisible = false;
-
       var locationcode = openLocationCode.encode(address.x, address.y, 11);
 
       this.requestModel.openLocationCode = code_transforms.replace_plus_symbol(
@@ -172,14 +156,6 @@ export default {
       this.requestModel.streamer.walletAddress = this._myWalletAddress();
 
       this._setSelectedPin(this.requestModel);
-    },
-    onSearchAddress(event) {
-      const autcompleteSearch = async () => {
-        const results = await myProvider.search({ query: event.target.value });
-        this.autocompleteAdresses = results;
-        this.autocompleteVisible = true;
-      };
-      setTimeout(autcompleteSearch, 200);
     },
     pushToSupplyStreamPage() {
       this.$emit("input", false);

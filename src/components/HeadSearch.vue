@@ -1,54 +1,25 @@
 <template>
-  <span>
-    <v-ons-search-input
-      id="search"
-      class="mt-2"
-      placeholder="Search Location"
-      v-model.lazy="searchAddress"
-      @input="onSearchAddress"
-    ></v-ons-search-input>
-    <v-ons-popover target="#search" :visible="autocompleteVisible" cancelable>
-      <v-ons-list>
-        <v-ons-list-item
-          v-for="item in autocompleteAdresses"
-          :key="item.label"
-          @click="onSelectAddress(item)"
-          modifier="tappable"
-          >{{ item.label }}</v-ons-list-item
-        >
-      </v-ons-list>
-    </v-ons-popover>
-  </span>
+  <geo-search-bar
+    id="search"
+    class="mt-2"
+    title="Search"
+    placeholder="Search Location"
+    @change="onSelectAddress"
+    :popover="true"
+  ></geo-search-bar>
 </template>
 
 <script>
-import { OpenStreetMapProvider } from "leaflet-geosearch";
+import GeoSearchBar from "@/components/GeoSearchBar.vue";
 
-const myProvider = new OpenStreetMapProvider();
-/* eslint-disable no-undef */
 export default {
   name: "HeadSearch",
-  data() {
-    return {
-      autocompleteAdresses: [],
-      autocompleteVisible: false,
-      selectedAddress: "",
-      searchAddress: ""
-    };
+  components: {
+    GeoSearchBar
   },
   methods: {
     onSelectAddress(address) {
-      this.searchAddress = address.label;
-      this.autocompleteVisible = false;
       this.$store.dispatch("newSearchLocation", address);
-    },
-    onSearchAddress(event) {
-      const autcompleteSearch = async () => {
-        const results = await myProvider.search({ query: event.target.value });
-        this.autocompleteAdresses = results;
-        this.autocompleteVisible = true;
-      };
-      setTimeout(autcompleteSearch, 200);
     }
   }
 };
