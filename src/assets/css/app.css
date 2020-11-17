@@ -192,6 +192,15 @@ button:disabled {
 .poopover{
   z-index: 99999;
 }
+.dialog {
+  top: 46%;
+  height: 82%;
+  width: 90%;
+  border-radius: 1rem;
+}
+.dialog-container {
+  height: 100%;
+}
 /**How TO **/
 
 .howtoicon{

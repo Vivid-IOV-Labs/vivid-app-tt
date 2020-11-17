@@ -46,15 +46,6 @@
 @import "../../node_modules/leaflet/dist/leaflet.css";
 @import "../../node_modules/leaflet-geosearch/assets/css/leaflet.css";
 @import "../assets/css/requestStream.css";
-.dialog {
-  top: 46%;
-  height: 82%;
-  width: 90%;
-  border-radius: 1rem;
-}
-.dialog-container {
-  height: 100%;
-}
 </style>
 
 <script>
