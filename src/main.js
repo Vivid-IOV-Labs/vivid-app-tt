@@ -20,6 +20,7 @@ import VOnsListItem from "vue-onsenui/esm/components/VOnsListItem";
 import VOnsPopover from "vue-onsenui/esm/components/VOnsPopover";
 import VOnsDialog from "vue-onsenui/esm/components/VOnsDialog";
 import VOnsAlertDialog from "vue-onsenui/esm/components/VOnsAlertDialog";
+import VOnsAlertDialogButton from "vue-onsenui/esm/components/VOnsAlertDialogButton";
 
 Vue.use(VueOnsen);
 Vue.component(VOnsPage.name, VOnsPage);
@@ -38,7 +39,7 @@ Vue.component(VOnsListItem.name, VOnsListItem);
 Vue.component(VOnsPopover.name, VOnsPopover);
 Vue.component(VOnsDialog.name, VOnsDialog);
 Vue.component(VOnsAlertDialog.name, VOnsAlertDialog);
-Vue.component(VOnsToolbar.name, VOnsToolbar);
+Vue.component(VOnsAlertDialogButton.name, VOnsAlertDialogButton);
 
 import BaseIcon from "@/components/BaseIcon";
 Vue.component("BaseIcon", BaseIcon);
