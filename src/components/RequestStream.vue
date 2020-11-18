@@ -114,7 +114,7 @@ export default {
       markerCarabao: null,
       templateJoin: null,
       templateGoLive: null,
-      templateDemoTest: null,
+      templateDemoStream: null,
       current_request_list: null,
       isRequestDialog: false,
       isGoLiveDialog: false,
@@ -281,8 +281,6 @@ export default {
       selectedPin.streamer.walletAddress = this._myWalletAddress();
 
       this._setSelectedPin(selectedPin);
-
-      //this._updateRequestModel(selectedPin);
       this._updateAddress({
         streamName: selectedPin.openLocationCode,
         address: selectedPin.streamer.walletAddress
@@ -426,7 +424,6 @@ export default {
         this.addMarkersLoop([msg.data]);
 
         var localCopyOfRequestPins = this._getLocalCopyOfRequestPins();
-        //If the local pins are present then loop through them and update the relevant record.
         if (localCopyOfRequestPins) {
           localCopyOfRequestPins.forEach((element, index) => {
             if (element.openLocationCode === msg.data.openLocationCode) {
@@ -444,7 +441,6 @@ export default {
             }
           });
         } else {
-          //If the local pins are not present then set the first pin
           this._setLocalCopyOfRequestPins([msg.data]);
 
           if (msg.data.streamer.live == true) {
@@ -479,8 +475,6 @@ export default {
         this.$nextTick(() => {
           this.removePin(resData.data.openLocationCode);
           let arrrayOfLayerIDsToRemove = [];
-
-          //Loop through the map layers to remove map pins corresponding to the live stream which has ended.
           for (const property in this.map._layers) {
             if (this.map._layers[property]._latlng) {
               if (
@@ -489,7 +483,6 @@ export default {
                 resData.data.location.y ==
                   this.map._layers[property]._latlng.lat
               ) {
-                //Create an array of map layer ids to delete
                 arrrayOfLayerIDsToRemove.push(property);
               }
             }
@@ -500,8 +493,6 @@ export default {
     io.socket.on("livestreamended", resData => {
       if (resData.data) {
         let arrrayOfLayerIDsToRemove = [];
-
-        //Loop through the map layers to remove map pins corresponding to the live stream which has ended.
         for (const property in this.map._layers) {
           if (this.map._layers[property]._latlng) {
             if (
@@ -509,23 +500,16 @@ export default {
                 this.map._layers[property]._latlng.lng &&
               resData.data.location.y == this.map._layers[property]._latlng.lat
             ) {
-              //Create an array of map layer ids to delete
               arrrayOfLayerIDsToRemove.push(property);
             }
           }
         }
-
-        //Loop through map layer ids and delete from map
         arrrayOfLayerIDsToRemove.forEach(id => {
           this.map._layers[id].remove();
         });
-
-        //Remove map pin from join marker popup list
         this.joinMarkers = this.joinMarkers.filter(
           markers => markers.openLocationCode != resData.data.openLocationCode
         );
-
-        //Remove marker from local copy of map pin data
         let localCopyOfRequestPins = this._getLocalCopyOfRequestPins();
         localCopyOfRequestPins = localCopyOfRequestPins.filter(
           markers => markers.openLocationCode != resData.data.openLocationCode
@@ -562,11 +546,18 @@ export default {
     </div>
     `;
     };
-    this.templateDemoTest = () => `
+    this.templateDemoStream = () => `
     <div>
-      <h3>DemoTest Test</h3>
-      <p>#broadcast</p>
-      <v-ons-button id="button-golive" type="button">Go Live</v-ons-button>
+      <h3>Start Stream Demo</h3>
+      <p>#publisher</p>
+      <button class="btn btn--golive" id="button-golive" type="button">Go Live</button>
+    </div>
+    `;
+    this.templateDemoJoin = () => `
+    <div>
+      <h3>Join Stream Demo</h3>
+      <p>#viewer</p>
+      <button  class="btn btn--join" id="button-join" type="button">Join</button>
     </div>
     `;
 
@@ -612,32 +603,38 @@ export default {
 
     this.map.setView(london, 13);
     var markers = [
-      [-0.1244324, 51.5006728, "Big Ben", "DemoTest"],
+      [-0.1244324, 51.5006728, "Big Ben", "streamTest"],
       [-0.0963224, 51.5049318, "KFC", "kfc"],
-      [-0.1433256, 51.502528, "Carabao", "carabao"]
+      [-0.1433256, 51.502528, "Carabao", "carabao"],
+      [-0.1094099, 51.50176, "Location", "joinTest"]
     ];
 
-    //Loop through the markers array
     for (var i = 0; i < markers.length; i++) {
       var lon = markers[i][0];
       var lat = markers[i][1];
-      //var popupText = markers[i][2];
       var iconType = markers[i][3];
 
       var marker = L.marker(
         { lon, lat },
         {
           icon:
-            iconType == "new" || iconType == "DemoTest"
+            iconType == "new" || iconType == "streamTest"
               ? this.markerNew
+              : iconType == "joinTest"
+              ? this.markerUsers
               : iconType == "kfc"
               ? this.markerKfc
               : this.markerCarabao
         }
       );
       this.map.addLayer(marker);
-      if (iconType == "DemoTest") {
-        marker.bindPopup(this.templateDemoTest(marker), {
+      if (iconType == "streamTest") {
+        marker.bindPopup(this.templateDemoStream(marker), {
+          maxWidth: 1060
+        });
+      }
+      if (iconType == "joinTest") {
+        marker.bindPopup(this.templateDemoJoin(marker), {
           maxWidth: 1060
         });
       }
