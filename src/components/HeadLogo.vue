@@ -1,12 +1,12 @@
 <template functional>
-  <span class="head_logo">
+  <div class="head_logo">
     <img
       class="head_logo__img"
       src="../assets/img/logopeerkat.png"
       alt="Peerkat Logo"
     />
     <span class="head_logo__beta">BETA</span>
-  </span>
+  </div>
 </template>
 <script>
 export default {
@@ -15,8 +15,9 @@ export default {
 </script>
 <style>
 .head_logo {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  height: 100%;
 }
 .head_logo__img {
   width: 2rem;
@@ -31,9 +32,6 @@ export default {
 @media all and (max-width: 414px) {
   .head_logo__beta {
     display: none;
-  }
-  .head_logo__img {
-    margin: 1rem 1rem 0;
   }
 }
 </style>
