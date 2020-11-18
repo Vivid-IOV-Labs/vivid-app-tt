@@ -614,8 +614,7 @@ export default {
     var markers = [
       [-0.1244324, 51.5006728, "Big Ben", "DemoTest"],
       [-0.0963224, 51.5049318, "KFC", "kfc"],
-      [-0.1433256, 51.502528, "Carabao", "carabao"],
-      [-0.1094099, 51.50176, "Location", "join"]
+      [-0.1433256, 51.502528, "Carabao", "carabao"]
     ];
 
     //Loop through the markers array
