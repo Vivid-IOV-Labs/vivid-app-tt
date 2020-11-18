@@ -94,11 +94,10 @@ if (socketIOClient.sails) {
   io = sailsIOClient(socketIOClient);
   io.sails.url = env.web_service_url;
 }
+import devLog from "@/util/devlog.js";
+
 export default {
   name: "viewStream",
-  // props:{
-  //     inBuiltRequest:Boolean
-  // },
   components: {
     BaseVideo
   },
@@ -171,7 +170,7 @@ export default {
         })
         .catch(function() {
           //document.getElementById("play_button").style.display = "block";
-          console.log("User interaction needed to start playing");
+          devLog("User interaction needed to start playing");
         });
     },
     startPlaying() {
@@ -197,13 +196,13 @@ export default {
 
       var web3Instance = new Web3(window.web3.currentProvider);
 
-      console.log(web3Instance);
+      devLog(web3Instance);
 
       let tippingContract = await window.web3.eth.contract(ABI);
       let tippingContractInstance = await tippingContract.at(address);
 
-      console.log(tippingContract);
-      console.log(tippingContractInstance);
+      devLog(tippingContract);
+      devLog(tippingContractInstance);
 
       await tippingContractInstance.tip(
         this._getStreamerWalletAddress(),
@@ -215,14 +214,14 @@ export default {
         },
         err => {
           if (err) {
-            console.log(err);
+            devLog(err);
           } else {
             // let TipEvent = tippingContractInstance.Tip()
             // TipEvent.watch((err, result) => {
             //     if (err) {
-            //         console.log('could not get event Won()')
+            //         devLog('could not get event Won()')
             //     } else {
-            //         console.log(result)
+            //         devLog(result)
             //         //Show notification that tip has been sent.
             //     }
             // })
@@ -249,33 +248,33 @@ export default {
       debug: true,
       callback: (info, description) => {
         if (info == "initialized") {
-          console.log("initialized");
+          devLog("initialized");
           this.webRTCAdaptor.getStreamInfo(this.streamId);
         } else if (info == "streamInformation") {
-          console.log("stream information");
+          devLog("stream information");
           this.webRTCAdaptor.play(this.streamId, "762007030599962020550620");
         } else if (info == "play_started") {
           //joined the stream
-          console.log("play started");
+          devLog("play started");
           document.getElementById("video_info").style.display = "none";
           this.playVideo();
         } else if (info == "play_finished") {
           //leaved the stream
-          console.log("play finished");
+          devLog("play finished");
           //check that publish may start again
           setTimeout(function() {
             this.webRTCAdaptor.getStreamInfo(this.streamId);
           }, 3000);
         } else if (info == "closed") {
-          //console.log("Connection closed");
+          //devLog("Connection closed");
           if (typeof description != "undefined") {
-            console.log("Connecton closed: " + JSON.stringify(description));
+            devLog("Connecton closed: " + JSON.stringify(description));
           }
         }
       },
       callbackError: function(error) {
         //some of the possible errors, NotFoundError, SecurityError,PermissionDeniedError
-        console.log("error callback: " + JSON.stringify(error));
+        devLog("error callback: " + JSON.stringify(error));
 
         if (error == "no_stream_exist") {
           setTimeout(function() {
