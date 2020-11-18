@@ -5,6 +5,7 @@
       :placeholder="placeholder"
       v-model="searchAddress"
       @input="onSearchAddress"
+      @click="selectInputText"
     ></v-ons-search-input>
     <v-ons-popover
       :target="`#${id}`"
@@ -86,6 +87,9 @@ export default {
         this.autocompleteVisible = true;
       };
       setTimeout(autcompleteSearch, 200);
+    },
+    selectInputText(event) {
+      event.target.setSelectionRange(0, this.searchAddress.length);
     }
   }
 };
