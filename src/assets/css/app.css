@@ -212,6 +212,9 @@ button:disabled {
 .dialog-container {
   height: 100%;
 }
+.list .list-item:last-child > div{
+  background-image: none;
+}
 /**How TO **/
 
 .howtoicon{
