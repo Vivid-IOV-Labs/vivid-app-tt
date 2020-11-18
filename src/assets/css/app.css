@@ -29,12 +29,21 @@ button:disabled {
   color: #fff;
 }
 .btn--default {
-  background: #fff;
+  color: #fff;
+  background: #1d1d1b;
+}
+.btn--link {
+  display: inline;
+  background: none;
+  border: none;
+  padding: 0 0.4rem;
+  margin:  0.2rem;
+  color: #1d1d1b;
 }
 .btn--default .btn__icon {
   margin-left: 0.2rem;
   font-size: 1.2rem;
-  color: #1d1d1b;
+  color: #fff;
 }
 .btn--full-width {
   width: 100%;
@@ -188,6 +197,10 @@ button:disabled {
 }
 .toolbar-button{
   color: #fff;
+}
+.back-button, .back-button__icon{
+  color: #fff;
+  fill:#fff;
 }
 .toolbar, .bottom-bar{
   background-color: #1d1d1b !important;

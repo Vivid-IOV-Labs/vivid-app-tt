@@ -58,14 +58,14 @@
         <a
           href="https://twitter.com/PeerkatLive"
           target="_blank"
-          class="btn btn--default"
+          class="btn btn--link"
         >
           <base-icon class="btn__icon" name="twitter"></base-icon>
         </a>
         <a
           href="https://t.me/joinchat/M90RPBklSbAkMzfLl02Qcw"
           target="_blank"
-          class="btn btn--default"
+          class="btn btn--link"
         >
           <base-icon class="btn__icon" name="telegram"></base-icon>
         </a>

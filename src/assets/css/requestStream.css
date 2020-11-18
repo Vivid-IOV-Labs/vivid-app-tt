@@ -16,16 +16,16 @@
 }
 
 #nav_buttons .btn--locate{
-  background-color: #4a4a48 ;
-  color:#bbbbba;
+  background-color: #1d1d1b ;
+  color:#fff;
   border-radius: 0.3rem;
   margin-bottom: 0.4rem;
   margin-left: auto;
   margin-right: 1rem;
   }
   #nav_buttons .btn--locate:hover{
-    background-color: #bbbbba ;
-    color:#4a4a48 ;
+    background-color: #fff ;
+    color:#1d1d1b ;
     cursor: pointer;
     }
 
@@ -72,12 +72,12 @@
   color:#bbbbba
 }
 .leaflet-bar a{
-  background-color: #4a4a48 ;
-  color:#bbbbba
+  background-color: #1d1d1b ;
+  color:#fff
 }
 .leaflet-bar a:hover{
-  background-color: #bbbbba ;
-  color:#4a4a48 ;
+  background-color: #fff ;
+  color:#1d1d1b ;
   cursor: pointer;
 }
 

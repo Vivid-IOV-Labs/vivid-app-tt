@@ -10,12 +10,14 @@
     </v-ons-toolbar>
     <div class="streamer__container">
       <div class="streamer__controls streamer__controls--top">
-        <v-ons-button class="btn btn--default flex-coulumn">
+        <v-ons-button class="btn btn--default flex-coulumn flex-center-xy">
           <base-icon class="btn__icon" name="eye"></base-icon>
           <span>101</span>
         </v-ons-button>
 
-        <v-ons-button class="btn btn--default ml-auto flex-coulumn">
+        <v-ons-button
+          class="btn btn--default ml-auto flex-coulumn flex-center-xy"
+        >
           <base-icon class="btn__icon" name="clock"></base-icon>
           <span>{{ liveTime }}</span>
         </v-ons-button>
@@ -112,7 +114,7 @@ export default {
   computed: {
     liveTime() {
       return this.player
-        ? this.player.currentTime().toFixed(2) + " s"
+        ? this.player.currentTime().toFixed(0) + " s"
         : "00:00 s";
     }
   },
@@ -121,6 +123,8 @@ export default {
       this.stopPublishing();
       this.webRTCAdaptor.closeStream();
       this.webRTCAdaptor.closePeerConnection();
+      this.webRTCAdaptor.closeWebSocket();
+
       this.$emit("push-page", Home);
     },
     startPublishing() {
@@ -175,12 +179,13 @@ export default {
       peerconnection_config: this.pc_config,
       sdp_constraints: this.sdpConstraints,
       localVideoId: this.player.tech().el(),
-      debug: true,
+      debug: process.env.NODE_ENV != "production",
       callback: (info, description) => {
         if (info == "initialized") {
           devLog("initialized");
           this.start_publish_button.disabled = false;
           this.stop_publish_button.disabled = true;
+          this.startPublishing();
         } else if (info == "publish_started") {
           //stream is being published
           devLog("publish started");

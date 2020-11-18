@@ -2,9 +2,7 @@
   <v-ons-page id="viewStreamPage">
     <v-ons-toolbar>
       <div class="left">
-        <v-ons-back-button @click.prevent="endViewingStream()">
-          <base-icon class="btn__icon" name="angle-left"></base-icon
-        ></v-ons-back-button>
+        <v-ons-back-button @click="endViewingStream()">Back </v-ons-back-button>
       </div>
       <div class="center">
         <span>Trending</span>
@@ -52,7 +50,10 @@
       </div>
       <base-video ref="videoplayer" :options="videoOptions"></base-video>
       <div class="streamer__controls streamer__controls--bottom">
-        <v-ons-button id="endStreamButton" @click="endViewingStream()"
+        <v-ons-button
+          id="endStreamButton"
+          class="btn btn--default btn--large"
+          @click="endViewingStream()"
           >End Stream
           <base-icon class="btn__icon" name="pause"></base-icon>
         </v-ons-button>
@@ -93,8 +94,6 @@ if (socketIOClient.sails) {
   io = sailsIOClient(socketIOClient);
   io.sails.url = env.web_service_url;
 }
-import devLog from "@/util/devlog.js";
-
 export default {
   name: "viewStream",
   // props:{
@@ -172,7 +171,7 @@ export default {
         })
         .catch(function() {
           //document.getElementById("play_button").style.display = "block";
-          devLog("User interaction needed to start playing");
+          console.log("User interaction needed to start playing");
         });
     },
     startPlaying() {
@@ -198,13 +197,13 @@ export default {
 
       var web3Instance = new Web3(window.web3.currentProvider);
 
-      devLog(web3Instance);
+      console.log(web3Instance);
 
       let tippingContract = await window.web3.eth.contract(ABI);
       let tippingContractInstance = await tippingContract.at(address);
 
-      devLog(tippingContract);
-      devLog(tippingContractInstance);
+      console.log(tippingContract);
+      console.log(tippingContractInstance);
 
       await tippingContractInstance.tip(
         this._getStreamerWalletAddress(),
@@ -216,14 +215,14 @@ export default {
         },
         err => {
           if (err) {
-            devLog(err);
+            console.log(err);
           } else {
             // let TipEvent = tippingContractInstance.Tip()
             // TipEvent.watch((err, result) => {
             //     if (err) {
-            //         devLog('could not get event Won()')
+            //         console.log('could not get event Won()')
             //     } else {
-            //         devLog(result)
+            //         console.log(result)
             //         //Show notification that tip has been sent.
             //     }
             // })
@@ -250,33 +249,33 @@ export default {
       debug: true,
       callback: (info, description) => {
         if (info == "initialized") {
-          devLog("initialized");
+          console.log("initialized");
           this.webRTCAdaptor.getStreamInfo(this.streamId);
         } else if (info == "streamInformation") {
-          devLog("stream information");
+          console.log("stream information");
           this.webRTCAdaptor.play(this.streamId, "762007030599962020550620");
         } else if (info == "play_started") {
           //joined the stream
-          devLog("play started");
+          console.log("play started");
           document.getElementById("video_info").style.display = "none";
           this.playVideo();
         } else if (info == "play_finished") {
           //leaved the stream
-          devLog("play finished");
+          console.log("play finished");
           //check that publish may start again
           setTimeout(function() {
             this.webRTCAdaptor.getStreamInfo(this.streamId);
           }, 3000);
         } else if (info == "closed") {
-          //devLog("Connection closed");
+          //console.log("Connection closed");
           if (typeof description != "undefined") {
-            devLog("Connecton closed: " + JSON.stringify(description));
+            console.log("Connecton closed: " + JSON.stringify(description));
           }
         }
       },
       callbackError: function(error) {
         //some of the possible errors, NotFoundError, SecurityError,PermissionDeniedError
-        devLog("error callback: " + JSON.stringify(error));
+        console.log("error callback: " + JSON.stringify(error));
 
         if (error == "no_stream_exist") {
           setTimeout(function() {
