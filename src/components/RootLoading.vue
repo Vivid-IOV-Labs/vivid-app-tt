@@ -18,33 +18,10 @@ const delay = time => {
   });
 };
 import OnBoarding from "@/components/OnBoarding.vue";
-const getPosition = options => {
-  return new Promise((resolve, reject) =>
-    navigator.geolocation.getCurrentPosition(resolve, reject, options)
-  );
-};
-import devLog from "@/util/devlog.js";
 
 export default {
   name: "RootLoading",
-  methods: {
-    async getLocation() {
-      const options = {
-        timeout: 1000,
-        maximumAge: 10000,
-        enableHighAccuracy: true
-      };
-      try {
-        const position = await getPosition(options);
-        this.$store.dispatch("setPosition", position);
-      } catch (err) {
-        devLog(err.message);
-      }
-    }
-  },
-  created() {},
   async mounted() {
-    await this.getLocation();
     await delay(2000);
     this.$emit("push-page", OnBoarding);
   }

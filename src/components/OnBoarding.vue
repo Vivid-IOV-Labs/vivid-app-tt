@@ -56,6 +56,12 @@ import HowToGoLive from "@/components/onboarding/HowToGoLive.vue";
 import HowToSee from "@/components/onboarding/HowToSee.vue";
 import EnterPeerkat from "@/components/onboarding/EnterPeerkat.vue";
 import Home from "@/components/Home.vue";
+const getPosition = options => {
+  return new Promise((resolve, reject) =>
+    navigator.geolocation.getCurrentPosition(resolve, reject, options)
+  );
+};
+import devLog from "@/util/devlog.js";
 
 export default {
   name: "OnBoarding",
@@ -78,7 +84,21 @@ export default {
     }
   },
   methods: {
-    endOnBoarding() {
+    async getLocation() {
+      const options = {
+        timeout: 1000,
+        maximumAge: 10000,
+        enableHighAccuracy: true
+      };
+      try {
+        const position = await getPosition(options);
+        this.$store.dispatch("setPosition", position);
+      } catch (err) {
+        devLog(err.message);
+      }
+    },
+    async endOnBoarding() {
+      await this.getLocation();
       this.$emit("push-page", Home);
     }
   }
