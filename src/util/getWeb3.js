@@ -1,4 +1,5 @@
 import Web3 from "web3";
+import devLog from "@/util/devlog.js";
 
 /*
  * 1. Check for injected web3 (mist/metamask)
@@ -12,7 +13,7 @@ let getWeb3 = new Promise(function(resolve, reject) {
   // Check for injected web3 (mist/metamask)
   var web3js = window.web3;
   if (typeof web3js !== "undefined") {
-    console.log(web3js.currentProvider);
+    devLog(web3js.currentProvider);
 
     try {
       let ethereum = window.ethereum;
@@ -24,7 +25,7 @@ let getWeb3 = new Promise(function(resolve, reject) {
       });
     } catch (error) {
       // User denied account access...
-      console.log("ethereum did not enable");
+      devLog("ethereum did not enable");
     }
   } else {
     // web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545')) GANACHE FALLBACK
@@ -34,7 +35,7 @@ let getWeb3 = new Promise(function(resolve, reject) {
   .then(result => {
     return new Promise(function(resolve, reject) {
       var web3 = new Web3(result.web3js.currentProvider);
-      console.log(web3);
+      devLog(web3);
 
       if (!web3) {
         reject(new Error("Unable to create new Web3 instance"));
@@ -71,7 +72,7 @@ let getWeb3 = new Promise(function(resolve, reject) {
     return new Promise(function(resolve, reject) {
       // Retrieve coinbase
       result.web3().eth.getCoinbase((err, coinbase) => {
-        console.log(coinbase);
+        devLog(coinbase);
         if (err) {
           reject(new Error("Unable to retrieve coinbase"));
         } else {
@@ -84,7 +85,7 @@ let getWeb3 = new Promise(function(resolve, reject) {
   .then(result => {
     return new Promise(function(resolve, reject) {
       // Retrieve balance for coinbase
-      console.log(result);
+      devLog(result);
       result.web3().eth.getBalance(result.coinbase, (err, balance) => {
         if (err) {
           reject(

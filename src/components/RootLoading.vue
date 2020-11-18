@@ -23,6 +23,8 @@ const getPosition = options => {
     navigator.geolocation.getCurrentPosition(resolve, reject, options)
   );
 };
+import devLog from "@/util/devlog.js";
+
 export default {
   name: "RootLoading",
   methods: {
@@ -36,7 +38,7 @@ export default {
         const position = await getPosition(options);
         this.$store.dispatch("setPosition", position);
       } catch (err) {
-        console.error(err.message);
+        devLog(err.message);
       }
     }
   },

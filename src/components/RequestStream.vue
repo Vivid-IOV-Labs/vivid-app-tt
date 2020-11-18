@@ -334,7 +334,7 @@ export default {
       this.map.setView([_data.location.y, _data.location.x], 15);
     },
     geoSearchEvent(_data) {
-      // Encode a location, default accuracy: var code = openLocationCode.encode(47.365590, 8.524997); console.log(code);
+      // Encode a location, default accuracy: var code = openLocationCode.encode(47.365590, 8.524997); devLog(code);
       // Encode a location using one stage of additional refinement:
       //#encode(latitude, longitude, code_length = PAIR_CODE_LENGTH) ⇒ String
       const code = this.createOpenLocationCode(
@@ -384,9 +384,6 @@ export default {
 
       this.map.setView([51.520748, -0.08504], 15);
     },
-    updateVisible(value) {
-      console.log(value);
-    },
     initMap() {
       this.map = L.map("map").setView([51.520748, -0.08504], 15);
     },
@@ -421,7 +418,6 @@ export default {
     }
   },
   beforeCreate() {
-    console.log("registerWeb3 Action dispatched");
     this.$store.dispatch("registerWeb3");
   },
   async mounted() {
@@ -482,7 +478,6 @@ export default {
       this.map.whenReady(() => {
         this.$nextTick(() => {
           this.removePin(resData.data.openLocationCode);
-          console.log("report flag");
           let arrrayOfLayerIDsToRemove = [];
 
           //Loop through the map layers to remove map pins corresponding to the live stream which has ended.
@@ -503,7 +498,6 @@ export default {
       });
     });
     io.socket.on("livestreamended", resData => {
-      console.log("livestreamended");
       if (resData.data) {
         let arrrayOfLayerIDsToRemove = [];
 

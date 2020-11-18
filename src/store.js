@@ -1,23 +1,18 @@
-/* eslint-disable no-debugger */
 import Vue from "vue";
 import Vuex from "vuex";
-// import createPersistedState from 'vuex-persistedstate'
 import RequestService from "@/services/RequestService";
 import FlagService from "@/services/FlagService";
 
 import env from "@/env.js";
 
 import getWeb3 from "@/util/getWeb3";
+import devLog from "@/util/devlog.js";
 
 Vue.use(Vuex);
 
-//THIS VUEX 'STORE' HAS BEEN CREATED TO ACT AS A CENTRAL PALCE TO
-//SAVE INFORMATION THAT CAN BE MADE AVAILABLE TO EVERY COMPONENT IN THE VUE APP.
 export default new Vuex.Store({
-  // plugins: [createPersistedState()],
   state: {
     inBuiltRequestDemo: true,
-    //baseURL: 'http://127.0.0.1:1336/',
     baseURL: env.web_service_url,
     myWalletAddress: "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
     searchLocation: null,
@@ -114,7 +109,6 @@ export default new Vuex.Store({
         response = await RequestService.create(model, state);
       } else {
         response = "already exists";
-        console.log(response);
       }
       return response;
     },
@@ -123,7 +117,7 @@ export default new Vuex.Store({
         const response = await FlagService.add(payload, state);
         return response;
       } catch (err) {
-        console.log(err);
+        devLog(err);
       }
     },
     async updateAddress({ state }, payload) {
@@ -131,7 +125,7 @@ export default new Vuex.Store({
         const response = await RequestService.updateAddress(payload, state);
         return response;
       } catch (err) {
-        console.log(err);
+        devLog(err);
       }
     },
     registerWeb3Instance2({ commit }, payload) {
@@ -142,23 +136,19 @@ export default new Vuex.Store({
       commit("setWeb3Instance", payload.web3);
     },
     registerWeb3({ commit, dispatch }) {
-      console.log("registerWeb3 Action being executed");
       getWeb3
         .then(result => {
-          console.log("committing result to registerWeb3Instance mutation");
-          console.log(result.coinbase);
+          devLog("committing result to registerWeb3Instance mutation");
           commit("setMyWalletAddress", result.coinbase);
-          //commit('registerWeb3Instance', result)
           dispatch("registerWeb3Instance2", result);
-          console.log(result);
+          devLog(result);
         })
         .catch(e => {
-          console.log("error in action registerWeb3", e);
+          devLog("error in action registerWeb3", e);
         });
     },
     async update({ state }, model) {
       let response = await RequestService.update(model, state);
-
       return response;
     }
   }

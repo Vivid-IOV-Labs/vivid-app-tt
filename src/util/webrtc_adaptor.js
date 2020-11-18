@@ -2,6 +2,7 @@
  *
  * @returns
  */
+import devLog from "@/util/devlog.js";
 export function WebRTCAdaptor(initialValues) {
   var thiz = this;
   thiz.peerconnection_config = null;
@@ -48,7 +49,7 @@ export function WebRTCAdaptor(initialValues) {
   thiz.remoteVideo = thiz.remoteVideoId;
 
   if (!("WebSocket" in window)) {
-    console.log("WebSocket not supported.");
+    devLog("WebSocket not supported.");
     thiz.callbackError("WebSocketNotSupported");
     return;
   }
@@ -57,7 +58,7 @@ export function WebRTCAdaptor(initialValues) {
     typeof navigator.mediaDevices == "undefined" &&
     thiz.isPlayMode == false
   ) {
-    console.log(
+    devLog(
       "Cannot open camera and mic because of unsecure context. Please Install SSL(https)"
     );
     thiz.callbackError("UnsecureContext");
@@ -190,12 +191,10 @@ export function WebRTCAdaptor(initialValues) {
   this.openScreen = function(audioConstraint) {
     var callback = function(message) {
       if (message.data == "rtcmulticonnection-extension-loaded") {
-        console.debug(
-          "rtcmulticonnection-extension-loaded parameter is received"
-        );
+        devLog("rtcmulticonnection-extension-loaded parameter is received");
         window.postMessage("get-sourceId", "*");
       } else if (message.data == "PermissionDeniedError") {
-        console.debug("Permission denied error");
+        devLog("Permission denied error");
         thiz.callbackError("screen_share_permission_denied");
       } else if (message.data && message.data.sourceId) {
         var mediaConstraints = {
@@ -243,7 +242,7 @@ export function WebRTCAdaptor(initialValues) {
         thiz.getUserMedia(mediaConstraints, audioConstraint);
       }
     } else {
-      console.error("MediaConstraint video is not defined");
+      devLog("MediaConstraint video is not defined");
       thiz.callbackError("media_constraint_video_not_defined");
     }
   };
@@ -307,7 +306,7 @@ export function WebRTCAdaptor(initialValues) {
             navigator.mediaDevices
               .getUserMedia(thiz.mediaConstraints)
               .then(function(stream) {
-                //console.debug("audio stream track count: " + audioStream.getAudioTracks().length);
+                //devLog("audio stream track count: " + audioStream.getAudioTracks().length);
 
                 var audioContext = new AudioContext();
                 var desktopSoundGainNode = audioContext.createGain();
@@ -336,7 +335,7 @@ export function WebRTCAdaptor(initialValues) {
                     stream.addTrack(track);
                   });
 
-                console.debug("Running gotStream");
+                devLog("Running gotStream");
                 thiz.gotStream(stream);
               })
               .catch(function(error) {
@@ -444,7 +443,7 @@ export function WebRTCAdaptor(initialValues) {
       command: "leaveFromRoom",
       room: roomName
     };
-    console.log("leave request is sent for " + roomName);
+    devLog("leave request is sent for " + roomName);
 
     thiz.webSocketAdaptor.send(JSON.stringify(jsCmd));
   };
@@ -490,12 +489,10 @@ export function WebRTCAdaptor(initialValues) {
   this.switchDesktopCapture = function(streamId) {
     var screenShareExtensionCallback = function(message) {
       if (message.data == "rtcmulticonnection-extension-loaded") {
-        console.debug(
-          "rtcmulticonnection-extension-loaded parameter is received"
-        );
+        devLog("rtcmulticonnection-extension-loaded parameter is received");
         window.postMessage("get-sourceId", "*");
       } else if (message.data == "PermissionDeniedError") {
-        console.debug("Permission denied error");
+        devLog("Permission denied error");
         thiz.callbackError("screen_share_permission_denied");
       } else if (message.data && message.data.sourceId) {
         var mediaConstraints = {
@@ -559,7 +556,7 @@ export function WebRTCAdaptor(initialValues) {
               thiz.arrangeStreams(stream, onEndedCallback);
             })
             .catch(function(error) {
-              console.log(error.name);
+              devLog(error.name);
             });
         } else {
           thiz.arrangeStreams(stream, onEndedCallback);
@@ -571,12 +568,12 @@ export function WebRTCAdaptor(initialValues) {
   };
 
   this.onTrack = function(event, streamId) {
-    console.log("onTrack");
+    devLog("onTrack");
     if (thiz.remoteVideo != null) {
       //thiz.remoteVideo.srcObject = event.streams[0];
       if (thiz.remoteVideo.srcObject !== event.streams[0]) {
         thiz.remoteVideo.srcObject = event.streams[0];
-        console.log("Received remote stream");
+        devLog("Received remote stream");
       }
     } else {
       var dataObj = {
@@ -598,8 +595,8 @@ export function WebRTCAdaptor(initialValues) {
       };
 
       if (thiz.debug) {
-        console.log("sending ice candiate for stream Id " + streamId);
-        console.log(JSON.stringify(event.candidate));
+        devLog("sending ice candiate for stream Id " + streamId);
+        devLog(JSON.stringify(event.candidate));
       }
 
       thiz.webSocketAdaptor.send(JSON.stringify(jsCmd));
@@ -609,7 +606,7 @@ export function WebRTCAdaptor(initialValues) {
   this.initPeerConnection = function(streamId) {
     if (thiz.remotePeerConnection[streamId] == null) {
       var closedStreamId = streamId;
-      console.log(
+      devLog(
         "stream id in init peer connection: " +
           streamId +
           " close dstream id: " +
@@ -665,9 +662,7 @@ export function WebRTCAdaptor(initialValues) {
     thiz.remotePeerConnection[streamId]
       .setLocalDescription(configuration)
       .then(function() {
-        console.debug(
-          "Set local description successfully for stream Id " + streamId
-        );
+        devLog("Set local description successfully for stream Id " + streamId);
 
         var jsCmd = {
           command: "takeConfiguration",
@@ -677,14 +672,14 @@ export function WebRTCAdaptor(initialValues) {
         };
 
         if (thiz.debug) {
-          console.debug("local sdp: ");
-          console.debug(configuration.sdp);
+          devLog("local sdp: ");
+          devLog(configuration.sdp);
         }
 
         thiz.webSocketAdaptor.send(JSON.stringify(jsCmd));
       })
       .catch(function(error) {
-        console.error("Cannot set local description. Error is: " + error);
+        devLog("Cannot set local description. Error is: " + error);
       });
   };
 
@@ -747,7 +742,7 @@ export function WebRTCAdaptor(initialValues) {
       )
       .then(function(response) {
         if (thiz.debug) {
-          console.debug(
+          devLog(
             "set remote description is succesfull with response: " +
               response +
               " for stream : " +
@@ -755,12 +750,12 @@ export function WebRTCAdaptor(initialValues) {
               " and type: " +
               type
           );
-          console.debug(conf);
+          devLog(conf);
         }
 
         thiz.remoteDescriptionSet[streamId] = true;
         var length = thiz.iceCandidateList[streamId].length;
-        console.debug("Ice candidate list size to be added: " + length);
+        devLog("Ice candidate list size to be added: " + length);
         for (var i = 0; i < length; i++) {
           thiz.addIceCandidate(streamId, thiz.iceCandidateList[streamId][i]);
         }
@@ -768,24 +763,22 @@ export function WebRTCAdaptor(initialValues) {
 
         if (type == "offer") {
           //SDP constraints may be different in play mode
-          console.log("try to create answer for stream id: " + streamId);
+          devLog("try to create answer for stream id: " + streamId);
 
           thiz.remotePeerConnection[streamId]
             .createAnswer(thiz.sdp_constraints)
             .then(function(configuration) {
-              console.log("created answer for stream id: " + streamId);
+              devLog("created answer for stream id: " + streamId);
               thiz.gotDescription(configuration, streamId);
             })
             .catch(function(error) {
-              console.error("create answer error :" + error);
+              devLog("create answer error :" + error);
             });
         }
       })
       .catch(function(error) {
         if (thiz.debug) {
-          console.error(
-            "set remote description is failed with error: " + error
-          );
+          devLog("set remote description is failed with error: " + error);
         }
       });
   };
@@ -805,7 +798,7 @@ export function WebRTCAdaptor(initialValues) {
     if (thiz.remoteDescriptionSet[streamId] == true) {
       thiz.addIceCandidate(streamId, candidate);
     } else {
-      console.debug(
+      devLog(
         "Ice candidate is added to list because remote description is not set yet"
       );
       thiz.iceCandidateList[streamId].push(candidate);
@@ -817,17 +810,17 @@ export function WebRTCAdaptor(initialValues) {
       .addIceCandidate(candidate)
       .then(function() {
         if (thiz.debug) {
-          console.log("Candidate is added for stream " + streamId);
+          devLog("Candidate is added for stream " + streamId);
         }
       })
       .catch(function(error) {
-        console.error(
+        devLog(
           "ice candiate cannot be added for stream id: " +
             streamId +
             " error is: " +
             error
         );
-        console.error(candidate);
+        devLog(candidate);
       });
   };
 
@@ -842,7 +835,7 @@ export function WebRTCAdaptor(initialValues) {
         thiz.gotDescription(configuration, streamId);
       })
       .catch(function(error) {
-        console.error(
+        devLog(
           "create offer error for stream id: " + streamId + " error: " + error
         );
       });
@@ -871,7 +864,7 @@ export function WebRTCAdaptor(initialValues) {
     var clearPingTimer = function() {
       if (pingTimerId != -1) {
         if (thiz.debug) {
-          console.debug("Clearing ping message timer");
+          devLog("Clearing ping message timer");
         }
         clearInterval(pingTimerId);
         pingTimerId = -1;
@@ -893,7 +886,7 @@ export function WebRTCAdaptor(initialValues) {
 
     wsConn.onopen = function() {
       if (thiz.debug) {
-        console.log("websocket connected");
+        devLog("websocket connected");
       }
 
       pingTimerId = setInterval(() => {
@@ -914,7 +907,7 @@ export function WebRTCAdaptor(initialValues) {
         return;
       }
       wsConn.send(text);
-      console.log("sent message:" + text);
+      devLog("sent message:" + text);
     };
 
     this.isConnected = function() {
@@ -928,20 +921,20 @@ export function WebRTCAdaptor(initialValues) {
         //this command is received first, when publishing so playmode is false
 
         if (thiz.debug) {
-          console.debug("received start command");
+          devLog("received start command");
         }
 
         thiz.startPublishing(obj.streamId);
       } else if (obj.command == "takeCandidate") {
         if (thiz.debug) {
-          console.debug("received ice candidate for stream id " + obj.streamId);
-          console.debug(obj.candidate);
+          devLog("received ice candidate for stream id " + obj.streamId);
+          devLog(obj.candidate);
         }
 
         thiz.takeCandidate(obj.streamId, obj.label, obj.candidate);
       } else if (obj.command == "takeConfiguration") {
         if (thiz.debug) {
-          console.log(
+          devLog(
             "received remote description type for stream id: " +
               obj.streamId +
               " type: " +
@@ -950,7 +943,7 @@ export function WebRTCAdaptor(initialValues) {
         }
         thiz.takeConfiguration(obj.streamId, obj.sdp, obj.type);
       } else if (obj.command == "stop") {
-        console.debug("Stop command received");
+        devLog("Stop command received");
         thiz.closePeerConnection(obj.streamId);
       } else if (obj.command == "error") {
         thiz.callbackError(obj.definition);
@@ -970,14 +963,14 @@ export function WebRTCAdaptor(initialValues) {
     };
 
     wsConn.onerror = function(error) {
-      console.log(" error occured: " + JSON.stringify(error));
+      devLog(" error occured: " + JSON.stringify(error));
       clearPingTimer();
       thiz.callbackError(error);
     };
 
     wsConn.onclose = function(event) {
       connected = false;
-      console.log("connection closed.");
+      devLog("connection closed.");
       clearPingTimer();
       thiz.callback("closed", event);
     };

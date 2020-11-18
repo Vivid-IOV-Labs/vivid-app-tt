@@ -72,6 +72,8 @@ if (socketIOClient.sails) {
   io = sailsIOClient(socketIOClient);
   io.sails.url = env.web_service_url;
 }
+import devLog from "@/util/devlog.js";
+
 export default {
   name: "supplyStream",
   components: {
@@ -176,30 +178,30 @@ export default {
       debug: true,
       callback: (info, description) => {
         if (info == "initialized") {
-          console.log("initialized");
+          devLog("initialized");
           this.start_publish_button.disabled = false;
           this.stop_publish_button.disabled = true;
         } else if (info == "publish_started") {
           //stream is being published
-          console.log("publish started");
+          devLog("publish started");
           this.start_publish_button.disabled = true;
           this.stop_publish_button.disabled = false;
           //this.startAnimation();
         } else if (info == "publish_finished") {
           //stream is being finished
-          console.log("publish finished");
+          devLog("publish finished");
           this.start_publish_button.disabled = false;
           this.stop_publish_button.disabled = true;
         } else if (info == "screen_share_extension_available") {
           //this.screen_share_checkbox.disabled = false;
-          //console.log("screen share extension available");
+          //devLog("screen share extension available");
           //this.install_extension_link.style.display = "none";
         } else if (info == "screen_share_stopped") {
-          console.log("screen share stopped");
+          devLog("screen share stopped");
         } else if (info == "closed") {
-          //console.log("Connection closed");
+          //devLog("Connection closed");
           if (typeof description != "undefined") {
-            console.log("Connecton closed: " + JSON.stringify(description));
+            devLog("Connecton closed: " + JSON.stringify(description));
           }
         } else if (info == "pong") {
           //ping/pong message are sent to and received from server to make the connection alive all the time
@@ -209,7 +211,7 @@ export default {
       callbackError: (error, message) => {
         //some of the possible errors, NotFoundError, SecurityError,PermissionDeniedError
 
-        console.log("error callback: " + JSON.stringify(error));
+        devLog("error callback: " + JSON.stringify(error));
         var errorMessage = JSON.stringify(error);
         if (typeof message != "undefined") {
           errorMessage = message;

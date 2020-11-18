@@ -97,7 +97,6 @@ export default {
       this.popoverTarget = event;
       this.popoverDirection = direction;
       this.coverTarget = coverTarget;
-      console.log(event);
       this.popoverVisible = true;
     }
   }
