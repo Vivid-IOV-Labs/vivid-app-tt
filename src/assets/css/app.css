@@ -90,14 +90,12 @@ button:disabled {
   color: #fff;
   background-color: #F73E2D;
   padding: 0.8rem 1rem;
-  margin: 0.4rem;
   border-radius: 0.3rem;
 }
 #button-join {
   color: #fff;
   background-color: #73E335;
   padding: 0.8rem 1rem;
-  margin: 0.4rem;
   border-radius: 0.3rem;
 }
 
