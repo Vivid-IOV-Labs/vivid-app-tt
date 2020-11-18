@@ -41,7 +41,7 @@ import { OpenStreetMapProvider } from "leaflet-geosearch";
 const myProvider = new OpenStreetMapProvider({
   params: {
     email: "peerkat@gmail.com",
-    limit: 3,
+    limit: 2,
     zoom: 10
   }
 });
