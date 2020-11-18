@@ -1,6 +1,6 @@
 <template>
   <v-ons-dialog cancelable :visible="value" @update:visible="updateVisible">
-    <v-ons-page class="scroller">
+    <v-ons-page>
       <v-ons-toolbar>
         <div class="center">About my Live Stream</div>
         <div class="right">
@@ -9,70 +9,72 @@
           </v-ons-button>
         </div>
       </v-ons-toolbar>
-      <v-ons-list>
-        <v-ons-list-item>
-          <div class="flex-coulumn p-4">
-            <textarea
-              title="Stream Title"
-              class="textarea textarea--transparent"
-              placeholder="What is the live Stream about?"
-              v-model="requestModel.mapPin.details"
-            ></textarea>
-            <small>[10 words max]</small>
-          </div>
-        </v-ons-list-item>
-        <v-ons-list-item>
-          <div class="flex-coulumn p-4">
-            <geo-search-bar
-              id="golive_location"
-              title="Search"
-              placeholder="Add Location"
-              @change="onSelectAddress"
-            ></geo-search-bar>
-          </div>
-        </v-ons-list-item>
-        <v-ons-list-item>
-          <div class="flex-coulumn p-4">
-            <v-ons-list>
-              <div>
-                <v-ons-list-item>
-                  <span>#</span>
-                  <v-ons-input
-                    title="Add Hashtags"
-                    v-model="requestModel.mapPin.twitterHashTags[0]"
-                    placeholder="Add Hashtags"
-                    float
-                  ></v-ons-input>
-                </v-ons-list-item>
-                <v-ons-list-item>
-                  <span>#</span>
-                  <v-ons-input
-                    title="Add Hashtags"
-                    v-model="requestModel.mapPin.twitterHashTags[1]"
-                    placeholder="Add Hashtags"
-                  ></v-ons-input>
-                </v-ons-list-item>
-                <v-ons-list-item>
-                  <span>#</span>
-                  <v-ons-input
-                    title="Add Hashtags"
-                    v-model="requestModel.mapPin.twitterHashTags[3]"
-                    placeholder="Add Hashtags"
-                  ></v-ons-input>
-                </v-ons-list-item>
-              </div>
-            </v-ons-list>
-          </div>
-        </v-ons-list-item>
-      </v-ons-list>
-      <div class="flex-center-xy p-2">
-        <v-ons-button
-          class="btn btn--golive btn--full btn--large"
-          @click="closeGoLiveDialog"
-        >
-          Confirm
-          <base-icon class="btn__icon" name="video"></base-icon>
-        </v-ons-button>
+      <div class="scroller">
+        <v-ons-list>
+          <v-ons-list-item>
+            <div class="flex-coulumn p-4">
+              <textarea
+                title="Stream Title"
+                class="textarea textarea--transparent"
+                placeholder="What is the live Stream about?"
+                v-model="requestModel.mapPin.details"
+              ></textarea>
+              <small>[10 words max]</small>
+            </div>
+          </v-ons-list-item>
+          <v-ons-list-item>
+            <div class="flex-coulumn p-4">
+              <geo-search-bar
+                id="golive_location"
+                title="Search"
+                placeholder="Add Location"
+                @change="onSelectAddress"
+              ></geo-search-bar>
+            </div>
+          </v-ons-list-item>
+          <v-ons-list-item>
+            <div class="flex-coulumn p-4">
+              <v-ons-list>
+                <div>
+                  <v-ons-list-item>
+                    <span>#</span>
+                    <v-ons-input
+                      title="Add Hashtags"
+                      v-model="requestModel.mapPin.twitterHashTags[0]"
+                      placeholder="Add Hashtags"
+                      float
+                    ></v-ons-input>
+                  </v-ons-list-item>
+                  <v-ons-list-item>
+                    <span>#</span>
+                    <v-ons-input
+                      title="Add Hashtags"
+                      v-model="requestModel.mapPin.twitterHashTags[1]"
+                      placeholder="Add Hashtags"
+                    ></v-ons-input>
+                  </v-ons-list-item>
+                  <v-ons-list-item>
+                    <span>#</span>
+                    <v-ons-input
+                      title="Add Hashtags"
+                      v-model="requestModel.mapPin.twitterHashTags[3]"
+                      placeholder="Add Hashtags"
+                    ></v-ons-input>
+                  </v-ons-list-item>
+                </div>
+              </v-ons-list>
+            </div>
+          </v-ons-list-item>
+        </v-ons-list>
+        <div class="flex-center-xy p-2">
+          <v-ons-button
+            class="btn btn--golive btn--full btn--large"
+            @click="closeGoLiveDialog"
+          >
+            Confirm
+            <base-icon class="btn__icon" name="video"></base-icon>
+          </v-ons-button>
+        </div>
       </div>
     </v-ons-page>
   </v-ons-dialog>

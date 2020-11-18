@@ -1,6 +1,6 @@
 <template>
   <v-ons-dialog cancelable :visible="value" @update:visible="updateVisible">
-    <v-ons-page class="scroller">
+    <v-ons-page>
       <v-ons-toolbar>
         <div class="center">Latest Live Streams</div>
         <div class="right">
@@ -9,33 +9,36 @@
           </v-ons-button>
         </div>
       </v-ons-toolbar>
-      <v-ons-list>
-        <v-ons-list-item v-for="marker in markers" :key="marker.id">
-          <div class="flex-center-y p-4">
-            <div>
-              <h3>{{ marker.mapPin.details }}</h3>
-              <p>
-                {{
-                  marker.mapPin.twitterHashTags
-                    .reduce((acc, tag) => {
-                      acc += ` #${tag},`;
-                      return acc;
-                    }, "")
-                    .slice(1, -1)
-                }}
-              </p>
-            </div>
+      <div class="scroller">
+        <v-ons-list>
+          <v-ons-list-item v-for="marker in markers" :key="marker.id">
+            <div class="flex-center-y p-4">
+              <div>
+                <h3>{{ marker.mapPin.details }}</h3>
+                <p>
+                  {{
+                    marker.mapPin.twitterHashTags
+                      .reduce((acc, tag) => {
+                        acc += ` #${tag},`;
+                        return acc;
+                      }, "")
+                      .slice(1, -1)
+                  }}
+                </p>
+              </div>
 
-            <div class="ml-auto">
-              <v-ons-button
-                class="btn btn--join bnt--large text-center"
-                @click="join(marker.openLocationCode)"
-                >Trending <base-icon class="btn__icon" name="users"></base-icon
-              ></v-ons-button>
+              <div class="ml-auto">
+                <v-ons-button
+                  class="btn btn--join bnt--large text-center"
+                  @click="join(marker.openLocationCode)"
+                  >Trending
+                  <base-icon class="btn__icon" name="users"></base-icon
+                ></v-ons-button>
+              </div>
             </div>
-          </div>
-        </v-ons-list-item>
-      </v-ons-list>
+          </v-ons-list-item>
+        </v-ons-list>
+      </div>
     </v-ons-page>
   </v-ons-dialog>
 </template>
