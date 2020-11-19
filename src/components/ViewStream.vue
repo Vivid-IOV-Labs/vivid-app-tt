@@ -10,7 +10,7 @@
     </v-ons-toolbar>
     <div class="streamer__container">
       <div class="streamer__controls streamer__controls--top">
-        <v-ons-button class="btn btn--default flex-coulumn">
+        <v-ons-button class="btn btn--default flex-coulumn flex-center-xy">
           <base-icon class="btn__icon" name="eye"></base-icon>
           <span>101</span>
         </v-ons-button>
