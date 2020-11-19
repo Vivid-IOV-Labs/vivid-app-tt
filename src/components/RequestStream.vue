@@ -491,7 +491,6 @@ export default {
       });
     });
     io.socket.on("livestreamended", resData => {
-      debugger;
       if (resData.data) {
         let arrrayOfLayerIDsToRemove = [];
         for (const property in this.map._layers) {
