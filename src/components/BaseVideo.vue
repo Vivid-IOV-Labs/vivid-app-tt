@@ -1,9 +1,6 @@
 <template>
   <div class="video__container">
-    <video
-      ref="video"
-      class="video-js video-js vjs-default-skin vjs-16-9 vjs-fill"
-    ></video>
+    <video ref="video" class="video-js video-js vjs-default-skin"></video>
   </div>
 </template>
 
