@@ -45,7 +45,17 @@
             }"
             :visible.sync="streamReported"
           >
-            This Live stream has been reported and therefor ended
+            This Live stream has been ended
+          </v-ons-alert-dialog>
+          <v-ons-alert-dialog
+            modifier="rowfooter"
+            :title="'Live stream reported'"
+            :footer="{
+              Ok: endViewingStream
+            }"
+            :visible.sync="streamEnded"
+          >
+            This Live stream has been ended by the publisher
           </v-ons-alert-dialog>
         </div>
       </div>
@@ -120,6 +130,7 @@ export default {
       streamId1: "streamId",
       streamId: this.$store.state.selectedPin.openLocationCode,
       streamReported: false,
+      streamEnded: false,
       pc_config: null,
       sdpConstraints: {
         OfferToReceiveAudio: true,
@@ -232,6 +243,11 @@ export default {
     io.socket.on("reportFlagRaisedAndLiveStreamRemoved", ({ data }) => {
       if (data.openLocationCode == this.streamId) {
         this.streamReported = true;
+      }
+    });
+    io.socket.on("livestreamended", ({ data }) => {
+      if (data.openLocationCode == this.streamId) {
+        this.streamEnded = true;
       }
     });
     this.player = window.videojs.getPlayer(this.$refs.videoplayer.$refs.video);
