@@ -9,8 +9,9 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <link rel="icon" href="<%= BASE_URL %>image.png" />
-    <!-- <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css"> -->
-    <!-- <title><%= htmlWebpackPlugin.options.title %></title> -->
+    <link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
+    <link href="https://vjs.zencdn.net/ie8/1.1.2/videojs.min.js" rel="preload" as="script">
+  <!-- <title><%= htmlWebpackPlugin.options.title %></title> -->
     <title>Peerkat</title>
   </head>
   <body>
@@ -22,7 +23,9 @@
       >
     </noscript>
     <div id="app"></div>
+
     <script>
+      window.videojs = videojs
       if (window.location.protocol !== "https:") {
         if (
           window.location.hostname !== "127.0.0.1" &&

@@ -5,9 +5,6 @@
 </template>
 
 <script>
-import videojs from "video.js";
-import "../../node_modules/video.js/dist/video-js.css";
-
 export default {
   name: "BsseVideo",
   props: {
@@ -28,7 +25,7 @@ export default {
     };
   },
   mounted() {
-    this.player = videojs(this.$refs.video, this.options);
+    this.player = window.videojs(this.$refs.video, this.options);
     this.player.on("pause", () => {
       this.$emit("pause");
       this.isPaused = true;

@@ -77,7 +77,6 @@
   </v-ons-page>
 </template>
 <script>
-import videojs from "video.js";
 import BaseVideo from "@/components/BaseVideo.vue";
 import Web3 from "web3";
 import { address, ABI } from "@/util/constants/tippingContract";
@@ -235,7 +234,7 @@ export default {
         this.streamReported = true;
       }
     });
-    this.player = videojs.getPlayer(this.$refs.videoplayer.$refs.video);
+    this.player = window.videojs.getPlayer(this.$refs.videoplayer.$refs.video);
 
     this.webRTCAdaptor = new WebRTCAdaptor({
       websocket_url: "wss://streams.vividiov.media:5443/WebRTCAppEE/websocket",

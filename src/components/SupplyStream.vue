@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import videojs from "video.js";
 import BaseVideo from "@/components/BaseVideo.vue";
 import Home from "@/components/Home.vue";
 
@@ -126,7 +125,7 @@ export default {
       this.openLocationCode = data.openLocationCode;
       this.streamReported = true;
     });
-    this.player = videojs.getPlayer(this.$refs.videoplayer.$refs.video);
+    this.player = window.videojs.getPlayer(this.$refs.videoplayer.$refs.video);
 
     const pc_config = null;
 
