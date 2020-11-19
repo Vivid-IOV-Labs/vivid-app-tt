@@ -976,6 +976,3 @@ export function WebRTCAdaptor(initialValues) {
     };
   }
 }
-// export default{
-// 	WebRTCAdaptor,
-// }

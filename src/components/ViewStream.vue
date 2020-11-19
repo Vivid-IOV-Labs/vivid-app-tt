@@ -2,7 +2,9 @@
   <v-ons-page id="viewStreamPage">
     <v-ons-toolbar>
       <div class="left">
-        <v-ons-back-button @click="endViewingStream()">Back </v-ons-back-button>
+        <v-ons-back-button @click.prevent="endViewingStream()"
+          >Back
+        </v-ons-back-button>
       </div>
       <div class="center">
         <span>Trending</span>
@@ -117,7 +119,6 @@ export default {
       },
       webRTCAdaptor: null,
       streamId1: "streamId",
-      //streamNameBox: "stream2",
       streamId: this.$store.state.selectedPin.openLocationCode,
       streamReported: false,
       pc_config: null,
@@ -166,15 +167,7 @@ export default {
       this.player
         .tech()
         .el()
-        .play()
-        .then(function() {
-          //autoplay started
-          //document.getElementById("play_button").style.display = "none";
-        })
-        .catch(function() {
-          //document.getElementById("play_button").style.display = "block";
-          devLog("User interaction needed to start playing");
-        });
+        .play();
     },
     fullScreen() {
       this.player.requestFullscreen();
@@ -284,10 +277,10 @@ export default {
 
         if (error == "no_stream_exist") {
           setTimeout(function() {
-            //this.webRTCAdaptor.getStreamInfo(this.streamId);
+            this.webRTCAdaptor.getStreamInfo(this.streamId);
           }, 3000);
         }
-        //alert(JSON.stringify(error));
+        devLog(JSON.stringify(error));
       }
     });
   }

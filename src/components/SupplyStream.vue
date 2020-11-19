@@ -2,7 +2,9 @@
   <v-ons-page id="Streamer">
     <v-ons-toolbar>
       <div class="left">
-        <v-ons-back-button @click="closeVideoStream">Back</v-ons-back-button>
+        <v-ons-back-button @click.prevent="closeVideoStream"
+          >Back</v-ons-back-button
+        >
       </div>
       <div class="center">
         <span>Live Stream in progress</span>
@@ -26,16 +28,8 @@
 
       <div class="streamer__controls streamer__controls--bottom">
         <v-ons-button
-          @click="startPublishing"
-          class="btn btn--golive btn--full-width"
-          v-if="!start_publish_button.disabled"
-          id="start_publish_button"
-          >Start Streaming
-          <base-icon class="btn__icon" name="play"></base-icon>
-        </v-ons-button>
-        <v-ons-button
-          @click="stopPublishing"
-          class="btn btn--golive btn--full-width"
+          @click="closeVideoStream"
+          class="btn btn--default btn--full-width"
           v-if="!stop_publish_button.disabled"
           id="stop_publish_button"
           >End Streaming <base-icon class="btn__icon" name="pause"></base-icon
@@ -92,20 +86,12 @@ export default {
         fill: true,
         fluid: false
       },
-      start_publish_button: {
-        disabled: true
-      },
       stop_publish_button: {
         disabled: true
       },
-      screen_share_checkbox: "",
-      install_extension_link: "",
       streamNameBox: this.$store.state.selectedPin.openLocationCode,
       streamId: "",
       name: "",
-      pc_config: "",
-      sdpConstraints: "",
-      mediaConstraints: "",
       webRTCAdaptor: "",
       streamReported: false,
       openLocationCode: ""
@@ -133,26 +119,6 @@ export default {
     },
     stopPublishing() {
       this.webRTCAdaptor.stop(this.streamId);
-    },
-    enableDesktopCapture(_enable) {
-      if (_enable == true) {
-        this.webRTCAdaptor.switchDesktopCapture(this.streamId);
-      } else {
-        this.webRTCAdaptor.switchVideoCapture(this.streamId);
-      }
-    },
-    startAnimation() {
-      var state = this.webRTCAdaptor.signallingState(this.streamId);
-      if (state != null && state != "closed") {
-        var iceState = this.webRTCAdaptor.iceConnectionState(this.streamId);
-        if (
-          iceState != null &&
-          iceState != "failed" &&
-          iceState != "disconnected"
-        ) {
-          this.startAnimation();
-        }
-      }
     }
   },
   mounted() {
@@ -162,40 +128,37 @@ export default {
     });
     this.player = videojs.getPlayer(this.$refs.videoplayer.$refs.video);
 
-    this.pc_config = null;
+    const pc_config = null;
 
-    this.sdpConstraints = {
+    const sdpConstraints = {
       OfferToReceiveAudio: false,
       OfferToReceiveVideo: false
     };
 
-    this.mediaConstraints = {
+    const mediaConstraints = {
       video: true,
       audio: true
     };
     this.webRTCAdaptor = new WebRTCAdaptor({
       websocket_url: "wss://streams.vividiov.media:5443/WebRTCAppEE/websocket",
-      mediaConstraints: this.mediaConstraints,
-      peerconnection_config: this.pc_config,
-      sdp_constraints: this.sdpConstraints,
+      mediaConstraints: mediaConstraints,
+      peerconnection_config: pc_config,
+      sdp_constraints: sdpConstraints,
       localVideoId: this.player.tech().el(),
       debug: process.env.NODE_ENV != "production",
       callback: (info, description) => {
         if (info == "initialized") {
           devLog("initialized");
-          this.start_publish_button.disabled = false;
           this.stop_publish_button.disabled = true;
           this.startPublishing();
         } else if (info == "publish_started") {
           //stream is being published
           devLog("publish started");
-          this.start_publish_button.disabled = true;
           this.stop_publish_button.disabled = false;
           //this.startAnimation();
         } else if (info == "publish_finished") {
           //stream is being finished
           devLog("publish finished");
-          this.start_publish_button.disabled = false;
           this.stop_publish_button.disabled = true;
         } else if (info == "screen_share_extension_available") {
           //this.screen_share_checkbox.disabled = false;

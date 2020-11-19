@@ -43,7 +43,7 @@ const myProvider = new OpenStreetMapProvider({
   params: {
     email: "peerkat@gmail.com",
     limit: 2,
-    zoom: 10
+    zoom: 6
   }
 });
 export default {
