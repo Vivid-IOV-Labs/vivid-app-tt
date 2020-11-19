@@ -18,6 +18,9 @@
           <v-ons-button class="btn btn--default mb-4">
             <base-icon class="btn__icon" name="volume-mute"></base-icon>
           </v-ons-button>
+          <v-ons-button @click="fullScreen" class="btn btn--default mb-4">
+            <base-icon class="btn__icon" name="expand"></base-icon>
+          </v-ons-button>
           <v-ons-button @click="reportConfirm = true" class="btn btn--default ">
             <base-icon class="btn__icon" name="flag"></base-icon>
           </v-ons-button>
@@ -172,6 +175,9 @@ export default {
           //document.getElementById("play_button").style.display = "block";
           devLog("User interaction needed to start playing");
         });
+    },
+    fullScreen() {
+      this.player.requestFullscreen();
     },
     startPlaying() {
       this.webRTCAdaptor.play(this.streamId);
