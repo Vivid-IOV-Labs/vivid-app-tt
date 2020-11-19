@@ -9,8 +9,10 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <link rel="icon" href="<%= BASE_URL %>image.png" />
-    <link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
-    <link href="https://vjs.zencdn.net/ie8/1.1.2/videojs.min.js" rel="preload" as="script">
+<!-- unpkg : use the latest version of Video.js -->
+<link href="https://unpkg.com/video.js/dist/video-js.min.css" rel="stylesheet">
+<script src="https://unpkg.com/video.js/dist/video.min.js"></script>
+    <link href="//vjs.zencdn.net/7.8.2/video.min.js" rel="preload" as="script">
   <!-- <title><%= htmlWebpackPlugin.options.title %></title> -->
     <title>Peerkat</title>
   </head>
