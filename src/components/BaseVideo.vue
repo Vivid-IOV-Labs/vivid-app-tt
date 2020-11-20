@@ -42,6 +42,11 @@ export default {
       this.$emit("play");
       this.isPaused = false;
     });
+    this.player.on("fullscreenchange", () => {
+      if (!this.player.isFullscreen()) {
+        this.player.play();
+      }
+    });
   },
   beforeDestroy() {
     if (this.player) {

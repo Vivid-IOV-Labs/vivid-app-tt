@@ -71,7 +71,7 @@
           <v-ons-alert-dialog
             modifier="rowfooter"
             :title="'Stream not found'"
-            :visible.sync="streamNotLive"
+            :visible.sync="streamNotFound"
             :footer="{
               Ok: endViewingStream
             }"
@@ -144,13 +144,11 @@ export default {
     return {
       player: null,
       videoOptions: {
-        autoplay: true,
-        muted: true,
         controls: false
       },
       webRTCAdaptor: null,
       streamId: this.$store.state.selectedPin.openLocationCode,
-      streamNotLive: true,
+      streamNotLive: false,
       streamReported: false,
       streamEnded: false,
       streamNotFound: false,
@@ -277,16 +275,17 @@ export default {
             this.webRTCAdaptor.getStreamInfo(this.streamId);
           }, 3000);
         } else if (info == "closed") {
-          //devLog("Connection closed");
+          devLog("Connection closed");
           if (typeof description != "undefined") {
             devLog("Connecton closed: " + JSON.stringify(description));
           }
         }
       },
-      callbackError: function(error) {
+      callbackError: error => {
         //some of the possible errors, NotFoundError, SecurityError,PermissionDeniedError
         devLog("error callback: " + JSON.stringify(error));
-
+        this.streamNotLive = false;
+        this.streamNotFound = true;
         if (error == "no_stream_exist") {
           this.streamNotLive = false;
           this.streamNotFound = true;

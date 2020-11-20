@@ -40,11 +40,6 @@
   padding-bottom: 6px !important;
 }
 
-.range {
-  top: -0.09em;
-  width: 65%;
-}
-
 #pushToViewStreamPageButton {
   padding: 1rem;
   display: flex;

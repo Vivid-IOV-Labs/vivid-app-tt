@@ -95,7 +95,6 @@ export default {
       player: null,
       videoOptions: {
         autoplay: true,
-        muted: true,
         controls: false
       },
       stop_publish_button: {
@@ -147,7 +146,7 @@ export default {
     };
 
     const mediaConstraints = {
-      video: { width: { min: 270, max: 270 }, height: { min: 480, max: 480 } },
+      video: true,
       audio: true
     };
     this.webRTCAdaptor = new WebRTCAdaptor({
@@ -178,7 +177,7 @@ export default {
         } else if (info == "screen_share_stopped") {
           devLog("screen share stopped");
         } else if (info == "closed") {
-          //devLog("Connection closed");
+          devLog("Connection closed");
           if (typeof description != "undefined") {
             devLog("Connecton closed: " + JSON.stringify(description));
           }
