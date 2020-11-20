@@ -43,40 +43,28 @@
 </template>
 
 <style>
-/*
 @import "../../node_modules/leaflet/dist/leaflet.css";
-@import "../../node_modules/leaflet-geosearch/assets/css/leaflet.css";*/
 @import "../assets/css/requestStream.css";
 </style>
 
 <script>
-// import "leaflet/dist/leaflet.css";
-// import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css"; // Re-uses images from ~leaflet package
-// import * as L from "leaflet";
-// import "leaflet-defaulticon-compatibility";
-import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-
 import socketIOClient from "socket.io-client";
 import sailsIOClient from "sails.io.js";
-
 import env from "@/env.js";
-
 import code_transforms from "@/util/location_code_string_prep.js";
-
-let io;
-
-if (socketIOClient.sails) {
-  io = socketIOClient;
-} else {
-  io = sailsIOClient(socketIOClient);
-  io.sails.url = env.web_service_url;
-}
-
 import OpenLocationCodeJS from "open-location-code";
-let OpenLocationCode = OpenLocationCodeJS.OpenLocationCode;
+import { mapMutations, mapActions, mapGetters } from "vuex";
+import RequestDialog from "@/components/dialogs/RequestDialog.vue";
+import GoLiveDialog from "@/components/dialogs/GoLiveDialog.vue";
+import JoinDialog from "@/components/dialogs/JoinDialog.vue";
 
+const io = sailsIOClient(socketIOClient);
+io.sails.url = env.web_service_url;
+
+let OpenLocationCode = OpenLocationCodeJS.OpenLocationCode;
 var openLocationCode = new OpenLocationCode();
+
 const markerUsers = L.icon({
   iconUrl: require("@/assets/markers/marker-users.svg"),
   iconSize: [55, 80],
@@ -103,6 +91,14 @@ const markerCarabao = L.icon({
   className: "markerNew",
   popupAnchor: [0, -60]
 });
+const myProfileIcon = L.icon({
+  iconUrl: require("@/assets/markers/marker-profile.svg"),
+  iconSize: [38, 95],
+  iconAnchor: [28, 40],
+  popupAnchor: [-1, -36],
+  className: "profilePic"
+});
+
 const templateJoin = requestModel => `
       <div>
       <h3>${requestModel.mapPin.details} </h3>
@@ -115,7 +111,6 @@ const templateJoin = requestModel => `
       <button class="btn btn--join"  id="button-join" type="button">Join</button>
       </div>
       `;
-
 const templateGoLive = (requestModel, isDisabled) => {
   const disabledAttr = isDisabled ? `disabled = "true"` : "";
   return `
@@ -145,12 +140,9 @@ const templateDemoJoin = () => `
       <button  class="btn btn--join" id="button-join" type="button">Join</button>
     </div>
     `;
-const allPins = {};
-import { mapMutations, mapActions, mapGetters } from "vuex";
-import RequestDialog from "@/components/dialogs/RequestDialog.vue";
-import GoLiveDialog from "@/components/dialogs/GoLiveDialog.vue";
-import JoinDialog from "@/components/dialogs/JoinDialog.vue";
 
+const allPins = {};
+let joinMarkers = [];
 export default {
   name: "requestStream",
   components: {
@@ -163,7 +155,6 @@ export default {
       map: null,
       tileLayer: null,
       myLocation: null,
-      joinMarkers: [],
       isRequestDialog: false,
       isGoLiveDialog: false,
       isJoinDialog: false,
@@ -207,7 +198,6 @@ export default {
   },
   methods: {
     ...mapMutations({
-      _setInBuiltRequestDemo: "setInBuiltRequestDemo",
       _setLocalCopyOfRequestPins: "setLocalCopyOfRequestPins",
       _setSelectedPin: "setSelectedPin",
       _setStreamerWalletAddress: "setStreamerWalletAddress"
@@ -278,10 +268,10 @@ export default {
             }
           })
           .on("click", e => {
-            const locationcode = this.createOpenLocationCode(
-              e.latlng.lng,
-              e.latlng.lat
-            );
+            const locationcode = this.createOpenLocationCode({
+              lon: e.latlng.lng,
+              lat: e.latlng.lat
+            });
 
             const localPins = this._getLocalCopyOfRequestPins();
             let obj = localPins.find(obj => {
@@ -301,7 +291,6 @@ export default {
       this._setSelectedPin(obj);
       this._setStreamerWalletAddress(obj.streamer.walletAddress);
 
-      this._setInBuiltRequestDemo(false);
       this.pushToViewStreamPage();
     },
     fromJoin() {
@@ -309,7 +298,6 @@ export default {
       if (selectedPin) {
         this._setStreamerWalletAddress(selectedPin.streamer.walletAddress);
 
-        this._setInBuiltRequestDemo(false);
         this.pushToViewStreamPage();
       }
     },
@@ -320,7 +308,6 @@ export default {
 
       this._setSelectedPin(selectedPin);
 
-      this._setInBuiltRequestDemo(false);
       this.pushToSupplyStreamPage();
     },
     async fromSupply() {
@@ -333,7 +320,6 @@ export default {
         address: selectedPin.streamer.walletAddress
       });
 
-      this._setInBuiltRequestDemo(false);
       this.pushToSupplyStreamPage();
     },
     fromRequest() {
@@ -341,7 +327,6 @@ export default {
       if (selectedPin) {
         this._setStreamerWalletAddress(selectedPin.streamer.walletAddress);
 
-        this._setInBuiltRequestDemo(false);
         this.pushToViewStreamPage();
       }
     },
@@ -382,10 +367,10 @@ export default {
       // Encode a location, default accuracy: var code = openLocationCode.encode(47.365590, 8.524997); devLog(code);
       // Encode a location using one stage of additional refinement:
       //#encode(latitude, longitude, code_length = PAIR_CODE_LENGTH) ⇒ String
-      const code = this.createOpenLocationCode(
-        _data.location.x,
-        _data.location.y
-      );
+      const code = this.createOpenLocationCode({
+        lon: _data.location.x,
+        lat: _data.location.y
+      });
 
       this.requestModel.mapPin = _data.mapPin;
 
@@ -400,28 +385,19 @@ export default {
     geolocateMe() {
       this.map.locate();
     },
-    createOpenLocationCode(lon, lat) {
+    createOpenLocationCode({ lon, lat }) {
       const code = openLocationCode.encode(Number(lon), Number(lat), 11);
       const formatted = code_transforms.replace_plus_symbol(code);
       return formatted;
     },
     onLocationFound(e) {
-      var radius = e.accuracy;
-      var myProfileIcon = L.icon({
-        iconUrl: require("@/assets/markers/marker-profile.svg"),
-        iconSize: [38, 95],
-        iconAnchor: [28, 40],
-        popupAnchor: [-1, -36],
-        className: "profilePic"
-      });
-
-      this.myLocation = L.marker(e.latlng, {
+      const radius = e.accuracy;
+      L.marker(e.latlng, {
         icon: myProfileIcon
       })
         .addTo(this.map)
         .bindPopup("You are here")
         .openPopup();
-
       L.circle(e.latlng, radius).addTo(this.map);
     },
     onLocationError(e) {
@@ -481,7 +457,7 @@ export default {
               );
 
               if (msg.data.streamer.live == true) {
-                this.joinMarkers.push(localCopyOfRequestPins[index]);
+                joinMarkers.push(localCopyOfRequestPins[index]);
               }
 
               this._setLocalCopyOfRequestPins(localCopyOfRequestPins);
@@ -491,7 +467,7 @@ export default {
           this._setLocalCopyOfRequestPins([msg.data]);
 
           if (msg.data.streamer.live == true) {
-            this.joinMarkers.push(msg.data);
+            joinMarkers.push(msg.data);
           }
         }
 
@@ -504,7 +480,7 @@ export default {
           }
 
           if (msg.data.streamer.live == true) {
-            this.joinMarkers.push(msg.data);
+            joinMarkers.push(msg.data);
           }
         }
       }
@@ -512,7 +488,7 @@ export default {
 
     io.socket.get("/requests", async resData => {
       if (resData && resData.length) {
-        this.joinMarkers = resData.filter(markers => markers.streamer.live);
+        joinMarkers = resData.filter(markers => markers.streamer.live);
         await this._setLocalCopyOfRequestPins(resData);
         this.addMarkersLoop(resData);
       }
@@ -554,7 +530,7 @@ export default {
         arrrayOfLayerIDsToRemove.forEach(id => {
           this.map._layers[id].remove();
         });
-        this.joinMarkers = this.joinMarkers.filter(
+        joinMarkers = joinMarkers.filter(
           markers => markers.openLocationCode != resData.data.openLocationCode
         );
         let localCopyOfRequestPins = this._getLocalCopyOfRequestPins();

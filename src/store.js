@@ -12,7 +12,6 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    inBuiltRequestDemo: true,
     baseURL: env.web_service_url,
     myWalletAddress: "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
     searchLocation: null,
@@ -31,9 +30,6 @@ export default new Vuex.Store({
     contractInstance: null
   },
   mutations: {
-    setInBuiltRequestDemo(state, n) {
-      state.inBuiltRequestDemo = n;
-    },
     setLocalCopyOfRequestPins(state, n) {
       state.localCopyOfRequestPins = n;
     },
@@ -66,7 +62,6 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    isInBuiltRequestDemo: state => state.inBuiltRequestDemo,
     myWalletAddress: state => state.myWalletAddress,
     getLocalCopyOfRequestPins: state => state.localCopyOfRequestPins,
     getSelectedPin: state => state.selectedPin,

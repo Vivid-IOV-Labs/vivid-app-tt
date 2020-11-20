@@ -151,11 +151,9 @@ export default {
   },
   methods: {
     ...mapMutations({
-      _setInBuiltRequestDemo: "setInBuiltRequestDemo",
       _setStreamerWalletAddress: "setStreamerWalletAddress"
     }),
     ...mapGetters({
-      isInBuiltRequestDemo: "isInBuiltRequestDemo",
       _myWalletAddress: "myWalletAddress"
     }),
     ...mapActions({
