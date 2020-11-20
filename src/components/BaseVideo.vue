@@ -5,6 +5,10 @@
       class="video-js video-js vjs-default-skin vjs-fill"
       width="100%"
       height="100%"
+      playsinline
+      autoplay
+      webkit-playsinline
+      preload="auto"
     ></video>
   </div>
 </template>
