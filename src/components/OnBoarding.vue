@@ -36,8 +36,6 @@
       :visible.sync="allowGeolocationMessage"
     >
       you need to turn you r geolocation on in order to use the app
-      <hr />
-      {{ geoErr }}
     </v-ons-alert-dialog>
     <v-ons-bottom-toolbar>
       <div class="onboarding-page__bottom">
@@ -99,19 +97,15 @@ export default {
         maximumAge: 10000,
         enableHighAccuracy: true
       };
-      try {
-        const position = await getPosition(options);
-        this.$store.dispatch("setPosition", position);
-      } catch (err) {
-        devLog(err.message);
-      }
+      return await getPosition(options);
     },
     async endOnBoarding() {
       try {
-        await this.getLocation();
+        const position = await this.getLocation();
+        await this.$store.dispatch("setPosition", position);
         this.$emit("push-page", Home);
       } catch (err) {
-        this.geoErr = err;
+        devLog(err);
         this.allowGeolocationMessage = true;
       }
     }
