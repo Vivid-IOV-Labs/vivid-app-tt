@@ -184,11 +184,6 @@ button:disabled {
   top: 1.2rem;
   align-items: flex-start;
 }
-.streamer__container .vjs-tech {
-  object-fit: cover;
-  min-height: 100%; /* not good for the aspect ratio set square or landscape or vertical instead*/
-}
-
 /** Onsen UI **/
 .toolbar__title {
   color: #fff;

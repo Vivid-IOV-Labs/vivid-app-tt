@@ -80,10 +80,7 @@ export default {
       videoOptions: {
         autoplay: true,
         muted: true,
-        controls: false,
-        responsive: true,
-        fill: true,
-        fluid: false
+        controls: false
       },
       stop_publish_button: {
         disabled: true

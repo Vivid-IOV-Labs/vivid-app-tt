@@ -1,6 +1,11 @@
 <template>
   <div class="video__container">
-    <video ref="video" class="video-js video-js vjs-default-skin"></video>
+    <video
+      ref="video"
+      class="video-js video-js vjs-default-skin vjs-fill"
+      width="100%"
+      height="100%"
+    ></video>
   </div>
 </template>
 
@@ -56,6 +61,7 @@ export default {
 }
 .video__container .vjs-tech {
   object-fit: cover;
-  min-height: 100%; /* not good for the aspect ratio set square or landscape or vertical instead*/
+  min-height: 100%;
+  height: 100%;
 }
 </style>
