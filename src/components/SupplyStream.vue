@@ -87,7 +87,6 @@ export default {
       },
       streamNameBox: this.$store.state.selectedPin.openLocationCode,
       streamId: "",
-      name: "",
       webRTCAdaptor: "",
       streamReported: false,
       openLocationCode: ""

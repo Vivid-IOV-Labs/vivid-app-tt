@@ -68,6 +68,16 @@
             Stream will start playing automatically
             <br />when it is live
           </v-ons-alert-dialog>
+          <v-ons-alert-dialog
+            modifier="rowfooter"
+            :title="'Stream not found'"
+            :visible.sync="streamNotLive"
+            :footer="{
+              Ok: endViewingStream
+            }"
+          >
+            This Stream does not exist
+          </v-ons-alert-dialog>
         </div>
       </div>
       <base-video ref="videoplayer" :options="videoOptions"></base-video>
@@ -116,7 +126,15 @@ if (socketIOClient.sails) {
   io.sails.url = env.web_service_url;
 }
 import devLog from "@/util/devlog.js";
-
+const pc_config = null;
+const sdpConstraints = {
+  OfferToReceiveAudio: true,
+  OfferToReceiveVideo: true
+};
+const mediaConstraints = {
+  video: false,
+  audio: false
+};
 export default {
   name: "viewStream",
   components: {
@@ -125,35 +143,17 @@ export default {
   data() {
     return {
       player: null,
-      streamNotLive: true,
       videoOptions: {
         autoplay: true,
         muted: true,
         controls: false
       },
       webRTCAdaptor: null,
-      streamId1: "streamId",
       streamId: this.$store.state.selectedPin.openLocationCode,
+      streamNotLive: true,
       streamReported: false,
       streamEnded: false,
-      pc_config: null,
-      sdpConstraints: {
-        OfferToReceiveAudio: true,
-        OfferToReceiveVideo: true
-      },
-      mediaConstraints: {
-        video: false,
-        audio: false
-      },
-      streamNameBox: "stream1",
-      inBuiltRequest: true,
-      viewControlPanelView: false,
-      PayToUserName: "@ma06rii",
-      streamingPaused: false,
-      metaTag: null,
-      config: null,
-      nearTotalTickerAmount: 0,
-      defaultTipAmount: 1.0,
+      streamNotFound: false,
       reportConfirm: false
     };
   },
@@ -167,12 +167,6 @@ export default {
     ...mapActions({
       _addFlag: "addFlag"
     }),
-    pauseViewingStream() {},
-    playViewingStream() {
-      document.getElementById("inBuiltVideoExample").play();
-      this.streamingPaused = false;
-    },
-    report() {},
     pushToSupplyStreamPage() {
       this.$emit("push-page", SupplyStream);
     },
@@ -257,12 +251,12 @@ export default {
 
     this.webRTCAdaptor = new WebRTCAdaptor({
       websocket_url: "wss://streams.vividiov.media:5443/WebRTCAppEE/websocket",
-      mediaConstraints: this.mediaConstraints,
-      peerconnection_config: this.pc_config,
-      sdp_constraints: this.sdpConstraints,
+      mediaConstraints: mediaConstraints,
+      peerconnection_config: pc_config,
+      sdp_constraints: sdpConstraints,
       remoteVideoId: this.player.tech().el(),
       isPlayMode: true,
-      debug: true,
+      debug: process.env.NODE_ENV != "production",
       callback: (info, description) => {
         if (info == "initialized") {
           devLog("initialized");
@@ -294,9 +288,10 @@ export default {
         devLog("error callback: " + JSON.stringify(error));
 
         if (error == "no_stream_exist") {
-          setTimeout(function() {
-            this.webRTCAdaptor.getStreamInfo(this.streamId);
-          }, 3000);
+          this.streamNotFound = true;
+          // setTimeout(function() {
+          //   this.webRTCAdaptor.getStreamInfo(this.streamId);
+          // }, 3000);
         }
         devLog(JSON.stringify(error));
       }
