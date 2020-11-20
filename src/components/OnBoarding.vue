@@ -34,6 +34,9 @@
       modifier="rowfooter"
       :title="'Geolocation Permission'"
       :visible.sync="allowGeolocationMessage"
+      :footer="{
+        Ok: pushToHome
+      }"
     >
       you need to turn you r geolocation on in order to use the app
     </v-ons-alert-dialog>
@@ -99,11 +102,14 @@ export default {
       };
       return await getPosition(options);
     },
+    pushToHome() {
+      this.$emit("push-page", Home);
+    },
     async endOnBoarding() {
       try {
         const position = await this.getLocation();
         await this.$store.dispatch("setPosition", position);
-        this.$emit("push-page", Home);
+        this.pushToHome();
       } catch (err) {
         devLog(err);
         this.allowGeolocationMessage = true;
