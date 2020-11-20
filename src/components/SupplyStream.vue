@@ -68,7 +68,22 @@ if (socketIOClient.sails) {
   io.sails.url = env.web_service_url;
 }
 import devLog from "@/util/devlog.js";
-
+/*
+const getDevices = async () => {
+  const devices = await window.navigator.mediaDevices.enumerateDevices();
+  return devices;
+};
+const getStream = async()=>{
+  const stream = await window.navigator.mediaDevices.getUserMedia(
+  {
+    video: true,
+    audio: true,
+  });
+  return stream;
+}
+stream.getAudioTracks();
+stream.getVideoTracks();
+*/
 export default {
   name: "supplyStream",
   components: {
@@ -131,7 +146,7 @@ export default {
     };
 
     const mediaConstraints = {
-      video: true,
+      video: { width: { min: 270, max: 270 }, height: { min: 480, max: 480 } },
       audio: true
     };
     this.webRTCAdaptor = new WebRTCAdaptor({

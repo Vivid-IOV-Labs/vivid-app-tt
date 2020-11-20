@@ -288,6 +288,7 @@ export default {
         devLog("error callback: " + JSON.stringify(error));
 
         if (error == "no_stream_exist") {
+          this.streamNotLive = false;
           this.streamNotFound = true;
           // setTimeout(function() {
           //   this.webRTCAdaptor.getStreamInfo(this.streamId);
