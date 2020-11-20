@@ -30,7 +30,15 @@
         </keep-alive>
       </v-ons-carousel-item>
     </v-ons-carousel>
-
+    <v-ons-alert-dialog
+      modifier="rowfooter"
+      :title="'Geolocation Permission'"
+      :visible.sync="allowGeolocationMessage"
+    >
+      you need to turn you r geolocation on in order to use the app
+      <hr />
+      {{ geoErr }}
+    </v-ons-alert-dialog>
     <v-ons-bottom-toolbar>
       <div class="onboarding-page__bottom">
         <div>
@@ -70,6 +78,7 @@ export default {
     return {
       onBoarding: false,
       carouselIndex: 0,
+      allowGeolocationMessage: false,
       onBoardingViews: [
         "HowToRequest",
         "HowToGoLive",
@@ -98,8 +107,13 @@ export default {
       }
     },
     async endOnBoarding() {
-      await this.getLocation();
-      this.$emit("push-page", Home);
+      try {
+        await this.getLocation();
+        this.$emit("push-page", Home);
+      } catch (err) {
+        this.geoErr = err;
+        this.allowGeolocationMessage = true;
+      }
     }
   }
 };
