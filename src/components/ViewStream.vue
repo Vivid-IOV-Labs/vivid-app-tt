@@ -57,11 +57,18 @@
           >
             This Live stream has been ended by the publisher
           </v-ons-alert-dialog>
+          <v-ons-alert-dialog
+            modifier="rowfooter"
+            :title="'Stream not live'"
+            :visible.sync="streamNotLive"
+            :footer="{
+              Ok: () => (streamNotLive = false)
+            }"
+          >
+            Stream will start playing automatically
+            <br />when it is live
+          </v-ons-alert-dialog>
         </div>
-      </div>
-      <div id="video_info">
-        Stream will start playing automatically
-        <br />when it is live
       </div>
       <base-video ref="videoplayer" :options="videoOptions"></base-video>
       <div class="streamer__controls streamer__controls--bottom">
@@ -118,6 +125,7 @@ export default {
   data() {
     return {
       player: null,
+      streamNotLive: true,
       videoOptions: {
         autoplay: true,
         muted: true,
@@ -265,7 +273,7 @@ export default {
         } else if (info == "play_started") {
           //joined the stream
           devLog("play started");
-          document.getElementById("video_info").style.display = "none";
+          this.streamNotLive = false;
           this.playVideo();
         } else if (info == "play_finished") {
           //leaved the stream
@@ -296,16 +304,3 @@ export default {
   }
 };
 </script>
-<style>
-#video_info {
-  color: #555;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 36px;
-  font-family: sans-serif;
-  line-height: 45px;
-  height: 100%;
-  min-height: 100%;
-}
-</style>

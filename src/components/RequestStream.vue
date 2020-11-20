@@ -142,7 +142,6 @@ const templateDemoJoin = () => `
     `;
 
 const allPins = {};
-let joinMarkers = [];
 export default {
   name: "requestStream",
   components: {
@@ -158,6 +157,7 @@ export default {
       isRequestDialog: false,
       isGoLiveDialog: false,
       isJoinDialog: false,
+      joinMarkers: [],
       requestModel: {
         mapPin: {
           details: "Side view of santa parade",
@@ -457,7 +457,7 @@ export default {
               );
 
               if (msg.data.streamer.live == true) {
-                joinMarkers.push(localCopyOfRequestPins[index]);
+                this.joinMarkers.push(localCopyOfRequestPins[index]);
               }
 
               this._setLocalCopyOfRequestPins(localCopyOfRequestPins);
@@ -467,7 +467,7 @@ export default {
           this._setLocalCopyOfRequestPins([msg.data]);
 
           if (msg.data.streamer.live == true) {
-            joinMarkers.push(msg.data);
+            this.joinMarkers.push(msg.data);
           }
         }
 
@@ -480,7 +480,7 @@ export default {
           }
 
           if (msg.data.streamer.live == true) {
-            joinMarkers.push(msg.data);
+            this.joinMarkers.push(msg.data);
           }
         }
       }
@@ -488,7 +488,7 @@ export default {
 
     io.socket.get("/requests", async resData => {
       if (resData && resData.length) {
-        joinMarkers = resData.filter(markers => markers.streamer.live);
+        this.joinMarkers = resData.filter(markers => markers.streamer.live);
         await this._setLocalCopyOfRequestPins(resData);
         this.addMarkersLoop(resData);
       }
@@ -530,7 +530,7 @@ export default {
         arrrayOfLayerIDsToRemove.forEach(id => {
           this.map._layers[id].remove();
         });
-        joinMarkers = joinMarkers.filter(
+        this.joinMarkers = this.joinMarkers.filter(
           markers => markers.openLocationCode != resData.data.openLocationCode
         );
         let localCopyOfRequestPins = this._getLocalCopyOfRequestPins();
