@@ -5,8 +5,8 @@
       class="video-js video-js vjs-default-skin vjs-fill"
       width="100%"
       height="100%"
-      playsinline
       webkit-playsinline
+      playsinline
     ></video>
   </div>
 </template>

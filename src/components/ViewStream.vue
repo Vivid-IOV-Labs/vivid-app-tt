@@ -121,10 +121,7 @@ export default {
       videoOptions: {
         autoplay: true,
         muted: true,
-        controls: false,
-        responsive: true,
-        fill: true,
-        fluid: false
+        controls: false
       },
       webRTCAdaptor: null,
       streamId1: "streamId",
