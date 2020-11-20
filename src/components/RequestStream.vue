@@ -43,16 +43,19 @@
 </template>
 
 <style>
+/*
 @import "../../node_modules/leaflet/dist/leaflet.css";
-@import "../../node_modules/leaflet-geosearch/assets/css/leaflet.css";
+@import "../../node_modules/leaflet-geosearch/assets/css/leaflet.css";*/
 @import "../assets/css/requestStream.css";
 </style>
 
 <script>
+// import "leaflet/dist/leaflet.css";
+// import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css"; // Re-uses images from ~leaflet package
+// import * as L from "leaflet";
+// import "leaflet-defaulticon-compatibility";
 import "leaflet/dist/leaflet.css";
-import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css"; // Re-uses images from ~leaflet package
-import * as L from "leaflet";
-import "leaflet-defaulticon-compatibility";
+import L from "leaflet";
 
 import socketIOClient from "socket.io-client";
 import sailsIOClient from "sails.io.js";
@@ -74,7 +77,75 @@ import OpenLocationCodeJS from "open-location-code";
 let OpenLocationCode = OpenLocationCodeJS.OpenLocationCode;
 
 var openLocationCode = new OpenLocationCode();
+const markerUsers = L.icon({
+  iconUrl: require("@/assets/markers/marker-users.svg"),
+  iconSize: [55, 80],
+  iconAnchor: [13, 63],
+  className: "markerUsers",
+  popupAnchor: [0, -60]
+});
+const markerNew = L.icon({
+  iconUrl: require("@/assets/markers/marker-new.svg"),
+  iconSize: [55, 80],
+  iconAnchor: [13, 63],
+  className: "markerNew",
+  popupAnchor: [0, -60]
+});
+const markerKfc = L.icon({
+  iconUrl: require("@/assets/markers/marker-kfc.png"),
+  iconAnchor: [13, 63],
+  className: "markerNew",
+  popupAnchor: [0, -60]
+});
+const markerCarabao = L.icon({
+  iconUrl: require("@/assets/markers/marker-carabao.png"),
+  iconAnchor: [13, 63],
+  className: "markerNew",
+  popupAnchor: [0, -60]
+});
+const templateJoin = requestModel => `
+      <div>
+      <h3>${requestModel.mapPin.details} </h3>
+      <p>${requestModel.mapPin.twitterHashTags
+        .reduce((acc, tag) => {
+          acc += ` #${tag},`;
+          return acc;
+        }, "")
+        .slice(1, -1)}</p>
+      <button class="btn btn--join"  id="button-join" type="button">Join</button>
+      </div>
+      `;
 
+const templateGoLive = (requestModel, isDisabled) => {
+  const disabledAttr = isDisabled ? `disabled = "true"` : "";
+  return `
+    <div>
+      <h3>${requestModel.mapPin.details}</h3>
+      <p>${requestModel.mapPin.twitterHashTags
+        .reduce((acc, tag) => {
+          acc += ` #${tag},`;
+          return acc;
+        }, "")
+        .slice(1, -1)}</p>
+      <button class="btn btn--golive" ${disabledAttr} id="button-golive" type="button">Go Live</button>
+    </div>
+    `;
+};
+const templateDemoStream = () => `
+    <div>
+      <h3>Start Stream Demo</h3>
+      <p>#publisher</p>
+      <button class="btn btn--golive" id="button-golive" type="button">Go Live</button>
+    </div>
+    `;
+const templateDemoJoin = () => `
+    <div>
+      <h3>Join Stream Demo</h3>
+      <p>#viewer</p>
+      <button  class="btn btn--join" id="button-join" type="button">Join</button>
+    </div>
+    `;
+const allPins = {};
 import { mapMutations, mapActions, mapGetters } from "vuex";
 import RequestDialog from "@/components/dialogs/RequestDialog.vue";
 import GoLiveDialog from "@/components/dialogs/GoLiveDialog.vue";
@@ -91,35 +162,11 @@ export default {
     return {
       map: null,
       tileLayer: null,
-      layers: [],
-      options: {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
-      },
       myLocation: null,
-      myLocationCircle: null,
-      geoSearchLocation: null,
-      geoSearchLocationCircle: null,
-      defaultRadius: 92,
-      optionsPanelView: true,
-      streamerIcon: null,
-      redMarker: null,
-      buttonGo: null,
       joinMarkers: [],
-      markerNew: null,
-      markerUsers: null,
-      markerProfile: null,
-      markerKfc: null,
-      markerCarabao: null,
-      templateJoin: null,
-      templateGoLive: null,
-      templateDemoStream: null,
-      current_request_list: null,
       isRequestDialog: false,
       isGoLiveDialog: false,
       isJoinDialog: false,
-      allPins: {},
       requestModel: {
         mapPin: {
           details: "Side view of santa parade",
@@ -187,23 +234,23 @@ export default {
         const pin = L.marker(
           { lon, lat },
           {
-            icon: marker.streamer.live ? this.markerUsers : this.markerNew
+            icon: marker.streamer.live ? markerUsers : markerNew
           }
         );
         const isDisabled = !marker.streamer.live && this.isDisabled(pin);
 
-        if (this.allPins[marker.openLocationCode]) {
+        if (allPins[marker.openLocationCode]) {
           this.removePin(marker.openLocationCode);
         }
 
-        this.allPins[marker.openLocationCode] = pin;
+        allPins[marker.openLocationCode] = pin;
         this.map.addLayer(pin);
 
         pin
           .bindPopup(
             marker.streamer.live
-              ? this.templateJoin(marker)
-              : this.templateGoLive(marker, isDisabled),
+              ? templateJoin(marker)
+              : templateGoLive(marker, isDisabled),
             {
               maxWidth: 1060
             }
@@ -375,7 +422,7 @@ export default {
         .bindPopup("You are here")
         .openPopup();
 
-      this.myLocationCircle = L.circle(e.latlng, radius).addTo(this.map);
+      L.circle(e.latlng, radius).addTo(this.map);
     },
     onLocationError(e) {
       this.$ons.notification.alert(e.message);
@@ -396,7 +443,7 @@ export default {
       ).addTo(this.map);
     },
     removePin(openLocationCode) {
-      const markerToRemove = this.allPins[openLocationCode];
+      const markerToRemove = allPins[openLocationCode];
       markerToRemove.removeFrom(this.map);
     },
     isDisabled(pin) {
@@ -518,86 +565,9 @@ export default {
       }
     });
 
-    this.templateJoin = requestModel => `
-      <div>
-      <h3>${requestModel.mapPin.details} </h3>
-      <p>${requestModel.mapPin.twitterHashTags
-        .reduce((acc, tag) => {
-          acc += ` #${tag},`;
-          return acc;
-        }, "")
-        .slice(1, -1)}</p>
-      <button class="btn btn--join"  id="button-join" type="button">Join</button>
-      </div>
-      `;
-
-    this.templateGoLive = (requestModel, isDisabled) => {
-      const disabledAttr = isDisabled ? `disabled = "true"` : "";
-      return `
-    <div>
-      <h3>${requestModel.mapPin.details}</h3>
-      <p>${requestModel.mapPin.twitterHashTags
-        .reduce((acc, tag) => {
-          acc += ` #${tag},`;
-          return acc;
-        }, "")
-        .slice(1, -1)}</p>
-      <button class="btn btn--golive" ${disabledAttr} id="button-golive" type="button">Go Live</button>
-    </div>
-    `;
-    };
-    this.templateDemoStream = () => `
-    <div>
-      <h3>Start Stream Demo</h3>
-      <p>#publisher</p>
-      <button class="btn btn--golive" id="button-golive" type="button">Go Live</button>
-    </div>
-    `;
-    this.templateDemoJoin = () => `
-    <div>
-      <h3>Join Stream Demo</h3>
-      <p>#viewer</p>
-      <button  class="btn btn--join" id="button-join" type="button">Join</button>
-    </div>
-    `;
-
     this.initMap();
 
     this.initLayers();
-
-    this.markerUsers = L.icon({
-      iconUrl: require("@/assets/markers/marker-users.svg"),
-      iconSize: [55, 80],
-      iconAnchor: [13, 63],
-      className: "markerUsers",
-      popupAnchor: [0, -60]
-    });
-    this.markerNew = L.icon({
-      iconUrl: require("@/assets/markers/marker-new.svg"),
-      iconSize: [55, 80],
-      iconAnchor: [13, 63],
-      className: "markerNew",
-      popupAnchor: [0, -60]
-    });
-    this.markerProfile = L.icon({
-      iconUrl: require("@/assets/markers/marker-profile.svg"),
-      iconSize: [55, 80],
-      iconAnchor: [13, 63],
-      className: "markerNew",
-      popupAnchor: [0, -60]
-    });
-    this.markerKfc = L.icon({
-      iconUrl: require("@/assets/markers/marker-kfc.png"),
-      iconAnchor: [13, 63],
-      className: "markerNew",
-      popupAnchor: [0, -60]
-    });
-    this.markerCarabao = L.icon({
-      iconUrl: require("@/assets/markers/marker-carabao.png"),
-      iconAnchor: [13, 63],
-      className: "markerNew",
-      popupAnchor: [0, -60]
-    });
 
     var london = new L.LatLng(51.5056, -0.1213);
 
@@ -619,22 +589,22 @@ export default {
         {
           icon:
             iconType == "new" || iconType == "streamTest"
-              ? this.markerNew
+              ? markerNew
               : iconType == "joinTest"
-              ? this.markerUsers
+              ? markerUsers
               : iconType == "kfc"
-              ? this.markerKfc
-              : this.markerCarabao
+              ? markerKfc
+              : markerCarabao
         }
       );
       this.map.addLayer(marker);
       if (iconType == "streamTest") {
-        marker.bindPopup(this.templateDemoStream(marker), {
+        marker.bindPopup(templateDemoStream(marker), {
           maxWidth: 1060
         });
       }
       if (iconType == "joinTest") {
-        marker.bindPopup(this.templateDemoJoin(marker), {
+        marker.bindPopup(templateDemoJoin(marker), {
           maxWidth: 1060
         });
       }
