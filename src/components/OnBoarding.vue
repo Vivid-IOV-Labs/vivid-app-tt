@@ -103,6 +103,7 @@ export default {
       return await getPosition(options);
     },
     pushToHome() {
+      this.allowGeolocationMessage = false;
       this.$emit("push-page", Home);
     },
     async endOnBoarding() {
