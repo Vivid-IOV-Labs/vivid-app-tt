@@ -326,9 +326,6 @@ export default {
 };
 </script>
 <style>
-.video__controls__menu {
-  position: relative;
-}
 .vide-menu-enter-active,
 .vide-menu-leave-active {
   transition: all 0.5s;
@@ -338,9 +335,7 @@ export default {
   transform: translateX(1rem);
   opacity: 0;
 }
-.vide-menu-leave-active {
-  position: absolute;
-}
+
 .vide-menu-move {
   transition: all 0.5s;
 }
