@@ -96,7 +96,8 @@ export default {
       videoOptions: {
         autoplay: true,
         muted: true,
-        controls: false
+        liveui: true,
+        controls: true
       },
       stop_publish_button: {
         disabled: true
@@ -110,9 +111,7 @@ export default {
   },
   computed: {
     liveTime() {
-      return this.player
-        ? this.player.currentTime().toFixed(0) + " s"
-        : "00:00 s";
+      return "00:00 s";
     }
   },
   methods: {
