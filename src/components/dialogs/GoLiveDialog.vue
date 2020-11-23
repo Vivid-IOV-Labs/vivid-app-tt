@@ -148,6 +148,8 @@ export default {
       }
     },
     onSelectAddress(address) {
+      this.requestModel.location = address;
+
       var locationcode = openLocationCode.encode(address.x, address.y, 11);
 
       this.requestModel.openLocationCode = code_transforms.replace_plus_symbol(
