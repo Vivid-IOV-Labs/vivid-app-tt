@@ -32,6 +32,16 @@ button:disabled {
   color: #fff;
   background: #1d1d1b;
 }
+.btn--transparent {
+  color: #fff;
+  background: transparent;
+}
+.btn--opacity {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+
 .btn--link {
   display: inline;
   background: none;
@@ -94,6 +104,11 @@ button:disabled {
   font-weight: 550;
   font-size: 1.2rem;
 }
+.btn--small {
+  border-radius: 0.3rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+}
 #button-golive{
   color: #fff;
   background-color: #F73E2D;
@@ -123,7 +138,7 @@ button:disabled {
   align-items: center;
   justify-content: center;
 }
-.flex-coulumn {
+.flex-column {
   display: flex;
   flex-direction: column;
 }
@@ -142,6 +157,10 @@ button:disabled {
 }
 .mb-4 {
   margin-bottom: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
 }
 .mt-4 {
   margin-top: 1rem;

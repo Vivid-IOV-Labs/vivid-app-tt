@@ -12,7 +12,7 @@
       <div class="scroller">
         <v-ons-list>
           <v-ons-list-item>
-            <div class="flex-coulumn p-4">
+            <div class="flex-column p-4">
               <textarea
                 title="Request Title"
                 class="textarea textarea--transparent"
@@ -24,7 +24,7 @@
             </div>
           </v-ons-list-item>
           <v-ons-list-item>
-            <div class="flex-coulumn p-4">
+            <div class="flex-column p-4">
               <geo-search-bar
                 id="request_location"
                 title="Search"
@@ -34,7 +34,7 @@
             </div>
           </v-ons-list-item>
           <v-ons-list-item>
-            <div class="flex-coulumn p-4">
+            <div class="flex-column p-4">
               <v-ons-list>
                 <div>
                   <v-ons-list-item>

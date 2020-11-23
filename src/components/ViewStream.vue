@@ -12,72 +12,44 @@
     </v-ons-toolbar>
     <div class="streamer__container">
       <div class="streamer__controls streamer__controls--top">
-        <v-ons-button class="btn btn--default flex-coulumn flex-center-xy">
+        <v-ons-button class="btn btn--default flex-column flex-center-xy">
           <base-icon class="btn__icon" name="eye"></base-icon>
           <span>101</span>
         </v-ons-button>
-        <div class="ml-auto flex-coulumn">
-          <v-ons-button class="btn btn--default mb-4">
-            <base-icon class="btn__icon" name="volume-mute"></base-icon>
+        <div class="ml-auto flex-column">
+          <v-ons-button @click="dropVideoMenu" class="btn btn--small mb-2">
+            <base-icon
+              v-if="isVideoMenuDropped"
+              class="btn__icon"
+              name="minus"
+            ></base-icon>
+            <base-icon v-else class="btn__icon" name="plus"></base-icon>
           </v-ons-button>
-          <v-ons-button @click="fullScreen" class="btn btn--default mb-4">
-            <base-icon class="btn__icon" name="expand"></base-icon>
-          </v-ons-button>
-          <v-ons-button @click="reportConfirm = true" class="btn btn--default ">
-            <base-icon class="btn__icon" name="flag"></base-icon>
-          </v-ons-button>
-          <v-ons-alert-dialog
-            modifier="rowfooter"
-            :title="'Report live stream'"
-            :footer="{
-              Cancel: () => (reportConfirm = false),
-              Ok: reportUser
-            }"
-            :visible.sync="reportConfirm"
-          >
-            Are you sure you want to report this live stream?
-          </v-ons-alert-dialog>
-          <v-ons-alert-dialog
-            modifier="rowfooter"
-            :title="'Live stream reported'"
-            :footer="{
-              Ok: endViewingStream
-            }"
-            :visible.sync="streamReported"
-          >
-            This Live stream has been ended
-          </v-ons-alert-dialog>
-          <v-ons-alert-dialog
-            modifier="rowfooter"
-            :title="'Live stream reported'"
-            :footer="{
-              Ok: endViewingStream
-            }"
-            :visible.sync="streamEnded"
-          >
-            This Live stream has been ended by the publisher
-          </v-ons-alert-dialog>
-          <v-ons-alert-dialog
-            modifier="rowfooter"
-            :title="'Stream not live'"
-            :visible.sync="streamNotLive"
-            :footer="{
-              Ok: () => (streamNotLive = false)
-            }"
-          >
-            Stream will start playing automatically
-            <br />when it is live
-          </v-ons-alert-dialog>
-          <v-ons-alert-dialog
-            modifier="rowfooter"
-            :title="'Stream not found'"
-            :visible.sync="streamNotFound"
-            :footer="{
-              Ok: endViewingStream
-            }"
-          >
-            This Stream does not exist or has ended
-          </v-ons-alert-dialog>
+          <transition name="vide-menu">
+            <div
+              v-show="isVideoMenuDropped"
+              class="video__controls__menu flex-column"
+            >
+              <v-ons-button class="btn btn--opacity btn--small mb-2">
+                <base-icon class="btn__icon" name="volume-mute"></base-icon>
+              </v-ons-button>
+              <v-ons-button
+                @click="fullScreen"
+                class="btn btn--opacity btn--small mb-2"
+              >
+                <base-icon class="btn__icon" name="expand"></base-icon>
+              </v-ons-button>
+              <v-ons-button class="btn btn--opacity btn--small  mb-2">
+                <base-icon class="btn__icon" name="shopping-cart"></base-icon>
+              </v-ons-button>
+              <v-ons-button
+                @click="reportConfirm = true"
+                class="btn btn--opacity btn--small "
+              >
+                <base-icon class="btn__icon" name="flag"></base-icon>
+              </v-ons-button>
+            </div>
+          </transition>
         </div>
       </div>
       <base-video ref="videoplayer" :options="videoOptions"></base-video>
@@ -91,9 +63,6 @@
         </v-ons-button>
 
         <div class=" ml-auto flex-column ">
-          <v-ons-button class="btn btn--default  mb-4">
-            <base-icon class="btn__icon" name="shopping-cart"></base-icon>
-          </v-ons-button>
           <a class="btn-tip " @click.prevent="tipStreamer()">
             <img src="../assets/img/tipping.png" alt />
           </a>
@@ -101,6 +70,58 @@
       </div>
     </div>
     <v-ons-bottom-toolbar></v-ons-bottom-toolbar>
+    <v-ons-alert-dialog
+      modifier="rowfooter"
+      :title="'Report live stream'"
+      :footer="{
+        Cancel: () => (reportConfirm = false),
+        Ok: reportUser
+      }"
+      :visible.sync="reportConfirm"
+    >
+      Are you sure you want to report this live stream?
+    </v-ons-alert-dialog>
+    <v-ons-alert-dialog
+      modifier="rowfooter"
+      :title="'Live stream reported'"
+      :footer="{
+        Ok: endViewingStream
+      }"
+      :visible.sync="streamReported"
+    >
+      This Live stream has been ended
+    </v-ons-alert-dialog>
+    <v-ons-alert-dialog
+      modifier="rowfooter"
+      :title="'Live stream reported'"
+      :footer="{
+        Ok: endViewingStream
+      }"
+      :visible.sync="streamEnded"
+    >
+      This Live stream has been ended by the publisher
+    </v-ons-alert-dialog>
+    <v-ons-alert-dialog
+      modifier="rowfooter"
+      :title="'Stream not live'"
+      :visible.sync="streamNotLive"
+      :footer="{
+        Ok: () => (streamNotLive = false)
+      }"
+    >
+      Stream will start playing automatically
+      <br />when it is live
+    </v-ons-alert-dialog>
+    <v-ons-alert-dialog
+      modifier="rowfooter"
+      :title="'Stream not found'"
+      :visible.sync="streamNotFound"
+      :footer="{
+        Ok: endViewingStream
+      }"
+    >
+      This Stream does not exist or has ended
+    </v-ons-alert-dialog>
   </v-ons-page>
 </template>
 <script>
@@ -147,6 +168,7 @@ export default {
         muted: true,
         controls: false
       },
+      isVideoMenuDropped: false,
       webRTCAdaptor: null,
       streamId: this.$store.state.selectedPin.openLocationCode,
       streamNotLive: false,
@@ -186,6 +208,9 @@ export default {
     },
     endViewingStream() {
       this.$emit("back-page");
+    },
+    dropVideoMenu() {
+      this.isVideoMenuDropped = !this.isVideoMenuDropped;
     },
     async reportUser() {
       const body = {
@@ -300,3 +325,23 @@ export default {
   }
 };
 </script>
+<style>
+.video__controls__menu {
+  position: relative;
+}
+.vide-menu-enter-active,
+.vide-menu-leave-active {
+  transition: all 0.5s;
+}
+.vide-menu-enter,
+.vide-menu-leave-to {
+  transform: translateX(1rem);
+  opacity: 0;
+}
+.vide-menu-leave-active {
+  position: absolute;
+}
+.vide-menu-move {
+  transition: all 0.5s;
+}
+</style>
