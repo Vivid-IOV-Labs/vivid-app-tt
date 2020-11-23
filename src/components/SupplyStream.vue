@@ -95,6 +95,7 @@ export default {
       player: null,
       videoOptions: {
         autoplay: true,
+        muted: true,
         controls: false
       },
       stop_publish_button: {

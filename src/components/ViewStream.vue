@@ -144,6 +144,7 @@ export default {
     return {
       player: null,
       videoOptions: {
+        muted: true,
         controls: false
       },
       webRTCAdaptor: null,
