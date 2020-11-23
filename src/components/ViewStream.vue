@@ -167,7 +167,7 @@ export default {
       videoOptions: {
         muted: true,
         liveui: true,
-        controls: true
+        controls: false
       },
       isVideoMenuDropped: false,
       webRTCAdaptor: null,

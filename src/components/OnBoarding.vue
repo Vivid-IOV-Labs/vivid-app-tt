@@ -38,7 +38,7 @@
         Ok: pushToHome
       }"
     >
-      you need to turn you r geolocation on in order to use the app
+      you need to turn your geolocation on in order to use the app
     </v-ons-alert-dialog>
     <v-ons-bottom-toolbar>
       <div class="onboarding-page__bottom">
