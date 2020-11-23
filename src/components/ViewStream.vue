@@ -76,7 +76,7 @@
               Ok: endViewingStream
             }"
           >
-            This Stream does not exist
+            This Stream does not exist or has ended
           </v-ons-alert-dialog>
         </div>
       </div>
@@ -272,6 +272,8 @@ export default {
           //leaved the stream
           devLog("play finished");
           //check that publish may start again
+          this.streamNotFound = true;
+
           setTimeout(function() {
             this.webRTCAdaptor.getStreamInfo(this.streamId);
           }, 3000);
@@ -288,8 +290,6 @@ export default {
         this.streamNotLive = false;
         this.streamNotFound = true;
         if (error == "no_stream_exist") {
-          this.streamNotLive = false;
-          this.streamNotFound = true;
           // setTimeout(function() {
           //   this.webRTCAdaptor.getStreamInfo(this.streamId);
           // }, 3000);

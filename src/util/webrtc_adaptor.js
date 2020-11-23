@@ -251,14 +251,10 @@ export function WebRTCAdaptor(initialValues) {
    * Closes stream, if you want to stop peer connection, call stop (streamId)
    */
   this.closeStream = function() {
-    thiz.localStream.getVideoTracks().forEach(function(track) {
-      track.onended = null;
-      track.stop();
-    });
-
-    thiz.localStream.getAudioTracks().forEach(function(track) {
-      track.onended = null;
-      track.stop();
+    thiz.localStream.getTracks().forEach(function(track) {
+      if (track.readyState == "live") {
+        track.stop();
+      }
     });
   };
 

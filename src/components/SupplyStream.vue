@@ -121,7 +121,9 @@ export default {
       this.webRTCAdaptor.closeStream();
       this.webRTCAdaptor.closePeerConnection();
       this.webRTCAdaptor.closeWebSocket();
-
+      var connectionState = RTCPeerConnection.connectionState;
+      console.log(connectionState);
+      debugger;
       this.$emit("push-page", Home);
     },
     startPublishing() {
