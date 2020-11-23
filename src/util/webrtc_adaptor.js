@@ -253,6 +253,7 @@ export function WebRTCAdaptor(initialValues) {
   this.closeStream = function() {
     thiz.localStream.getTracks().forEach(function(track) {
       if (track.readyState == "live") {
+        track.onended = () => devLog("ended", track);
         track.stop();
       }
     });
