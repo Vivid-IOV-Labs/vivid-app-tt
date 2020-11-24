@@ -97,6 +97,7 @@ export default {
         autoplay: true,
         muted: true,
         liveui: true,
+        fill: true,
         controls: false
       },
       stop_publish_button: {

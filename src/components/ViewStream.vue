@@ -1,6 +1,6 @@
 <template>
   <v-ons-page id="viewStreamPage">
-    <v-ons-toolbar>
+    <v-ons-toolbar v-show="!isFullScreen">
       <div class="left">
         <v-ons-back-button @click.prevent="endViewingStream()"
           >Back
@@ -34,7 +34,7 @@
                 <base-icon class="btn__icon" name="volume-mute"></base-icon>
               </v-ons-button>
               <v-ons-button
-                @click="fullScreen"
+                @click="toggleFullScreen"
                 class="btn btn--opacity btn--small mb-2"
               >
                 <base-icon class="btn__icon" name="expand"></base-icon>
@@ -69,7 +69,7 @@
         </div>
       </div>
     </div>
-    <v-ons-bottom-toolbar></v-ons-bottom-toolbar>
+    <v-ons-bottom-toolbar v-show="!isFullScreen"></v-ons-bottom-toolbar>
     <v-ons-alert-dialog
       modifier="rowfooter"
       :title="'Report live stream'"
@@ -167,6 +167,8 @@ export default {
       videoOptions: {
         muted: true,
         liveui: true,
+        fill: true,
+        responsive: true,
         controls: false
       },
       isVideoMenuDropped: false,
@@ -176,9 +178,15 @@ export default {
       streamReported: false,
       streamEnded: false,
       streamNotFound: false,
-      reportConfirm: false
+      reportConfirm: false,
+      isFullScreen: false
     };
   },
+  // computed: {
+  //   isFullScreen() {
+  //     return this.player.isFullscreen();
+  //   }
+  // },
   methods: {
     ...mapMutations({
       _setStreamerWalletAddress: "setStreamerWalletAddress"
@@ -198,8 +206,14 @@ export default {
         .el()
         .play();
     },
-    fullScreen() {
-      this.player.requestFullscreen();
+    toggleFullScreen() {
+      if (!this.isFullScreen) {
+        this.player.enterFullWindow();
+        this.isFullScreen = true;
+      } else {
+        this.player.exitFullWindow();
+        this.isFullScreen = false;
+      }
     },
     startPlaying() {
       this.webRTCAdaptor.play(this.streamId);
