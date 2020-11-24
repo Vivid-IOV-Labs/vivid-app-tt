@@ -1,6 +1,9 @@
 <template>
   <v-ons-page id="viewStreamPage">
-    <v-ons-toolbar v-show="!isFullScreen">
+    <v-ons-toolbar
+      :style="{ visibility: !isFullScreen ? 'visible' : 'hidden' }"
+      v-show="!isFullScreen"
+    >
       <div class="left">
         <v-ons-back-button @click.prevent="endViewingStream()"
           >Back
@@ -69,7 +72,10 @@
         </div>
       </div>
     </div>
-    <v-ons-bottom-toolbar v-show="!isFullScreen"></v-ons-bottom-toolbar>
+    <v-ons-bottom-toolbar
+      :style="{ visibility: !isFullScreen ? 'visible' : 'hidden' }"
+      v-show="!isFullScreen"
+    ></v-ons-bottom-toolbar>
     <v-ons-alert-dialog
       modifier="rowfooter"
       :title="'Report live stream'"
