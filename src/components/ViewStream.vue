@@ -181,7 +181,7 @@ export default {
         liveui: true,
         fill: true,
         responsive: true,
-        controls: false
+        controls: true
       },
       isVideoMenuDropped: false,
       webRTCAdaptor: null,
