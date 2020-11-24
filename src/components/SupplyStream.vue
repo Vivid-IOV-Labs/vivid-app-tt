@@ -21,7 +21,7 @@
           class="btn btn--default ml-auto flex-column flex-center-xy"
         >
           <base-icon class="btn__icon" name="clock"></base-icon>
-          <span>{{ liveTime }}</span>
+          <span>{{ currentTime }}</span>
         </v-ons-button>
       </div>
       <base-video ref="videoplayer" :options="videoOptions"></base-video>
@@ -100,6 +100,7 @@ export default {
         fill: true,
         controls: false
       },
+      currentTime: 0,
       stop_publish_button: {
         disabled: true
       },
@@ -226,6 +227,9 @@ export default {
 
         alert(errorMessage);
       }
+    });
+    this.player.on("timeupdate", () => {
+      this.currentTime = this.player.currentTime().toFixed(0);
     });
   }
 };
