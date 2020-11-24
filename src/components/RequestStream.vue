@@ -286,6 +286,7 @@ export default {
       this.pushToViewStreamPage();
     },
     fromJoin() {
+      this.map.closePopup();
       const selectedPin = this._getSelectedPin();
       if (selectedPin) {
         this._setStreamerWalletAddress(selectedPin.streamer.walletAddress);
@@ -303,6 +304,7 @@ export default {
       this.pushToSupplyStreamPage();
     },
     async fromSupply() {
+      this.map.closePopup();
       let selectedPin = this._getSelectedPin();
       selectedPin.streamer.walletAddress = this._myWalletAddress();
 

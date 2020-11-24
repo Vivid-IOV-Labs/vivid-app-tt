@@ -1,6 +1,5 @@
 import code_transforms from "@/util/location_code_string_prep.js";
-import OpenLocationCodeJS from "open-location-code";
-const OpenLocationCode = OpenLocationCodeJS.OpenLocationCode;
+import { OpenLocationCode } from "open-location-code";
 const openLocationCode = new OpenLocationCode();
 
 const createOpenLocationCode = ({ lon, lat }) => {
