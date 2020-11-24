@@ -1,7 +1,10 @@
 <template>
   <v-ons-page id="viewStreamPage">
     <v-ons-toolbar
-      :style="{ visibility: !isFullScreen ? 'visible' : 'hidden' }"
+      :style="{
+        visibility: !isFullScreen ? 'visible' : 'hidden',
+        height: !isFullScreen ? 'auto' : 0
+      }"
       v-show="!isFullScreen"
     >
       <div class="left">
@@ -73,7 +76,10 @@
       </div>
     </div>
     <v-ons-bottom-toolbar
-      :style="{ visibility: !isFullScreen ? 'visible' : 'hidden' }"
+      :style="{
+        visibility: !isFullScreen ? 'visible' : 'hidden',
+        height: !isFullScreen ? 'auto' : 0
+      }"
       v-show="!isFullScreen"
     ></v-ons-bottom-toolbar>
     <v-ons-alert-dialog
