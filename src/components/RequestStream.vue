@@ -51,9 +51,8 @@
 import L from "leaflet";
 import socketIOClient from "socket.io-client";
 import sailsIOClient from "sails.io.js";
+import createOpenLocationCode from "@/util/createOpenLocationCode.js";
 import env from "@/env.js";
-import code_transforms from "@/util/location_code_string_prep.js";
-import OpenLocationCodeJS from "open-location-code";
 import { mapMutations, mapActions, mapGetters } from "vuex";
 import RequestDialog from "@/components/dialogs/RequestDialog.vue";
 import GoLiveDialog from "@/components/dialogs/GoLiveDialog.vue";
@@ -61,9 +60,6 @@ import JoinDialog from "@/components/dialogs/JoinDialog.vue";
 
 const io = sailsIOClient(socketIOClient);
 io.sails.url = env.web_service_url;
-
-let OpenLocationCode = OpenLocationCodeJS.OpenLocationCode;
-var openLocationCode = new OpenLocationCode();
 
 const markerUsers = L.icon({
   iconUrl: require("@/assets/markers/marker-users.svg"),
@@ -250,11 +246,7 @@ export default {
               document
                 .getElementById("button-join")
                 .addEventListener("click", () => {
-                  if (marker.mapPin.twitterHashTags.includes("testing")) {
-                    this.pushToViewStreamPage();
-                  } else {
-                    this.fromJoin();
-                  }
+                  this.fromJoin();
                 });
             } else {
               document
@@ -268,7 +260,7 @@ export default {
             }
           })
           .on("click", e => {
-            const locationcode = this.createOpenLocationCode({
+            const locationcode = createOpenLocationCode({
               lon: e.latlng.lng,
               lat: e.latlng.lat
             });
@@ -367,7 +359,7 @@ export default {
       // Encode a location, default accuracy: var code = openLocationCode.encode(47.365590, 8.524997); devLog(code);
       // Encode a location using one stage of additional refinement:
       //#encode(latitude, longitude, code_length = PAIR_CODE_LENGTH) ⇒ String
-      const code = this.createOpenLocationCode({
+      const code = createOpenLocationCode({
         lon: _data.location.x,
         lat: _data.location.y
       });
@@ -384,11 +376,6 @@ export default {
     },
     geolocateMe() {
       this.map.locate();
-    },
-    createOpenLocationCode({ lon, lat }) {
-      const code = openLocationCode.encode(Number(lon), Number(lat), 11);
-      const formatted = code_transforms.replace_plus_symbol(code);
-      return formatted;
     },
     onLocationFound(e) {
       const radius = e.accuracy;

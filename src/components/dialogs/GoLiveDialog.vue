@@ -84,12 +84,7 @@
 import { mapGetters, mapMutations } from "vuex";
 import GeoSearchBar from "@/components/GeoSearchBar.vue";
 
-import code_transforms from "@/util/location_code_string_prep.js";
-
-import OpenLocationCodeJS from "open-location-code";
-let OpenLocationCode = OpenLocationCodeJS.OpenLocationCode;
-
-var openLocationCode = new OpenLocationCode();
+import createOpenLocationCode from "@/util/createOpenLocationCode.js";
 
 export default {
   name: "GoLiveDialog",
@@ -150,11 +145,10 @@ export default {
     onSelectAddress(address) {
       this.requestModel.location = address;
 
-      var locationcode = openLocationCode.encode(address.x, address.y, 11);
-
-      this.requestModel.openLocationCode = code_transforms.replace_plus_symbol(
-        locationcode
-      );
+      this.requestModel.openLocationCode = createOpenLocationCode({
+        lon: address.x,
+        lat: address.y
+      });
 
       this.requestModel.user.walletAddress = this._myWalletAddress();
       this.requestModel.streamer.walletAddress = this._myWalletAddress();
