@@ -8,7 +8,7 @@
             <base-icon class="btn__icon" name="users"></base-icon>
           </div>
         </div>
-        <div class="flex-center-xy flex-stretch">
+        <div class=" flex-stretch">
           <p>FOLLOW THE LATEST LIST OF TRENDING LIVE STREAMS</p>
         </div>
       </v-ons-list-item>
@@ -16,7 +16,7 @@
         <div class="flex-center-xy flex-stretch">
           <img class="howtoicon" src="../../assets/img/peerkat.svg" alt />
         </div>
-        <div class="flex-center-xy flex-stretch">
+        <div class="flex-stretch">
           <p>OR CHECK THE MAP FOR LIVE STREAMS IN DIFFERENT LOCATIONS</p>
         </div>
       </v-ons-list-item>
@@ -24,7 +24,7 @@
         <div class="flex-center-xy flex-stretch">
           <img class="howtoicon" src="../../assets/img/tipping.png" alt />
         </div>
-        <div class="flex-center-xy flex-stretch">
+        <div class="flex-stretch">
           <p>DON’T FORGET TO TIP THE STREAMS YOU LIKE!</p>
         </div>
       </v-ons-list-item>

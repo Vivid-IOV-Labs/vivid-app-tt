@@ -8,7 +8,7 @@
             <base-icon class="btn__icon" name="video"></base-icon>
           </div>
         </div>
-        <div class="flex-center-xy flex-stretch">
+        <div class="flex-stretch">
           <p>TO INSTANTLY BROADCAST TO YOUR PEERS, CLICK GO LIVE</p>
         </div>
       </v-ons-list-item>
@@ -16,7 +16,7 @@
         <div class="flex-center-xy flex-stretch">
           <img class="howtoicon" src="@/assets/img/hashtag.png" alt />
         </div>
-        <div class="flex-center-xy flex-stretch">
+        <div class="flex-stretch">
           <p>ADD HASHTAGS TO HELP USERS DISCOVER YOUR STREAM</p>
         </div>
       </v-ons-list-item>
@@ -25,7 +25,7 @@
         <div class="flex-center-xy flex-stretch">
           <img class="howtoicon" src="@/assets/img/shopping.png" alt />
         </div>
-        <div class="flex-center-xy flex-stretch">
+        <div class="flex-stretch">
           <p>INCLUDE A SHOPPING URL LINK IF YOU ARE SELLING IN YOUR STREAM</p>
         </div>
       </v-ons-list-item>
