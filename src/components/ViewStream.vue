@@ -5,29 +5,23 @@
     }"
     id="viewStreamPage"
   >
-    <v-ons-toolbar
-      :style="{
-        visibility: !isFullScreen ? 'visible' : 'hidden',
-        height: !isFullScreen ? 'auto' : 0
-      }"
-    >
-      <div class="left">
-        <v-ons-back-button @click.prevent="endViewingStream()"
-          >Back
-        </v-ons-back-button>
-      </div>
-      <div class="center">
-        <span>Trending</span>
-      </div>
-    </v-ons-toolbar>
     <div class="streamer__container">
       <div class="streamer__controls streamer__controls--top">
-        <v-ons-button class="btn btn--default flex-column flex-center-xy">
+        <v-ons-button class="btn btn--small btn--opacity   flex-center-xy">
           <base-icon class="btn__icon" name="eye"></base-icon>
-          <span>101</span>
+          <span class="ml-2">101</span>
         </v-ons-button>
         <div class="ml-auto flex-column">
-          <v-ons-button @click="dropVideoMenu" class="btn btn--small mb-2">
+          <v-ons-button
+            @click="endViewingStream"
+            class="btn btn--small btn--opacity btn--square mb-2"
+          >
+            <base-icon class="btn__icon" name="times"></base-icon>
+          </v-ons-button>
+          <v-ons-button
+            @click="dropVideoMenu"
+            class="btn btn--small  btn--opacity btn--square mb-2"
+          >
             <base-icon
               v-if="isVideoMenuDropped"
               class="btn__icon"
@@ -40,21 +34,25 @@
               v-show="isVideoMenuDropped"
               class="video__controls__menu flex-column"
             >
-              <v-ons-button class="btn btn--opacity btn--small mb-2">
+              <v-ons-button
+                class="btn btn--square  btn--opacity btn--small mb-2"
+              >
                 <base-icon class="btn__icon" name="volume-mute"></base-icon>
               </v-ons-button>
               <v-ons-button
                 @click="toggleFullScreen"
-                class="btn btn--opacity btn--small mb-2"
+                class="btn btn--square  btn--opacity btn--small mb-2"
               >
                 <base-icon class="btn__icon" name="expand"></base-icon>
               </v-ons-button>
-              <v-ons-button class="btn btn--opacity btn--small  mb-2">
+              <v-ons-button
+                class="btn btn--square  btn--opacity btn--small  mb-2"
+              >
                 <base-icon class="btn__icon" name="shopping-cart"></base-icon>
               </v-ons-button>
               <v-ons-button
                 @click="reportConfirm = true"
-                class="btn btn--opacity btn--small "
+                class="btn btn--square  btn--opacity btn--small "
               >
                 <base-icon class="btn__icon" name="flag"></base-icon>
               </v-ons-button>
@@ -66,7 +64,7 @@
       <div class="streamer__controls streamer__controls--bottom">
         <v-ons-button
           id="endStreamButton"
-          class="btn btn--default btn--large"
+          class="btn btn--opacity btn--large"
           @click="endViewingStream()"
           >End Stream
           <base-icon class="btn__icon" name="pause"></base-icon>
@@ -79,12 +77,6 @@
         </div>
       </div>
     </div>
-    <v-ons-bottom-toolbar
-      :style="{
-        visibility: !isFullScreen ? 'visible' : 'hidden',
-        height: !isFullScreen ? '44px' : 0
-      }"
-    ></v-ons-bottom-toolbar>
     <v-ons-alert-dialog
       modifier="rowfooter"
       :title="'Report live stream'"

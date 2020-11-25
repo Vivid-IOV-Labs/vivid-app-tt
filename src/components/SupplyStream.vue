@@ -1,27 +1,17 @@
 <template>
   <v-ons-page id="Streamer">
-    <v-ons-toolbar>
-      <div class="left">
-        <v-ons-back-button @click.prevent="closeVideoStream"
-          >Back</v-ons-back-button
-        >
-      </div>
-      <div class="center">
-        <span>Live Stream in progress</span>
-      </div>
-    </v-ons-toolbar>
     <div class="streamer__container">
       <div class="streamer__controls streamer__controls--top">
-        <v-ons-button class="btn btn--default flex-column flex-center-xy">
+        <v-ons-button class="btn btn--small  btn--opacity  flex-center-xy">
           <base-icon class="btn__icon" name="eye"></base-icon>
-          <span>101</span>
+          <span class="ml-2">101</span>
         </v-ons-button>
 
         <v-ons-button
-          class="btn btn--default ml-auto flex-column flex-center-xy"
+          class="btn btn--small btn--opacity ml-auto  flex-center-xy"
         >
           <base-icon class="btn__icon" name="clock"></base-icon>
-          <span>{{ currentTime }}</span>
+          <span class="ml-2">{{ currentTime }}</span>
         </v-ons-button>
       </div>
       <base-video ref="videoplayer" :options="videoOptions"></base-video>
@@ -29,7 +19,7 @@
       <div class="streamer__controls streamer__controls--bottom">
         <v-ons-button
           @click="closeVideoStream"
-          class="btn btn--default btn--full-width"
+          class="btn btn--opacity btn--full-width"
           v-if="!stop_publish_button.disabled"
           id="stop_publish_button"
           >End Streaming <base-icon class="btn__icon" name="pause"></base-icon
@@ -46,7 +36,6 @@
         This Live stream has been reported and therefor ended
       </v-ons-alert-dialog>
     </div>
-    <v-ons-bottom-toolbar></v-ons-bottom-toolbar>
   </v-ons-page>
 </template>
 
