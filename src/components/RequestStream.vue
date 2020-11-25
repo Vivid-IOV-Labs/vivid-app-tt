@@ -20,7 +20,7 @@
             &nbsp; <base-icon name="request"></base-icon>
           </v-ons-button>
           <v-ons-button class="btn btn--golive" @click="showGoliveDialog()">
-            <base-icon class="btn__icon" name="video"></base-icon>
+            <base-icon class="btn__icon" name="golive"></base-icon>
           </v-ons-button>
         </div>
       </section>

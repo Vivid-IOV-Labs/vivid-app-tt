@@ -1,6 +1,6 @@
 <template>
   <v-ons-dialog cancelable :visible="value" @update:visible="updateVisible">
-    <v-ons-page>
+    <div>
       <v-ons-toolbar>
         <div class="center">Request A Stream</div>
         <div class="right">
@@ -83,7 +83,7 @@
           </v-ons-button>
         </div>
       </div>
-    </v-ons-page>
+    </div>
   </v-ons-dialog>
 </template>
 

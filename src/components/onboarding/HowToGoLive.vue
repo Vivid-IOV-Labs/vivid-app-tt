@@ -5,7 +5,7 @@
       <v-ons-list-item class="flex">
         <div class="flex-center-xy flex-stretch">
           <div class="btn btn--large btn--golive btn--fake">
-            <base-icon class="btn__icon" name="video"></base-icon>
+            <base-icon class="btn__icon" name="golive"></base-icon>
           </div>
         </div>
         <div class="flex-stretch">

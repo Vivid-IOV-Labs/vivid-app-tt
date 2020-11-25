@@ -2,13 +2,13 @@
   <v-ons-page id="Streamer">
     <div class="streamer__container">
       <div class="streamer__controls streamer__controls--top">
-        <v-ons-button class="btn btn--small btn--opacity  flex-center-xy">
-          <base-icon class="btn__icon" name="eye"></base-icon>
+        <v-ons-button class="btn btn--small btn--opacity-soft  flex-center-xy">
+          <base-icon class="btn__icon" name="user"></base-icon>
           <span class="ml-2">101</span>
         </v-ons-button>
 
         <v-ons-button
-          class="btn btn--small btn--opacity ml-auto  flex-center-xy"
+          class="btn btn--small btn--opacity-soft ml-auto  flex-center-xy"
         >
           <base-icon class="btn__icon" name="clock"></base-icon>
           <span class="ml-2">{{ currentTime }}</span>
@@ -19,7 +19,7 @@
       <div class="streamer__controls streamer__controls--bottom">
         <v-ons-button
           @click="closeVideoStream"
-          class="btn btn--opacity btn--full-width"
+          class="btn btn--opacity-soft btn--full-width"
           v-if="!stop_publish_button.disabled"
           id="stop_publish_button"
           >End Streaming <base-icon class="btn__icon" name="pause"></base-icon
