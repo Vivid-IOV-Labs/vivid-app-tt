@@ -69,7 +69,7 @@
             </div>
           </v-ons-list-item>
         </v-ons-list>
-        <div class="flex-center-xy p-2">
+        <div class="flex-center-xy p-4">
           <v-ons-button
             class="btn btn--golive btn--full btn--large"
             @click="closeGoLiveDialog"
