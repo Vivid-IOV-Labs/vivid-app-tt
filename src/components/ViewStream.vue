@@ -1,11 +1,15 @@
 <template>
-  <v-ons-page id="viewStreamPage">
+  <v-ons-page
+    :class="{
+      isFullScreen
+    }"
+    id="viewStreamPage"
+  >
     <v-ons-toolbar
       :style="{
         visibility: !isFullScreen ? 'visible' : 'hidden',
         height: !isFullScreen ? 'auto' : 0
       }"
-      v-show="!isFullScreen"
     >
       <div class="left">
         <v-ons-back-button @click.prevent="endViewingStream()"
@@ -78,9 +82,8 @@
     <v-ons-bottom-toolbar
       :style="{
         visibility: !isFullScreen ? 'visible' : 'hidden',
-        height: !isFullScreen ? 'auto' : 0
+        height: !isFullScreen ? '44px' : 0
       }"
-      v-show="!isFullScreen"
     ></v-ons-bottom-toolbar>
     <v-ons-alert-dialog
       modifier="rowfooter"
@@ -362,8 +365,25 @@ export default {
   transform: translateX(1rem);
   opacity: 0;
 }
-
+* {
+  transition: all;
+}
 .vide-menu-move {
   transition: all 0.5s;
+}
+.isFullScreen.page-with-bottom-toolbar > .page__content {
+  bottom: 0;
+}
+.isFullScreen .toolbar + .page__background {
+  top: 0;
+}
+.isFullScreen .toolbar + .page__background + .page__content {
+  top: 0;
+}
+.isFullScreen .streamer__controls .streamer__controls--top {
+  top: 0;
+}
+body.vjs-full-window {
+  width: 100% !important;
 }
 </style>
