@@ -16,12 +16,11 @@ button:disabled {
   background-color: #6d6d3d;
   font-weight: 550;
   border-radius: 1.3rem;
-  padding: 0.4rem 0.6rem;
   text-align: center;
   background-color: #1d1d1b;
   font-weight: 550;
   height: fit-content;
-  padding: 0.6rem 0.8rem;
+  padding: 0.4rem 0.8rem;
 }
 
 .btn__icon--white{
@@ -102,12 +101,12 @@ button:disabled {
 }
 .btn--large {
   border-radius: 1.6rem;
-  padding: 0.8rem 1rem;
+  padding: 0.6rem 1rem;
   font-weight: 550;
   font-size: 1.2rem;
 }
 .btn--small {
-  padding: 0.3rem 0.7rem;
+  padding: 0.2rem 0.6rem;
   font-size: 0.925rem;
 }
 #button-golive{
