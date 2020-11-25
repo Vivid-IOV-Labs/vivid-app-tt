@@ -12,7 +12,7 @@
       <div class="scroller">
         <v-ons-list>
           <v-ons-list-item>
-            <div class="flex-column p-4 full-width">
+            <div class="flex-column p-4 full-width ">
               <textarea
                 title="Stream Title"
                 class="textarea textarea--transparent"
@@ -23,8 +23,7 @@
             </div>
           </v-ons-list-item>
           <v-ons-list-item>
-            <div class="flex-column p-4">
-              full-width
+            <div class="flex-column p-4 full-width">
               <geo-search-bar
                 id="golive_location"
                 title="Search"
@@ -34,13 +33,13 @@
             </div>
           </v-ons-list-item>
           <v-ons-list-item>
-            <div class="flex-column p-4">
-              full-width
+            <div class="flex-column p-4 full-width">
               <v-ons-list>
                 <div>
                   <v-ons-list-item>
                     <span>#</span>
                     <v-ons-input
+                      class="flex-stretch"
                       title="Add Hashtags"
                       v-model="requestModel.mapPin.twitterHashTags[0]"
                       placeholder="Add Hashtags"
@@ -50,6 +49,7 @@
                   <v-ons-list-item>
                     <span>#</span>
                     <v-ons-input
+                      class="flex-stretch"
                       title="Add Hashtags"
                       v-model="requestModel.mapPin.twitterHashTags[1]"
                       placeholder="Add Hashtags"
@@ -58,6 +58,7 @@
                   <v-ons-list-item>
                     <span>#</span>
                     <v-ons-input
+                      class="flex-stretch"
                       title="Add Hashtags"
                       v-model="requestModel.mapPin.twitterHashTags[3]"
                       placeholder="Add Hashtags"

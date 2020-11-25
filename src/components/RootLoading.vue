@@ -44,5 +44,6 @@ export default {
 }
 .logo-page .logo-page__img {
   width: 40%;
+  max-width: 8rem;
 }
 </style>

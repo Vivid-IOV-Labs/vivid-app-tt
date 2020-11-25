@@ -40,6 +40,7 @@
                   <v-ons-list-item>
                     <span>#</span
                     ><v-ons-input
+                      class="flex-stretch"
                       title="Add Hashtags"
                       v-model="requestModel.mapPin.twitterHashTags[0]"
                       placeholder="Add Hashtag"
@@ -50,6 +51,7 @@
                   <v-ons-list-item>
                     <span>#</span
                     ><v-ons-input
+                      class="flex-stretch"
                       title="Add Hashtags"
                       v-model="requestModel.mapPin.twitterHashTags[1]"
                       placeholder="Add Hashtag "
@@ -59,6 +61,7 @@
                   <v-ons-list-item>
                     <span>#</span
                     ><v-ons-input
+                      class="flex-stretch"
                       title="Add Hashtags"
                       v-model="requestModel.mapPin.twitterHashTags[2]"
                       placeholder="Add Hashtag "
