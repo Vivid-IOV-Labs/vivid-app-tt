@@ -239,6 +239,34 @@ button:disabled {
 .dialog-container {
   height: 100%;
 }
+.alert-dialog-footer--rowfooter {
+  flex-direction: column;
+  border-bottom-right-radius: 0.6rem;
+  border-bottom-left-radius: 0.6rem;
+}
+.alert-dialog-button--rowfooter{
+  border-left: none;
+
+}
+.alert-dialog-title, .alert-dialog-content{
+  text-align: left;
+}
+
+.alert-dialog{
+  background-color: transparent;
+  border-top-right-radius: 0.6rem;
+  border-top-left-radius: 0rem;
+  background-color:  rgba(255, 255, 255, 0.9);
+
+}
+.alert-dialog-button{
+  border-top-color: #1f1f21 ;
+}
+.alert-dialog-button--rowfooter {
+  color: #1f1f21;
+  text-align: left;
+  padding-left: 1rem;
+}
 .list .list-item:last-child > div{
   background-image: none;
 }

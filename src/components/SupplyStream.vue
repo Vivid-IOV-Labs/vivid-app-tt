@@ -2,7 +2,7 @@
   <v-ons-page id="Streamer">
     <div class="streamer__container">
       <div class="streamer__controls streamer__controls--top">
-        <v-ons-button class="btn btn--small  btn--opacity  flex-center-xy">
+        <v-ons-button class="btn btn--small btn--opacity  flex-center-xy">
           <base-icon class="btn__icon" name="eye"></base-icon>
           <span class="ml-2">101</span>
         </v-ons-button>
