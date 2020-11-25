@@ -21,6 +21,7 @@ button:disabled {
   font-weight: 550;
   height: fit-content;
   padding: 0.4rem 0.8rem;
+  border-color: transparent;
 }
 
 .btn__icon--white{
@@ -60,16 +61,22 @@ button:disabled {
   width: 100%;
 }
 .btn--join {
-  border: solid 1px #73e335;
   color: #73e335;
 }
 .btn--request {
-  border: solid 1px #16dbdb;
   color: #16dbdb;
 }
 .btn--golive {
-  border: solid 1px #F73E2D;
   color: #F73E2D;
+}
+.btn--fake.btn--join {
+  border-color:  #73e335;
+}
+.btn--fake.btn--request {
+  border-color:  #16dbdb;
+}
+.btn--fake.btn--golive {
+  border-color:  #F73E2D;
 }
 .btn-tip {
   display: block;
@@ -86,6 +93,7 @@ button:disabled {
 .btn--fake {
   background: #fff;
   border-width: 2px;
+  border-style: solid;
   padding: 1rem 2rem;
 }
 .btn_close {
