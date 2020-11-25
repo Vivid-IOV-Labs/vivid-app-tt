@@ -12,7 +12,7 @@
       <div class="scroller">
         <v-ons-list>
           <v-ons-list-item>
-            <div class="flex-column p-4">
+            <div class="flex-column p-4 full-width">
               <textarea
                 title="Stream Title"
                 class="textarea textarea--transparent"
@@ -24,6 +24,7 @@
           </v-ons-list-item>
           <v-ons-list-item>
             <div class="flex-column p-4">
+              full-width
               <geo-search-bar
                 id="golive_location"
                 title="Search"
@@ -34,6 +35,7 @@
           </v-ons-list-item>
           <v-ons-list-item>
             <div class="flex-column p-4">
+              full-width
               <v-ons-list>
                 <div>
                   <v-ons-list-item>

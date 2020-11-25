@@ -4,7 +4,7 @@
 /* Desktop/Laptop Styles */
 @media all and (min-width: 414px) {
   body {
-    width: 414px !important;
+   /* width: 414px !important;*/
   }
 }
 /** Buttton **/
@@ -159,6 +159,9 @@ button:disabled {
 }
 .text-center {
   text-align: center;
+}
+.full-width {
+  width: 100%;
 }
 .ml-auto {
   margin-left: auto;

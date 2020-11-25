@@ -12,7 +12,7 @@
       <div class="scroller">
         <v-ons-list>
           <v-ons-list-item v-for="marker in markers" :key="marker.id">
-            <div class="flex-center-y p-4">
+            <div class="flex-center-y full-width p-4">
               <div>
                 <h3>{{ marker.mapPin.details }}</h3>
                 <p>
