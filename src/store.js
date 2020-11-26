@@ -17,7 +17,7 @@ export default new Vuex.Store({
     searchLocation: null,
     localCopyOfRequestPins: null,
     selectedPin: null,
-    streamerWalletAddress: null,
+    streamerWalletAddress: "0x6537da7F34d3454fce2bD9534491935687014bBd",
     myPosition: null,
     web3: {
       isInjected: false,

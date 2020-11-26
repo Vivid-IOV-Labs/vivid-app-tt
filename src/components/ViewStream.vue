@@ -7,17 +7,17 @@
   >
     <div class="streamer__container">
       <div class="streamer__controls streamer__controls--top">
-        <v-ons-button class="btn btn--small btn--opacity-soft   flex-center-xy">
+        <!-- <v-ons-button class="btn btn--small btn--opacity-soft   flex-center-xy">
           <base-icon class="btn__icon" name="user"></base-icon>
           <span class="ml-2">101</span>
-        </v-ons-button>
+        </v-ons-button> -->
         <div class="ml-auto flex">
-          <v-ons-button
+          <!-- <v-ons-button
             @click="reportConfirm = true"
             class="btn btn--square  btn--opacity-soft btn--small "
           >
             <base-icon class="btn__icon" name="flag"></base-icon>
-          </v-ons-button>
+          </v-ons-button> -->
           <div class="flex-column ml-2">
             <v-ons-button
               @click="endViewingStream"
@@ -25,12 +25,12 @@
             >
               <base-icon class="btn__icon" name="times"></base-icon>
             </v-ons-button>
-            <v-ons-button
+            <!-- <v-ons-button
               @click="dropVideoMenu"
               class="btn btn--small  btn--opacity-soft btn--square mb-2"
             >
               <base-icon class="btn__icon" name="menu-dots"></base-icon>
-            </v-ons-button>
+            </v-ons-button> -->
             <transition name="vide-menu">
               <div
                 v-show="isVideoMenuDropped"
@@ -74,18 +74,18 @@
           >
             <base-icon class="btn__icon" name="thundercore"></base-icon>
           </v-ons-button>
-          <v-ons-button
-            @click.prevent="tipStreamer()"
+          <!-- <v-ons-button
+        
             class="btn btn--round  btn--opacity-soft btn--opacity-dark mb-2"
           >
             <base-icon class="btn__icon" name="heart"></base-icon>
-          </v-ons-button>
-          <v-ons-button
-            @click.prevent="tipStreamer()"
+          </v-ons-button> -->
+          <!-- <v-ons-button
+         
             class="btn btn--round  btn--opacity-soft btn--opacity-dark mb-2"
           >
             <base-icon class="btn__icon" name="menu-dots"></base-icon>
-          </v-ons-button>
+          </v-ons-button> -->
         </div>
       </div>
     </div>
@@ -150,31 +150,31 @@ import { address, ABI } from "@/util/constants/tippingContract";
 
 import { mapMutations, mapGetters, mapActions } from "vuex";
 
-import { WebRTCAdaptor } from "@/util/webrtc_adaptor.js";
+// import { WebRTCAdaptor } from "@/util/webrtc_adaptor.js";
 
-import SupplyStream from "@/components/SupplyStream.vue";
-import socketIOClient from "socket.io-client";
-import sailsIOClient from "sails.io.js";
+// import SupplyStream from "@/components/SupplyStream.vue";
+// import socketIOClient from "socket.io-client";
+// import sailsIOClient from "sails.io.js";
 
-import env from "@/env.js";
-let io;
+// import env from "@/env.js";
+// let io;
 
-if (socketIOClient.sails) {
-  io = socketIOClient;
-} else {
-  io = sailsIOClient(socketIOClient);
-  io.sails.url = env.web_service_url;
-}
+// if (socketIOClient.sails) {
+//   io = socketIOClient;
+// } else {
+//   io = sailsIOClient(socketIOClient);
+//   io.sails.url = env.web_service_url;
+// }
 import devLog from "@/util/devlog.js";
-const pc_config = null;
-const sdpConstraints = {
-  OfferToReceiveAudio: true,
-  OfferToReceiveVideo: true
-};
-const mediaConstraints = {
-  video: false,
-  audio: false
-};
+// const pc_config = null;
+// const sdpConstraints = {
+//   OfferToReceiveAudio: true,
+//   OfferToReceiveVideo: true
+// };
+// const mediaConstraints = {
+//   video: false,
+//   audio: false
+// };
 export default {
   name: "viewStream",
   components: {
@@ -192,7 +192,7 @@ export default {
       },
       isVideoMenuDropped: false,
       webRTCAdaptor: null,
-      streamId: this.$store.state.selectedPin.openLocationCode,
+      // streamId: this.$store.state.selectedPin.openLocationCode,
       streamNotLive: false,
       streamReported: false,
       streamEnded: false,
@@ -211,13 +211,14 @@ export default {
       _setStreamerWalletAddress: "setStreamerWalletAddress"
     }),
     ...mapGetters({
-      _myWalletAddress: "myWalletAddress"
+      _myWalletAddress: "myWalletAddress",
+      _getStreamerWalletAddress: "getStreamerWalletAddress"
     }),
     ...mapActions({
       _addFlag: "addFlag"
     }),
     pushToSupplyStreamPage() {
-      this.$emit("push-page", SupplyStream);
+      // this.$emit("push-page", SupplyStream);
     },
     playVideo() {
       this.player
@@ -269,7 +270,7 @@ export default {
       devLog(tippingContractInstance);
 
       await tippingContractInstance.tip(
-        this._getStreamerWalletAddress(),
+      "0x6537da7F34d3454fce2bD9534491935687014bBd",
         {
           gas: 300000,
           gasPrice: "0x14f46b0400",
@@ -294,68 +295,71 @@ export default {
       );
     }
   },
+  beforeCreate() {
+    this.$store.dispatch("registerWeb3");
+  },
   mounted() {
-    io.socket.on("reportFlagRaisedAndLiveStreamRemoved", ({ data }) => {
-      if (data.openLocationCode == this.streamId) {
-        this.streamReported = true;
-      }
-    });
-    io.socket.on("livestreamended", ({ data }) => {
-      if (data.openLocationCode == this.streamId) {
-        this.streamEnded = true;
-      }
-    });
+    // io.socket.on("reportFlagRaisedAndLiveStreamRemoved", ({ data }) => {
+    //   if (data.openLocationCode == this.streamId) {
+    //     this.streamReported = true;
+    //   }
+    // });
+    // io.socket.on("livestreamended", ({ data }) => {
+    //   if (data.openLocationCode == this.streamId) {
+    //     this.streamEnded = true;
+    //   }
+    // });
     this.player = window.videojs.getPlayer(this.$refs.videoplayer.$refs.video);
 
-    this.webRTCAdaptor = new WebRTCAdaptor({
-      websocket_url: "wss://streams.vividiov.media:5443/WebRTCAppEE/websocket",
-      mediaConstraints: mediaConstraints,
-      peerconnection_config: pc_config,
-      sdp_constraints: sdpConstraints,
-      remoteVideoId: this.player.tech().el(),
-      isPlayMode: true,
-      debug: process.env.NODE_ENV != "production",
-      callback: (info, description) => {
-        if (info == "initialized") {
-          devLog("initialized");
-          this.webRTCAdaptor.getStreamInfo(this.streamId);
-        } else if (info == "streamInformation") {
-          devLog("stream information");
-          this.webRTCAdaptor.play(this.streamId, "762007030599962020550620");
-        } else if (info == "play_started") {
-          //joined the stream
-          devLog("play started");
-          this.streamNotLive = false;
-          this.playVideo();
-        } else if (info == "play_finished") {
-          //leaved the stream
-          devLog("play finished");
-          //check that publish may start again
-          this.streamNotFound = true;
+    // this.webRTCAdaptor = new WebRTCAdaptor({
+    //   websocket_url: "wss://streams.vividiov.media:5443/WebRTCAppEE/websocket",
+    //   mediaConstraints: mediaConstraints,
+    //   peerconnection_config: pc_config,
+    //   sdp_constraints: sdpConstraints,
+    //   remoteVideoId: this.player.tech().el(),
+    //   isPlayMode: true,
+    //   debug: process.env.NODE_ENV != "production",
+    //   callback: (info, description) => {
+    //     if (info == "initialized") {
+    //       devLog("initialized");
+    //       this.webRTCAdaptor.getStreamInfo(this.streamId);
+    //     } else if (info == "streamInformation") {
+    //       devLog("stream information");
+    //       this.webRTCAdaptor.play(this.streamId, "762007030599962020550620");
+    //     } else if (info == "play_started") {
+    //       //joined the stream
+    //       devLog("play started");
+    //       this.streamNotLive = false;
+    //       this.playVideo();
+    //     } else if (info == "play_finished") {
+    //       //leaved the stream
+    //       devLog("play finished");
+    //       //check that publish may start again
+    //       this.streamNotFound = true;
 
-          setTimeout(function() {
-            this.webRTCAdaptor.getStreamInfo(this.streamId);
-          }, 3000);
-        } else if (info == "closed") {
-          devLog("Connection closed");
-          if (typeof description != "undefined") {
-            devLog("Connecton closed: " + JSON.stringify(description));
-          }
-        }
-      },
-      callbackError: error => {
-        //some of the possible errors, NotFoundError, SecurityError,PermissionDeniedError
-        devLog("error callback: " + JSON.stringify(error));
-        this.streamNotLive = false;
-        this.streamNotFound = true;
-        if (error == "no_stream_exist") {
-          // setTimeout(function() {
-          //   this.webRTCAdaptor.getStreamInfo(this.streamId);
-          // }, 3000);
-        }
-        devLog(JSON.stringify(error));
-      }
-    });
+    //       setTimeout(function() {
+    //         this.webRTCAdaptor.getStreamInfo(this.streamId);
+    //       }, 3000);
+    //     } else if (info == "closed") {
+    //       devLog("Connection closed");
+    //       if (typeof description != "undefined") {
+    //         devLog("Connecton closed: " + JSON.stringify(description));
+    //       }
+    //     }
+    //   },
+    //   callbackError: error => {
+    //     //some of the possible errors, NotFoundError, SecurityError,PermissionDeniedError
+    //     devLog("error callback: " + JSON.stringify(error));
+    //     this.streamNotLive = false;
+    //     this.streamNotFound = true;
+    //     if (error == "no_stream_exist") {
+    //       // setTimeout(function() {
+    //       //   this.webRTCAdaptor.getStreamInfo(this.streamId);
+    //       // }, 3000);
+    //     }
+    //     devLog(JSON.stringify(error));
+    //   }
+    // });
   }
 };
 </script>
