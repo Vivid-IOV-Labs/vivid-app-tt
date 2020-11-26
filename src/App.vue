@@ -14,10 +14,10 @@
   </div>
 </template>
 
-<style>
+<style lang="scss">
 @import url("https://fonts.googleapis.com/css?family=Source Code Pro");
 
-@import "assets/css/app.css";
+@import "assets/css/app.scss";
 body {
   font-family: "Source Code Pro";
 }

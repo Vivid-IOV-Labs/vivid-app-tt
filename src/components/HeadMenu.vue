@@ -102,7 +102,7 @@ export default {
   }
 };
 </script>
-<style>
+<style lang="scss">
 .list-item__center {
   justify-content: space-between;
 }

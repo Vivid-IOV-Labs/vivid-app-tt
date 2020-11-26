@@ -1,3 +1,5 @@
+@import "./variables.scss";
+
 #map
 {
   height: 100% !important;
@@ -16,23 +18,23 @@
 }
 
 #nav_buttons .btn--locate{
-  background-color: #1d1d1b ;
-  color:#fff;
+  background-color: $dark-grey ;
+  color:$white;
   border-radius: 0.3rem;
   margin-bottom: 0.4rem;
   margin-left: auto;
   margin-right: 1rem;
   }
   #nav_buttons .btn--locate:hover{
-    background-color: #fff ;
-    color:#1d1d1b ;
+    background-color: $white ;
+    color:$dark-grey ;
     cursor: pointer;
     }
 
 .list-item--chevron:before,
 .list-item__expand-chevron {
-  border-right: 2px solid #1d1d1b;
-  border-bottom: 2px solid #1d1d1b;
+  border-right: 2px solid $dark-grey;
+  border-bottom: 2px solid $dark-grey;
 }
 
 .list-item.expanded > .list-item__expandable-content {
@@ -63,12 +65,12 @@
   color:#bbbbba
 }
 .leaflet-bar a{
-  background-color: #1d1d1b ;
-  color:#fff
+  background-color: $dark-grey ;
+  color:$white
 }
 .leaflet-bar a:hover{
-  background-color: #fff ;
-  color:#1d1d1b ;
+  background-color: $white ;
+  color:$dark-grey ;
   cursor: pointer;
 }
 

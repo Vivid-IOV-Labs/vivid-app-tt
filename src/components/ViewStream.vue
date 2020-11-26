@@ -345,7 +345,7 @@ export default {
   }
 };
 </script>
-<style>
+<style lang="scss">
 .vide-menu-enter-active,
 .vide-menu-leave-active {
   transition: all 0.5s;

@@ -27,18 +27,18 @@ export default {
   }
 };
 </script>
-<style>
+<style lang="scss">
 .logo-page {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   flex-direction: column;
-  background: #000;
+  background: $black;
 }
 .logo-page .logo-page__title {
   font-weight: bolder;
-  color: #16dbdb;
+  color: $azure;
   font-size: 2.3rem;
   margin: 0.6rem 0;
 }

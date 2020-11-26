@@ -42,9 +42,9 @@
   </v-ons-page>
 </template>
 
-<style>
+<style lang="scss">
 @import "../../node_modules/leaflet/dist/leaflet.css";
-@import "../assets/css/requestStream.css";
+@import "@/assets/css/requestStream.scss";
 </style>
 
 <script>
