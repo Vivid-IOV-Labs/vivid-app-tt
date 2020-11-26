@@ -46,9 +46,8 @@ export default {
         value: ethers.utils.parseEther('1.0')
     };
 
-    const tx = await tippingContractWithSigner.tip("0x6537da7F34d3454fce2bD9534491935687014bBd", overrideOptions);
-    console.log(tx)
-  
+    await tippingContractWithSigner.tip("0x6537da7F34d3454fce2bD9534491935687014bBd", overrideOptions);
+    
     }
   }
 };
