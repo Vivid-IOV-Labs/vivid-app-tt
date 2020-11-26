@@ -1,12 +1,7 @@
 <template>
-  <v-ons-page
-    :class="{
-      isFullScreen
-    }"
-    id="viewStreamPage"
-  >
-    <div class="streamer__container">
-      <div class="streamer__controls streamer__controls--top">
+  <v-ons-page id="viewStreamPage">
+    <div class="stream__container">
+      <div class="stream__controls stream__controls--top">
         <v-ons-button class="btn btn--small btn--opacity-soft   flex-center-xy">
           <base-icon class="btn__icon" name="user"></base-icon>
           <span class="ml-2">101</span>
@@ -20,7 +15,7 @@
           </v-ons-button>
           <div class="flex-column ml-2">
             <v-ons-button
-              @click="endViewingStream"
+              @click="endStream = true"
               class="btn btn--small btn--opacity-soft btn--square mb-2"
             >
               <base-icon class="btn__icon" name="times"></base-icon>
@@ -42,12 +37,6 @@
                   <base-icon class="btn__icon" name="volume-mute"></base-icon>
                 </v-ons-button>
                 <v-ons-button
-                  @click="toggleFullScreen"
-                  class="btn btn--square  btn--opacity-soft btn--small mb-2"
-                >
-                  <base-icon class="btn__icon" name="expand"></base-icon>
-                </v-ons-button>
-                <v-ons-button
                   class="btn btn--square  btn--opacity-soft btn--small  mb-2"
                 >
                   <base-icon class="btn__icon" name="shopping-cart"></base-icon>
@@ -58,34 +47,20 @@
         </div>
       </div>
       <base-video ref="videoplayer" :options="videoOptions"></base-video>
-      <div class="streamer__controls streamer__controls--bottom">
-        <v-ons-button
-          id="endStreamButton"
-          class="btn btn--opacity-soft btn--large"
-          @click="endViewingStream()"
-          >End Stream
-          <base-icon class="btn__icon" name="pause"></base-icon>
-        </v-ons-button>
+      <div class="stream__controls stream__controls--bottom">
+        <div class="flex-column stream-detail">
+          <h5 class="stream-detail__title">
+            {{ details }}
+          </h5>
+          <p class="stream-detail__hashtag">
+            {{ hashtags }}
+          </p>
+        </div>
 
         <div class=" ml-auto flex-column ">
-          <v-ons-button
-            @click.prevent="tipStreamer()"
-            class="btn btn--round  btn--opacity-soft btn--opacity-dark mb-2"
-          >
-            <base-icon class="btn__icon" name="thundercore"></base-icon>
-          </v-ons-button>
-          <v-ons-button
-            @click.prevent="tipStreamer()"
-            class="btn btn--round  btn--opacity-soft btn--opacity-dark mb-2"
-          >
-            <base-icon class="btn__icon" name="heart"></base-icon>
-          </v-ons-button>
-          <v-ons-button
-            @click.prevent="tipStreamer()"
-            class="btn btn--round  btn--opacity-soft btn--opacity-dark mb-2"
-          >
-            <base-icon class="btn__icon" name="menu-dots"></base-icon>
-          </v-ons-button>
+          <a @click.prevent="tipStreamer()" class="btn-tip mb-2">
+            <img src="@/assets/img/thundercore-logo.svg" />
+          </a>
         </div>
       </div>
     </div>
@@ -112,7 +87,7 @@
     </v-ons-alert-dialog>
     <v-ons-alert-dialog
       modifier="rowfooter"
-      :title="'Live stream reported'"
+      :title="'Live stream ended'"
       :footer="{
         Ok: endViewingStream
       }"
@@ -140,6 +115,17 @@
       }"
     >
       This Stream does not exist or has ended
+    </v-ons-alert-dialog>
+    <v-ons-alert-dialog
+      modifier="rowfooter"
+      :title="'End live stream'"
+      :footer="{
+        Ok: endViewingStream,
+        Cancel: () => (endStream = false)
+      }"
+      :visible.sync="endStream"
+    >
+      Are you sure you want to end this live stream
     </v-ons-alert-dialog>
   </v-ons-page>
 </template>
@@ -197,20 +183,29 @@ export default {
       streamReported: false,
       streamEnded: false,
       streamNotFound: false,
-      reportConfirm: false,
-      isFullScreen: false
+      endStream: false,
+      reportConfirm: false
     };
   },
-  // computed: {
-  //   isFullScreen() {
-  //     return this.player.isFullscreen();
-  //   }
-  // },
+  computed: {
+    details() {
+      return this._getSelectedPin().mapPin.details;
+    },
+    hashtags() {
+      return this._getSelectedPin()
+        .mapPin.twitterHashTags.reduce((acc, tag) => {
+          acc += ` #${tag},`;
+          return acc;
+        }, "")
+        .slice(1, -1);
+    }
+  },
   methods: {
     ...mapMutations({
       _setStreamerWalletAddress: "setStreamerWalletAddress"
     }),
     ...mapGetters({
+      _getSelectedPin: "getSelectedPin",
       _myWalletAddress: "myWalletAddress"
     }),
     ...mapActions({
@@ -224,15 +219,6 @@ export default {
         .tech()
         .el()
         .play();
-    },
-    toggleFullScreen() {
-      if (!this.isFullScreen) {
-        this.player.enterFullWindow();
-        this.isFullScreen = true;
-      } else {
-        this.player.exitFullWindow();
-        this.isFullScreen = false;
-      }
     },
     startPlaying() {
       this.webRTCAdaptor.play(this.streamId);
@@ -374,20 +360,5 @@ export default {
 }
 .vide-menu-move {
   transition: all 0.5s;
-}
-.isFullScreen.page-with-bottom-toolbar > .page__content {
-  bottom: 0;
-}
-.isFullScreen .toolbar + .page__background {
-  top: 0;
-}
-.isFullScreen .toolbar + .page__background + .page__content {
-  top: 0;
-}
-.isFullScreen .streamer__controls .streamer__controls--top {
-  top: 0;
-}
-body.vjs-full-window {
-  width: 100% !important;
 }
 </style>

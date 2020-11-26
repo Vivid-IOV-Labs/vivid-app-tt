@@ -1,7 +1,7 @@
 <template>
   <v-ons-page id="Streamer">
-    <div class="streamer__container">
-      <div class="streamer__controls streamer__controls--top">
+    <div class="stream__container">
+      <div class="stream__controls stream__controls--top">
         <v-ons-button class="btn btn--small btn--opacity-soft  flex-center-xy">
           <base-icon class="btn__icon" name="user"></base-icon>
           <span class="ml-2">101</span>
@@ -16,9 +16,9 @@
       </div>
       <base-video ref="videoplayer" :options="videoOptions"></base-video>
 
-      <div class="streamer__controls streamer__controls--bottom">
+      <div class="stream__controls stream__controls--bottom">
         <v-ons-button
-          @click="closeVideoStream"
+          @click="endStream = true"
           class="btn btn--opacity-soft btn--full-width"
           v-if="!stop_publish_button.disabled"
           id="stop_publish_button"
@@ -34,6 +34,17 @@
         :visible.sync="streamReported"
       >
         This Live stream has been reported and therefor ended
+      </v-ons-alert-dialog>
+      <v-ons-alert-dialog
+        modifier="rowfooter"
+        :title="'End live stream'"
+        :footer="{
+          Ok: closeVideoStream,
+          Cancel: () => (endStream = false)
+        }"
+        :visible.sync="endStream"
+      >
+        Are you sure you want to end this live stream
       </v-ons-alert-dialog>
     </div>
   </v-ons-page>
@@ -97,6 +108,7 @@ export default {
       streamId: "",
       webRTCAdaptor: "",
       streamReported: false,
+      endStream: false,
       openLocationCode: ""
     };
   },
@@ -214,17 +226,17 @@ export default {
     });
     this.player.currentTime(0);
     this.player.on("timeupdate", () => {
-      function timeToString(totalSecs) {
+      function totalSecondsToHMS(totalSecs) {
         const hours = Math.floor(totalSecs / 3600);
         const minutes = Math.floor((totalSecs % 3600) / 60);
         const seconds = Math.floor(totalSecs % 60);
-        let formattedHH = hours.toString().padStart(2, "0");
-        let formattedMM = minutes.toString().padStart(2, "0");
-        let formattedSS = seconds.toString().padStart(2, "0");
+        const formattedHH = hours.toString().padStart(2, "0");
+        const formattedMM = minutes.toString().padStart(2, "0");
+        const formattedSS = seconds.toString().padStart(2, "0");
 
         return `${formattedHH}:${formattedMM}:${formattedSS}`;
       }
-      this.currentTime = timeToString(this.player.currentTime());
+      this.currentTime = totalSecondsToHMS(this.player.currentTime());
     });
   }
 };

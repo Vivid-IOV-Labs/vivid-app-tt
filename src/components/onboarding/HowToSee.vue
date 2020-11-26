@@ -14,7 +14,7 @@
       </v-ons-list-item>
       <v-ons-list-item class="flex">
         <div class="flex-center-xy flex-stretch">
-          <img class="howtoicon" src="../../assets/img/peerkat.svg" alt />
+          <img class="howtoicon" src="@/assets/img/peerkat.svg" alt />
         </div>
         <div class="flex-stretch">
           <p>OR CHECK THE MAP FOR LIVE STREAMS IN DIFFERENT LOCATIONS</p>
@@ -22,7 +22,7 @@
       </v-ons-list-item>
       <v-ons-list-item class="flex">
         <div class="flex-center-xy flex-stretch">
-          <img class="howtoicon" src="../../assets/img/tipping.png" alt />
+          <img class="howtoicon" src="@/assets/img/thundercore-logo.svg" alt />
         </div>
         <div class="flex-stretch">
           <p>DON’T FORGET TO TIP THE STREAMS YOU LIKE!</p>
