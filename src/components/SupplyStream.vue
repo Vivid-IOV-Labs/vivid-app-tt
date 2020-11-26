@@ -11,7 +11,7 @@
           class="btn btn--small btn--opacity-soft ml-auto  flex-center-xy"
         >
           <base-icon class="btn__icon" name="clock"></base-icon>
-          <time class="ml-2">{{ currentTime }}</time>
+          <span class="ml-2">{{ currentTime }}</span>
         </v-ons-button>
       </div>
       <base-video ref="videoplayer" :options="videoOptions"></base-video>
@@ -89,7 +89,7 @@ export default {
         fill: true,
         controls: false
       },
-      currentTime: "00:00",
+      currentTime: "00:00:00",
       stop_publish_button: {
         disabled: true
       },
@@ -99,11 +99,6 @@ export default {
       streamReported: false,
       openLocationCode: ""
     };
-  },
-  computed: {
-    liveTime() {
-      return "00:00 s";
-    }
   },
   methods: {
     closeVideoStream() {
@@ -222,10 +217,11 @@ export default {
         const hours = Math.floor(totalSecs / 3600);
         const minutes = Math.floor((totalSecs % 3600) / 60);
         const seconds = Math.floor(totalSecs % 60);
-        const formattedHours = hours.toString().padStart(2, "0");
-        const formattedMinutes = minutes.toString().padStart(2, "0");
-        const formattedSeconds = seconds.toString().padStart(2, "0");
-        return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+        let formattedHH = hours.toString().padStart(2, "0");
+        let formattedMM = minutes.toString().padStart(2, "0");
+        let formattedSS = seconds.toString().padStart(2, "0");
+
+        return `${formattedHH}:${formattedMM}:${formattedSS}`;
       }
       this.currentTime = timeToString(this.player.currentTime());
     });
