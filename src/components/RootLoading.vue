@@ -24,18 +24,16 @@
 //   });
 // };
 
-import { mapGetters } from "vuex";
 import { address, ABI } from "@/util/constants/tippingContract";
 
 import { ethers } from "ethers";
 
 export default {
   name: "RootLoading",
-  ...mapGetters({ _getStreamerWalletAddress: "getStreamerWalletAddress" }),
   methods: {
     async tipStreamer() {
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
-      const signer = provider.getSigner()
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
 
       const tippingContract = await new ethers.Contract(address, ABI, provider);
 
@@ -49,6 +47,7 @@ export default {
     };
 
     const tx = await tippingContractWithSigner.tip("0x6537da7F34d3454fce2bD9534491935687014bBd", overrideOptions);
+    console.log(tx)
   
     }
   }
