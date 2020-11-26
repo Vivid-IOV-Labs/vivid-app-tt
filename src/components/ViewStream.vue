@@ -11,53 +11,50 @@
           <base-icon class="btn__icon" name="user"></base-icon>
           <span class="ml-2">101</span>
         </v-ons-button>
-        <div class="ml-auto flex-column">
+        <div class="ml-auto flex">
           <v-ons-button
-            @click="endViewingStream"
-            class="btn btn--small btn--opacity-soft btn--square mb-2"
+            @click="reportConfirm = true"
+            class="btn btn--square  btn--opacity-soft btn--small "
           >
-            <base-icon class="btn__icon" name="times"></base-icon>
+            <base-icon class="btn__icon" name="flag"></base-icon>
           </v-ons-button>
-          <v-ons-button
-            @click="dropVideoMenu"
-            class="btn btn--small  btn--opacity-soft btn--square mb-2"
-          >
-            <base-icon
-              v-if="isVideoMenuDropped"
-              class="btn__icon"
-              name="minus"
-            ></base-icon>
-            <base-icon v-else class="btn__icon" name="plus"></base-icon>
-          </v-ons-button>
-          <transition name="vide-menu">
-            <div
-              v-show="isVideoMenuDropped"
-              class="video__controls__menu flex-column"
+          <div class="flex-column ml-2">
+            <v-ons-button
+              @click="endViewingStream"
+              class="btn btn--small btn--opacity-soft btn--square mb-2"
             >
-              <v-ons-button
-                class="btn btn--square  btn--opacity-soft btn--small mb-2"
+              <base-icon class="btn__icon" name="times"></base-icon>
+            </v-ons-button>
+            <v-ons-button
+              @click="dropVideoMenu"
+              class="btn btn--small  btn--opacity-soft btn--square mb-2"
+            >
+              <base-icon class="btn__icon" name="menu-dots"></base-icon>
+            </v-ons-button>
+            <transition name="vide-menu">
+              <div
+                v-show="isVideoMenuDropped"
+                class="video__controls__menu flex-column"
               >
-                <base-icon class="btn__icon" name="volume-mute"></base-icon>
-              </v-ons-button>
-              <v-ons-button
-                @click="toggleFullScreen"
-                class="btn btn--square  btn--opacity-soft btn--small mb-2"
-              >
-                <base-icon class="btn__icon" name="expand"></base-icon>
-              </v-ons-button>
-              <v-ons-button
-                class="btn btn--square  btn--opacity-soft btn--small  mb-2"
-              >
-                <base-icon class="btn__icon" name="shopping-cart"></base-icon>
-              </v-ons-button>
-              <v-ons-button
-                @click="reportConfirm = true"
-                class="btn btn--square  btn--opacity-soft btn--small "
-              >
-                <base-icon class="btn__icon" name="flag"></base-icon>
-              </v-ons-button>
-            </div>
-          </transition>
+                <v-ons-button
+                  class="btn btn--square  btn--opacity-soft btn--small mb-2"
+                >
+                  <base-icon class="btn__icon" name="volume-mute"></base-icon>
+                </v-ons-button>
+                <v-ons-button
+                  @click="toggleFullScreen"
+                  class="btn btn--square  btn--opacity-soft btn--small mb-2"
+                >
+                  <base-icon class="btn__icon" name="expand"></base-icon>
+                </v-ons-button>
+                <v-ons-button
+                  class="btn btn--square  btn--opacity-soft btn--small  mb-2"
+                >
+                  <base-icon class="btn__icon" name="shopping-cart"></base-icon>
+                </v-ons-button>
+              </div>
+            </transition>
+          </div>
         </div>
       </div>
       <base-video ref="videoplayer" :options="videoOptions"></base-video>

@@ -219,11 +219,13 @@ export default {
     });
     this.player.on("timeupdate", () => {
       function timeToString(totalSecs) {
+        const hours = Math.floor(totalSecs / 3600);
         const minutes = Math.floor((totalSecs % 3600) / 60);
         const seconds = Math.floor(totalSecs % 60);
+        const formattedHours = hours.toString().padStart(2, "0");
         const formattedMinutes = minutes.toString().padStart(2, "0");
         const formattedSeconds = seconds.toString().padStart(2, "0");
-        return `${formattedMinutes}:${formattedSeconds}`;
+        return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
       }
       this.currentTime = timeToString(this.player.currentTime());
     });
