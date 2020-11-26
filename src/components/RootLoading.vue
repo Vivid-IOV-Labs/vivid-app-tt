@@ -3,12 +3,12 @@
     <div class="logo-page">
       <img class="logo-page__img" src="@/assets/img/logopeerkat.png" />
       <h1 class="logo-page__title">PEERKAT</h1>
-       <v-ons-button
-            @click.prevent="tipStreamer()"
-            class="btn--default  btn--request btn--fake.btn--request"
-          >
-            Tip
-          </v-ons-button>
+      <v-ons-button
+        @click.prevent="tipStreamer()"
+        class="btn--default btn--request btn--fake.btn--request"
+      >
+        Tip
+      </v-ons-button>
     </div>
   </v-ons-page>
 </template>
@@ -24,33 +24,24 @@
 //   });
 // };
 
-import {mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 import { address, ABI } from "@/util/constants/tippingContract";
-
 
 export default {
   name: "RootLoading",
-  ...mapGetters({
-      _getStreamerWalletAddress: "getStreamerWalletAddress"
-    }),
+  ...mapGetters({ _getStreamerWalletAddress: "getStreamerWalletAddress" }),
   async beforeCreate() {
     this.$store.dispatch("registerWeb3");
   },
-  async mounted() {
-    // await delay(2000);
-    // this.$emit("push-page", ViewStream);
-  },
   methods: {
-     async tipStreamer() {
+    async tipStreamer() {
       let amount = 1;
-
-      // var web3Instance = new Web3(window.web3.currentProvider);
 
       let tippingContract = await window.web3.eth.contract(ABI);
       let tippingContractInstance = await tippingContract.at(address);
 
       await tippingContractInstance.tip(
-      "0x6537da7F34d3454fce2bD9534491935687014bBd",
+        "0x6537da7F34d3454fce2bD9534491935687014bBd",
         {
           gas: 300000,
           gasPrice: "0x14f46b0400",
@@ -60,12 +51,11 @@ export default {
         err => {
           if (err) {
             console.log(err);
-          } 
+          }
         }
       );
     }
-  },
- 
+  }
 };
 </script>
 <style>
