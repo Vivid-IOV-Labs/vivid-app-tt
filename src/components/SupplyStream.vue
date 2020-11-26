@@ -11,7 +11,7 @@
           class="btn btn--small btn--opacity-soft ml-auto  flex-center-xy"
         >
           <base-icon class="btn__icon" name="clock"></base-icon>
-          <span class="ml-2">{{ currentTime }}</span>
+          <time class="ml-2">{{ currentTime }}</time>
         </v-ons-button>
       </div>
       <base-video ref="videoplayer" :options="videoOptions"></base-video>
@@ -89,7 +89,7 @@ export default {
         fill: true,
         controls: false
       },
-      currentTime: 0,
+      currentTime: "00:00",
       stop_publish_button: {
         disabled: true
       },
@@ -218,7 +218,14 @@ export default {
       }
     });
     this.player.on("timeupdate", () => {
-      this.currentTime = this.player.currentTime().toFixed(0);
+      function timeToString(totalSecs) {
+        const minutes = Math.floor((totalSecs % 3600) / 60);
+        const seconds = Math.floor(totalSecs % 60);
+        const formattedMinutes = minutes.toString().padStart(2, "0");
+        const formattedSeconds = seconds.toString().padStart(2, "0");
+        return `${formattedMinutes}:${formattedSeconds}`;
+      }
+      this.currentTime = timeToString(this.player.currentTime());
     });
   }
 };
