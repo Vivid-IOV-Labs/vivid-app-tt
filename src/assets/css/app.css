@@ -1,6 +1,12 @@
 *{
   box-sizing: border-box;
 }
+@media all and (min-width: 414px) {
+  body {
+    height: 100%;
+    width: 414px !important;
+  }
+}
 /** Buttton **/
 button:disabled {
   opacity: 0.4;
