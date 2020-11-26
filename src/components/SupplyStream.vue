@@ -212,6 +212,7 @@ export default {
         alert(errorMessage);
       }
     });
+    this.player.currentTime(0);
     this.player.on("timeupdate", () => {
       function timeToString(totalSecs) {
         const hours = Math.floor(totalSecs / 3600);
