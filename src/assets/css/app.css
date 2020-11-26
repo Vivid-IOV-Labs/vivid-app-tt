@@ -1,11 +1,8 @@
 *{
   box-sizing: border-box;
 }
-@media all and (min-width: 414px) {
-  body {
-    height: 100%;
-    width: 414px !important;
-  }
+.constrain-width{
+  width: 414px !important;
 }
 /** Buttton **/
 button:disabled {
@@ -229,6 +226,9 @@ button:disabled {
 .stream__controls--top {
   top: 0;
   align-items: flex-start;
+}
+.stream-detail{
+  text-shadow: 0px 1px 1px  rgba(255, 255, 255, 0.8); 
 }
 .stream-detail__title{
   color:#fff;
