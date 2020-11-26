@@ -47,11 +47,6 @@ export default {
           gasPrice: "0x14f46b0400",
           value: window.web3.toWei(String(amount), "ether"),
           from: this.$store.state.web3.coinbase
-        },
-        err => {
-          if (err) {
-            console.log(err);
-          }
         }
       );
     }
