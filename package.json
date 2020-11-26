@@ -9,8 +9,10 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@metamask/legacy-web3": "^1.2.0",
     "axios": "^0.19.2",
     "core-js": "^3.7.0",
+    "ethers": "^5.0.23",
     "express": "^4.17.1",
     "leaflet": "^1.7.1",
     "leaflet-defaulticon-compatibility": "^0.1.1",

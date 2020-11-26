@@ -27,28 +27,29 @@
 import { mapGetters } from "vuex";
 import { address, ABI } from "@/util/constants/tippingContract";
 
+import { ethers } from "ethers";
+
 export default {
   name: "RootLoading",
   ...mapGetters({ _getStreamerWalletAddress: "getStreamerWalletAddress" }),
-  async beforeCreate() {
-    this.$store.dispatch("registerWeb3");
-  },
   methods: {
     async tipStreamer() {
-      let amount = 1;
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner()
 
-      let tippingContract = await window.web3.eth.contract(ABI);
-      let tippingContractInstance = await tippingContract.at(address);
+      const tippingContract = await new ethers.Contract(address, ABI, provider);
 
-      await tippingContractInstance.tip(
-        "0x6537da7F34d3454fce2bD9534491935687014bBd",
-        {
-          gas: 300000,
-          gasPrice: "0x14f46b0400",
-          value: window.web3.toWei(String(amount), "ether"),
-          from: this.$store.state.web3.coinbase
-        }
-      );
+      const tippingContractWithSigner = await tippingContract.connect(signer);
+
+      var overrideOptions = {
+        gasLimit: 250000,
+        gasPrice: 9000000000,
+        nonce: 0,
+        value: ethers.utils.parseEther('1.0')
+    };
+
+    const tx = await tippingContractWithSigner.tip("0x6537da7F34d3454fce2bD9534491935687014bBd", overrideOptions);
+  
     }
   }
 };
