@@ -291,7 +291,7 @@ export default {
         this.streamEnded = true;
       }
     });
-    this.player = window.videojs.getPlayer(this.$refs.videoplayer.$refs.video);
+    this.player = this.$refs.videoplayer.$refs.video;
 
     this.webRTCAdaptor = new WebRTCAdaptor({
       websocket_url: "wss://streams.vividiov.media:5443/WebRTCAppEE/websocket",

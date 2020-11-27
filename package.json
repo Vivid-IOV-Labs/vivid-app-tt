@@ -16,6 +16,7 @@
     "leaflet-geosearch": "^2.7.0",
     "onsenui": "^2.11.1",
     "open-location-code": "^1.0.3",
+    "plyr": "^3.6.3",
     "sails.io.js": "^1.2.1",
     "serve-static": "^1.14.1",
     "socket.io-client": "^2.3.1",

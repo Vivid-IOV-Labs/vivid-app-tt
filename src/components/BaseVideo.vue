@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import Plyr from "plyr";
 export default {
   name: "BsseVideo",
   props: {
@@ -32,7 +33,11 @@ export default {
     };
   },
   mounted() {
-    this.player = window.videojs(this.$refs.video, this.options);
+    this.player = new Plyr(this.$refs.video, {
+      controls: false,
+      autoplay: true,
+      muted: true
+    });
     this.player.on("pause", () => {
       this.$emit("pause");
       this.isPaused = true;
@@ -46,6 +51,20 @@ export default {
       if (!this.player.isFullscreen()) {
         this.player.play();
       }
+    });
+    this.player.on("timeupdate", () => {
+      function totalSecondsToHMS(totalSecs) {
+        const hours = Math.floor(totalSecs / 3600);
+        const minutes = Math.floor((totalSecs % 3600) / 60);
+        const seconds = Math.floor(totalSecs % 60);
+        const formattedHH = hours.toString().padStart(2, "0");
+        const formattedMM = minutes.toString().padStart(2, "0");
+        const formattedSS = seconds.toString().padStart(2, "0");
+
+        return `${formattedHH}:${formattedMM}:${formattedSS}`;
+      }
+      const currentTime = totalSecondsToHMS(this.player.currentTime);
+      this.$emit("timeupdate", currentTime);
     });
   },
   beforeDestroy() {
@@ -70,5 +89,15 @@ export default {
   object-fit: cover;
   min-height: 100%;
   height: 100%;
+}
+.plyr,
+.plyr__video-wrapper {
+  height: 100%;
+}
+.plyr video {
+  object-fit: cover;
+  min-height: 100%;
+  height: 100%;
+  width: 100%;
 }
 </style>

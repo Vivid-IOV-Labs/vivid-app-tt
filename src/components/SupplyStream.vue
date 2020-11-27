@@ -14,7 +14,11 @@
           <span class="ml-2">{{ currentTime }}</span>
         </v-ons-button>
       </div>
-      <base-video ref="videoplayer" :options="videoOptions"></base-video>
+      <base-video
+        ref="videoplayer"
+        @timeupdate="updateLiveTime"
+        :options="videoOptions"
+      ></base-video>
 
       <div class="stream__controls stream__controls--bottom">
         <v-ons-button
@@ -126,6 +130,9 @@ export default {
     },
     stopPublishing() {
       this.webRTCAdaptor.stop(this.streamId);
+    },
+    updateLiveTime(currentTime) {
+      this.currentTime = currentTime;
     }
   },
   mounted() {
@@ -133,8 +140,7 @@ export default {
       this.openLocationCode = data.openLocationCode;
       this.streamReported = true;
     });
-    this.player = window.videojs.getPlayer(this.$refs.videoplayer.$refs.video);
-
+    this.player = this.$refs.videoplayer.$refs.video;
     const pc_config = null;
 
     const sdpConstraints = {
@@ -151,7 +157,7 @@ export default {
       mediaConstraints: mediaConstraints,
       peerconnection_config: pc_config,
       sdp_constraints: sdpConstraints,
-      localVideoId: this.player.tech().el(),
+      localVideoId: this.player,
       debug: process.env.NODE_ENV != "production",
       callback: (info, description) => {
         if (info == "initialized") {
@@ -223,20 +229,6 @@ export default {
 
         alert(errorMessage);
       }
-    });
-    this.player.currentTime(0);
-    this.player.on("timeupdate", () => {
-      function totalSecondsToHMS(totalSecs) {
-        const hours = Math.floor(totalSecs / 3600);
-        const minutes = Math.floor((totalSecs % 3600) / 60);
-        const seconds = Math.floor(totalSecs % 60);
-        const formattedHH = hours.toString().padStart(2, "0");
-        const formattedMM = minutes.toString().padStart(2, "0");
-        const formattedSS = seconds.toString().padStart(2, "0");
-
-        return `${formattedHH}:${formattedMM}:${formattedSS}`;
-      }
-      this.currentTime = totalSecondsToHMS(this.player.currentTime());
     });
   }
 };
