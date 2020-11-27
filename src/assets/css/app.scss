@@ -230,15 +230,18 @@ button:disabled {
 }
 .stream-detail{
   text-shadow: 0px 1px 1px  rgba(255, 255, 255, 0.8); 
+  .stream-detail__title{
+    color:$white;
+    font-weight: bold;
+    margin: 0 0 0.2rem;
+  }
+  .stream-detail__hashtag{
+    color:$white;
+    font-style: italic;
+    margin: 0;
+  }
 }
-.stream-detail__title{
-  color:$white;
-  font-weight: bold;
-}
-.stream-detail__hashtag{
-  color:$white;
-  font-style: italic;
-}
+
 /** Onsen UI **/
 .toolbar__title {
   color: $white;

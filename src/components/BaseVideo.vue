@@ -2,7 +2,6 @@
   <div class="video__container">
     <video
       ref="video"
-      class="video-js video-js vjs-default-skin vjs-fill vjs-live"
       width="100%"
       height="100%"
       webkit-playsinline

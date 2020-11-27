@@ -215,10 +215,7 @@ export default {
       this.$emit("push-page", SupplyStream);
     },
     playVideo() {
-      this.player
-        .tech()
-        .el()
-        .play();
+      this.player.play();
     },
     startPlaying() {
       this.webRTCAdaptor.play(this.streamId);
@@ -298,7 +295,7 @@ export default {
       mediaConstraints: mediaConstraints,
       peerconnection_config: pc_config,
       sdp_constraints: sdpConstraints,
-      remoteVideoId: this.player.tech().el(),
+      remoteVideoId: this.player,
       isPlayMode: true,
       debug: process.env.NODE_ENV != "production",
       callback: (info, description) => {
