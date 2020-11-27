@@ -129,7 +129,7 @@ export default {
     }
   },
   mounted() {
-    io.socket.on("reportFlagRaisedAndLiveStreamRemoved", ({ data }) => {
+    io.socket.on("request-deleted-flag-reported", ({ data }) => {
       this.openLocationCode = data.openLocationCode;
       this.streamReported = true;
     });

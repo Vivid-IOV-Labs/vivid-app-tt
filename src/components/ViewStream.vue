@@ -281,12 +281,12 @@ export default {
     }
   },
   mounted() {
-    io.socket.on("reportFlagRaisedAndLiveStreamRemoved", ({ data }) => {
+    io.socket.on("request-deleted-flag-reported", ({ data }) => {
       if (data.openLocationCode == this.streamId) {
         this.streamReported = true;
       }
     });
-    io.socket.on("livestreamended", ({ data }) => {
+    io.socket.on("request-deleted", ({ data }) => {
       if (data.openLocationCode == this.streamId) {
         this.streamEnded = true;
       }

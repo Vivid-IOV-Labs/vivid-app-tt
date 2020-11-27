@@ -48,7 +48,7 @@
 </style>
 
 <script>
-import L from "leaflet";
+import { Icon, Marker, Circle, Map, TileLayer, LatLng } from "leaflet";
 import socketIOClient from "socket.io-client";
 import sailsIOClient from "sails.io.js";
 import createOpenLocationCode from "@/util/createOpenLocationCode.js";
@@ -61,33 +61,33 @@ import JoinDialog from "@/components/dialogs/JoinDialog.vue";
 const io = sailsIOClient(socketIOClient);
 io.sails.url = env.web_service_url;
 
-const markerUsers = L.icon({
+const markerUsers = new Icon({
   iconUrl: require("@/assets/markers/marker-users.svg"),
   iconSize: [55, 80],
   iconAnchor: [13, 63],
   className: "markerUsers",
   popupAnchor: [0, -60]
 });
-const markerNew = L.icon({
+const markerNew = new Icon({
   iconUrl: require("@/assets/markers/marker-new.svg"),
   iconSize: [55, 80],
   iconAnchor: [13, 63],
   className: "markerNew",
   popupAnchor: [0, -60]
 });
-const markerKfc = L.icon({
+const markerKfc = new Icon({
   iconUrl: require("@/assets/markers/marker-kfc.png"),
   iconAnchor: [13, 63],
   className: "markerNew",
   popupAnchor: [0, -60]
 });
-const markerCarabao = L.icon({
+const markerCarabao = new Icon({
   iconUrl: require("@/assets/markers/marker-carabao.png"),
   iconAnchor: [13, 63],
   className: "markerNew",
   popupAnchor: [0, -60]
 });
-const myProfileIcon = L.icon({
+const myProfileIcon = new Icon({
   iconUrl: require("@/assets/markers/marker-profile.svg"),
   iconSize: [38, 95],
   iconAnchor: [28, 40],
@@ -217,7 +217,7 @@ export default {
         var lat = markers[i].location.y;
         var lon = markers[i].location.x;
         const marker = markers[i];
-        const pin = L.marker(
+        const pin = new Marker(
           { lon, lat },
           {
             icon: marker.streamer.live ? markerUsers : markerNew
@@ -381,13 +381,13 @@ export default {
     },
     onLocationFound(e) {
       const radius = e.accuracy;
-      L.marker(e.latlng, {
+      new Marker(e.latlng, {
         icon: myProfileIcon
       })
         .addTo(this.map)
         .bindPopup("You are here")
         .openPopup();
-      L.circle(e.latlng, radius).addTo(this.map);
+      new Circle(e.latlng, radius).addTo(this.map);
     },
     onLocationError(e) {
       this.$ons.notification.alert(e.message);
@@ -395,10 +395,10 @@ export default {
       this.map.setView([51.520748, -0.08504], 15);
     },
     initMap() {
-      this.map = L.map("map").setView([51.520748, -0.08504], 15);
+      this.map = new Map("map").setView([51.520748, -0.08504], 15);
     },
     initLayers() {
-      this.tileLayer = L.tileLayer(
+      this.tileLayer = new TileLayer(
         "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWEwNnJpaSIsImEiOiJjazZkeTU2NnAxbWF4M2xxajN6NWIyb2l6In0.4iTjEpS8cIa_Um3zhE9keQ",
         {
           attribution: false,
@@ -416,7 +416,7 @@ export default {
       const {
         coords: { latitude: lat, longitude: lon }
       } = this.myPosition;
-      const myPosition = L.marker({ lon, lat });
+      const myPosition = new Marker({ lon, lat });
 
       const distanceInKm =
         pin
@@ -431,7 +431,7 @@ export default {
     this.$store.dispatch("registerWeb3");
   },
   async mounted() {
-    io.socket.on("requests", msg => {
+    io.socket.on("request-created", msg => {
       if (msg.data) {
         this.addMarkersLoop([msg.data]);
 
@@ -475,14 +475,14 @@ export default {
       }
     });
 
-    io.socket.get("/requests", async resData => {
+    io.socket.get("/request/list", async resData => {
       if (resData && resData.length) {
         this.joinMarkers = resData.filter(markers => markers.streamer.live);
         await this._setLocalCopyOfRequestPins(resData);
         this.addMarkersLoop(resData);
       }
     });
-    io.socket.on("reportFlagRaisedAndLiveStreamRemoved", resData => {
+    io.socket.on("request-deleted-flag-reported", resData => {
       this.map.whenReady(() => {
         this.$nextTick(() => {
           this.removePin(resData.data.openLocationCode);
@@ -534,7 +534,7 @@ export default {
 
     this.initLayers();
 
-    var london = new L.LatLng(51.5056, -0.1213);
+    var london = new LatLng(51.5056, -0.1213);
 
     this.map.setView(london, 13);
     var markers = [
@@ -549,7 +549,7 @@ export default {
       var lat = markers[i][1];
       var iconType = markers[i][3];
 
-      var marker = L.marker(
+      var marker = new Marker(
         { lon, lat },
         {
           icon:
