@@ -68,7 +68,7 @@ export default {
   },
   beforeDestroy() {
     if (this.player) {
-      this.player.dispose();
+      this.player.destroy();
     }
   }
 };
