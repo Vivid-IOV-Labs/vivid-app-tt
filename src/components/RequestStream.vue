@@ -478,6 +478,17 @@ export default {
               }
             }
           }
+          arrrayOfLayerIDsToRemove.forEach(id => {
+            this.map._layers[id].remove();
+          });
+          this.joinMarkers = this.joinMarkers.filter(
+            markers => markers.openLocationCode != resData.data.openLocationCode
+          );
+          let localCopyOfRequestPins = this._getLocalCopyOfRequestPins();
+          localCopyOfRequestPins = localCopyOfRequestPins.filter(
+            markers => markers.openLocationCode != resData.data.openLocationCode
+          );
+          this._setLocalCopyOfRequestPins(localCopyOfRequestPins);
         });
       });
     });
