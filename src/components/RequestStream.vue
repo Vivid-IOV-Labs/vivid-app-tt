@@ -57,7 +57,7 @@ import { mapMutations, mapActions, mapGetters } from "vuex";
 import RequestDialog from "@/components/dialogs/RequestDialog.vue";
 import GoLiveDialog from "@/components/dialogs/GoLiveDialog.vue";
 import JoinDialog from "@/components/dialogs/JoinDialog.vue";
-
+import devLog from "@/util/devlog.js";
 const io = sailsIOClient(socketIOClient);
 io.sails.url = env.web_service_url;
 
@@ -484,12 +484,20 @@ export default {
     });
     io.socket.get("request-updated", resData => {
       const allRequests = this._getLocalCopyOfRequestPins();
+      devLog("allRequests", allRequests);
       const updatedRequestIndex = allRequests.findIndex(
         pin => resData.openLocationCode == pin.openLocationCode
       );
+      devLog("updatedRequestIndex", updatedRequestIndex);
+
       allRequests[updatedRequestIndex] = resData;
       const updatedRequest = allRequests[updatedRequestIndex];
+      devLog("updatedRequest", updatedRequest);
+      devLog("allRequests", allRequests);
+
       const markerToUpdate = allPins[resData.openLocationCode];
+      devLog("markerToUpdate", markerToUpdate);
+
       markerToUpdate.setIcon(
         updatedRequest.streamer.live ? markerUsers : markerNew
       );
