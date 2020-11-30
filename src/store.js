@@ -30,6 +30,11 @@ export default new Vuex.Store({
     contractInstance: null
   },
   mutations: {
+    // setRequestPin(state, newPin) {
+    //  const pinToUpdate state.localCopyOfRequestPins.find(pin => {
+    //     return pin.openLocationCode == newPin.openLocationCode;
+    //   });
+    // },
     setLocalCopyOfRequestPins(state, n) {
       state.localCopyOfRequestPins = n;
     },

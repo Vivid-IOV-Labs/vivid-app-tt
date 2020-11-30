@@ -482,6 +482,19 @@ export default {
         this.addMarkersLoop(resData);
       }
     });
+    io.socket.get("request-updated", resData => {
+      const allRequests = this._getLocalCopyOfRequestPins();
+      const updatedRequestIndex = allRequests.findIndex(
+        pin => resData.openLocationCode == pin.openLocationCode
+      );
+      allRequests[updatedRequestIndex] = resData;
+      const updatedRequest = allRequests[updatedRequestIndex];
+      const markerToUpdate = allPins[resData.openLocationCode];
+      markerToUpdate.setIcon(
+        updatedRequest.streamer.live ? markerUsers : markerNew
+      );
+      this._setLocalCopyOfRequestPins(allRequests);
+    });
     io.socket.on("request-deleted-flag-reported", resData => {
       this.map.whenReady(() => {
         this.$nextTick(() => {
