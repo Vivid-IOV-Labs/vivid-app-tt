@@ -421,46 +421,21 @@ export default {
     this.$store.dispatch("registerWeb3");
   },
   async mounted() {
-    io.socket.on("request-created", msg => {
-      if (msg.data) {
-        this.addMarkersLoop([msg.data]);
+    io.socket.on("request-created", async ({ data }) => {
+      if (data) {
+        this.addMarkersLoop([data]);
 
         var localCopyOfRequestPins = this._getLocalCopyOfRequestPins();
+
         if (localCopyOfRequestPins) {
-          localCopyOfRequestPins.forEach((element, index) => {
-            if (element.openLocationCode === msg.data.openLocationCode) {
-              localCopyOfRequestPins[index] = Object.assign(
-                {},
-                localCopyOfRequestPins[index],
-                msg.data
-              );
-
-              if (msg.data.streamer.live == true) {
-                this.joinMarkers.push(localCopyOfRequestPins[index]);
-              }
-
-              this._setLocalCopyOfRequestPins(localCopyOfRequestPins);
-            }
-          });
+          localCopyOfRequestPins.push(data);
+          this._setLocalCopyOfRequestPins(localCopyOfRequestPins);
         } else {
-          this._setLocalCopyOfRequestPins([msg.data]);
-
-          if (msg.data.streamer.live == true) {
-            this.joinMarkers.push(msg.data);
-          }
+          this._setLocalCopyOfRequestPins([data]);
         }
 
-        if (msg.verb == "created") {
-          if (localCopyOfRequestPins) {
-            localCopyOfRequestPins.push(msg.data);
-            this._setLocalCopyOfRequestPins(localCopyOfRequestPins);
-          } else {
-            this._setLocalCopyOfRequestPins([msg.data]);
-          }
-
-          if (msg.data.streamer.live == true) {
-            this.joinMarkers.push(msg.data);
-          }
+        if (data.streamer.live == true) {
+          this.joinMarkers.push(data);
         }
       }
     });
