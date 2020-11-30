@@ -483,6 +483,8 @@ export default {
       }
     });
     io.socket.get("request-updated", resData => {
+      devLog("resData", resData);
+
       const allRequests = this._getLocalCopyOfRequestPins();
       devLog("allRequests", allRequests);
       const updatedRequestIndex = allRequests.findIndex(
