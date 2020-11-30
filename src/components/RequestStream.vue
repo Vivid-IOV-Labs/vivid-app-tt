@@ -478,7 +478,7 @@ export default {
         this.addMarkersLoop(resData);
       }
     });
-    io.socket.on("request-updated", ({ data }) => {
+    io.socket.on("request-updated", async ({ data }) => {
       devLog("data", data);
 
       const allRequests = this._getLocalCopyOfRequestPins();
@@ -489,59 +489,8 @@ export default {
       devLog("updatedRequestIndex", updatedRequestIndex);
 
       allRequests[updatedRequestIndex] = data;
-      const updatedRequest = allRequests[updatedRequestIndex];
-      devLog("updatedRequest", updatedRequest);
-      devLog("allRequests", allRequests);
-
-      const markerToUpdate = allPins[data.openLocationCode];
-      devLog("markerToUpdate", markerToUpdate);
-
-      markerToUpdate.setIcon(
-        updatedRequest.streamer.live ? markerUsers : markerNew
-      );
-      const isDisabled =
-        !updatedRequest.streamer.live && this.isDisabled(markerToUpdate);
-
-      markerToUpdate
-        .bindPopup(
-          updatedRequest.streamer.live
-            ? templateJoin(updatedRequest)
-            : templateGoLive(updatedRequest, isDisabled),
-          {
-            maxWidth: 1060
-          }
-        )
-        .on("popupopen", () => {
-          if (updatedRequest.streamer.live) {
-            document
-              .getElementById("button-join")
-              .addEventListener("click", () => {
-                this.fromJoin();
-              });
-          } else {
-            document
-              .getElementById("button-golive")
-              .addEventListener("click", () => {
-                if (isDisabled) {
-                  return;
-                }
-                this.fromSupply();
-              });
-          }
-        })
-        .on("click", e => {
-          const locationcode = createOpenLocationCode({
-            lon: e.latlng.lng,
-            lat: e.latlng.lat
-          });
-
-          const localPins = this._getLocalCopyOfRequestPins();
-          let obj = localPins.find(obj => {
-            return obj.openLocationCode === locationcode;
-          });
-          this._setSelectedPin(obj);
-        });
-      this._setLocalCopyOfRequestPins(allRequests);
+      await this._setLocalCopyOfRequestPins(allRequests);
+      this.addMarkersLoop(allRequests);
     });
     io.socket.on("request-deleted-flag-reported", resData => {
       this.map.whenReady(() => {
