@@ -273,9 +273,10 @@ export default {
 
       this.pushToViewStreamPage();
     },
-    fromJoin(marker) {
+    async fromJoin(marker) {
       this.map.closePopup();
-      const selectedPin = marker;
+      await this._setSelectedPin(marker);
+      const selectedPin = this._getSelectedPin();
       if (selectedPin) {
         this._setStreamerWalletAddress(selectedPin.streamer.walletAddress);
 
@@ -293,7 +294,8 @@ export default {
     },
     async fromSupply(marker) {
       this.map.closePopup();
-      let selectedPin = marker;
+      await this._setSelectedPin(marker);
+      const selectedPin = this._getSelectedPin();
       selectedPin.streamer.walletAddress = this._myWalletAddress();
 
       this._setSelectedPin(selectedPin);
