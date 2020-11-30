@@ -3,6 +3,7 @@ import "onsenui/css/onsenui-core.min.css";
 import "onsenui/css/onsen-css-components.min.css";
 
 import Vue from "vue";
+
 import VueOnsen from "vue-onsenui/esm";
 import VOnsToolbar from "vue-onsenui/esm/components/VOnsToolbar";
 import VOnsBottomToolbar from "vue-onsenui/esm/components/VOnsBottomToolbar";
@@ -11,7 +12,8 @@ import VOnsButton from "vue-onsenui/esm/components/VOnsButton";
 import VOnsBackButton from "vue-onsenui/esm/components/VOnsBackButton";
 import VOnsInput from "vue-onsenui/esm/components/VOnsInput";
 import VOnsSearchInput from "vue-onsenui/esm/components/VOnsSearchInput";
-import VOnsNavigator from "vue-onsenui/esm/components/VOnsNavigator";
+import VOnsSplitter from "vue-onsenui/esm/components/VOnsSplitter";
+import VOnsSplitterContent from "vue-onsenui/esm/components/VOnsSplitterContent";
 import VOnsPage from "vue-onsenui/esm/components/VOnsPage";
 import VOnsCarousel from "vue-onsenui/esm/components/VOnsCarousel";
 import VOnsCarouselItem from "vue-onsenui/esm/components/VOnsCarouselItem";
@@ -31,7 +33,8 @@ Vue.component(VOnsButton.name, VOnsButton);
 Vue.component(VOnsBackButton.name, VOnsBackButton);
 Vue.component(VOnsInput.name, VOnsInput);
 Vue.component(VOnsSearchInput.name, VOnsSearchInput);
-Vue.component(VOnsNavigator.name, VOnsNavigator);
+Vue.component(VOnsSplitter.name, VOnsSplitter);
+Vue.component(VOnsSplitterContent.name, VOnsSplitterContent);
 Vue.component(VOnsCarousel.name, VOnsCarousel);
 Vue.component(VOnsCarouselItem.name, VOnsCarouselItem);
 Vue.component(VOnsList.name, VOnsList);
@@ -45,11 +48,13 @@ import BaseIcon from "@/components/BaseIcon";
 Vue.component("BaseIcon", BaseIcon);
 //THIS IS TO IMPORT THE 'VUEX' STORE TO BE USED IN THE VUE APP.
 import store from "./store";
+import router from "./router";
 import App from "./App.vue";
 
 Vue.config.productionTip = false;
 
 new Vue({
   store,
+  router,
   render: h => h(App)
 }).$mount("#app");

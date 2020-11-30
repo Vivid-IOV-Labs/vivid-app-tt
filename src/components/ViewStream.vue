@@ -224,7 +224,7 @@ export default {
       this.webRTCAdaptor.stop();
     },
     endViewingStream() {
-      this.$emit("back-page");
+      this.$router.push({ path: "home" });
     },
     dropVideoMenu() {
       this.isVideoMenuDropped = !this.isVideoMenuDropped;

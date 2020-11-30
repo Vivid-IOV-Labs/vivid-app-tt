@@ -17,13 +17,12 @@ const delay = time => {
     }, time);
   });
 };
-import OnBoarding from "@/components/OnBoarding.vue";
 
 export default {
   name: "RootLoading",
   async mounted() {
     await delay(2000);
-    this.$emit("push-page", OnBoarding);
+    this.$router.push({ path: "onboarding" });
   }
 };
 </script>

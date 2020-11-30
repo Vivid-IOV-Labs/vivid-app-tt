@@ -56,7 +56,6 @@
 
 <script>
 import BaseVideo from "@/components/BaseVideo.vue";
-import Home from "@/components/Home.vue";
 
 import { WebRTCAdaptor } from "@/util/webrtc_adaptor.js";
 import socketIOClient from "socket.io-client";
@@ -122,7 +121,7 @@ export default {
       this.webRTCAdaptor.closeStream();
       this.webRTCAdaptor.closePeerConnection();
       this.webRTCAdaptor.closeWebSocket();
-      this.$emit("push-page", Home);
+      this.$router.push({ path: "home" });
     },
     startPublishing() {
       this.streamId = this.streamNameBox;

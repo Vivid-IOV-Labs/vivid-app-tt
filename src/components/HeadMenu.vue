@@ -91,7 +91,7 @@ export default {
   methods: {
     toOnboarding() {
       this.popoverVisible = false;
-      this.$emit("push-onboarding");
+      this.$router.push({ path: "onboarding" });
     },
     showPopover(event, direction, coverTarget = false) {
       this.popoverTarget = event;

@@ -224,7 +224,6 @@ export default {
           }
         );
         const isDisabled = !marker.streamer.live && this.isDisabled(pin);
-
         if (allPins[marker.openLocationCode]) {
           this.removePin(marker.openLocationCode);
         }
@@ -324,10 +323,10 @@ export default {
       this.isJoinDialog = true;
     },
     pushToViewStreamPage() {
-      this.$emit("push-page");
+      this.$router.push({ path: "viewstream" });
     },
     pushToSupplyStreamPage() {
-      this.$emit("push-supply");
+      this.$router.push({ path: "supplystream" });
     },
 
     geoSearchEvent_golive(_data) {

@@ -1,16 +1,17 @@
 <template>
   <div>
     <BaseIconSprite />
-    <v-ons-navigator
+    <!-- <v-ons-navigator
       swipeable
+      swipe-target-width="200px"
       :page-stack="pageStack"
-      @push-page="onPushPage"
-      @back-page="pageStack.pop()"
-      @reset-home-page="
-        pageStack.pop();
-        pageStack.push($event);
-      "
-    ></v-ons-navigator>
+      :pop-page="goBack"
+    ></v-ons-navigator> -->
+    <v-ons-splitter>
+      <v-ons-splitter-content>
+        <router-view></router-view>
+      </v-ons-splitter-content>
+    </v-ons-splitter>
   </div>
 </template>
 
@@ -24,9 +25,7 @@ body {
 </style>
 
 <script>
-import RootLoading from "@/components/RootLoading.vue";
 import BaseIconSprite from "@/components/BaseIconSprite.vue";
-
 export default {
   name: "main_page",
   components: {
@@ -34,27 +33,24 @@ export default {
   },
   data() {
     return {
-      pageStack: [RootLoading]
+      pageStack: []
     };
   },
   methods: {
-    onPushPage(event) {
-      const indexInPageStack = this.pageStack.findIndex(
-        page => page.name == event.name
-      );
-      if (indexInPageStack > -1) {
-        // this.pageStack.splice(
-        //   this.pageStack.length,
-        //   0,
-        //   this.pageStack.splice(indexInPageStack, 1)[0]
-        // );
-        //clear the stack and reload everytime the view
-        this.pageStack = [];
-        this.pageStack.push(event);
-      } else {
-        this.pageStack.push(event);
-      }
+    goBack() {
+      this.$router.push({
+        name: this.$route.matched[this.$route.matched.length - 2].name
+      });
     }
+  },
+  created() {
+    this.$router.push({
+      path: "/"
+    });
+    const mapRouteStack = route =>
+      (this.pageStack = route.matched.map(m => m.components.default));
+    mapRouteStack(this.$route);
+    this.$router.beforeEach((to, from, next) => mapRouteStack(to) && next());
   }
 };
 </script>
