@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import GeoSearchBar from "@/components/GeoSearchBar.vue";
 
 export default {
@@ -130,6 +130,9 @@ export default {
     ...mapGetters({
       _myWalletAddress: "myWalletAddress"
     }),
+    ...mapMutations({
+      _setSelectedPin: "setSelectedPin"
+    }),
     updateVisible(value) {
       this.$emit("input", value);
     },
@@ -145,6 +148,7 @@ export default {
     },
     onSelectAddress(address) {
       this.requestModel.location = address;
+      this._setSelectedPin(this.requestModel);
     }
   }
 };

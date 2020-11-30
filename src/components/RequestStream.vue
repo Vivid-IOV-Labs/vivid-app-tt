@@ -225,6 +225,10 @@ export default {
         );
         const isDisabled = !marker.streamer.live && this.isDisabled(pin);
 
+        if (allPins[marker.openLocationCode]) {
+          this.removePin(marker.openLocationCode);
+        }
+
         allPins[marker.openLocationCode] = pin;
         this.map.addLayer(pin);
 
