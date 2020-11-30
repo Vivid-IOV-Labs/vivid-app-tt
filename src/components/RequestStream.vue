@@ -246,7 +246,7 @@ export default {
               document
                 .getElementById("button-join")
                 .addEventListener("click", () => {
-                  this.fromJoin();
+                  this.fromJoin(marker);
                 });
             } else {
               document
@@ -255,21 +255,9 @@ export default {
                   if (isDisabled) {
                     return;
                   }
-                  this.fromSupply();
+                  this.fromSupply(marker);
                 });
             }
-          })
-          .on("click", e => {
-            const locationcode = createOpenLocationCode({
-              lon: e.latlng.lng,
-              lat: e.latlng.lat
-            });
-
-            const localPins = this._getLocalCopyOfRequestPins();
-            let obj = localPins.find(obj => {
-              return obj.openLocationCode === locationcode;
-            });
-            this._setSelectedPin(obj);
           });
         const opacity = isDisabled ? 0.6 : 1;
         pin.setOpacity(opacity);
@@ -285,9 +273,9 @@ export default {
 
       this.pushToViewStreamPage();
     },
-    fromJoin() {
+    fromJoin(marker) {
       this.map.closePopup();
-      const selectedPin = this._getSelectedPin();
+      const selectedPin = marker;
       if (selectedPin) {
         this._setStreamerWalletAddress(selectedPin.streamer.walletAddress);
 
@@ -303,9 +291,9 @@ export default {
 
       this.pushToSupplyStreamPage();
     },
-    async fromSupply() {
+    async fromSupply(marker) {
       this.map.closePopup();
-      let selectedPin = this._getSelectedPin();
+      let selectedPin = marker;
       selectedPin.streamer.walletAddress = this._myWalletAddress();
 
       this._setSelectedPin(selectedPin);
