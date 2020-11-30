@@ -225,10 +225,6 @@ export default {
         );
         const isDisabled = !marker.streamer.live && this.isDisabled(pin);
 
-        if (allPins[marker.openLocationCode]) {
-          this.removePin(marker.openLocationCode);
-        }
-
         allPins[marker.openLocationCode] = pin;
         this.map.addLayer(pin);
 
@@ -503,6 +499,48 @@ export default {
       markerToUpdate.setIcon(
         updatedRequest.streamer.live ? markerUsers : markerNew
       );
+      const isDisabled =
+        !updatedRequest.streamer.live && this.isDisabled(markerToUpdate);
+
+      markerToUpdate
+        .bindPopup(
+          updatedRequest.streamer.live
+            ? templateJoin(updatedRequest)
+            : templateGoLive(updatedRequest, isDisabled),
+          {
+            maxWidth: 1060
+          }
+        )
+        .on("popupopen", () => {
+          if (updatedRequest.streamer.live) {
+            document
+              .getElementById("button-join")
+              .addEventListener("click", () => {
+                this.fromJoin();
+              });
+          } else {
+            document
+              .getElementById("button-golive")
+              .addEventListener("click", () => {
+                if (isDisabled) {
+                  return;
+                }
+                this.fromSupply();
+              });
+          }
+        })
+        .on("click", e => {
+          const locationcode = createOpenLocationCode({
+            lon: e.latlng.lng,
+            lat: e.latlng.lat
+          });
+
+          const localPins = this._getLocalCopyOfRequestPins();
+          let obj = localPins.find(obj => {
+            return obj.openLocationCode === locationcode;
+          });
+          this._setSelectedPin(obj);
+        });
       this._setLocalCopyOfRequestPins(allRequests);
     });
     io.socket.on("request-deleted-flag-reported", resData => {
