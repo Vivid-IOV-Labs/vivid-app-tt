@@ -482,7 +482,7 @@ export default {
         this.addMarkersLoop(resData);
       }
     });
-    io.socket.get("request-updated", resData => {
+    io.socket.on("request-updated", resData => {
       devLog("resData", resData);
 
       const allRequests = this._getLocalCopyOfRequestPins();
@@ -525,7 +525,7 @@ export default {
         });
       });
     });
-    io.socket.on("livestreamended", resData => {
+    io.socket.on("request-deleted", resData => {
       if (resData.data) {
         let arrrayOfLayerIDsToRemove = [];
         for (const property in this.map._layers) {
