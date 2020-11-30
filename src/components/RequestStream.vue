@@ -482,22 +482,22 @@ export default {
         this.addMarkersLoop(resData);
       }
     });
-    io.socket.on("request-updated", resData => {
-      devLog("resData", resData);
+    io.socket.on("request-updated", ({ data }) => {
+      devLog("data", data);
 
       const allRequests = this._getLocalCopyOfRequestPins();
       devLog("allRequests", allRequests);
       const updatedRequestIndex = allRequests.findIndex(
-        pin => resData.openLocationCode == pin.openLocationCode
+        pin => data.openLocationCode == pin.openLocationCode
       );
       devLog("updatedRequestIndex", updatedRequestIndex);
 
-      allRequests[updatedRequestIndex] = resData;
+      allRequests[updatedRequestIndex] = data;
       const updatedRequest = allRequests[updatedRequestIndex];
       devLog("updatedRequest", updatedRequest);
       devLog("allRequests", allRequests);
 
-      const markerToUpdate = allPins[resData.openLocationCode];
+      const markerToUpdate = allPins[data.openLocationCode];
       devLog("markerToUpdate", markerToUpdate);
 
       markerToUpdate.setIcon(
