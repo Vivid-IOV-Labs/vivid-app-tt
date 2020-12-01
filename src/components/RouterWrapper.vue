@@ -16,9 +16,7 @@ export default {
     };
   },
   watch: {
-    $route(to, from) {
-      console.log("to", to);
-      console.log("from", from);
+    $route(to) {
       const { 0: nextPage } = to.matched.map(m => m.components.default);
       const indexInPageStack = this.pageStack.findIndex(
         page => page.name == nextPage.name
