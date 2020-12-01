@@ -21,7 +21,7 @@ const delay = time => {
 export default {
   name: "RootLoading",
   async mounted() {
-    await delay(2000);
+    await delay(3000);
     this.$router.push({ path: "onboarding" });
   }
 };
