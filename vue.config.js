@@ -1,7 +1,7 @@
 module.exports = {
-  chainWebpack: config => {
-    config.plugins.delete("prefetch");
-  },
+  // chainWebpack: config => {
+  //   config.plugins.delete("prefetch");
+  // },
   css: {
     loaderOptions: {
       sass: {
