@@ -138,7 +138,6 @@ import { mapMutations, mapGetters, mapActions } from "vuex";
 
 import { WebRTCAdaptor } from "@/util/webrtc_adaptor.js";
 
-import SupplyStream from "@/components/SupplyStream.vue";
 import socketIOClient from "socket.io-client";
 import sailsIOClient from "sails.io.js";
 
@@ -211,9 +210,6 @@ export default {
     ...mapActions({
       _addFlag: "addFlag"
     }),
-    pushToSupplyStreamPage() {
-      this.$emit("push-page", SupplyStream);
-    },
     playVideo() {
       this.player.play();
     },

@@ -3,14 +3,14 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 const RootLoading = () =>
-  import(/* webpackChunkName: "RootLoading" */ "@/components/RootLoading");
-const Home = () => import(/* webpackChunkName: "Home" */ "@/components/Home");
+  import(/* webpackChunkName: "RootLoading" */ "@/pages/RootLoading");
+const Home = () => import(/* webpackChunkName: "Home" */ "@/pages/Home");
 const OnBoarding = () =>
-  import(/* webpackChunkName: "OnBoarding" */ "@/components/OnBoarding");
+  import(/* webpackChunkName: "OnBoarding" */ "@/pages/OnBoarding");
 const ViewStream = () =>
-  import(/* webpackChunkName: "ViewStream" */ "@/components/ViewStream");
+  import(/* webpackChunkName: "ViewStream" */ "@/pages/ViewStream");
 const SupplyStream = () =>
-  import(/* webpackChunkName: "SupplyStream" */ "@/components/SupplyStream");
+  import(/* webpackChunkName: "SupplyStream" */ "@/pages/SupplyStream");
 
 const routes = [
   { name: "root", path: "/", component: RootLoading },
