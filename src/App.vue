@@ -1,17 +1,16 @@
 <template>
   <div>
     <BaseIconSprite />
-    <!-- <v-ons-navigator
+    <v-ons-navigator
       swipeable
-      swipe-target-width="200px"
       :page-stack="pageStack"
       :pop-page="goBack"
-    ></v-ons-navigator> -->
-    <v-ons-splitter>
+    ></v-ons-navigator>
+    <!-- <v-ons-splitter>
       <v-ons-splitter-content>
         <router-view></router-view>
       </v-ons-splitter-content>
-    </v-ons-splitter>
+    </v-ons-splitter> -->
   </div>
 </template>
 
@@ -26,6 +25,7 @@ body {
 
 <script>
 import BaseIconSprite from "@/components/BaseIconSprite.vue";
+import RootLoading from "@/components/RootLoading.vue";
 export default {
   name: "main_page",
   components: {
@@ -33,24 +33,52 @@ export default {
   },
   data() {
     return {
-      pageStack: []
+      pageStack: [RootLoading]
     };
+  },
+  watch: {
+    $route(to) {
+      const { 0: nextPage } = to.matched.map(m => m.components.default);
+      const indexInPageStack = this.pageStack.findIndex(
+        page => page.name == nextPage.name
+      );
+      if (indexInPageStack > -1) {
+        // this.pageStack.splice(
+        //   this.pageStack.length,
+        //   0,
+        //   this.pageStack.splice(indexInPageStack, 1)[0]
+        // );
+        //clear the stack and reload everytime the view
+        this.pageStack = [];
+        this.pageStack.push(nextPage);
+      } else {
+        this.pageStack.push(nextPage);
+      }
+    }
   },
   methods: {
     goBack() {
       this.$router.push({
         name: this.$route.matched[this.$route.matched.length - 2].name
       });
+    },
+    onPushPage(event) {
+      const indexInPageStack = this.pageStack.findIndex(
+        page => page.name == event.name
+      );
+      if (indexInPageStack > -1) {
+        // this.pageStack.splice(
+        //   this.pageStack.length,
+        //   0,
+        //   this.pageStack.splice(indexInPageStack, 1)[0]
+        // );
+        //clear the stack and reload everytime the view
+        this.pageStack = [];
+        this.pageStack.push(event);
+      } else {
+        this.pageStack.push(event);
+      }
     }
-  },
-  created() {
-    this.$router.push({
-      path: "/"
-    });
-    const mapRouteStack = route =>
-      (this.pageStack = route.matched.map(m => m.components.default));
-    mapRouteStack(this.$route);
-    this.$router.beforeEach((to, from, next) => mapRouteStack(to) && next());
   }
 };
 </script>
