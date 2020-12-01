@@ -22,7 +22,7 @@ export default {
   name: "RootLoading",
   async mounted() {
     await delay(4000);
-    this.$router.push({ path: "onboarding" });
+    this.$router.push({ path: "viewvideo" });
   }
 };
 </script>

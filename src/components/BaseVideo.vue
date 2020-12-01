@@ -1,17 +1,17 @@
 <template>
   <div class="video__container">
-    <video
-      ref="video"
-      width="100%"
-      height="100%"
-      webkit-playsinline
-      playsinline
-    ></video>
+    <video ref="video" controls crossorigin playsinline>
+      <source
+        src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
+        type="video/mp4"
+      />
+    </video>
   </div>
 </template>
 
 <script>
 import Plyr from "plyr";
+//import "plyr/dist/plyr.css";
 export default {
   name: "BsseVideo",
   props: {
@@ -19,10 +19,6 @@ export default {
       type: Object,
       default() {
         return {};
-      },
-      isPaused: {
-        type: Boolean,
-        default: false
       }
     }
   },
@@ -32,25 +28,33 @@ export default {
     };
   },
   mounted() {
-    this.player = new Plyr(this.$refs.video, {
-      controls: false,
-      autoplay: true,
-      muted: true
-    });
-    this.player.on("pause", () => {
-      this.$emit("pause");
-      this.isPaused = true;
-    });
-
-    this.player.on("play", () => {
-      this.$emit("play");
-      this.isPaused = false;
-    });
-    this.player.on("fullscreenchange", () => {
-      if (!this.player.isFullscreen()) {
-        this.player.play();
-      }
-    });
+    this.player = new Plyr(this.$refs.video, this.options);
+    // this.player.source = {
+    //   type: "video",
+    //   title: "Example title",
+    //   sources: [
+    //     {
+    //       src:
+    //         "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4",
+    //       type: "video/mp4",
+    //       size: 576
+    //     },
+    //     {
+    //       src:
+    //         "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4",
+    //       type: "video/mp4",
+    //       size: 720
+    //     },
+    //     {
+    //       src:
+    //         "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4",
+    //       type: "video/webm",
+    //       size: 1080
+    //     }
+    //   ],
+    //   poster:
+    //     "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
+    // };
     this.player.on("timeupdate", () => {
       function totalSecondsToHMS(totalSecs) {
         const hours = Math.floor(totalSecs / 3600);
@@ -84,11 +88,6 @@ export default {
   position: absolute;
   z-index: 9999;
 }
-.video__container .vjs-tech {
-  object-fit: cover;
-  min-height: 100%;
-  height: 100%;
-}
 .plyr,
 .plyr__video-wrapper {
   height: 100%;
@@ -98,5 +97,11 @@ export default {
   min-height: 100%;
   height: 100%;
   width: 100%;
+}
+.plyr--full-ui input[type="range"] {
+  color: $azure;
+}
+.plyr__control--overlaid {
+  background-color: $azure;
 }
 </style>
