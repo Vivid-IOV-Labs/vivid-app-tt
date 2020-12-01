@@ -37,9 +37,9 @@ export default {
       }
     }
   },
-  created() {
-    this.$router.push({ path: "/" });
-  },
+  // created() {
+  //   this.$router.push({ path: "/" });
+  // },
   methods: {
     goBack() {
       this.$router.push({
