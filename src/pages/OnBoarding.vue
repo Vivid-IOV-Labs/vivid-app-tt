@@ -108,7 +108,7 @@ export default {
     async endOnBoarding() {
       try {
         const position = await this.getLocation();
-        await this.$store.dispatch("setPosition", position);
+        await this.$store.dispatch("requests/setPosition", position);
         this.pushToHome();
       } catch (err) {
         devLog(err);

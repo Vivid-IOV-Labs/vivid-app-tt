@@ -134,8 +134,8 @@ import BaseVideo from "@/components/BaseVideo.vue";
 import Web3 from "web3";
 import { address, ABI } from "@/util/constants/tippingContract";
 
-import { mapMutations, mapGetters, mapActions } from "vuex";
-
+import { createNamespacedHelpers } from "vuex";
+const { mapGetters, mapActions } = createNamespacedHelpers("requests");
 import { WebRTCAdaptor } from "@/util/webrtc_adaptor.js";
 
 import socketIOClient from "socket.io-client";
@@ -188,10 +188,10 @@ export default {
   },
   computed: {
     details() {
-      return this._getSelectedPin().mapPin.details;
+      return this.getSelectedPin().mapPin.details;
     },
     hashtags() {
-      return this._getSelectedPin()
+      return this.getSelectedPin()
         .mapPin.twitterHashTags.reduce((acc, tag) => {
           acc += ` #${tag},`;
           return acc;
@@ -200,16 +200,8 @@ export default {
     }
   },
   methods: {
-    ...mapMutations({
-      _setStreamerWalletAddress: "setStreamerWalletAddress"
-    }),
-    ...mapGetters({
-      _getSelectedPin: "getSelectedPin",
-      _myWalletAddress: "myWalletAddress"
-    }),
-    ...mapActions({
-      _addFlag: "addFlag"
-    }),
+    ...mapGetters(["getSelectedPin", "myWalletAddress"]),
+    ...mapActions(["addFlag"]),
     playVideo() {
       this.player.play();
     },
@@ -227,10 +219,10 @@ export default {
     },
     async reportUser() {
       const body = {
-        walletAddress: this._myWalletAddress(),
+        walletAddress: this.myWalletAddress(),
         openLocationCode: this.streamId
       };
-      await this._addFlag(body);
+      await this.addFlag(body);
       this.reportConfirm = false;
       this.endViewingStream();
     },

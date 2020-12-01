@@ -107,7 +107,7 @@ export default {
       stop_publish_button: {
         disabled: true
       },
-      streamNameBox: this.$store.state.selectedPin.openLocationCode,
+      streamNameBox: this.$store.state.requests.selectedPin.openLocationCode,
       streamId: "",
       webRTCAdaptor: "",
       streamReported: false,
