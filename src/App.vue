@@ -6,11 +6,6 @@
       :page-stack="pageStack"
       :pop-page="goBack"
     ></v-ons-navigator>
-    <!-- <v-ons-splitter>
-      <v-ons-splitter-content>
-        <router-view></router-view>
-      </v-ons-splitter-content>
-    </v-ons-splitter> -->
   </div>
 </template>
 
@@ -64,23 +59,6 @@ export default {
       this.$router.push({
         name: this.$route.matched[this.$route.matched.length - 2].name
       });
-    },
-    onPushPage(event) {
-      const indexInPageStack = this.pageStack.findIndex(
-        page => page.name == event.name
-      );
-      if (indexInPageStack > -1) {
-        // this.pageStack.splice(
-        //   this.pageStack.length,
-        //   0,
-        //   this.pageStack.splice(indexInPageStack, 1)[0]
-        // );
-        //clear the stack and reload everytime the view
-        this.pageStack = [];
-        this.pageStack.push(event);
-      } else {
-        this.pageStack.push(event);
-      }
     }
   }
 };
