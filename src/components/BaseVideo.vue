@@ -1,11 +1,6 @@
 <template>
   <div class="video__container">
-    <video ref="video" controls crossorigin playsinline>
-      <source
-        src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
-        type="video/mp4"
-      />
-    </video>
+    <video ref="video" crossorigin playsinline></video>
   </div>
 </template>
 
@@ -29,32 +24,32 @@ export default {
   },
   mounted() {
     this.player = new Plyr(this.$refs.video, this.options);
-    // this.player.source = {
-    //   type: "video",
-    //   title: "Example title",
-    //   sources: [
-    //     {
-    //       src:
-    //         "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4",
-    //       type: "video/mp4",
-    //       size: 576
-    //     },
-    //     {
-    //       src:
-    //         "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4",
-    //       type: "video/mp4",
-    //       size: 720
-    //     },
-    //     {
-    //       src:
-    //         "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4",
-    //       type: "video/webm",
-    //       size: 1080
-    //     }
-    //   ],
-    //   poster:
-    //     "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
-    // };
+    this.player.source = {
+      type: "video",
+      title: "Example title",
+      sources: [
+        {
+          src:
+            "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4",
+          type: "video/mp4",
+          size: 576
+        },
+        {
+          src:
+            "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4",
+          type: "video/mp4",
+          size: 720
+        },
+        {
+          src:
+            "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4",
+          type: "video/webm",
+          size: 1080
+        }
+      ],
+      poster:
+        "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
+    };
     this.player.on("timeupdate", () => {
       function totalSecondsToHMS(totalSecs) {
         const hours = Math.floor(totalSecs / 3600);
@@ -92,10 +87,12 @@ export default {
     height: 100%;
   }
   .plyr video {
-    object-fit: cover;
     min-height: 100%;
     height: 100%;
     width: 100%;
+  }
+  .video--cover {
+    object-fit: cover;
   }
   .plyr--full-ui input[type="range"] {
     color: $azure;

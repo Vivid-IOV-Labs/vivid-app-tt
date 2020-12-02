@@ -50,6 +50,9 @@ button:disabled {
   color: $white;
   background: rgba(0, 0, 0, 0.4);
 }
+.btn--opacity-soft:hover {
+  background: $azure;
+}
 .btn--opacity-dark {
   color: $white;
   background: rgba(0, 0, 0, 0.8);
