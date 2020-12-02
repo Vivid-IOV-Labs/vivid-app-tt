@@ -91,8 +91,10 @@ export default {
           "current-time",
           "mute",
           "volume",
+          "settings",
           "fullscreen"
-        ]
+        ],
+        settings: ["quality", "speed", "loop"]
       },
       isVideoMenuDropped: false
     };
