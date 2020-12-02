@@ -32,11 +32,6 @@
                 class="video__controls__menu flex-column"
               >
                 <v-ons-button
-                  class="btn btn--square  btn--opacity-soft btn--small mb-2"
-                >
-                  <base-icon class="btn__icon" name="volume-mute"></base-icon>
-                </v-ons-button>
-                <v-ons-button
                   class="btn btn--square  btn--opacity-soft btn--small  mb-2"
                 >
                   <base-icon class="btn__icon" name="shopping-cart"></base-icon>
@@ -47,7 +42,10 @@
         </div>
       </div>
       <base-video ref="videoplayer" :options="videoOptions"></base-video>
-      <!-- <div class="stream__controls stream__controls--bottom">
+      <div
+        style="bottom:2rem"
+        class="stream__controls stream__controls--bottom"
+      >
         <div class="flex-column stream-detail">
           <h5 class="stream-detail__title">
             details
@@ -62,7 +60,7 @@
             <img src="@/assets/img/thundercore-logo.svg" />
           </a>
         </div>
-      </div> -->
+      </div>
     </div>
   </v-ons-page>
 </template>
@@ -86,15 +84,12 @@ export default {
       videoOptions: {
         controls: [
           "play-large",
-          "play",
           "progress",
           "current-time",
           "mute",
-          "volume",
-          "settings",
-          "fullscreen"
+          "settings"
         ],
-        settings: ["quality", "speed", "loop"]
+        settings: ["speed", "loop"]
       },
       isVideoMenuDropped: false
     };

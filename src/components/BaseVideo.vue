@@ -1,6 +1,8 @@
 <template>
   <div class="video__container">
-    <video ref="video" crossorigin playsinline></video>
+    <video ref="video" crossorigin playsinline preload="auto">
+      <source src="@/assets/videos/santa5.mp4" type="video/mp4" />
+    </video>
   </div>
 </template>
 
@@ -27,26 +29,23 @@ export default {
     this.player.source = {
       type: "video",
       title: "Example title",
-      sources: [
-        {
-          src:
-            "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4",
-          type: "video/mp4",
-          size: 576
-        },
-        {
-          src:
-            "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4",
-          type: "video/mp4",
-          size: 720
-        },
-        {
-          src:
-            "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4",
-          type: "video/webm",
-          size: 1080
-        }
-      ],
+      // sources: [
+      //   {
+      //     src: "@/assets/videos/santa5.mp4"
+      //   }
+      // {
+      //   src:
+      //     "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4",
+      //   type: "video/mp4",
+      //   size: 720
+      // },
+      // {
+      //   src:
+      //     "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4",
+      //   type: "video/webm",
+      //   size: 1080
+      // }
+      // ],
       poster:
         "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
     };
@@ -77,19 +76,18 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
-  .video__controls {
-    padding: 1rem;
-    position: absolute;
-    z-index: 9999;
-  }
   .plyr,
   .plyr__video-wrapper {
     height: 100%;
   }
   .plyr video {
+    object-fit: cover;
     min-height: 100%;
     height: 100%;
     width: 100%;
+  }
+  .plyr__controls {
+    padding: 1rem;
   }
   .video--cover {
     object-fit: cover;
