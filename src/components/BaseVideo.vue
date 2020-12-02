@@ -11,7 +11,7 @@
 
 <script>
 import Plyr from "plyr";
-//import "plyr/dist/plyr.css";
+import "plyr/dist/plyr.css";
 export default {
   name: "BsseVideo",
   props: {
@@ -82,26 +82,33 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
-}
-.video__controls {
-  padding: 1rem;
-  position: absolute;
-  z-index: 9999;
-}
-.plyr,
-.plyr__video-wrapper {
-  height: 100%;
-}
-.plyr video {
-  object-fit: cover;
-  min-height: 100%;
-  height: 100%;
-  width: 100%;
-}
-.plyr--full-ui input[type="range"] {
-  color: $azure;
-}
-.plyr__control--overlaid {
-  background-color: $azure;
+  .video__controls {
+    padding: 1rem;
+    position: absolute;
+    z-index: 9999;
+  }
+  .plyr,
+  .plyr__video-wrapper {
+    height: 100%;
+  }
+  .plyr video {
+    object-fit: cover;
+    min-height: 100%;
+    height: 100%;
+    width: 100%;
+  }
+  .plyr--full-ui input[type="range"] {
+    color: $azure;
+  }
+  .plyr__control--overlaid {
+    background-color: $azure;
+  }
+  .plyr__control {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 0.4rem;
+  }
+  .plyr__control:hover {
+    background: $azure;
+  }
 }
 </style>

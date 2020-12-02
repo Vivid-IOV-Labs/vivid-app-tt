@@ -91,13 +91,8 @@ export default {
           "current-time",
           "mute",
           "volume",
-          "captions",
-          "settings",
-          "pip",
-          "airplay",
           "fullscreen"
-        ],
-        iconUrl: "@/assets/img/logopeerkat.png"
+        ]
       },
       isVideoMenuDropped: false
     };
