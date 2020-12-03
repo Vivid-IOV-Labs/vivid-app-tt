@@ -2,7 +2,7 @@
   <div class="video__container">
     <slot name="top"></slot>
 
-    <video ref="video" playsinline preload="auto">
+    <video ref="video" crossorigin playsinline preload="auto">
       <!-- <source src="@/assets/videos/santa5.mp4" type="video/mp4" /> -->
     </video>
     <slot name="bottom"></slot>
@@ -27,10 +27,10 @@ export default {
       player: null
     };
   },
-  mounted() {
+  async mounted() {
     this.player = new Plyr(this.$refs.video, this.options);
     const videoUrl =
-      "http://stream.vividiov.media:5080/WebRTCAppEE/streams/953594478786080819185945.mp4";
+      "https://streams.vividiov.media:5443/WebRTCAppEE/streams/953594478786080819185945.mp4";
 
     this.player.source = {
       type: "video",
