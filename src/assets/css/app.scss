@@ -218,7 +218,7 @@ button:disabled {
 .stream__controls {
   padding: 1rem;
   position: absolute;
-  z-index: 9999;
+  z-index: 100;
   width: 100%;
   display: flex;
   justify-content: space-between;

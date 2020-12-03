@@ -1,8 +1,11 @@
 <template>
   <div class="video__container">
+    <slot name="top"></slot>
+
     <video ref="video" crossorigin playsinline preload="auto">
-      <source src="@/assets/videos/santa5.mp4" type="video/mp4" />
+      <!-- <source src="@/assets/videos/santa5.mp4" type="video/mp4" /> -->
     </video>
+    <slot name="bottom"></slot>
   </div>
 </template>
 
@@ -26,29 +29,36 @@ export default {
   },
   mounted() {
     this.player = new Plyr(this.$refs.video, this.options);
+    const videoUrl =
+      "http://stream.vividiov.media:5080/WebRTCAppEE/streams/953594478786080819185945.mp4";
     this.player.source = {
       type: "video",
       title: "Example title",
-      // sources: [
-      //   {
-      //     src: "@/assets/videos/santa5.mp4"
-      //   }
-      // {
-      //   src:
-      //     "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4",
-      //   type: "video/mp4",
-      //   size: 720
-      // },
-      // {
-      //   src:
-      //     "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4",
-      //   type: "video/webm",
-      //   size: 1080
-      // }
-      // ],
-      poster:
-        "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
+      sources: [{ src: videoUrl, type: "video/mp4" }]
     };
+    // this.player.source = {
+    //   type: "video",
+    //   title: "Example title",
+    // sources: [
+    //   {
+    //     src: "@/assets/videos/santa5.mp4"
+    //   }
+    // {
+    //   src:
+    //     "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4",
+    //   type: "video/mp4",
+    //   size: 720
+    // },
+    // {
+    //   src:
+    //     "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4",
+    //   type: "video/webm",
+    //   size: 1080
+    // }
+    // ],
+    //   poster:
+    //     "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
+    // };
     this.player.on("timeupdate", () => {
       function totalSecondsToHMS(totalSecs) {
         const hours = Math.floor(totalSecs / 3600);
@@ -76,6 +86,9 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
+  .plyr__menu__container {
+    z-index: 1000;
+  }
   .plyr,
   .plyr__video-wrapper {
     height: 100%;
@@ -86,9 +99,11 @@ export default {
     height: 100%;
     width: 100%;
   }
-  .plyr__controls {
+  .plyr--video .plyr__controls {
     padding: 1rem;
+    z-index: 1003;
   }
+
   .video--cover {
     object-fit: cover;
   }

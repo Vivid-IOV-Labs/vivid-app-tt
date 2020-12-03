@@ -1,67 +1,75 @@
 <template>
   <v-ons-page id="viewStreamPage">
-    <div class="stream__container">
-      <div class="stream__controls stream__controls--top">
-        <v-ons-button class="btn btn--small btn--opacity-soft   flex-center-xy">
-          <base-icon class="btn__icon" name="user"></base-icon>
-          <span class="ml-2">101</span>
-        </v-ons-button>
-        <div class="ml-auto flex">
+    <base-video ref="videoplayer" :options="videoOptions">
+      <template v-slot:top>
+        <div class="stream__controls stream__controls--top">
           <v-ons-button
-            @click="reportConfirm = true"
-            class="btn btn--square  btn--opacity-soft btn--small "
+            class="btn btn--small btn--opacity-soft   flex-center-xy"
           >
-            <base-icon class="btn__icon" name="flag"></base-icon>
+            <base-icon class="btn__icon" name="user"></base-icon>
+            <span class="ml-2">101</span>
           </v-ons-button>
-          <div class="flex-column ml-2">
+          <div class="ml-auto flex">
             <v-ons-button
-              @click="endViewingVideo"
-              class="btn btn--small btn--opacity-soft btn--square mb-2"
+              @click="reportConfirm = true"
+              class="btn btn--square  btn--opacity-soft btn--small "
             >
-              <base-icon class="btn__icon" name="times"></base-icon>
+              <base-icon class="btn__icon" name="flag"></base-icon>
             </v-ons-button>
-            <v-ons-button
-              @click="dropVideoMenu"
-              class="btn btn--small  btn--opacity-soft btn--square mb-2"
-            >
-              <base-icon class="btn__icon" name="menu-dots"></base-icon>
-            </v-ons-button>
-            <transition name="vide-menu">
-              <div
-                v-show="isVideoMenuDropped"
-                class="video__controls__menu flex-column"
+            <div class="flex-column ml-2">
+              <v-ons-button
+                @click="endViewingVideo"
+                class="btn btn--small btn--opacity-soft btn--square mb-2"
               >
-                <v-ons-button
-                  class="btn btn--square  btn--opacity-soft btn--small  mb-2"
+                <base-icon class="btn__icon" name="times"></base-icon>
+              </v-ons-button>
+              <v-ons-button
+                @click="dropVideoMenu"
+                class="btn btn--small  btn--opacity-soft btn--square mb-2"
+              >
+                <base-icon class="btn__icon" name="menu-dots"></base-icon>
+              </v-ons-button>
+              <transition name="vide-menu">
+                <div
+                  v-show="isVideoMenuDropped"
+                  class="video__controls__menu flex-column"
                 >
-                  <base-icon class="btn__icon" name="shopping-cart"></base-icon>
-                </v-ons-button>
-              </div>
-            </transition>
+                  <v-ons-button
+                    class="btn btn--square  btn--opacity-soft btn--small  mb-2"
+                  >
+                    <base-icon
+                      class="btn__icon"
+                      name="shopping-cart"
+                    ></base-icon>
+                  </v-ons-button>
+                </div>
+              </transition>
+            </div>
           </div>
         </div>
-      </div>
-      <base-video ref="videoplayer" :options="videoOptions"></base-video>
-      <div
-        style="bottom:2rem"
-        class="stream__controls stream__controls--bottom"
-      >
-        <div class="flex-column stream-detail">
-          <h5 class="stream-detail__title">
-            details
-          </h5>
-          <p class="stream-detail__hashtag">
-            hashtags
-          </p>
-        </div>
+      </template>
+      <template v-slot:bottom>
+        <div
+          style="bottom:2.2rem"
+          class="stream__controls stream__controls--bottom"
+        >
+          <div class="flex-column stream-detail">
+            <h5 class="stream-detail__title">
+              details
+            </h5>
+            <p class="stream-detail__hashtag">
+              hashtags
+            </p>
+          </div>
 
-        <div class=" ml-auto flex-column ">
-          <a @click.prevent="tipStreamer()" class="btn-tip mb-2">
-            <img src="@/assets/img/thundercore-logo.svg" />
-          </a>
+          <div class=" ml-auto flex-column ">
+            <a @click.prevent="tipStreamer()" class="btn-tip mb-2">
+              <img src="@/assets/img/thundercore-logo.svg" />
+            </a>
+          </div>
         </div>
-      </div>
-    </div>
+      </template>
+    </base-video>
   </v-ons-page>
 </template>
 <script>
@@ -72,7 +80,6 @@ import { address, ABI } from "@/util/constants/tippingContract";
 import { createNamespacedHelpers } from "vuex";
 const { mapGetters } = createNamespacedHelpers("requests");
 import devLog from "@/util/devlog.js";
-
 export default {
   name: "ViewVideo",
   components: {
@@ -139,10 +146,19 @@ export default {
           }
         }
       );
-    },
-    mounted() {
-      this.player = this.$refs.videoplayer.$refs.video;
     }
+  },
+  // beforeRouteEnter(next) {
+  //   debugger;
+  //   next();
+  // },
+  // beforeRouteUpdate() {
+  //   debugger;
+  // },
+  async mounted() {
+    this.player = this.$refs.videoplayer.$refs.video;
+
+    console.log(this.player);
   }
 };
 </script>
