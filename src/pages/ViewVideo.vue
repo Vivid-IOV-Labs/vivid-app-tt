@@ -77,7 +77,7 @@
       :visible.sync="isPopoverVisible"
       :target="popoverTarget"
     >
-      <h6 class="text-center">Click here to tip 1TT</h6>
+      <p class="bold text-center">Click here to tip 1TT</p>
     </v-ons-popover>
   </v-ons-page>
 </template>
@@ -166,7 +166,7 @@ export default {
     this.$nextTick(() => {
       this.isPopoverVisible = true;
     });
-    await delay(8000);
+    await delay(10000);
     this.isPopoverVisible = false;
   }
 };
