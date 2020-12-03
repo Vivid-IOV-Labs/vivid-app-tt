@@ -8,16 +8,7 @@
 </template>
 
 <script>
-const delay = time => {
-  let timer;
-  clearTimeout(timer);
-  return new Promise(resolve => {
-    timer = setTimeout(() => {
-      resolve(true);
-    }, time);
-  });
-};
-
+import delay from "@/util/delay.js";
 export default {
   name: "RootLoading",
   async mounted() {

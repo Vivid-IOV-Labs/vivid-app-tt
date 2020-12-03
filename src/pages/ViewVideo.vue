@@ -63,13 +63,22 @@
           </div>
 
           <div class=" ml-auto flex-column ">
-            <a @click.prevent="tipStreamer()" class="btn-tip mb-2">
-              <img src="@/assets/img/thundercore-logo.svg" />
-            </a>
+            <div ref="tipbutton">
+              <a @click.prevent="showPopover" class="btn-tip mb-2">
+                <img src="@/assets/img/thundercore-logo.svg" />
+              </a>
+            </div>
           </div>
         </div>
       </template>
     </base-video>
+    <v-ons-popover
+      cancelable
+      :visible.sync="isPopoverVisible"
+      :target="popoverTarget"
+    >
+      <h6 class="text-center">Click here to tip 1TT</h6>
+    </v-ons-popover>
   </v-ons-page>
 </template>
 <script>
@@ -80,6 +89,7 @@ import { address, ABI } from "@/util/constants/tippingContract";
 import { createNamespacedHelpers } from "vuex";
 const { mapGetters } = createNamespacedHelpers("requests");
 import devLog from "@/util/devlog.js";
+import delay from "@/util/delay.js";
 export default {
   name: "ViewVideo",
   components: {
@@ -98,7 +108,9 @@ export default {
         ],
         settings: ["speed", "loop"]
       },
-      isVideoMenuDropped: false
+      isVideoMenuDropped: false,
+      isPopoverVisible: false,
+      popoverTarget: null
     };
   },
   methods: {
@@ -147,6 +159,15 @@ export default {
         }
       );
     }
+  },
+  async mounted() {
+    this.popoverTarget = this.$refs.tipbutton;
+    await delay(2000);
+    this.$nextTick(() => {
+      this.isPopoverVisible = true;
+    });
+    await delay(6000);
+    this.isPopoverVisible = false;
   }
 };
 </script>
