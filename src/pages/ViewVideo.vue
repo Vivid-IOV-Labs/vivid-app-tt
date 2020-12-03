@@ -161,11 +161,11 @@ export default {
     await delay(1200);
     this.$nextTick(() => {
       this.isPopoverVisible = true;
-      document
-        .querySelector(".popover__content")
-        .addEventListener("click", () => {
-          this.isPopoverVisible = false;
-        });
+
+      document.querySelector(".popover-mask").style.display = "none";
+      document.querySelector(".popover").addEventListener("click", () => {
+        this.isPopoverVisible = false;
+      });
     });
     await delay(900000);
     this.isPopoverVisible = false;
