@@ -2,7 +2,7 @@
   <div class="video__container">
     <slot name="top"></slot>
 
-    <video ref="video" crossorigin playsinline preload="auto">
+    <video ref="video" playsinline preload="auto">
       <!-- <source src="@/assets/videos/santa5.mp4" type="video/mp4" /> -->
     </video>
     <slot name="bottom"></slot>
