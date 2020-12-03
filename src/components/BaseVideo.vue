@@ -30,7 +30,7 @@ export default {
   mounted() {
     this.player = new Plyr(this.$refs.video, this.options);
     const videoUrl =
-      "http://stream.vividiov.media:5080/WebRTCAppEE/streams/953594478786080819185945.mp4";
+      "https://stream.vividiov.media:5080/WebRTCAppEE/streams/953594478786080819185945.mp4";
     this.player.source = {
       type: "video",
       title: "Example title",
