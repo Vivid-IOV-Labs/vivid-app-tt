@@ -72,11 +72,7 @@
         </div>
       </template>
     </base-video>
-    <v-ons-popover
-      cancelable
-      :visible.sync="isPopoverVisible"
-      :target="popoverTarget"
-    >
+    <v-ons-popover :visible.sync="isPopoverVisible" :target="popoverTarget">
       <p class="bold text-center">Click here to tip 1TT</p>
     </v-ons-popover>
   </v-ons-page>
@@ -165,8 +161,13 @@ export default {
     await delay(1200);
     this.$nextTick(() => {
       this.isPopoverVisible = true;
+      document
+        .querySelector(".popover__content")
+        .addEventListener("click", () => {
+          this.isPopoverVisible = false;
+        });
     });
-    await delay(10000);
+    await delay(900000);
     this.isPopoverVisible = false;
   }
 };
