@@ -30,7 +30,7 @@ export default {
   mounted() {
     this.player = new Plyr(this.$refs.video, this.options);
     const videoUrl =
-      "https://cors-anywhere.herokuapp.com/https://stream.vividiov.media:5443/WebRTCAppEE/streams/953594478786080819185945.mp4";
+      "https://cors-anywhere.herokuapp.com/http://stream.vividiov.media:5080/WebRTCAppEE/streams/953594478786080819185945.mp4";
     this.player.source = {
       type: "video",
       title: "Example title",
