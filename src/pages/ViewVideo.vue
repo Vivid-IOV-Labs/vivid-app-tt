@@ -147,18 +147,6 @@ export default {
         }
       );
     }
-  },
-  // beforeRouteEnter(next) {
-  //   debugger;
-  //   next();
-  // },
-  // beforeRouteUpdate() {
-  //   debugger;
-  // },
-  async mounted() {
-    this.player = this.$refs.videoplayer.$refs.video;
-
-    console.log(this.player);
   }
 };
 </script>
