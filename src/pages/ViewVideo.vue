@@ -162,11 +162,11 @@ export default {
   },
   async mounted() {
     this.popoverTarget = this.$refs.tipbutton;
-    await delay(2000);
+    await delay(1200);
     this.$nextTick(() => {
       this.isPopoverVisible = true;
     });
-    await delay(6000);
+    await delay(8000);
     this.isPopoverVisible = false;
   }
 };
