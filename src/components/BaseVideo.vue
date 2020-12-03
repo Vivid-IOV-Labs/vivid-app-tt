@@ -30,7 +30,7 @@ export default {
   mounted() {
     this.player = new Plyr(this.$refs.video, this.options);
     const videoUrl =
-      "https://stream.vividiov.media:5080/WebRTCAppEE/streams/953594478786080819185945.mp4";
+      "http://stream.vividiov.media:5080/WebRTCAppEE/streams/953594478786080819185945.mp4";
     this.player.source = {
       type: "video",
       title: "Example title",
@@ -86,6 +86,12 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
+  .plyr--video.plyr--menu-open + .stream__controls--bottom {
+    z-index: 2;
+  }
+  .plyr--video.plyr--menu-open {
+    z-index: 10;
+  }
   .plyr__menu__container {
     z-index: 1000;
   }
