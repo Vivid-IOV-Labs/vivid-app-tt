@@ -9,7 +9,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <title>
-    Tests
+    Peerkat.live Features Test
   </title>
   <meta name="description" content="Tests for ASM, WASM, HTTPS, WebGL, getUserMedia, and successful camera access">
 
@@ -21,21 +21,26 @@
 </style>
 <body>
   <div id="list-rendering">
-
-    Must
+    <h1>Peerkat.live Features Test</h1>
+    <h3>Must</h3>
     <ul>
       <li :class="{ supported: feat.supported, 'not-supported': !feat.supported }" v-for="feat in must">
         {{ feat.text }} <span v-if="feat.supported ">&#10003;</span> <span v-else>&times;</span>
       </li>
     </ul>
-    Nice To have
+    <h3>Nice To have</h3>
     <ul>
       <li :class="{ supported: feat.supported, 'not-supported': !feat.supported }" v-for="feat in nicetohave">
         {{ feat.text }} <span v-if="feat.supported ">&#10003;</span> <span v-else>&times;</span>
       </li>
     </ul>
     <hr>
-    <button v-on:click="goToHTTPS">Force https</button>
+    <div sltyle="display:flex">
+      <button v-on:click="goToHTTPS">Force https</button>
+      <button v-on:click="getGeolocation">GetPosition</button>
+
+    </div>
+    <hr>
 
   </div>
   <script src="./modernizr.js"></script>
@@ -57,6 +62,35 @@
     const testHTTPS = ()=> {
             return (location.protocol === 'https:') ? true : false;
         };
+        const captureAndInjectCameraFeed = (callback)=> {
+            var video = document.createElement('video');
+            video.width = 640;
+            video.height = 480;
+            video.setAttribute('autoplay', '');
+
+            var constraints = {
+                video: true,
+                audio: false
+            };
+
+            function handleSuccess(stream) {
+                window.stream = stream; // make stream available to browser console
+                video.srcObject = stream;
+                document.body.appendChild(video);
+            }
+
+            function handleError(error) {
+                console.log('navigator.getUserMedia error: ', error);
+            }
+
+            navigator.mediaDevices.getUserMedia(constraints).
+                then(handleSuccess).catch(handleError);
+        };
+        const getPosition = options => {
+  return new Promise((resolve, reject) =>
+    navigator.geolocation.getCurrentPosition(resolve, reject, options)
+  );
+};
     const ListRendering = {
       data() {
         return {
@@ -65,15 +99,15 @@
           { text: 'geolocation', supported: Modernizr.geolocation },
           { text: 'touchevents', supported: Modernizr.touchevents },
           { text: 'websockets', supported: Modernizr.websockets },
-          { text: 'devicemotion', supported: Modernizr.devicemotion },
-          { text: 'deviceorientation', supported: Modernizr.deviceorientation },
           { text: 'getusermedia', supported: Modernizr.getusermedia },
           { text: 'peerconnection', supported: Modernizr.peerconnection },
-          { text: 'facingMode', supported: testFacingMode() },
           ],
           nicetohave:[
-          { text: 'vibrate', supported: Modernizr.vibrate },
-          { text: 'notification', supported: Modernizr.notification },
+          { text: 'localstorage', supported: Modernizr.localstorage },
+          { text: 'datachannel', supported: Modernizr.datachannel },
+          { text: 'devicemotion', supported: Modernizr.devicemotion },
+          { text: 'deviceorientation', supported: Modernizr.deviceorientation },
+          { text: 'facingMode', supported: testFacingMode() },
           ]
         }
       },
@@ -81,8 +115,18 @@
         goToHTTPS() {
           debugger
             location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+        },
+        getGeolocation(){
+          if(Modernizr.geolocation ){
+            getPosition().then(console.log).catch(console.log);
+          }
         }
       },
+      mounted() {
+        this.$nextTick(function () {
+         captureAndInjectCameraFeed()
+        })
+      }
     }
 
     Vue.createApp(ListRendering).mount('#list-rendering')

@@ -1,44 +1,44 @@
 /*! modernizr 3.6.0 (Custom Build) | MIT *
- * https://modernizr.com/download/?-datachannel-devicemotion_deviceorientation-filereader-filesystem-fullscreen-geolocation-getusermedia-notification-peerconnection-touchevents-vibrate-webp-websockets-websocketsbinary-setclasses !*/
+ * https://modernizr.com/download/?-datachannel-devicemotion_deviceorientation-geolocation-getusermedia-localstorage-peerconnection-touchevents-websockets-setclasses !*/
 !(function(e, n, t) {
   function r(e, n) {
     return typeof e === n;
   }
-  function i() {
-    var e, n, t, i, o, a, s;
-    for (var l in w)
-      if (w.hasOwnProperty(l)) {
+  function o() {
+    var e, n, t, o, i, a, s;
+    for (var l in C)
+      if (C.hasOwnProperty(l)) {
         if (
           ((e = []),
-          (n = w[l]),
+          (n = C[l]),
           n.name &&
             (e.push(n.name.toLowerCase()),
             n.options && n.options.aliases && n.options.aliases.length))
         )
           for (t = 0; t < n.options.aliases.length; t++)
             e.push(n.options.aliases[t].toLowerCase());
-        for (i = r(n.fn, "function") ? n.fn() : n.fn, o = 0; o < e.length; o++)
-          (a = e[o]),
+        for (o = r(n.fn, "function") ? n.fn() : n.fn, i = 0; i < e.length; i++)
+          (a = e[i]),
             (s = a.split(".")),
             1 === s.length
-              ? (Modernizr[s[0]] = i)
+              ? (Modernizr[s[0]] = o)
               : (!Modernizr[s[0]] ||
                   Modernizr[s[0]] instanceof Boolean ||
                   (Modernizr[s[0]] = new Boolean(Modernizr[s[0]])),
-                (Modernizr[s[0]][s[1]] = i)),
-            y.push((i ? "" : "no-") + s.join("-"));
+                (Modernizr[s[0]][s[1]] = o)),
+            y.push((o ? "" : "no-") + s.join("-"));
       }
   }
-  function o(e) {
+  function i(e) {
     var n = x.className,
       t = Modernizr._config.classPrefix || "";
-    if ((B && (n = n.baseVal), Modernizr._config.enableJSClass)) {
+    if ((T && (n = n.baseVal), Modernizr._config.enableJSClass)) {
       var r = new RegExp("(^|\\s)" + t + "no-js(\\s|$)");
       n = n.replace(r, "$1" + t + "js$2");
     }
     Modernizr._config.enableClasses &&
       ((n += " " + t + e.join(" " + t)),
-      B ? (x.className.baseVal = n) : (x.className = n));
+      T ? (x.className.baseVal = n) : (x.className = n));
   }
   function a(e) {
     return e
@@ -47,170 +47,150 @@
       })
       .replace(/^-/, "");
   }
-  function s(e, n) {
-    if ("object" == typeof e) for (var t in e) _(e, t) && s(t, e[t]);
-    else {
-      e = e.toLowerCase();
-      var r = e.split("."),
-        i = Modernizr[r[0]];
-      if ((2 == r.length && (i = i[r[1]]), "undefined" != typeof i))
-        return Modernizr;
-      (n = "function" == typeof n ? n() : n),
-        1 == r.length
-          ? (Modernizr[r[0]] = n)
-          : (!Modernizr[r[0]] ||
-              Modernizr[r[0]] instanceof Boolean ||
-              (Modernizr[r[0]] = new Boolean(Modernizr[r[0]])),
-            (Modernizr[r[0]][r[1]] = n)),
-        o([(n && 0 != n ? "" : "no-") + r.join("-")]),
-        Modernizr._trigger(e, n);
-    }
-    return Modernizr;
-  }
-  function l() {
+  function s() {
     return "function" != typeof n.createElement
       ? n.createElement(arguments[0])
-      : B
+      : T
       ? n.createElementNS.call(n, "http://www.w3.org/2000/svg", arguments[0])
       : n.createElement.apply(n, arguments);
   }
-  function u() {
+  function l() {
     var e = n.body;
-    return e || ((e = l(B ? "svg" : "body")), (e.fake = !0)), e;
+    return e || ((e = s(T ? "svg" : "body")), (e.fake = !0)), e;
   }
-  function f(e, t, r, i) {
-    var o,
+  function u(e, t, r, o) {
+    var i,
       a,
-      s,
+      u,
       f,
       c = "modernizr",
-      A = l("div"),
-      d = u();
+      d = s("div"),
+      p = l();
     if (parseInt(r, 10))
       for (; r--; )
-        (s = l("div")), (s.id = i ? i[r] : c + (r + 1)), A.appendChild(s);
+        (u = s("div")), (u.id = o ? o[r] : c + (r + 1)), d.appendChild(u);
     return (
-      (o = l("style")),
-      (o.type = "text/css"),
-      (o.id = "s" + c),
-      (d.fake ? d : A).appendChild(o),
-      d.appendChild(A),
-      o.styleSheet
-        ? (o.styleSheet.cssText = e)
-        : o.appendChild(n.createTextNode(e)),
-      (A.id = c),
-      d.fake &&
-        ((d.style.background = ""),
-        (d.style.overflow = "hidden"),
+      (i = s("style")),
+      (i.type = "text/css"),
+      (i.id = "s" + c),
+      (p.fake ? p : d).appendChild(i),
+      p.appendChild(d),
+      i.styleSheet
+        ? (i.styleSheet.cssText = e)
+        : i.appendChild(n.createTextNode(e)),
+      (d.id = c),
+      p.fake &&
+        ((p.style.background = ""),
+        (p.style.overflow = "hidden"),
         (f = x.style.overflow),
         (x.style.overflow = "hidden"),
-        x.appendChild(d)),
-      (a = t(A, e)),
-      d.fake
-        ? (d.parentNode.removeChild(d), (x.style.overflow = f), x.offsetHeight)
-        : A.parentNode.removeChild(A),
+        x.appendChild(p)),
+      (a = t(d, e)),
+      p.fake
+        ? (p.parentNode.removeChild(p), (x.style.overflow = f), x.offsetHeight)
+        : d.parentNode.removeChild(d),
       !!a
     );
   }
-  function c(e, n) {
-    return !!~("" + e).indexOf(n);
-  }
-  function A(e, n) {
+  function f(e, n) {
     return function() {
       return e.apply(n, arguments);
     };
   }
-  function d(e, n, t) {
-    var i;
-    for (var o in e)
-      if (e[o] in n)
+  function c(e, n, t) {
+    var o;
+    for (var i in e)
+      if (e[i] in n)
         return t === !1
-          ? e[o]
-          : ((i = n[e[o]]), r(i, "function") ? A(i, t || n) : i);
+          ? e[i]
+          : ((o = n[e[i]]), r(o, "function") ? f(o, t || n) : o);
     return !1;
   }
-  function p(e) {
+  function d(e, n) {
+    return !!~("" + e).indexOf(n);
+  }
+  function p(n, t, r) {
+    var o;
+    if ("getComputedStyle" in e) {
+      o = getComputedStyle.call(e, n, t);
+      var i = e.console;
+      if (null !== o) r && (o = o.getPropertyValue(r));
+      else if (i) {
+        var a = i.error ? "error" : "log";
+        i[a].call(
+          i,
+          "getComputedStyle returning null, its possible modernizr test results are inaccurate"
+        );
+      }
+    } else o = !t && n.currentStyle && n.currentStyle[r];
+    return o;
+  }
+  function v(e) {
     return e
       .replace(/([A-Z])/g, function(e, n) {
         return "-" + n.toLowerCase();
       })
       .replace(/^ms-/, "-ms-");
   }
-  function v(n, t, r) {
-    var i;
-    if ("getComputedStyle" in e) {
-      i = getComputedStyle.call(e, n, t);
-      var o = e.console;
-      if (null !== i) r && (i = i.getPropertyValue(r));
-      else if (o) {
-        var a = o.error ? "error" : "log";
-        o[a].call(
-          o,
-          "getComputedStyle returning null, its possible modernizr test results are inaccurate"
-        );
-      }
-    } else i = !t && n.currentStyle && n.currentStyle[r];
-    return i;
-  }
   function m(n, r) {
-    var i = n.length;
+    var o = n.length;
     if ("CSS" in e && "supports" in e.CSS) {
-      for (; i--; ) if (e.CSS.supports(p(n[i]), r)) return !0;
+      for (; o--; ) if (e.CSS.supports(v(n[o]), r)) return !0;
       return !1;
     }
     if ("CSSSupportsRule" in e) {
-      for (var o = []; i--; ) o.push("(" + p(n[i]) + ":" + r + ")");
+      for (var i = []; o--; ) i.push("(" + v(n[o]) + ":" + r + ")");
       return (
-        (o = o.join(" or ")),
-        f(
-          "@supports (" + o + ") { #modernizr { position: absolute; } }",
+        (i = i.join(" or ")),
+        u(
+          "@supports (" + i + ") { #modernizr { position: absolute; } }",
           function(e) {
-            return "absolute" == v(e, null, "position");
+            return "absolute" == p(e, null, "position");
           }
         )
       );
     }
     return t;
   }
-  function g(e, n, i, o) {
-    function s() {
-      f && (delete P.style, delete P.modElem);
+  function g(e, n, o, i) {
+    function l() {
+      f && (delete L.style, delete L.modElem);
     }
-    if (((o = r(o, "undefined") ? !1 : o), !r(i, "undefined"))) {
-      var u = m(e, i);
+    if (((i = r(i, "undefined") ? !1 : i), !r(o, "undefined"))) {
+      var u = m(e, o);
       if (!r(u, "undefined")) return u;
     }
     for (
-      var f, A, d, p, v, g = ["modernizr", "tspan", "samp"];
-      !P.style && g.length;
+      var f, c, p, v, g, h = ["modernizr", "tspan", "samp"];
+      !L.style && h.length;
 
     )
-      (f = !0), (P.modElem = l(g.shift())), (P.style = P.modElem.style);
-    for (d = e.length, A = 0; d > A; A++)
+      (f = !0), (L.modElem = s(h.shift())), (L.style = L.modElem.style);
+    for (p = e.length, c = 0; p > c; c++)
       if (
-        ((p = e[A]),
-        (v = P.style[p]),
-        c(p, "-") && (p = a(p)),
-        P.style[p] !== t)
+        ((v = e[c]),
+        (g = L.style[v]),
+        d(v, "-") && (v = a(v)),
+        L.style[v] !== t)
       ) {
-        if (o || r(i, "undefined")) return s(), "pfx" == n ? p : !0;
+        if (i || r(o, "undefined")) return l(), "pfx" == n ? v : !0;
         try {
-          P.style[p] = i;
-        } catch (h) {}
-        if (P.style[p] != v) return s(), "pfx" == n ? p : !0;
+          L.style[v] = o;
+        } catch (y) {}
+        if (L.style[v] != g) return l(), "pfx" == n ? v : !0;
       }
-    return s(), !1;
+    return l(), !1;
   }
-  function h(e, n, t, i, o) {
+  function h(e, n, t, o, i) {
     var a = e.charAt(0).toUpperCase() + e.slice(1),
-      s = (e + " " + R.join(a + " ") + a).split(" ");
+      s = (e + " " + k.join(a + " ") + a).split(" ");
     return r(n, "string") || r(n, "undefined")
-      ? g(s, n, i, o)
-      : ((s = (e + " " + Q.join(a + " ") + a).split(" ")), d(s, n, t));
+      ? g(s, n, o, i)
+      : ((s = (e + " " + E.join(a + " ") + a).split(" ")), c(s, n, t));
   }
   var y = [],
-    w = [],
-    b = {
+    C = [],
+    S = {
       _version: "3.6.0",
       _config: {
         classPrefix: "",
@@ -226,153 +206,45 @@
         }, 0);
       },
       addTest: function(e, n, t) {
-        w.push({ name: e, fn: n, options: t });
+        C.push({ name: e, fn: n, options: t });
       },
       addAsyncTest: function(e) {
-        w.push({ name: null, fn: e });
+        C.push({ name: null, fn: e });
       }
     },
     Modernizr = function() {};
-  (Modernizr.prototype = b),
+  (Modernizr.prototype = S),
     (Modernizr = new Modernizr()),
-    Modernizr.addTest("geolocation", "geolocation" in navigator),
-    Modernizr.addTest("notification", function() {
-      if (!e.Notification || !e.Notification.requestPermission) return !1;
-      if ("granted" === e.Notification.permission) return !0;
-      try {
-        new e.Notification("");
-      } catch (n) {
-        if ("TypeError" === n.name) return !1;
-      }
-      return !0;
-    });
-  var C = !1;
+    Modernizr.addTest("geolocation", "geolocation" in navigator);
+  var w = !1;
   try {
-    C = "WebSocket" in e && 2 === e.WebSocket.CLOSING;
-  } catch (T) {}
-  Modernizr.addTest("websockets", C),
+    w = "WebSocket" in e && 2 === e.WebSocket.CLOSING;
+  } catch (_) {}
+  Modernizr.addTest("websockets", w),
     Modernizr.addTest("devicemotion", "DeviceMotionEvent" in e),
     Modernizr.addTest("deviceorientation", "DeviceOrientationEvent" in e),
-    Modernizr.addTest("filereader", !!(e.File && e.FileList && e.FileReader)),
+    Modernizr.addTest("localstorage", function() {
+      var e = "modernizr";
+      try {
+        return localStorage.setItem(e, e), localStorage.removeItem(e), !0;
+      } catch (n) {
+        return !1;
+      }
+    }),
     Modernizr.addTest(
       "getUserMedia",
       "mediaDevices" in navigator && "getUserMedia" in navigator.mediaDevices
-    ),
-    Modernizr.addTest("websocketsbinary", function() {
-      var n,
-        t = "https:" == location.protocol ? "wss" : "ws";
-      if ("WebSocket" in e) {
-        if ((n = "binaryType" in WebSocket.prototype)) return n;
-        try {
-          return !!new WebSocket(t + "://.").binaryType;
-        } catch (r) {}
-      }
-      return !1;
-    });
-  var S = b._config.usePrefixes
-    ? " -webkit- -moz- -o- -ms- ".split(" ")
-    : ["", ""];
-  b._prefixes = S;
-  var _,
-    x = n.documentElement,
-    B = "svg" === x.nodeName.toLowerCase();
-  !(function() {
-    var e = {}.hasOwnProperty;
-    _ =
-      r(e, "undefined") || r(e.call, "undefined")
-        ? function(e, n) {
-            return n in e && r(e.constructor.prototype[n], "undefined");
-          }
-        : function(n, t) {
-            return e.call(n, t);
-          };
-  })(),
-    (b._l = {}),
-    (b.on = function(e, n) {
-      this._l[e] || (this._l[e] = []),
-        this._l[e].push(n),
-        Modernizr.hasOwnProperty(e) &&
-          setTimeout(function() {
-            Modernizr._trigger(e, Modernizr[e]);
-          }, 0);
-    }),
-    (b._trigger = function(e, n) {
-      if (this._l[e]) {
-        var t = this._l[e];
-        setTimeout(function() {
-          var e, r;
-          for (e = 0; e < t.length; e++) (r = t[e])(n);
-        }, 0),
-          delete this._l[e];
-      }
-    }),
-    Modernizr._q.push(function() {
-      b.addTest = s;
-    }),
-    Modernizr.addAsyncTest(function() {
-      function e(e, n, t) {
-        function r(n) {
-          var r = n && "load" === n.type ? 1 == i.width : !1,
-            o = "webp" === e;
-          s(e, o && r ? new Boolean(r) : r), t && t(n);
-        }
-        var i = new Image();
-        (i.onerror = r), (i.onload = r), (i.src = n);
-      }
-      var n = [
-          {
-            uri:
-              "data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAwA0JaQAA3AA/vuUAAA=",
-            name: "webp"
-          },
-          {
-            uri:
-              "data:image/webp;base64,UklGRkoAAABXRUJQVlA4WAoAAAAQAAAAAAAAAAAAQUxQSAwAAAABBxAR/Q9ERP8DAABWUDggGAAAADABAJ0BKgEAAQADADQlpAADcAD++/1QAA==",
-            name: "webp.alpha"
-          },
-          {
-            uri:
-              "data:image/webp;base64,UklGRlIAAABXRUJQVlA4WAoAAAASAAAAAAAAAAAAQU5JTQYAAAD/////AABBTk1GJgAAAAAAAAAAAAAAAAAAAGQAAABWUDhMDQAAAC8AAAAQBxAREYiI/gcA",
-            name: "webp.animation"
-          },
-          {
-            uri:
-              "data:image/webp;base64,UklGRh4AAABXRUJQVlA4TBEAAAAvAAAAAAfQ//73v/+BiOh/AAA=",
-            name: "webp.lossless"
-          }
-        ],
-        t = n.shift();
-      e(t.name, t.uri, function(t) {
-        if (t && "load" === t.type)
-          for (var r = 0; r < n.length; r++) e(n[r].name, n[r].uri);
-      });
-    });
-  var k = "Moz O ms Webkit",
-    Q = b._config.usePrefixes ? k.toLowerCase().split(" ") : [];
-  b._domPrefixes = Q;
-  var R = b._config.usePrefixes ? k.split(" ") : [];
-  b._cssomPrefixes = R;
-  var U = function(n) {
-    var r,
-      i = S.length,
-      o = e.CSSRule;
-    if ("undefined" == typeof o) return t;
-    if (!n) return !1;
-    if (
-      ((n = n.replace(/^@/, "")),
-      (r = n.replace(/-/g, "_").toUpperCase() + "_RULE"),
-      r in o)
-    )
-      return "@" + n;
-    for (var a = 0; i > a; a++) {
-      var s = S[a],
-        l = s.toUpperCase() + "_" + r;
-      if (l in o) return "@-" + s.toLowerCase() + "-" + n;
-    }
-    return !1;
-  };
-  b.atRule = U;
-  var E = (b.testStyles = f);
+    );
+  var x = n.documentElement,
+    T = "svg" === x.nodeName.toLowerCase(),
+    b = S._config.usePrefixes
+      ? " -webkit- -moz- -o- -ms- ".split(" ")
+      : ["", ""];
+  S._prefixes = b;
+  var z = "Moz O ms Webkit",
+    E = S._config.usePrefixes ? z.toLowerCase().split(" ") : [];
+  S._domPrefixes = E;
+  var P = (S.testStyles = u);
   Modernizr.addTest("touchevents", function() {
     var t;
     if ("ontouchstart" in e || (e.DocumentTouch && n instanceof DocumentTouch))
@@ -380,53 +252,69 @@
     else {
       var r = [
         "@media (",
-        S.join("touch-enabled),("),
+        b.join("touch-enabled),("),
         "heartz",
         ")",
         "{#modernizr{top:9px;position:absolute}}"
       ].join("");
-      E(r, function(e) {
+      P(r, function(e) {
         t = 9 === e.offsetTop;
       });
     }
     return t;
   });
-  var D = { elem: l("modernizr") };
+  var k = S._config.usePrefixes ? z.split(" ") : [];
+  S._cssomPrefixes = k;
+  var N = function(n) {
+    var r,
+      o = b.length,
+      i = e.CSSRule;
+    if ("undefined" == typeof i) return t;
+    if (!n) return !1;
+    if (
+      ((n = n.replace(/^@/, "")),
+      (r = n.replace(/-/g, "_").toUpperCase() + "_RULE"),
+      r in i)
+    )
+      return "@" + n;
+    for (var a = 0; o > a; a++) {
+      var s = b[a],
+        l = s.toUpperCase() + "_" + r;
+      if (l in i) return "@-" + s.toLowerCase() + "-" + n;
+    }
+    return !1;
+  };
+  S.atRule = N;
+  var j = { elem: s("modernizr") };
   Modernizr._q.push(function() {
-    delete D.elem;
+    delete j.elem;
   });
-  var P = { style: D.elem.style };
+  var L = { style: j.elem.style };
   Modernizr._q.unshift(function() {
-    delete P.style;
+    delete L.style;
   }),
-    (b.testAllProps = h);
-  var N = (b.prefixed = function(e, n, t) {
+    (S.testAllProps = h);
+  var O = (S.prefixed = function(e, n, t) {
     return 0 === e.indexOf("@")
-      ? U(e)
+      ? N(e)
       : (-1 != e.indexOf("-") && (e = a(e)), n ? h(e, n, t) : h(e, "pfx"));
   });
-  Modernizr.addTest(
-    "fullscreen",
-    !(!N("exitFullscreen", n, !1) && !N("cancelFullScreen", n, !1))
-  ),
-    Modernizr.addTest("vibrate", !!N("vibrate", navigator)),
-    Modernizr.addTest("filesystem", !!N("requestFileSystem", e)),
-    Modernizr.addTest("peerconnection", !!N("RTCPeerConnection", e)),
+  Modernizr.addTest("peerconnection", !!O("RTCPeerConnection", e)),
     Modernizr.addTest("datachannel", function() {
       if (!Modernizr.peerconnection) return !1;
-      for (var n = 0, t = Q.length; t > n; n++) {
-        var r = e[Q[n] + "RTCPeerConnection"];
+      for (var n = 0, t = E.length; t > n; n++) {
+        var r = e[E[n] + "RTCPeerConnection"];
         if (r) {
-          var i = new r(null);
-          return "createDataChannel" in i;
+          var o = new r(null);
+          return "createDataChannel" in o;
         }
       }
       return !1;
     }),
-    i(),
-    o(y),
-    delete b.addTest,
-    delete b.addAsyncTest;
-  for (var z = 0; z < Modernizr._q.length; z++) Modernizr._q[z]();
+    o(),
+    i(y),
+    delete S.addTest,
+    delete S.addAsyncTest;
+  for (var R = 0; R < Modernizr._q.length; R++) Modernizr._q[R]();
   e.Modernizr = Modernizr;
 })(window, document);
