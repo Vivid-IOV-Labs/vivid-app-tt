@@ -15,10 +15,21 @@
 
 </head>
 <style>
-  ul{-webkit-column-count: 3;-moz-column-count: 3;column-count: 3;}
-  .supported{color: green;}
-  .not-supported{color: red;}
+  ul {
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-count: 3;
+  }
+
+  .supported {
+    color: green;
+  }
+
+  .not-supported {
+    color: red;
+  }
 </style>
+
 <body>
   <div id="list-rendering">
     <h1>Peerkat.live Features Test</h1>
@@ -46,85 +57,85 @@
   <script src="./modernizr.js"></script>
   <script src="https://unpkg.com/vue@next"></script>
   <script>
-    const testGetUserMedia = () =>{
-        return navigator && navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
+    const testGetUserMedia = () => {
+      return navigator && navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
     };
     const testWebSocket = () => {
-     return !!window.WebSocket
+      return !!window.WebSocket
     }
-    const testGeolocation = () =>{
-        return navigator && navigator.geolocation;
+    const testGeolocation = () => {
+      return navigator && navigator.geolocation;
     };
-    const testFacingMode = ()=> {
-      const {facingMode} = navigator.mediaDevices.getSupportedConstraints() 
+    const testFacingMode = () => {
+      const { facingMode } = navigator.mediaDevices.getSupportedConstraints()
       return facingMode
     }
-    const testHTTPS = ()=> {
-            return (location.protocol === 'https:') ? true : false;
-        };
-        const captureAndInjectCameraFeed = (callback)=> {
-            var video = document.createElement('video');
-            video.width = 640;
-            video.height = 480;
-            video.setAttribute('autoplay', '');
+    const testHTTPS = () => {
+      return (location.protocol === 'https:') ? true : false;
+    };
+    const captureAndInjectCameraFeed = (callback) => {
+      var video = document.createElement('video');
+      video.width = 640;
+      video.height = 480;
+      video.setAttribute('autoplay', '');
 
-            var constraints = {
-                video: true,
-                audio: false
-            };
+      var constraints = {
+        video: true,
+        audio: false
+      };
 
-            function handleSuccess(stream) {
-                window.stream = stream; // make stream available to browser console
-                video.srcObject = stream;
-                document.body.appendChild(video);
-            }
+      function handleSuccess(stream) {
+        window.stream = stream; // make stream available to browser console
+        video.srcObject = stream;
+        document.body.appendChild(video);
+      }
 
-            function handleError(error) {
-                console.log('navigator.getUserMedia error: ', error);
-            }
+      function handleError(error) {
+        console.log('navigator.getUserMedia error: ', error);
+      }
 
-            navigator.mediaDevices.getUserMedia(constraints).
-                then(handleSuccess).catch(handleError);
-        };
-        const getPosition = options => {
-  return new Promise((resolve, reject) =>
-    navigator.geolocation.getCurrentPosition(resolve, reject, options)
-  );
-};
+      navigator.mediaDevices.getUserMedia(constraints).
+        then(handleSuccess).catch(handleError);
+    };
+    const getPosition = options => {
+      return new Promise((resolve, reject) =>
+        navigator.geolocation.getCurrentPosition(resolve, reject, options)
+      );
+    };
     const ListRendering = {
       data() {
         return {
           must: [
-          { text: 'https', supported: testHTTPS()},
-          { text: 'geolocation', supported: Modernizr.geolocation },
-          { text: 'touchevents', supported: Modernizr.touchevents },
-          { text: 'websockets', supported: Modernizr.websockets },
-          { text: 'getusermedia', supported: Modernizr.getusermedia },
-          { text: 'peerconnection', supported: Modernizr.peerconnection },
+            { text: 'https', supported: testHTTPS() },
+            { text: 'geolocation', supported: Modernizr.geolocation },
+            { text: 'touchevents', supported: Modernizr.touchevents },
+            { text: 'websockets', supported: Modernizr.websockets },
+            { text: 'getusermedia', supported: Modernizr.getusermedia },
+            { text: 'peerconnection', supported: Modernizr.peerconnection },
           ],
-          nicetohave:[
-          { text: 'localstorage', supported: Modernizr.localstorage },
-          { text: 'datachannel', supported: Modernizr.datachannel },
-          { text: 'devicemotion', supported: Modernizr.devicemotion },
-          { text: 'deviceorientation', supported: Modernizr.deviceorientation },
-          { text: 'facingMode', supported: testFacingMode() },
+          nicetohave: [
+            { text: 'localstorage', supported: Modernizr.localstorage },
+            { text: 'datachannel', supported: Modernizr.datachannel },
+            { text: 'devicemotion', supported: Modernizr.devicemotion },
+            { text: 'deviceorientation', supported: Modernizr.deviceorientation },
+            { text: 'facingMode', supported: testFacingMode() },
           ]
         }
       },
       methods: {
         goToHTTPS() {
           debugger
-            location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+          location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
         },
-        getGeolocation(){
-          if(Modernizr.geolocation ){
+        getGeolocation() {
+          if (Modernizr.geolocation) {
             getPosition().then(console.log).catch(console.log);
           }
         }
       },
       mounted() {
         this.$nextTick(function () {
-         captureAndInjectCameraFeed()
+          captureAndInjectCameraFeed()
         })
       }
     }
