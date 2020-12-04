@@ -51,8 +51,8 @@
       <button v-on:click="captureAndInjectCameraFeed">GetPosition</button>
     </div>
     <hr>
-    <p class="error" v-if="geolocationErrors">GetGeolocation errors: {{geolocationErrors}</p>
-    <p class="error" v-if="userMediaErrors">GetUserMedia errors: {{userMediaErrors}</p>
+    <div class="error" v-if="geolocationErrors"><h5>GetGeolocation errors</h5>: <p>Not Alowed {{geolocationErrors}}</p> </div>
+    <div class="error" v-if="userMediaErrors"><h5>GetUserMedia errors</h5>: <p>Not Alowed {{{userMediaErrors}}</p> </div>
   </div>
   <script src="./modernizr.js"></script>
   <script src="https://unpkg.com/vue@next"></script>
@@ -112,7 +112,7 @@
             getPosition()
               .then(console.log)
               .catch((err) => {
-                this.geolocationErrors = err
+                this.geolocationErrors = JSON.stringify(err)
               })
           }
         },
@@ -132,7 +132,7 @@
           }
           navigator.mediaDevices.getUserMedia(constraints).
             then(handleSuccess).catch((err) => {
-              this.userMediaErrors = err
+              this.userMediaErrors =  JSON.stringify(err, null, 1)
             })
         }
       }
