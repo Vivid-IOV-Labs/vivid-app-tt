@@ -3,12 +3,21 @@
     <base-video ref="videoplayer" :options="videoOptions">
       <template v-slot:top>
         <div class="stream__controls stream__controls--top">
-          <v-ons-button
-            class="btn btn--small btn--opacity-soft   flex-center-xy"
-          >
-            <base-icon class="btn__icon" name="user"></base-icon>
-            <span class="ml-2">101</span>
-          </v-ons-button>
+          <div class="flex">
+            <v-ons-button
+              class="btn btn--small btn--opacity-soft flex-center-xy"
+            >
+              <base-icon class="btn__icon" name="user"></base-icon>
+              <span class="ml-2">101</span>
+            </v-ons-button>
+            <v-ons-button
+              class="btn btn--small btn--opacity-soft flex-center-xy ml-2"
+            >
+              <base-icon class="btn__icon" name="thundercore"></base-icon>
+              <span class="ml-2">101</span>
+            </v-ons-button>
+          </div>
+
           <div class="ml-auto flex">
             <v-ons-button
               @click="reportConfirm = true"
