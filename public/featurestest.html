@@ -45,6 +45,16 @@
       </li>
     </ul>
     <hr>
+    <div v-if="allDevices.length">
+      <h4>Get Media Devices</h4>
+      <ul>
+        <li v-for="item in allDevices" :key="item.id">
+          {{ item.kind }}
+          {{ item.label }}
+        </li>
+      </ul>
+    </div>
+    <hr>
     <div sltyle="display:flex">
       <button v-on:click="goToHTTPS">Force https</button>
       <button v-on:click="getGeolocation">GetPosition</button>
@@ -87,6 +97,7 @@
         return {
           geolocationErrors: null,
           userMediaErrors: null,
+          allDevices:[],
           must: [
             { text: 'https', supported: testHTTPS() },
             { text: 'geolocation', supported: Modernizr.geolocation },
@@ -119,6 +130,9 @@
           }
         },
         captureAndInjectCameraFeed() {
+          getDevices().then((devices)=>{
+            this.allDevices =devices
+          })
           const video = document.createElement('video');
           video.width = 640;
           video.height = 480;
