@@ -23,7 +23,8 @@
     color: green;
   }
 
-  .not-supported {
+  .not-supported,
+  .error {
     color: red;
   }
 </style>
@@ -50,6 +51,8 @@
 
     </div>
     <hr>
+    <p class="error" v-if="geolocationErrors">GetGeolocation errors: {{geolocationErrors}</p>
+    <p class="error" v-if="userMediaErrors">GetUserMedia errors: {{userMediaErrors}</p>
   </div>
   <script src="./modernizr.js"></script>
   <script src="https://unpkg.com/vue@next"></script>
@@ -70,31 +73,19 @@
     const testHTTPS = () => {
       return (location.protocol === 'https:') ? true : false;
     };
-    const captureAndInjectCameraFeed = (callback) => {
-      const video = document.createElement('video');
-      video.width = 640;
-      video.height = 480;
-      video.setAttribute('autoplay', '');
-      const constraints = {
-        video: true,
-        audio: false
-      };
-      const handleSuccess = (stream) => {
-        window.stream = stream;
-        video.srcObject = stream;
-        document.body.appendChild(video);
-      }
-      navigator.mediaDevices.getUserMedia(constraints).
-        then(handleSuccess).catch(console.log);
-    };
     const getPosition = options => {
       return new Promise((resolve, reject) =>
         navigator.geolocation.getCurrentPosition(resolve, reject, options)
       );
     };
+    const getDevices = () => {
+      return navigator.mediaDevices.enumerateDevices();
+    }
     const app = {
       data() {
         return {
+          geolocationErrors: null,
+          userMediaErrors: null,
           must: [
             { text: 'https', supported: testHTTPS() },
             { text: 'geolocation', supported: Modernizr.geolocation },
@@ -118,8 +109,31 @@
         },
         getGeolocation() {
           if (Modernizr.geolocation) {
-            getPosition().then(console.log).catch(console.log);
+            getPosition()
+              .then(console.log)
+              .catch((err) => {
+                this.geolocationErrors = err
+              })
           }
+        },
+        captureAndInjectCameraFeed() {
+          const video = document.createElement('video');
+          video.width = 640;
+          video.height = 480;
+          video.setAttribute('autoplay', '');
+          const constraints = {
+            video: true,
+            audio: false
+          };
+          const handleSuccess = (stream) => {
+            window.stream = stream;
+            video.srcObject = stream;
+            document.body.appendChild(video);
+          }
+          navigator.mediaDevices.getUserMedia(constraints).
+            then(handleSuccess).catch((err) => {
+              this.userMediaErrors = err
+            })
         }
       },
       mounted() {
