@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>
+    Tests
+  </title>
+  <meta name="description" content="Tests for ASM, WASM, HTTPS, WebGL, getUserMedia, and successful camera access">
+
+</head>
+<style>
+  ul{-webkit-column-count: 3;-moz-column-count: 3;column-count: 3;}
+  .supported{color: green;}
+  .not-supported{color: red;}
+</style>
+<body>
+  <div id="list-rendering">
+    <ol>
+      <li :class="{ supported: todo.supported, 'not-supported': !todo.supported }" v-for="todo in todos">
+        {{ todo.text }} <span v-if="todo.supported ">&#10003;</span> <span v-else>&times;</span>
+      </li>
+    </ol>
+  </div>
+  <script src="./modernizr.js"></script>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script>
+    const testGetUserMedia = () =>{
+        return navigator && navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
+    };
+    const testWebSocket = () => {
+     return !!window.WebSocket
+    }
+    const testGeolocation = () =>{
+        return navigator && navigator.geolocation;
+    };
+    const testFacingMode = ()=> {
+      const {facingMode} = navigator.mediaDevices.getUserMedia()
+      return facingMode
+    }
+    const ListRendering = {
+      data() {
+        return {
+          todos: [
+          { text: 'geolocation', supported: Modernizr.geolocation },
+          { text: 'touchevents', supported: Modernizr.touchevents },
+          { text: 'websockets', supported: Modernizr.websockets },
+          { text: 'devicemotion', supported: Modernizr.devicemotion },
+          { text: 'deviceorientation', supported: Modernizr.deviceorientation },
+          { text: 'getusermedia', supported: Modernizr.getusermedia },
+          { text: 'peerconnection', supported: Modernizr.peerconnection },
+          { text: 'vibrate', supported: Modernizr.vibrate },
+          { text: 'facingMode', supported: testFacingMode() },
+          ]
+        }
+      }
+    }
+
+    Vue.createApp(ListRendering).mount('#list-rendering')
+  </script>
+</body>
+
+</html>
