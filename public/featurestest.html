@@ -48,7 +48,7 @@
     <div sltyle="display:flex">
       <button v-on:click="goToHTTPS">Force https</button>
       <button v-on:click="getGeolocation">GetPosition</button>
-
+      <button v-on:click="captureAndInjectCameraFeed">GetPosition</button>
     </div>
     <hr>
     <p class="error" v-if="geolocationErrors">GetGeolocation errors: {{geolocationErrors}</p>
@@ -135,11 +135,6 @@
               this.userMediaErrors = err
             })
         }
-      },
-      mounted() {
-        this.$nextTick(function () {
-          captureAndInjectCameraFeed()
-        })
       }
     }
     Vue.createApp(app).mount('#app')
