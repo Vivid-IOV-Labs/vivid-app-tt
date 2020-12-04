@@ -21,11 +21,18 @@
 </style>
 <body>
   <div id="list-rendering">
-    <ol>
-      <li :class="{ supported: todo.supported, 'not-supported': !todo.supported }" v-for="todo in todos">
-        {{ todo.text }} <span v-if="todo.supported ">&#10003;</span> <span v-else>&times;</span>
+    Must
+    <ul>
+      <li :class="{ supported: feat.supported, 'not-supported': !feat.supported }" v-for="feat in must">
+        {{ feat.text }} <span v-if="feat.supported ">&#10003;</span> <span v-else>&times;</span>
       </li>
-    </ol>
+    </ul>
+    Nice To have
+    <ul>
+      <li :class="{ supported: feat.supported, 'not-supported': !feat.supported }" v-for="feat in nicetohave">
+        {{ feat.text }} <span v-if="feat.supported ">&#10003;</span> <span v-else>&times;</span>
+      </li>
+    </ul>
   </div>
   <script src="./modernizr.js"></script>
   <script src="https://unpkg.com/vue@next"></script>
@@ -46,7 +53,7 @@
     const ListRendering = {
       data() {
         return {
-          todos: [
+          must: [
           { text: 'geolocation', supported: Modernizr.geolocation },
           { text: 'touchevents', supported: Modernizr.touchevents },
           { text: 'websockets', supported: Modernizr.websockets },
@@ -54,8 +61,11 @@
           { text: 'deviceorientation', supported: Modernizr.deviceorientation },
           { text: 'getusermedia', supported: Modernizr.getusermedia },
           { text: 'peerconnection', supported: Modernizr.peerconnection },
-          { text: 'vibrate', supported: Modernizr.vibrate },
           { text: 'facingMode', supported: testFacingMode() },
+          ],
+          nicetohave:[
+          { text: 'vibrate', supported: Modernizr.vibrate },
+          { text: 'notification', supported: Modernizr.vibrate },
           ]
         }
       }
