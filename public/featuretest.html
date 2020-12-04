@@ -11,8 +11,6 @@
   <title>
     Peerkat.live Features Test
   </title>
-  <meta name="description" content="Tests for ASM, WASM, HTTPS, WebGL, getUserMedia, and successful camera access">
-
 </head>
 <style>
   ul {
@@ -31,7 +29,7 @@
 </style>
 
 <body>
-  <div id="list-rendering">
+  <div id="app">
     <h1>Peerkat.live Features Test</h1>
     <h3>Must</h3>
     <ul>
@@ -52,7 +50,6 @@
 
     </div>
     <hr>
-
   </div>
   <script src="./modernizr.js"></script>
   <script src="https://unpkg.com/vue@next"></script>
@@ -74,35 +71,28 @@
       return (location.protocol === 'https:') ? true : false;
     };
     const captureAndInjectCameraFeed = (callback) => {
-      var video = document.createElement('video');
+      const video = document.createElement('video');
       video.width = 640;
       video.height = 480;
       video.setAttribute('autoplay', '');
-
-      var constraints = {
+      const constraints = {
         video: true,
         audio: false
       };
-
-      function handleSuccess(stream) {
-        window.stream = stream; // make stream available to browser console
+      const handleSuccess = (stream) => {
+        window.stream = stream;
         video.srcObject = stream;
         document.body.appendChild(video);
       }
-
-      function handleError(error) {
-        console.log('navigator.getUserMedia error: ', error);
-      }
-
       navigator.mediaDevices.getUserMedia(constraints).
-        then(handleSuccess).catch(handleError);
+        then(handleSuccess).catch(console.log);
     };
     const getPosition = options => {
       return new Promise((resolve, reject) =>
         navigator.geolocation.getCurrentPosition(resolve, reject, options)
       );
     };
-    const ListRendering = {
+    const app = {
       data() {
         return {
           must: [
@@ -124,7 +114,6 @@
       },
       methods: {
         goToHTTPS() {
-          debugger
           location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
         },
         getGeolocation() {
@@ -139,8 +128,7 @@
         })
       }
     }
-
-    Vue.createApp(ListRendering).mount('#list-rendering')
+    Vue.createApp(app).mount('#app')
   </script>
 </body>
 
