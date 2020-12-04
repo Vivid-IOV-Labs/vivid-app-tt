@@ -21,6 +21,7 @@
 </style>
 <body>
   <div id="list-rendering">
+
     Must
     <ul>
       <li :class="{ supported: feat.supported, 'not-supported': !feat.supported }" v-for="feat in must">
@@ -33,6 +34,9 @@
         {{ feat.text }} <span v-if="feat.supported ">&#10003;</span> <span v-else>&times;</span>
       </li>
     </ul>
+    <hr>
+    <button v-on:click="goToHTTPS">Force https</button>
+
   </div>
   <script src="./modernizr.js"></script>
   <script src="https://unpkg.com/vue@next"></script>
@@ -47,13 +51,17 @@
         return navigator && navigator.geolocation;
     };
     const testFacingMode = ()=> {
-      const {facingMode} = navigator.mediaDevices.getUserMedia()
+      const {facingMode} = navigator.mediaDevices.getSupportedConstraints() 
       return facingMode
     }
+    const testHTTPS = ()=> {
+            return (location.protocol === 'https:') ? true : false;
+        };
     const ListRendering = {
       data() {
         return {
           must: [
+          { text: 'https', supported: testHTTPS()},
           { text: 'geolocation', supported: Modernizr.geolocation },
           { text: 'touchevents', supported: Modernizr.touchevents },
           { text: 'websockets', supported: Modernizr.websockets },
@@ -65,10 +73,16 @@
           ],
           nicetohave:[
           { text: 'vibrate', supported: Modernizr.vibrate },
-          { text: 'notification', supported: Modernizr.vibrate },
+          { text: 'notification', supported: Modernizr.notification },
           ]
         }
-      }
+      },
+      methods: {
+        goToHTTPS() {
+          debugger
+            location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+        }
+      },
     }
 
     Vue.createApp(ListRendering).mount('#list-rendering')
