@@ -93,6 +93,7 @@ import { address, ABI } from "@/util/constants/tippingContract";
 
 import { createNamespacedHelpers } from "vuex";
 const { mapGetters } = createNamespacedHelpers("requests");
+import { trackEvent } from "../util/analytics";
 import devLog from "@/util/devlog.js";
 import delay from "@/util/delay.js";
 export default {
@@ -121,12 +122,15 @@ export default {
   methods: {
     ...mapGetters(["getSelectedPin", "myWalletAddress"]),
     endViewingVideo() {
+      trackEvent({ category: "Viewing Video", action: "end" });
       this.$router.push({ path: "/" });
     },
     dropVideoMenu() {
       this.isVideoMenuDropped = !this.isVideoMenuDropped;
     },
     async tipStreamer() {
+      trackEvent({ category: "Viewing Video", action: "tip" });
+
       let amount = 1;
 
       var web3Instance = new Web3(window.web3.currentProvider);

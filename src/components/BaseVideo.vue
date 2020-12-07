@@ -9,7 +9,20 @@
 
 <script>
 import Plyr from "plyr";
+import { trackEvent } from "../util/analytics";
 import "plyr/dist/plyr.css";
+
+const totalSecondsToHMS = totalSecs => {
+  const hours = Math.floor(totalSecs / 3600);
+  const minutes = Math.floor((totalSecs % 3600) / 60);
+  const seconds = Math.floor(totalSecs % 60);
+  const formattedHH = hours.toString().padStart(2, "0");
+  const formattedMM = minutes.toString().padStart(2, "0");
+  const formattedSS = seconds.toString().padStart(2, "0");
+
+  return `${formattedHH}:${formattedMM}:${formattedSS}`;
+};
+
 export default {
   name: "BsseVideo",
   props: {
@@ -27,48 +40,22 @@ export default {
   },
   async mounted() {
     this.player = new Plyr(this.$refs.video, this.options);
+
     const videoUrl =
       "https://streams.vividiov.media:5443/WebRTCAppEE/streams/953594478786080819185945.mp4";
-
     this.player.source = {
       type: "video",
       title: "Example title",
       sources: [{ src: videoUrl, type: "video/mp4" }]
     };
-    // this.player.source = {
-    //   type: "video",
-    //   title: "Example title",
-    // sources: [
-    //   {
-    //     src: "@/assets/videos/santa5.mp4"
-    //   }
-    // {
-    //   src:
-    //     "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4",
-    //   type: "video/mp4",
-    //   size: 720
-    // },
-    // {
-    //   src:
-    //     "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4",
-    //   type: "video/webm",
-    //   size: 1080
-    // }
-    // ],
-    //   poster:
-    //     "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
-    // };
-    this.player.on("timeupdate", () => {
-      function totalSecondsToHMS(totalSecs) {
-        const hours = Math.floor(totalSecs / 3600);
-        const minutes = Math.floor((totalSecs % 3600) / 60);
-        const seconds = Math.floor(totalSecs % 60);
-        const formattedHH = hours.toString().padStart(2, "0");
-        const formattedMM = minutes.toString().padStart(2, "0");
-        const formattedSS = seconds.toString().padStart(2, "0");
 
-        return `${formattedHH}:${formattedMM}:${formattedSS}`;
-      }
+    this.player.on("ready", () => {
+      trackEvent({ category: "Viewing Video", action: "play" });
+    });
+    this.player.on("pause", () => {
+      trackEvent({ category: "Viewing Video", action: "pause" });
+    });
+    this.player.on("timeupdate", () => {
       const currentTime = totalSecondsToHMS(this.player.currentTime);
       this.$emit("timeupdate", currentTime);
     });
