@@ -8,6 +8,7 @@
 
 <script>
 import RootLoading from "@/pages/RootLoading.vue";
+import { trackPage } from "../util/analytics";
 export default {
   name: "RouterWrapper",
   data() {
@@ -17,6 +18,7 @@ export default {
   },
   watch: {
     $route(to) {
+      trackPage(to.path);
       const { 0: nextPage } = to.matched.map(m => m.components.default);
       const indexInPageStack = this.pageStack.findIndex(
         page => page.name == nextPage.name
