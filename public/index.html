@@ -9,6 +9,15 @@
     />
     <link rel="icon" href="<%= BASE_URL %>image.png" />
     <title>Peerkat</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-172830767-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-172830767-1');
+    </script>
   </head>
   <body>
     <noscript>
@@ -19,15 +28,6 @@
       >
     </noscript>
     <div id="app"></div>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-172830767-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-172830767-1');
-</script>
     <script>
       function isMobile() {
       if (
