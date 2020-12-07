@@ -19,11 +19,10 @@
     column-count: 3;
   }
 
-  .supported {
+  .success {
     color: green;
   }
 
-  .not-supported,
   .error {
     color: red;
   }
@@ -34,26 +33,17 @@
     <h1>Peerkat.live Features Test</h1>
     <h3>Must</h3>
     <ul>
-      <li :class="{ supported: feat.supported, 'not-supported': !feat.supported }" v-for="feat in must">
+      <li :class="{ success: feat.supported, 'error': !feat.supported }" v-for="feat in must">
         {{ feat.text }} <span v-if="feat.supported ">&#10003;</span> <span v-else>&times;</span>
       </li>
     </ul>
     <h3>Nice To have</h3>
     <ul>
-      <li :class="{ supported: feat.supported, 'not-supported': !feat.supported }" v-for="feat in nicetohave">
+      <li :class="{ success: feat.supported, 'error': !feat.supported }" v-for="feat in nicetohave">
         {{ feat.text }} <span v-if="feat.supported ">&#10003;</span> <span v-else>&times;</span>
       </li>
     </ul>
-    <hr>
-    <div v-if="allDevices.length">
-      <h4>Get Media Devices</h4>
-      <ul>
-        <li v-for="item in allDevices" :key="item.id">
-          {{ item.kind }}
-          {{ item.label }}
-        </li>
-      </ul>
-    </div>
+
     <hr>
     <div sltyle="display:flex">
       <button v-on:click="goToHTTPS">Force https</button>
@@ -61,9 +51,18 @@
       <button v-on:click="captureAndInjectCameraFeed">GetCamera</button>
     </div>
     <hr>
-    <div class="error" v-if="geolocationErrors"><strong>GetGeolocation errors</strong>: <p>{{geolocationErrors}}</p> </div>
+    <div v-if="allowResponse.message" :class="{ success: allowResponse.isAllowed , error: !allowResponse.isAllowed }"
+    >Allowing {{allowResponse.feat}} response: <strong>{{allowResponse.message}}</p> </div>
     <hr>
-    <div class="error" v-if="userMediaErrors"><strong>GetUserMedia errors</strong>: <p>{{userMediaErrors}}</p> </div>
+    <div class="success" v-if="allDevices.length && allowResponse.feat==='getusermedia'">
+      <h4>List of Media Devices</h4>
+      <ul>
+        <li v-for="item in allDevices" :key="item.id">
+          {{ item.kind }}
+          {{ item.label }}
+        </li>
+      </ul>
+    </div>
   </div> 
   <script src="./modernizr.js"></script>
   <script src="https://unpkg.com/vue@next"></script>
@@ -95,7 +94,7 @@
     const app = {
       data() {
         return {
-          geolocationErrors: null,
+          allowResponse: {message:null, isAllowed:null, feat:null},
           userMediaErrors: null,
           allDevices:[],
           must: [
@@ -121,15 +120,20 @@
         },
         getGeolocation() {
           if (Modernizr.geolocation) {
+            this.allowResponse.feat = "geolocation"
             getPosition()
-              .then(console.log)
+              .then((data)=>{
+                this.allowResponse.message = `Success Lat:${data.coords.latitude}, Long:${data.coords.longitude}` ;
+                this.allowResponse.isAllowed = true;
+              })
               .catch((err) => {
-                console.log(err.message);
-                this.geolocationErrors =  err.message
+                this.allowResponse.message = err.message;
+                this.allowResponse.isAllowed = false;
               })
           }
         },
         captureAndInjectCameraFeed() {
+          this.allowResponse.feat = "getusermedia"
           getDevices().then((devices)=>{
             this.allDevices =devices
           })
@@ -145,10 +149,13 @@
             window.stream = stream;
             video.srcObject = stream;
             document.body.appendChild(video);
+            this.allowResponse.message = "Success";
+            this.allowResponse.isAllowed = true;
           }
           navigator.mediaDevices.getUserMedia(constraints).
             then(handleSuccess).catch((err) => {
-              this.userMediaErrors =err
+              this.allowResponse.message = err,
+              this.allowResponse.isAllowed = false
             })
         }
       }
