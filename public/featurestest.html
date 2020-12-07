@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>
+    Peerkat.live WEB API Features To Test
+  </title>
+</head>
+<style>
+  ul {
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-count: 3;
+  }
+
+  .success {
+    color: green;
+  }
+
+  .error {
+    color: red;
+  }
+</style>
+
+<body>
+  <div id="app">
+    <h1>Peerkat.live Features Test</h1>
+    <h3>Must</h3>
+    <ul>
+      <li :class="{ success: feat.supported, 'error': !feat.supported }" v-for="feat in must">
+        {{ feat.text }} <span v-if="feat.supported ">&#10003;</span> <span v-else>&times;</span>
+      </li>
+    </ul>
+    <h3>Nice To have</h3>
+    <ul>
+      <li :class="{ success: feat.supported, 'error': !feat.supported }" v-for="feat in nicetohave">
+        {{ feat.text }} <span v-if="feat.supported ">&#10003;</span> <span v-else>&times;</span>
+      </li>
+    </ul>
+
+    <hr>
+    <h2 style="margin-bottom: 0.2rem;">Check Permissions </h2>
+    <i>Please click buttons below</i>
+      <hr>
+    <div sltyle="display:flex">
+      <button v-on:click="goToHTTPS">Force https</button>
+      <button v-on:click="getGeolocation">Get Location</button>
+      <button v-on:click="captureAndInjectCameraFeed">Get Camera &amp; Microphone</button>
+    </div>
+    <hr  v-if="allowResponse.message">
+    <h4 v-if="allowResponse.message">Get {{allowResponse.feat=== 'Camera' ? 'Camera &amp; Microphone'  : allowResponse.feat}}: Status </h4> 
+    <div v-if="allowResponse.message" :class="{ success: allowResponse.isAllowed , error: !allowResponse.isAllowed }"
+    >
+   <strong>{{allowResponse.message}}</p> </div>
+    <hr v-if="allowResponse.message" >
+    <video v-show="allowResponse.feat==='Camera' && allowResponse.isAllowed" ref="video"></video>
+    <div class="success" v-if="allDevices.length && allowResponse.feat==='Camera' && allowResponse.isAllowed">
+      <h4>List of Media Devices</h4>
+      <ul>
+        <li v-for="item in allDevices" :key="item.id">
+          {{ item.kind }}
+          {{ item.label }}
+        </li>
+      </ul>
+    </div>
+  </div> 
+  <script src="./modernizr.js"></script>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script>
+    const testGetUserMedia = () => {
+      return navigator && navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
+    };
+    const testWebSocket = () => {
+      return !!window.WebSocket
+    }
+    const testGeolocation = () => {
+      return navigator && navigator.geolocation;
+    };
+    const testFacingMode = () => {
+      const { facingMode } = navigator.mediaDevices.getSupportedConstraints()
+      return facingMode
+    }
+    const testHTTPS = () => {
+      return (location.protocol === 'https:') ? true : false;
+    };
+    const getPosition = options => {
+      return new Promise((resolve, reject) =>
+        navigator.geolocation.getCurrentPosition(resolve, reject, options)
+      );
+    };
+    const getDevices = () => {
+      return navigator.mediaDevices.enumerateDevices();
+    }
+    const app = {
+      data() {
+        return {
+          allowResponse: {message:null, isAllowed:null, feat:null},
+          userMediaErrors: null,
+          allDevices:[],
+          must: [
+            { text: 'https', supported: testHTTPS() },
+            { text: 'geolocation', supported: Modernizr.geolocation },
+            { text: 'touchevents', supported: Modernizr.touchevents },
+            { text: 'websockets', supported: Modernizr.websockets },
+            { text: 'getusermedia', supported: Modernizr.getusermedia },
+            { text: 'peerconnection', supported: Modernizr.peerconnection },
+          ],
+          nicetohave: [
+            { text: 'localstorage', supported: Modernizr.localstorage },
+            { text: 'datachannel', supported: Modernizr.datachannel },
+            { text: 'devicemotion', supported: Modernizr.devicemotion },
+            { text: 'deviceorientation', supported: Modernizr.deviceorientation },
+            { text: 'facingMode', supported: testFacingMode() },
+          ]
+        }
+      },
+      methods: {
+        goToHTTPS() {
+          location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+        },
+        getGeolocation() {
+          if (Modernizr.geolocation) {
+            this.allowResponse.feat = "Location"
+            getPosition()
+              .then((data)=>{
+                this.allowResponse.message = `Success Lat:${data.coords.latitude}, Long:${data.coords.longitude}` ;
+                this.allowResponse.isAllowed = true;
+              })
+              .catch((err) => {
+                this.allowResponse.message = err.message;
+                this.allowResponse.isAllowed = false;
+              })
+          }
+        },
+        captureAndInjectCameraFeed() {
+          this.allowResponse.feat = "Camera"
+          getDevices().then((devices)=>{
+            this.allDevices =devices
+          })
+          const video =  this.$refs.video;
+          video.width = 640;
+          video.height = 480;
+          video.setAttribute('autoplay', '');
+          const constraints = {
+            video: true,
+            audio: false
+          };
+          const handleSuccess = (stream) => {
+            window.stream = stream;
+            video.srcObject = stream;
+            document.body.appendChild(video);
+            this.allowResponse.message = "Success";
+            this.allowResponse.isAllowed = true;
+          }
+          navigator.mediaDevices.getUserMedia(constraints).
+            then(handleSuccess).catch((err) => {
+              this.allowResponse.message = err,
+              this.allowResponse.isAllowed = false
+            })
+        }
+      }
+    }
+    Vue.createApp(app).mount('#app')
+  </script>
+</body>
+
+</html>

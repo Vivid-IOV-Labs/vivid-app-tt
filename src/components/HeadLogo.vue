@@ -13,7 +13,7 @@ export default {
   name: "HeadLogo"
 };
 </script>
-<style>
+<style lang="scss">
 .head_logo {
   display: flex;
   align-items: center;

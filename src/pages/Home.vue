@@ -8,15 +8,11 @@
         <head-search></head-search>
       </div>
       <div class="right">
-        <head-menu @push-onboarding="pushToOnboarding"></head-menu>
+        <head-menu></head-menu>
       </div>
     </v-ons-toolbar>
     <keep-alive>
-      <request-stream
-        @push-page="pushToViewStreamPage"
-        @push-supply="pushToSupplyStreamPage"
-        @back-page="popViewPage"
-      ></request-stream>
+      <request-stream></request-stream>
     </keep-alive>
     <v-ons-bottom-toolbar></v-ons-bottom-toolbar>
   </v-ons-page>
@@ -28,10 +24,6 @@ import RequestStream from "@/components/RequestStream.vue";
 import HeadMenu from "@/components/HeadMenu.vue";
 import HeadLogo from "@/components/HeadLogo.vue";
 import HeadSearch from "@/components/HeadSearch.vue";
-import OnBoarding from "@/components/OnBoarding.vue";
-
-import ViewStream from "@/components/ViewStream.vue";
-import SupplyStream from "@/components/SupplyStream.vue";
 
 export default {
   name: "home",
@@ -40,20 +32,6 @@ export default {
     HeadMenu,
     HeadLogo,
     HeadSearch
-  },
-  methods: {
-    pushToOnboarding() {
-      this.$emit("push-page", OnBoarding);
-    },
-    pushToViewStreamPage() {
-      this.$emit("push-page", ViewStream);
-    },
-    pushToSupplyStreamPage() {
-      this.$emit("push-page", SupplyStream);
-    },
-    popViewPage() {
-      this.$emit("back-page");
-    }
   }
 };
 </script>

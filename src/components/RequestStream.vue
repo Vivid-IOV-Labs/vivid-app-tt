@@ -42,52 +42,55 @@
   </v-ons-page>
 </template>
 
-<style>
+<style lang="scss">
 @import "../../node_modules/leaflet/dist/leaflet.css";
-@import "../assets/css/requestStream.css";
+@import "@/assets/css/requestStream.scss";
 </style>
 
 <script>
-import L from "leaflet";
+import { Icon, Marker, Circle, Map, TileLayer, LatLng } from "leaflet";
 import socketIOClient from "socket.io-client";
 import sailsIOClient from "sails.io.js";
 import createOpenLocationCode from "@/util/createOpenLocationCode.js";
 import env from "@/env.js";
-import { mapMutations, mapActions, mapGetters } from "vuex";
+import { createNamespacedHelpers } from "vuex";
+const { mapMutations, mapActions, mapGetters } = createNamespacedHelpers(
+  "requests"
+);
 import RequestDialog from "@/components/dialogs/RequestDialog.vue";
 import GoLiveDialog from "@/components/dialogs/GoLiveDialog.vue";
 import JoinDialog from "@/components/dialogs/JoinDialog.vue";
-
+import devLog from "@/util/devlog.js";
 const io = sailsIOClient(socketIOClient);
 io.sails.url = env.web_service_url;
 
-const markerUsers = L.icon({
+const markerUsers = new Icon({
   iconUrl: require("@/assets/markers/marker-users.svg"),
   iconSize: [55, 80],
   iconAnchor: [13, 63],
   className: "markerUsers",
   popupAnchor: [0, -60]
 });
-const markerNew = L.icon({
+const markerNew = new Icon({
   iconUrl: require("@/assets/markers/marker-new.svg"),
   iconSize: [55, 80],
   iconAnchor: [13, 63],
   className: "markerNew",
   popupAnchor: [0, -60]
 });
-const markerKfc = L.icon({
+const markerKfc = new Icon({
   iconUrl: require("@/assets/markers/marker-kfc.png"),
   iconAnchor: [13, 63],
   className: "markerNew",
   popupAnchor: [0, -60]
 });
-const markerCarabao = L.icon({
+const markerCarabao = new Icon({
   iconUrl: require("@/assets/markers/marker-carabao.png"),
   iconAnchor: [13, 63],
   className: "markerNew",
   popupAnchor: [0, -60]
 });
-const myProfileIcon = L.icon({
+const myProfileIcon = new Icon({
   iconUrl: require("@/assets/markers/marker-profile.svg"),
   iconSize: [38, 95],
   iconAnchor: [28, 40],
@@ -161,7 +164,7 @@ export default {
           type: "request" //golive
         },
         user: {
-          walletAddress: this._myWalletAddress()
+          walletAddress: this.myWalletAddress()
         },
         location: null,
         streamer: {
@@ -193,38 +196,29 @@ export default {
     })
   },
   methods: {
-    ...mapMutations({
-      _setLocalCopyOfRequestPins: "setLocalCopyOfRequestPins",
-      _setSelectedPin: "setSelectedPin",
-      _setStreamerWalletAddress: "setStreamerWalletAddress"
-    }),
-    ...mapActions({
-      _find_all_requests: "find_all_requests",
-      _add: "add",
-      _get_requests: "get_requests",
-      _create: "create",
-      _updateRequestModel: "update",
-      _updateAddress: "updateAddress"
-    }),
-    ...mapGetters({
-      _myWalletAddress: "myWalletAddress",
-      _getLocalCopyOfRequestPins: "getLocalCopyOfRequestPins",
-      _getSelectedPin: "getSelectedPin",
-      _getStreamerWalletAddress: "getStreamerWalletAddress"
-    }),
+    ...mapMutations([
+      "setLocalCopyOfRequestPins",
+      "setSelectedPin",
+      "setStreamerWalletAddress"
+    ]),
+    ...mapActions(["create", "updateAddress"]),
+    ...mapGetters([
+      "myWalletAddress",
+      "getLocalCopyOfRequestPins",
+      "getSelectedPin"
+    ]),
     addMarkersLoop(markers) {
       for (var i = 0; i < markers.length; i++) {
         var lat = markers[i].location.y;
         var lon = markers[i].location.x;
         const marker = markers[i];
-        const pin = L.marker(
+        const pin = new Marker(
           { lon, lat },
           {
             icon: marker.streamer.live ? markerUsers : markerNew
           }
         );
         const isDisabled = !marker.streamer.live && this.isDisabled(pin);
-
         if (allPins[marker.openLocationCode]) {
           this.removePin(marker.openLocationCode);
         }
@@ -246,7 +240,7 @@ export default {
               document
                 .getElementById("button-join")
                 .addEventListener("click", () => {
-                  this.fromJoin();
+                  this.fromJoin(marker);
                 });
             } else {
               document
@@ -255,61 +249,51 @@ export default {
                   if (isDisabled) {
                     return;
                   }
-                  this.fromSupply();
+                  this.fromSupply(marker);
                 });
             }
-          })
-          .on("click", e => {
-            const locationcode = createOpenLocationCode({
-              lon: e.latlng.lng,
-              lat: e.latlng.lat
-            });
-
-            const localPins = this._getLocalCopyOfRequestPins();
-            let obj = localPins.find(obj => {
-              return obj.openLocationCode === locationcode;
-            });
-            this._setSelectedPin(obj);
           });
         const opacity = isDisabled ? 0.6 : 1;
         pin.setOpacity(opacity);
       }
     },
     fromJoin_list(_str) {
-      let obj = this._getLocalCopyOfRequestPins().find(
+      let obj = this.getLocalCopyOfRequestPins().find(
         obj => obj.openLocationCode === _str
       );
 
-      this._setSelectedPin(obj);
-      this._setStreamerWalletAddress(obj.streamer.walletAddress);
+      this.setSelectedPin(obj);
+      this.setStreamerWalletAddress(obj.streamer.walletAddress);
 
       this.pushToViewStreamPage();
     },
-    fromJoin() {
+    async fromJoin(marker) {
       this.map.closePopup();
-      const selectedPin = this._getSelectedPin();
+      await this.setSelectedPin(marker);
+      const selectedPin = this.getSelectedPin();
       if (selectedPin) {
-        this._setStreamerWalletAddress(selectedPin.streamer.walletAddress);
+        this.setStreamerWalletAddress(selectedPin.streamer.walletAddress);
 
         this.pushToViewStreamPage();
       }
     },
     fromSupply_golive() {
-      let selectedPin = this._getSelectedPin();
+      let selectedPin = this.getSelectedPin();
 
-      selectedPin.streamer.walletAddress = this._myWalletAddress();
+      selectedPin.streamer.walletAddress = this.myWalletAddress();
 
-      this._setSelectedPin(selectedPin);
+      this.setSelectedPin(selectedPin);
 
       this.pushToSupplyStreamPage();
     },
-    async fromSupply() {
+    async fromSupply(marker) {
       this.map.closePopup();
-      let selectedPin = this._getSelectedPin();
-      selectedPin.streamer.walletAddress = this._myWalletAddress();
+      await this.setSelectedPin(marker);
+      const selectedPin = this.getSelectedPin();
+      selectedPin.streamer.walletAddress = this.myWalletAddress();
 
-      this._setSelectedPin(selectedPin);
-      this._updateAddress({
+      this.setSelectedPin(selectedPin);
+      this.updateAddress({
         streamName: selectedPin.openLocationCode,
         address: selectedPin.streamer.walletAddress
       });
@@ -317,9 +301,9 @@ export default {
       this.pushToSupplyStreamPage();
     },
     fromRequest() {
-      const selectedPin = this._getSelectedPin();
+      const selectedPin = this.getSelectedPin();
       if (selectedPin) {
-        this._setStreamerWalletAddress(selectedPin.streamer.walletAddress);
+        this.setStreamerWalletAddress(selectedPin.streamer.walletAddress);
 
         this.pushToViewStreamPage();
       }
@@ -334,10 +318,10 @@ export default {
       this.isJoinDialog = true;
     },
     pushToViewStreamPage() {
-      this.$emit("push-page");
+      this.$router.push({ path: "viewstream" });
     },
     pushToSupplyStreamPage() {
-      this.$emit("push-supply");
+      this.$router.push({ path: "supplystream" });
     },
 
     geoSearchEvent_golive(_data) {
@@ -351,7 +335,7 @@ export default {
       this.requestModel.user.walletAddress = _data.user.walletAddress;
       this.requestModel.streamer.walletAddress = _data.user.walletAddress;
 
-      this._create(JSON.parse(JSON.stringify(this.requestModel)));
+      this.create(JSON.parse(JSON.stringify(this.requestModel)));
 
       this.addMarkersLoop([this.requestModel]);
 
@@ -370,7 +354,7 @@ export default {
 
       this.requestModel.location = _data.location;
       this.requestModel.openLocationCode = code;
-      this._create(JSON.parse(JSON.stringify(this.requestModel)));
+      this.create(JSON.parse(JSON.stringify(this.requestModel)));
 
       this.addMarkersLoop([this.requestModel]);
 
@@ -381,13 +365,13 @@ export default {
     },
     onLocationFound(e) {
       const radius = e.accuracy;
-      L.marker(e.latlng, {
+      new Marker(e.latlng, {
         icon: myProfileIcon
       })
         .addTo(this.map)
         .bindPopup("You are here")
         .openPopup();
-      L.circle(e.latlng, radius).addTo(this.map);
+      new Circle(e.latlng, radius).addTo(this.map);
     },
     onLocationError(e) {
       this.$ons.notification.alert(e.message);
@@ -395,10 +379,10 @@ export default {
       this.map.setView([51.520748, -0.08504], 15);
     },
     initMap() {
-      this.map = L.map("map").setView([51.520748, -0.08504], 15);
+      this.map = new Map("map").setView([51.520748, -0.08504], 15);
     },
     initLayers() {
-      this.tileLayer = L.tileLayer(
+      this.tileLayer = new TileLayer(
         "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWEwNnJpaSIsImEiOiJjazZkeTU2NnAxbWF4M2xxajN6NWIyb2l6In0.4iTjEpS8cIa_Um3zhE9keQ",
         {
           attribution: false,
@@ -416,7 +400,7 @@ export default {
       const {
         coords: { latitude: lat, longitude: lon }
       } = this.myPosition;
-      const myPosition = L.marker({ lon, lat });
+      const myPosition = new Marker({ lon, lat });
 
       const distanceInKm =
         pin
@@ -428,61 +412,50 @@ export default {
     }
   },
   beforeCreate() {
-    this.$store.dispatch("registerWeb3");
+    this.$store.dispatch("requests/registerWeb3");
   },
   async mounted() {
-    io.socket.on("requests", msg => {
-      if (msg.data) {
-        this.addMarkersLoop([msg.data]);
+    io.socket.on("request-created", async ({ data }) => {
+      if (data) {
+        this.addMarkersLoop([data]);
 
-        var localCopyOfRequestPins = this._getLocalCopyOfRequestPins();
+        var localCopyOfRequestPins = this.getLocalCopyOfRequestPins();
+
         if (localCopyOfRequestPins) {
-          localCopyOfRequestPins.forEach((element, index) => {
-            if (element.openLocationCode === msg.data.openLocationCode) {
-              localCopyOfRequestPins[index] = Object.assign(
-                {},
-                localCopyOfRequestPins[index],
-                msg.data
-              );
-
-              if (msg.data.streamer.live == true) {
-                this.joinMarkers.push(localCopyOfRequestPins[index]);
-              }
-
-              this._setLocalCopyOfRequestPins(localCopyOfRequestPins);
-            }
-          });
+          localCopyOfRequestPins.push(data);
+          this.setLocalCopyOfRequestPins(localCopyOfRequestPins);
         } else {
-          this._setLocalCopyOfRequestPins([msg.data]);
-
-          if (msg.data.streamer.live == true) {
-            this.joinMarkers.push(msg.data);
-          }
+          this.setLocalCopyOfRequestPins([data]);
         }
 
-        if (msg.verb == "created") {
-          if (localCopyOfRequestPins) {
-            localCopyOfRequestPins.push(msg.data);
-            this._setLocalCopyOfRequestPins(localCopyOfRequestPins);
-          } else {
-            this._setLocalCopyOfRequestPins([msg.data]);
-          }
-
-          if (msg.data.streamer.live == true) {
-            this.joinMarkers.push(msg.data);
-          }
+        if (data.streamer.live == true) {
+          this.joinMarkers.push(data);
         }
       }
     });
 
-    io.socket.get("/requests", async resData => {
+    io.socket.get("/request/list", async resData => {
       if (resData && resData.length) {
         this.joinMarkers = resData.filter(markers => markers.streamer.live);
-        await this._setLocalCopyOfRequestPins(resData);
+        await this.setLocalCopyOfRequestPins(resData);
         this.addMarkersLoop(resData);
       }
     });
-    io.socket.on("reportFlagRaisedAndLiveStreamRemoved", resData => {
+    io.socket.on("request-updated", async ({ data }) => {
+      devLog("data", data);
+
+      const allRequests = this.getLocalCopyOfRequestPins();
+      devLog("allRequests", allRequests);
+      const updatedRequestIndex = allRequests.findIndex(
+        pin => data.openLocationCode == pin.openLocationCode
+      );
+      devLog("updatedRequestIndex", updatedRequestIndex);
+
+      allRequests[updatedRequestIndex] = data;
+      await this.setLocalCopyOfRequestPins(allRequests);
+      this.addMarkersLoop(allRequests);
+    });
+    io.socket.on("request-deleted-flag-reported", resData => {
       this.map.whenReady(() => {
         this.$nextTick(() => {
           this.removePin(resData.data.openLocationCode);
@@ -499,10 +472,21 @@ export default {
               }
             }
           }
+          arrrayOfLayerIDsToRemove.forEach(id => {
+            this.map._layers[id].remove();
+          });
+          this.joinMarkers = this.joinMarkers.filter(
+            markers => markers.openLocationCode != resData.data.openLocationCode
+          );
+          let localCopyOfRequestPins = this.getLocalCopyOfRequestPins();
+          localCopyOfRequestPins = localCopyOfRequestPins.filter(
+            markers => markers.openLocationCode != resData.data.openLocationCode
+          );
+          this.setLocalCopyOfRequestPins(localCopyOfRequestPins);
         });
       });
     });
-    io.socket.on("livestreamended", resData => {
+    io.socket.on("request-deleted", resData => {
       if (resData.data) {
         let arrrayOfLayerIDsToRemove = [];
         for (const property in this.map._layers) {
@@ -522,11 +506,11 @@ export default {
         this.joinMarkers = this.joinMarkers.filter(
           markers => markers.openLocationCode != resData.data.openLocationCode
         );
-        let localCopyOfRequestPins = this._getLocalCopyOfRequestPins();
+        let localCopyOfRequestPins = this.getLocalCopyOfRequestPins();
         localCopyOfRequestPins = localCopyOfRequestPins.filter(
           markers => markers.openLocationCode != resData.data.openLocationCode
         );
-        this._setLocalCopyOfRequestPins(localCopyOfRequestPins);
+        this.setLocalCopyOfRequestPins(localCopyOfRequestPins);
       }
     });
 
@@ -534,7 +518,7 @@ export default {
 
     this.initLayers();
 
-    var london = new L.LatLng(51.5056, -0.1213);
+    var london = new LatLng(51.5056, -0.1213);
 
     this.map.setView(london, 13);
     var markers = [
@@ -549,7 +533,7 @@ export default {
       var lat = markers[i][1];
       var iconType = markers[i][3];
 
-      var marker = L.marker(
+      var marker = new Marker(
         { lon, lat },
         {
           icon:

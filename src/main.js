@@ -3,6 +3,7 @@ import "onsenui/css/onsenui-core.min.css";
 import "onsenui/css/onsen-css-components.min.css";
 
 import Vue from "vue";
+
 import VueOnsen from "vue-onsenui/esm";
 import VOnsToolbar from "vue-onsenui/esm/components/VOnsToolbar";
 import VOnsBottomToolbar from "vue-onsenui/esm/components/VOnsBottomToolbar";
@@ -12,6 +13,7 @@ import VOnsBackButton from "vue-onsenui/esm/components/VOnsBackButton";
 import VOnsInput from "vue-onsenui/esm/components/VOnsInput";
 import VOnsSearchInput from "vue-onsenui/esm/components/VOnsSearchInput";
 import VOnsNavigator from "vue-onsenui/esm/components/VOnsNavigator";
+
 import VOnsPage from "vue-onsenui/esm/components/VOnsPage";
 import VOnsCarousel from "vue-onsenui/esm/components/VOnsCarousel";
 import VOnsCarouselItem from "vue-onsenui/esm/components/VOnsCarouselItem";
@@ -45,11 +47,13 @@ import BaseIcon from "@/components/BaseIcon";
 Vue.component("BaseIcon", BaseIcon);
 //THIS IS TO IMPORT THE 'VUEX' STORE TO BE USED IN THE VUE APP.
 import store from "./store";
+import router from "./router";
 import App from "./App.vue";
 
 Vue.config.productionTip = false;
 
 new Vue({
   store,
+  router,
   render: h => h(App)
 }).$mount("#app");

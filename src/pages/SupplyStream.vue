@@ -1,7 +1,7 @@
 <template>
   <v-ons-page id="Streamer">
-    <div class="streamer__container">
-      <div class="streamer__controls streamer__controls--top">
+    <div class="stream__container">
+      <div class="stream__controls stream__controls--top">
         <v-ons-button class="btn btn--small btn--opacity-soft  flex-center-xy">
           <base-icon class="btn__icon" name="user"></base-icon>
           <span class="ml-2">101</span>
@@ -14,11 +14,15 @@
           <span class="ml-2">{{ currentTime }}</span>
         </v-ons-button>
       </div>
-      <base-video ref="videoplayer" :options="videoOptions"></base-video>
+      <base-video
+        ref="videoplayer"
+        @timeupdate="updateLiveTime"
+        :options="videoOptions"
+      ></base-video>
 
-      <div class="streamer__controls streamer__controls--bottom">
+      <div class="stream__controls stream__controls--bottom">
         <v-ons-button
-          @click="closeVideoStream"
+          @click="endStream = true"
           class="btn btn--opacity-soft btn--full-width"
           v-if="!stop_publish_button.disabled"
           id="stop_publish_button"
@@ -35,13 +39,23 @@
       >
         This Live stream has been reported and therefor ended
       </v-ons-alert-dialog>
+      <v-ons-alert-dialog
+        modifier="rowfooter"
+        :title="'End live stream'"
+        :footer="{
+          Ok: closeVideoStream,
+          Cancel: () => (endStream = false)
+        }"
+        :visible.sync="endStream"
+      >
+        Are you sure you want to end this live stream
+      </v-ons-alert-dialog>
     </div>
   </v-ons-page>
 </template>
 
 <script>
 import BaseVideo from "@/components/BaseVideo.vue";
-import Home from "@/components/Home.vue";
 
 import { WebRTCAdaptor } from "@/util/webrtc_adaptor.js";
 import socketIOClient from "socket.io-client";
@@ -93,10 +107,11 @@ export default {
       stop_publish_button: {
         disabled: true
       },
-      streamNameBox: this.$store.state.selectedPin.openLocationCode,
+      streamNameBox: this.$store.state.requests.selectedPin.openLocationCode,
       streamId: "",
       webRTCAdaptor: "",
       streamReported: false,
+      endStream: false,
       openLocationCode: ""
     };
   },
@@ -106,7 +121,7 @@ export default {
       this.webRTCAdaptor.closeStream();
       this.webRTCAdaptor.closePeerConnection();
       this.webRTCAdaptor.closeWebSocket();
-      this.$emit("push-page", Home);
+      this.$router.push({ path: "home" });
     },
     startPublishing() {
       this.streamId = this.streamNameBox;
@@ -114,15 +129,17 @@ export default {
     },
     stopPublishing() {
       this.webRTCAdaptor.stop(this.streamId);
+    },
+    updateLiveTime(currentTime) {
+      this.currentTime = currentTime;
     }
   },
   mounted() {
-    io.socket.on("reportFlagRaisedAndLiveStreamRemoved", ({ data }) => {
+    io.socket.on("request-deleted-flag-reported", ({ data }) => {
       this.openLocationCode = data.openLocationCode;
       this.streamReported = true;
     });
-    this.player = window.videojs.getPlayer(this.$refs.videoplayer.$refs.video);
-
+    this.player = this.$refs.videoplayer.$refs.video;
     const pc_config = null;
 
     const sdpConstraints = {
@@ -139,7 +156,7 @@ export default {
       mediaConstraints: mediaConstraints,
       peerconnection_config: pc_config,
       sdp_constraints: sdpConstraints,
-      localVideoId: this.player.tech().el(),
+      localVideoId: this.player,
       debug: process.env.NODE_ENV != "production",
       callback: (info, description) => {
         if (info == "initialized") {
@@ -211,20 +228,6 @@ export default {
 
         alert(errorMessage);
       }
-    });
-    this.player.currentTime(0);
-    this.player.on("timeupdate", () => {
-      function timeToString(totalSecs) {
-        const hours = Math.floor(totalSecs / 3600);
-        const minutes = Math.floor((totalSecs % 3600) / 60);
-        const seconds = Math.floor(totalSecs % 60);
-        let formattedHH = hours.toString().padStart(2, "0");
-        let formattedMM = minutes.toString().padStart(2, "0");
-        let formattedSS = seconds.toString().padStart(2, "0");
-
-        return `${formattedHH}:${formattedMM}:${formattedSS}`;
-      }
-      this.currentTime = timeToString(this.player.currentTime());
     });
   }
 };

@@ -84,7 +84,8 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { createNamespacedHelpers } from "vuex";
+const { mapGetters, mapMutations } = createNamespacedHelpers("requests");
 import GeoSearchBar from "@/components/GeoSearchBar.vue";
 
 import createOpenLocationCode from "@/util/createOpenLocationCode.js";
@@ -125,12 +126,8 @@ export default {
     }
   },
   methods: {
-    ...mapGetters({
-      _myWalletAddress: "myWalletAddress"
-    }),
-    ...mapMutations({
-      _setSelectedPin: "setSelectedPin"
-    }),
+    ...mapGetters(["myWalletAddress"]),
+    ...mapMutations(["setSelectedPin"]),
     updateVisible(value) {
       this.$emit("input", value);
     },
@@ -153,10 +150,10 @@ export default {
         lat: address.y
       });
 
-      this.requestModel.user.walletAddress = this._myWalletAddress();
-      this.requestModel.streamer.walletAddress = this._myWalletAddress();
+      this.requestModel.user.walletAddress = this.myWalletAddress();
+      this.requestModel.streamer.walletAddress = this.myWalletAddress();
 
-      this._setSelectedPin(this.requestModel);
+      this.setSelectedPin(this.requestModel);
     },
     pushToSupplyStreamPage() {
       this.$emit("input", false);

@@ -1,5 +1,3 @@
-import Vue from "vue";
-import Vuex from "vuex";
 import RequestService from "@/services/RequestService";
 import FlagService from "@/services/FlagService";
 
@@ -8,9 +6,8 @@ import env from "@/env.js";
 import getWeb3 from "@/util/getWeb3";
 import devLog from "@/util/devlog.js";
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+export default {
+  namespaced: true,
   state: {
     baseURL: env.web_service_url,
     myWalletAddress: "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
@@ -30,6 +27,11 @@ export default new Vuex.Store({
     contractInstance: null
   },
   mutations: {
+    // setRequestPin(state, newPin) {
+    //  const pinToUpdate state.localCopyOfRequestPins.find(pin => {
+    //     return pin.openLocationCode == newPin.openLocationCode;
+    //   });
+    // },
     setLocalCopyOfRequestPins(state, n) {
       state.localCopyOfRequestPins = n;
     },
@@ -147,4 +149,4 @@ export default new Vuex.Store({
       return response;
     }
   }
-});
+};

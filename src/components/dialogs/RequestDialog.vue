@@ -88,7 +88,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { createNamespacedHelpers } from "vuex";
+const { mapGetters, mapMutations } = createNamespacedHelpers("requests");
 import GeoSearchBar from "@/components/GeoSearchBar.vue";
 
 export default {
@@ -116,7 +117,7 @@ export default {
         },
         location: null,
         user: {
-          walletAddress: this._myWalletAddress()
+          walletAddress: this.myWalletAddress()
         },
         streamer: {
           live: false,
@@ -127,9 +128,8 @@ export default {
   },
 
   methods: {
-    ...mapGetters({
-      _myWalletAddress: "myWalletAddress"
-    }),
+    ...mapGetters(["myWalletAddress"]),
+    ...mapMutations(["setSelectedPin"]),
     updateVisible(value) {
       this.$emit("input", value);
     },
@@ -145,6 +145,7 @@ export default {
     },
     onSelectAddress(address) {
       this.requestModel.location = address;
+      this.setSelectedPin(this.requestModel);
     }
   }
 };

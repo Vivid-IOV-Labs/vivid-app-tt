@@ -1,7 +1,13 @@
 module.exports = {
-  // publicPath:
-  //   process.env.HEROKU_DEPLOY === "true" ||
-  //   process.env.NODE_ENV === "development"
-  //     ? "/" //This is for deployment to Heroku.
-  //     : "/vivid-app-tt/" //This is for deployment to Github Pages.
+  // chainWebpack: config => {
+  //   config.plugins.delete("prefetch");
+  // },
+  // publicPath: process.env.NODE_ENV === "production" ? "/vivid-app-tt/" : "/",
+  css: {
+    loaderOptions: {
+      sass: {
+        additionalData: `@import "@/assets/css/variables.scss";`
+      }
+    }
+  }
 };

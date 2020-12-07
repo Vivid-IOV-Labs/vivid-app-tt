@@ -64,7 +64,6 @@ import HowToRequest from "@/components/onboarding/HowToRequest.vue";
 import HowToGoLive from "@/components/onboarding/HowToGoLive.vue";
 import HowToSee from "@/components/onboarding/HowToSee.vue";
 import EnterPeerkat from "@/components/onboarding/EnterPeerkat.vue";
-import Home from "@/components/Home.vue";
 const getPosition = options => {
   return new Promise((resolve, reject) =>
     navigator.geolocation.getCurrentPosition(resolve, reject, options)
@@ -104,12 +103,12 @@ export default {
     },
     pushToHome() {
       this.allowGeolocationMessage = false;
-      this.$emit("push-page", Home);
+      this.$router.push({ path: "home" });
     },
     async endOnBoarding() {
       try {
         const position = await this.getLocation();
-        await this.$store.dispatch("setPosition", position);
+        await this.$store.dispatch("requests/setPosition", position);
         this.pushToHome();
       } catch (err) {
         devLog(err);
@@ -119,7 +118,7 @@ export default {
   }
 };
 </script>
-<style>
+<style lang="scss">
 .list-item__center {
   justify-content: space-between;
 }

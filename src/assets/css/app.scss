@@ -1,11 +1,10 @@
+@import "./variables.scss";
+
 *{
   box-sizing: border-box;
 }
-@media all and (min-width: 414px) {
-  body {
-    height: 100%;
-    width: 414px !important;
-  }
+.constrain-width{
+  width: 414px !important;
 }
 /** Buttton **/
 button:disabled {
@@ -13,11 +12,10 @@ button:disabled {
 }
 .btn {
   text-align: center;
-  background-color: #6d6d3d;
   font-weight: 550;
   border-radius: 1.3rem;
   text-align: center;
-  background-color: #1d1d1b;
+  background-color: $dark-grey;
   font-weight: 550;
   height: fit-content;
   padding: 0.4rem 0.8rem;
@@ -25,7 +23,7 @@ button:disabled {
 }
 
 .btn__icon--white{
-  color: #fff;
+  color: $white;
 }
 .btn--square{
   border-radius: 0.4rem;
@@ -41,19 +39,22 @@ button:disabled {
   justify-content: center;
 }
 .btn--default {
-  color: #fff;
-  background: #1d1d1b;
+  color: $white;
+  background: $dark-grey;
 }
 .btn--transparent {
-  color: #fff;
+  color: $white;
   background: transparent;
 }
 .btn--opacity-soft {
-  color: #fff;
+  color: $white;
   background: rgba(0, 0, 0, 0.4);
 }
+.btn--opacity-soft:hover {
+  background: $azure;
+}
 .btn--opacity-dark {
-  color: #fff;
+  color: $white;
   background: rgba(0, 0, 0, 0.8);
 }
 
@@ -63,33 +64,33 @@ button:disabled {
   border: none;
   padding: 0 0.4rem;
   margin:  0.2rem;
-  color: #1d1d1b;
+  color: $dark-grey;
 }
 .btn--default .btn__icon {
   margin-left: 0.2rem;
   font-size: 1.2rem;
-  color: #fff;
+  color: $white;
 }
 .btn--full-width {
   width: 100%;
 }
 .btn--join {
-  color: #73e335;
+  color: $green;
 }
 .btn--request {
-  color: #16dbdb;
+  color: $azure;
 }
 .btn--golive {
-  color: #F73E2D;
+  color: $red;
 }
 .btn--fake.btn--join {
-  border-color:  #73e335;
+  border-color:  $green;
 }
 .btn--fake.btn--request {
-  border-color:  #16dbdb;
+  border-color:  $azure;
 }
 .btn--fake.btn--golive {
-  border-color:  #F73E2D;
+  border-color:  $red;
 }
 .btn-tip {
   display: block;
@@ -104,7 +105,7 @@ button:disabled {
   width: 100%;
 }
 .btn--fake {
-  background: #fff;
+  background: $white;
   border-width: 2px;
   border-style: solid;
   padding: 1rem 2rem;
@@ -131,14 +132,14 @@ button:disabled {
   font-size: 0.925rem;
 }
 #button-golive{
-  color: #fff;
-  background-color: #F73E2D;
+  color: $white;
+  background-color: $red;
   padding: 0.8rem 1rem;
   border-radius: 0.3rem;
 }
 #button-join {
-  color: #fff;
-  background-color: #73E335;
+  color: $white;
+  background-color: $green;
   padding: 0.8rem 1rem;
   border-radius: 0.3rem;
 }
@@ -173,6 +174,9 @@ button:disabled {
 .text-center {
   text-align: center;
 }
+.bold{
+  font-weight: bold;
+}
 .full-width {
   width: 100%;
 }
@@ -202,11 +206,11 @@ button:disabled {
 .p-2{padding: 0.5rem;}
 .p-1{padding: 0.25rem;}
 .c-white{
-  color: #fff;
+  color: $white;
 }
 
 /** Streamer Video View**/
-.streamer__container {
+.stream__container {
   width: 100%;
   height: 100%;
   position: relative;
@@ -214,45 +218,64 @@ button:disabled {
   display: flex;
   flex-direction: column;
 }
-.streamer__controls {
+.stream__controls {
   padding: 1rem;
   position: absolute;
-  z-index: 9999;
+  z-index: 100;
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
-.streamer__controls--bottom {
+.stream__controls--bottom {
   bottom: 0;
   align-items: flex-end;
 }
-.streamer__controls--top {
+.stream__controls--top {
   top: 0;
   align-items: flex-start;
 }
+.stream-detail{
+  text-shadow: 0px 1px 1px  rgba(255, 255, 255, 0.8); 
+  .stream-detail__title{
+    color:$white;
+    font-weight: bold;
+    margin: 0 0 0.2rem;
+  }
+  .stream-detail__hashtag{
+    color:$white;
+    font-style: italic;
+    margin: 0;
+  }
+}
+
 /** Onsen UI **/
 .toolbar__title {
-  color: #fff;
+  color: $white;
   text-align: center;
 }
 .toolbar-button{
-  color: #fff;
+  color: $white;
 }
 .back-button, .back-button__icon{
-  color: #fff;
-  fill:#fff;
+  color: $white;
+  fill:$white;
 }
 .toolbar, .bottom-bar{
-  background-color: #1d1d1b !important;
+  background-color: $dark-grey !important;
 }
 .toolbar--material{
   height: 4rem;
 }
 .page--material__background, .page__background {
-  background-color: #fff;
+  background-color: $white;
 }
-.poopover{
+.popover{
   z-index: 99999;
+}
+.popover__content{
+  width: auto;
+  min-height: unset;
+  padding: 0.4rem 0.6rem;
 }
 .dialog {
   top: 46%;
@@ -325,7 +348,7 @@ button:disabled {
   font-size: 1.4rem;
 }
 .onboarding-page .onboarding-page--enter{
-  background: #fff;
+  background: $white;
 }
 .scroller {
   display: block;
