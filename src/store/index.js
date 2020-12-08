@@ -1,8 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import requests from "./requests";
-import smartcontract from "./smartcontract";
+import requests from "./modules/requests";
+import smartcontract from "./modules/smartcontract";
 
 Vue.use(Vuex);
 
