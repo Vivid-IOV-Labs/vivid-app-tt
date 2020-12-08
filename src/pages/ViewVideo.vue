@@ -72,7 +72,7 @@
           </div>
 
           <div class=" ml-auto flex-column ">
-            <div ref="tipbutton">
+            <div ref="tipbutton" @click.prevent="tipStreamer">
               <a @click.prevent="showPopover" class="btn-tip mb-2">
                 <img src="@/assets/img/thundercore-logo.svg" />
               </a>
@@ -88,14 +88,17 @@
 </template>
 <script>
 import BaseVideo from "@/components/BaseVideo.vue";
-import Web3 from "web3";
-import { address, ABI } from "@/util/constants/tippingContract";
+// import Web3 from "web3";
+// import { address, ABI } from "@/util/constants/tippingContract";
 
 import { createNamespacedHelpers } from "vuex";
 const { mapGetters } = createNamespacedHelpers("requests");
 import { trackEvent } from "../util/analytics";
-import devLog from "@/util/devlog.js";
+// import devLog from "@/util/devlog.js";
 import delay from "@/util/delay.js";
+
+// import { ethers } from "ethers";
+
 export default {
   name: "ViewVideo",
   components: {
@@ -131,42 +134,58 @@ export default {
     async tipStreamer() {
       trackEvent({ category: "Viewing Video", action: "tip" });
 
-      let amount = 1;
+      // let amount = 1;
 
-      var web3Instance = new Web3(window.web3.currentProvider);
+      // var web3Instance = new Web3(window.web3.currentProvider);
 
-      devLog(web3Instance);
+      // devLog(web3Instance);
 
-      let tippingContract = await window.web3.eth.contract(ABI);
-      let tippingContractInstance = await tippingContract.at(address);
+      // let tippingContract = await window.web3.eth.contract(ABI);
+      // let tippingContractInstance = await tippingContract.at(address);
 
-      devLog(tippingContract);
-      devLog(tippingContractInstance);
+      // devLog(tippingContract);
+      // devLog(tippingContractInstance);
 
-      await tippingContractInstance.tip(
-        this._getStreamerWalletAddress(),
-        {
-          gas: 300000,
-          gasPrice: "0x14f46b0400",
-          value: window.web3.toWei(String(amount), "ether"),
-          from: this.$store.state.web3.coinbase
-        },
-        err => {
-          if (err) {
-            devLog(err);
-          } else {
-            // let TipEvent = tippingContractInstance.Tip()
-            // TipEvent.watch((err, result) => {
-            //     if (err) {
-            //         devLog('could not get event Won()')
-            //     } else {
-            //         devLog(result)
-            //         //Show notification that tip has been sent.
-            //     }
-            // })
-          }
-        }
-      );
+      // await tippingContractInstance.tip(
+      //   this._getStreamerWalletAddress(),
+      //   {
+      //     gas: 300000,
+      //     gasPrice: "0x14f46b0400",
+      //     value: window.web3.toWei(String(amount), "ether"),
+      //     from: this.$store.state.web3.coinbase
+      //   },
+      //   err => {
+      //     if (err) {
+      //       devLog(err);
+      //     } else {
+      //       // let TipEvent = tippingContractInstance.Tip()
+      //       // TipEvent.watch((err, result) => {
+      //       //     if (err) {
+      //       //         devLog('could not get event Won()')
+      //       //     } else {
+      //       //         devLog(result)
+      //       //         //Show notification that tip has been sent.
+      //       //     }
+      //       // })
+      //     }
+      //   }
+      // );
+
+   
+
+
+    //   const tippingContract = await new ethers.Contract(address, ABI, provider);
+    //   const tippingContractWithSigner = await tippingContract.connect(signer);
+    //   var overrideOptions = {
+    //     gasLimit: 250000,
+    //     gasPrice: 9000000000,
+    //     nonce: 0,
+    //     value: ethers.utils.parseEther('1.0')
+    // };
+    // await tippingContractWithSigner.tip("0x6537da7F34d3454fce2bD9534491935687014bBd", overrideOptions);
+
+
+
     }
   },
   async mounted() {
@@ -182,7 +201,10 @@ export default {
     });
     await delay(900000);
     this.isPopoverVisible = false;
-  }
+  },
+    beforeCreate() {
+    this.$store.dispatch("requests/getWeb3Provider");
+  },
 };
 </script>
 <style lang="scss">

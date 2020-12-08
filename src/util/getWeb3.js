@@ -1,5 +1,5 @@
-import Web3 from "web3";
-import devLog from "@/util/devlog.js";
+// import devLog from "@/util/devlog.js";
+import { ethers } from "ethers";
 
 /*
  * 1. Check for injected web3 (mist/metamask)
@@ -9,43 +9,42 @@ import devLog from "@/util/devlog.js";
  * 5. Get user balance
  */
 
-let getWeb3 = new Promise(function(resolve, reject) {
-  // Check for injected web3 (mist/metamask)
-  var web3js = window.web3;
-  if (typeof web3js !== "undefined") {
-    devLog(web3js.currentProvider);
+let getWeb3 = new Promise(function (resolve, reject) {
+  // Check for injected web3 (mist, metamask, etc...)
+  let ethereum = window.ethereum;
+  if (typeof ethereum !== "undefined") {
 
     try {
-      let ethereum = window.ethereum;
       // Request account access if needed
-      ethereum.enable().then(() => {
+      ethereum.request({ method: 'eth_requestAccounts' }).then(() => {
         resolve({
-          web3js
+          ethereum
         });
       });
     } catch (error) {
       // User denied account access...
-      devLog("ethereum did not enable");
+      console.log("ethereum user account access not given")
     }
   } else {
-    // web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545')) GANACHE FALLBACK
-    reject(new Error("Unable to connect to Metamask"));
+    reject(new Error("Unable to connect to injected web3 provider"));
   }
 })
   .then(result => {
-    return new Promise(function(resolve, reject) {
-      var web3 = new Web3(result.web3js.currentProvider);
-      devLog(web3);
+    return new Promise(function (resolve, reject) {
+      // Get ethereum web3 provider
 
-      if (!web3) {
+      const provider = new ethers.providers.Web3Provider(result.ethereum);
+
+      if (!provider) {
         reject(new Error("Unable to create new Web3 instance"));
       } else {
-        result = Object.assign({}, result, {
-          injectedWeb3: web3.isConnected()
-        });
+        // result = Object.assign({}, result, {
+        //   injectedWeb3: web3.isConnected()
+        // });
+
         result = Object.assign({}, result, {
           web3() {
-            return web3;
+            return provider;
           }
         });
 
@@ -54,50 +53,81 @@ let getWeb3 = new Promise(function(resolve, reject) {
     });
   })
   .then(result => {
-    return new Promise(function(resolve, reject) {
-      // Retrieve network ID
-      result.web3().version.getNetwork((err, networkId) => {
-        if (err) {
-          // If we can't find a networkId keep result the same and reject the promise
-          reject(new Error("Unable to retrieve network ID"));
+    return new Promise(function (resolve, reject) {
+      // Retrieve network details
+
+      result.web3().getNetwork().then((network) => {
+
+        if (!network) {
+          // If we can't find the network details keep result the same and reject the promise
+          reject(new Error("Unable to retrieve network details"));
         } else {
-          // Assign the networkId property to our result and resolve promise
-          result = Object.assign({}, result, { networkId });
+          // Assign the network details property to our result and resolve promise
+          result = Object.assign({}, result, { network });
+
           resolve(result);
         }
-      });
+
+      }).catch((err) => {
+        console.log(err)
+        reject(new Error("Error when calling getNetwork()"));
+
+      })
+
     });
   })
   .then(result => {
-    return new Promise(function(resolve, reject) {
-      // Retrieve coinbase
-      result.web3().eth.getCoinbase((err, coinbase) => {
-        devLog(coinbase);
-        if (err) {
-          reject(new Error("Unable to retrieve coinbase"));
-        } else {
-          result = Object.assign({}, result, { coinbase });
-          resolve(result);
-        }
-      });
+    return new Promise(function (resolve, reject) {
+      // Get signer
+
+      try {
+
+        const signer = result.web3().getSigner();
+        result = Object.assign({}, result, { signer });
+
+        resolve(result);
+
+      } catch (error) {
+        // Failed to get signer
+        reject(new Error("Unable to retrieve signer"));
+
+      }
+
     });
   })
   .then(result => {
-    return new Promise(function(resolve, reject) {
-      // Retrieve balance for coinbase
-      devLog(result);
-      result.web3().eth.getBalance(result.coinbase, (err, balance) => {
-        if (err) {
-          reject(
-            new Error(
-              "Unable to retrieve balance for address: " + result.coinbase
-            )
-          );
-        } else {
-          result = Object.assign({}, result, { balance });
-          resolve(result);
-        }
-      });
+    return new Promise(function (resolve, reject) {
+      // Get signer address
+
+      result.signer.getAddress().then((signerAddress) => {
+
+        result = Object.assign({}, result, { signerAddress });
+        resolve(result);
+
+      }).catch((err) => {
+        console.log(err)
+        reject(new Error("Unable to retrieve signer address"));
+
+      })
+
+    })
+  }).then(result => {
+    return new Promise(function (resolve, reject) {
+      // Retrieve balance for signer
+
+      result.web3().getBalance(result.signerAddress).then((balance) => {
+
+        let signerBalance = ethers.utils.formatEther(balance)
+        result = Object.assign({}, result, { signerBalance });
+
+        resolve(result);
+
+      }).catch((err) => {
+        console.log(err)
+        reject(new Error("Unable to retrieve signer balance"));
+
+      })
+
     });
   });
 

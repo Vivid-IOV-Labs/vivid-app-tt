@@ -16,13 +16,24 @@ export default {
     selectedPin: null,
     streamerWalletAddress: null,
     myPosition: null,
+    // web3: {
+    //   isInjected: false,
+    //   web3Instance: null,
+    //   networkId: null,
+    //   coinbase: null,
+    //   balance: null,
+    //   error: null
+    // },
     web3: {
       isInjected: false,
       web3Instance: null,
-      networkId: null,
-      coinbase: null,
-      balance: null,
-      error: null
+      chianId: null,
+      error: null,
+      ethereum: null,
+      network: null,
+      signer: null,
+      signerAddress: null,
+      signerBalance: null
     },
     contractInstance: null
   },
@@ -44,20 +55,29 @@ export default {
     setStreamerWalletAddress(state, n) {
       state.streamerWalletAddress = n;
     },
-    setCoinbase(state, n) {
-      state.web3.coinbase = n;
-    },
-    setNetworkID(state, n) {
-      state.web3.networkId = n;
-    },
-    setBalance(state, n) {
-      state.web3.balance = parseInt(n, 10);
-    },
-    setIsInjected(state, n) {
-      state.web3.isInjected = n;
-    },
+    // setChainID(state, n) {
+    //   state.web3.networkId = n;
+    // },
+    // setIsInjected(state, n) {
+    //   state.web3.isInjected = n;
+    // },
     setWeb3Instance(state, n) {
       state.web3.web3Instance = n;
+    },
+    setSignerBalance(state, n) {
+      state.web3.signerBalance = parseInt(n, 10);
+    },
+    setSignerAddress(state, n) {
+      state.web3.signerAddress = n;
+    },
+    setSigner(state, n) {
+      state.web3.signer = n;
+    },
+    setNetwork(state, n) {
+      state.web3.network = n;
+    },
+    setWindowEthereum(state, n) {
+      state.web3.ethereum = n;
     },
     setPosition(state, position) {
       state.myPosition = position;
@@ -125,23 +145,29 @@ export default {
         devLog(err);
       }
     },
-    registerWeb3Instance2({ commit }, payload) {
-      commit("setCoinbase", payload.coinbase);
-      commit("setNetworkID", payload.networkId);
-      commit("setBalance", payload.balance);
-      commit("setIsInjected", payload.injectedWeb3);
+    registerWeb3ProviderInstance({ commit }, payload) {
+
+      // commit("setChainID", payload.chainId);
+      // commit("setIsInjected", payload.injectedWeb3);
       commit("setWeb3Instance", payload.web3);
+      commit("setSignerBalance", payload.signerBalance);
+      commit("setSignerAddress", payload.signerAddress);
+      commit("setSigner", payload.signer);
+      commit("setNetwork", payload.network);
+      commit("setWindowEthereum", payload.ethereum);
+
+      commit("setMyWalletAddress", payload.signerAddress);
+
     },
-    registerWeb3({ commit, dispatch }) {
+    getWeb3Provider({ dispatch }) {
       getWeb3
         .then(result => {
           devLog("committing result to registerWeb3Instance mutation");
-          commit("setMyWalletAddress", result.coinbase);
-          dispatch("registerWeb3Instance2", result);
+          dispatch("registerWeb3ProviderInstance", result);
           devLog(result);
         })
         .catch(e => {
-          devLog("error in action registerWeb3", e);
+          devLog("Error in action requestWeb3", e);
         });
     },
     async update({ state }, model) {

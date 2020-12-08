@@ -412,7 +412,7 @@ export default {
     }
   },
   beforeCreate() {
-    this.$store.dispatch("requests/registerWeb3");
+    this.$store.dispatch("requests/getWeb3Provider");
   },
   async mounted() {
     io.socket.on("request-created", async ({ data }) => {
