@@ -88,14 +88,8 @@
 </template>
 <script>
 import BaseVideo from "@/components/BaseVideo.vue";
-// import Web3 from "web3";
-// import {
-//   address as smartContractAddress,
-//   ABI as smartContractABI
-// } from "@/util/constants/tippingContract";
-
 import { createNamespacedHelpers } from "vuex";
-const { mapGetters } = createNamespacedHelpers("requests");
+const { mapGetters } = createNamespacedHelpers("smartcontract");
 import { trackEvent } from "@/util/analytics";
 import delay from "@/util/delay.js";
 
