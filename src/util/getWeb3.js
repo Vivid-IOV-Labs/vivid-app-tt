@@ -1,4 +1,4 @@
-// import devLog from "@/util/devlog.js";
+import devLog from "@/util/devlog.js";
 import { ethers } from "ethers";
 
 /*
@@ -9,28 +9,27 @@ import { ethers } from "ethers";
  * 5. Get user balance
  */
 
-let getWeb3 = new Promise(function (resolve, reject) {
+let getWeb3 = new Promise(function(resolve, reject) {
   // Check for injected web3 (mist, metamask, etc...)
   let ethereum = window.ethereum;
   if (typeof ethereum !== "undefined") {
-
     try {
       // Request account access if needed
-      ethereum.request({ method: 'eth_requestAccounts' }).then(() => {
+      ethereum.request({ method: "eth_requestAccounts" }).then(() => {
         resolve({
           ethereum
         });
       });
     } catch (error) {
       // User denied account access...
-      console.log("ethereum user account access not given")
+      devLog("ethereum user account access not given");
     }
   } else {
     reject(new Error("Unable to connect to injected web3 provider"));
   }
 })
   .then(result => {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       // Get ethereum web3 provider
 
       const provider = new ethers.providers.Web3Provider(result.ethereum);
@@ -53,81 +52,77 @@ let getWeb3 = new Promise(function (resolve, reject) {
     });
   })
   .then(result => {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       // Retrieve network details
 
-      result.web3().getNetwork().then((network) => {
+      result
+        .web3()
+        .getNetwork()
+        .then(network => {
+          if (!network) {
+            // If we can't find the network details keep result the same and reject the promise
+            reject(new Error("Unable to retrieve network details"));
+          } else {
+            // Assign the network details property to our result and resolve promise
+            result = Object.assign({}, result, { network });
 
-        if (!network) {
-          // If we can't find the network details keep result the same and reject the promise
-          reject(new Error("Unable to retrieve network details"));
-        } else {
-          // Assign the network details property to our result and resolve promise
-          result = Object.assign({}, result, { network });
-
-          resolve(result);
-        }
-
-      }).catch((err) => {
-        console.log(err)
-        reject(new Error("Error when calling getNetwork()"));
-
-      })
-
+            resolve(result);
+          }
+        })
+        .catch(err => {
+          devLog(err);
+          reject(new Error("Error when calling getNetwork()"));
+        });
     });
   })
   .then(result => {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       // Get signer
 
       try {
-
         const signer = result.web3().getSigner();
         result = Object.assign({}, result, { signer });
 
         resolve(result);
-
       } catch (error) {
         // Failed to get signer
         reject(new Error("Unable to retrieve signer"));
-
       }
-
     });
   })
   .then(result => {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       // Get signer address
 
-      result.signer.getAddress().then((signerAddress) => {
-
-        result = Object.assign({}, result, { signerAddress });
-        resolve(result);
-
-      }).catch((err) => {
-        console.log(err)
-        reject(new Error("Unable to retrieve signer address"));
-
-      })
-
-    })
-  }).then(result => {
-    return new Promise(function (resolve, reject) {
+      result.signer
+        .getAddress()
+        .then(signerAddress => {
+          result = Object.assign({}, result, { signerAddress });
+          resolve(result);
+        })
+        .catch(err => {
+          devLog(err);
+          reject(new Error("Unable to retrieve signer address"));
+        });
+    });
+  })
+  .then(result => {
+    return new Promise(function(resolve, reject) {
       // Retrieve balance for signer
 
-      result.web3().getBalance(result.signerAddress).then((balance) => {
+      result
+        .web3()
+        .getBalance(result.signerAddress)
+        .then(balance => {
+          let signerBalance = ethers.utils.formatEther(balance);
+          result = Object.assign({}, result, { signerBalance });
 
-        let signerBalance = ethers.utils.formatEther(balance)
-        result = Object.assign({}, result, { signerBalance });
-
-        resolve(result);
-
-      }).catch((err) => {
-        console.log(err)
-        reject(new Error("Unable to retrieve signer balance"));
-
-      })
-
+          resolve(result);
+        })
+        .catch(err => {
+          devLog(err);
+          reject(new Error("Unable to retrieve signer balance"));
+        });
     });
   });
 

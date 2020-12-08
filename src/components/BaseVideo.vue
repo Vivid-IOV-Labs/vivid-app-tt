@@ -43,8 +43,7 @@ export default {
 
     // const videoUrl =
     //   "https://streams.vividiov.media:5443/WebRTCAppEE/streams/953594478786080819185945.mp4";
-
-    const videoUrl = ""
+    const videoUrl = "@/assets/videos/santa5.mp4";
     this.player.source = {
       type: "video",
       title: "Example title",

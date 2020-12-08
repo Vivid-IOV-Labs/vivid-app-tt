@@ -4,6 +4,7 @@ import FlagService from "@/services/FlagService";
 import env from "@/env.js";
 
 import getWeb3 from "@/util/getWeb3";
+import getSmartContract from "@/util/getSmartContract";
 import devLog from "@/util/devlog.js";
 
 export default {
@@ -35,7 +36,11 @@ export default {
       signerAddress: null,
       signerBalance: null
     },
-    contractInstance: null
+    smartContract: {
+      tippingContractInstance: null,
+      tippingContractInstanceWithSigner: null,
+      tippingAmmount: null
+    }
   },
   mutations: {
     // setRequestPin(state, newPin) {
@@ -81,6 +86,19 @@ export default {
     },
     setPosition(state, position) {
       state.myPosition = position;
+    },
+    registerWeb3ProviderInstance(state, n) {
+      let res = n;
+      let copyWeb3State = state.web3;
+      copyWeb3State.signerAddress = res.signerAddress;
+      copyWeb3State.signer = res.signer;
+      copyWeb3State.network = res.network;
+      copyWeb3State.signerBalance = parseInt(res.signerBalance, 10);
+      copyWeb3State.web3Instance = res.web3;
+      state.web3 = copyWeb3State;
+    },
+    setSmartContractWithSigner(state, smartContract) {
+      state.smartContract.tippingContractInstanceWithSigner = smartContract;
     }
   },
   getters: {
@@ -89,7 +107,11 @@ export default {
     getSelectedPin: state => state.selectedPin,
     getStreamerWalletAddress: state => state.streamerWalletAddress,
     searchLocation: state => state.searchLocation,
-    getPosition: state => state.myPosition
+    getPosition: state => state.myPosition,
+    getWeb3Instance: state => state.web3.web3Instance,
+    getWeb3Signer: state => state.web3.signer,
+    getTippingContractWithSigner: state =>
+      state.smartContract.tippingContractInstanceWithSigner
   },
   actions: {
     setPosition({ commit }, position) {
@@ -146,7 +168,6 @@ export default {
       }
     },
     registerWeb3ProviderInstance({ commit }, payload) {
-
       // commit("setChainID", payload.chainId);
       // commit("setIsInjected", payload.injectedWeb3);
       commit("setWeb3Instance", payload.web3);
@@ -157,14 +178,22 @@ export default {
       commit("setWindowEthereum", payload.ethereum);
 
       commit("setMyWalletAddress", payload.signerAddress);
-
     },
-    getWeb3Provider({ dispatch }) {
+    async getSmartContract({ commit }, payload) {
+      const tippingContractWithSigner = await getSmartContract(payload);
+      commit("setSmartContractWithSigner", tippingContractWithSigner);
+    },
+    getWeb3Provider({ commit, dispatch }) {
       getWeb3
         .then(result => {
           devLog("committing result to registerWeb3Instance mutation");
-          dispatch("registerWeb3ProviderInstance", result);
+          // const cloneResult = JSON.parse(JSON.stringify({ ...result }));
+          // dispatch("registerWeb3ProviderInstance", result);
+          commit("registerWeb3ProviderInstance", result);
+          dispatch("getSmartContract", result);
+
           devLog(result);
+          return result;
         })
         .catch(e => {
           devLog("Error in action requestWeb3", e);

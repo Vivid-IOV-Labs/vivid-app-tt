@@ -11,6 +11,9 @@
 import delay from "@/util/delay.js";
 export default {
   name: "RootLoading",
+  async beforeCreate() {
+    await this.$store.dispatch("requests/getWeb3Provider");
+  },
   async mounted() {
     await delay(4000);
     this.$router.push({ path: "viewvideo" });
