@@ -16,6 +16,7 @@ let getWeb3 = new Promise(function(resolve, reject) {
     try {
       // Request account access if needed
       ethereum.request({ method: "eth_requestAccounts" }).then(() => {
+        debugger;
         resolve({
           ethereum
         });

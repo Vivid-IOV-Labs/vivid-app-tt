@@ -147,8 +147,10 @@ export default {
     this.$nextTick(() => {
       this.isPopoverVisible = true;
 
-      document.querySelector(".popover-mask").style.display = "none";
-      document.querySelector(".popover").addEventListener("click", () => {
+      const popOverMask = document.querySelectorAll(".popover-mask")[1];
+      popOverMask.style.display = "none";
+      const popOver = document.querySelectorAll(".popover")[1];
+      popOver.addEventListener("click", () => {
         this.isPopoverVisible = false;
       });
     });

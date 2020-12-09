@@ -2,7 +2,7 @@
   <div class="video__container">
     <slot name="top"></slot>
 
-    <video ref="video" crossorigin playsinline preload="auto"></video>
+    <video ref="video" playsinline preload="auto"></video>
     <slot name="bottom"></slot>
   </div>
 </template>
@@ -40,10 +40,10 @@ export default {
   },
   async mounted() {
     this.player = new Plyr(this.$refs.video, this.options);
-
     // const videoUrl =
     //   "https://streams.vividiov.media:5443/WebRTCAppEE/streams/953594478786080819185945.mp4";
-    const videoUrl = "@/assets/videos/santa5.mp4";
+    const videoUrl =
+      "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4";
     this.player.source = {
       type: "video",
       title: "Example title",

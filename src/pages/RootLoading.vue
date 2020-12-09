@@ -16,7 +16,7 @@ export default {
   },
   async mounted() {
     await delay(4000);
-    this.$router.push({ path: "viewvideo" });
+    this.$router.push({ path: "videolist" });
   }
 };
 </script>

@@ -1,13 +1,11 @@
 import RequestService from "@/services/RequestService";
 import FlagService from "@/services/FlagService";
 
-import env from "@/env.js";
 import devLog from "@/util/devlog.js";
 
 export default {
   namespaced: true,
   state: {
-    baseURL: env.web_service_url,
     searchLocation: null,
     localCopyOfRequestPins: null,
     selectedPin: null,

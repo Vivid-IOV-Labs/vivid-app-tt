@@ -11,11 +11,14 @@ const ViewStream = () =>
   import(/* webpackChunkName: "ViewStream" */ "@/pages/ViewStream");
 const ViewVideo = () =>
   import(/* webpackChunkName: "ViewVideo" */ "@/pages/ViewVideo");
+const VideoList = () =>
+  import(/* webpackChunkName: "VideoList" */ "@/pages/VideoList");
 const SupplyStream = () =>
   import(/* webpackChunkName: "SupplyStream" */ "@/pages/SupplyStream");
 
 const routes = [
   { name: "root", path: "/", component: RootLoading },
+  { name: "videolist", path: "/videolist", component: VideoList },
   { name: "viewvideo", path: "/viewvideo", component: ViewVideo },
   { name: "onboarding", path: "/onboarding", component: OnBoarding },
   { name: "home", path: "/home", component: Home },

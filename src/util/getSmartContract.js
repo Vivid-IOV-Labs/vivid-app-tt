@@ -4,6 +4,8 @@ import {
 } from "@/util/constants/tippingContract";
 import { ethers } from "ethers";
 
+// const provider = new ethers.providers.Web3Provider(window.ethereum)
+
 const getSmartContract = async ({ web3, signer }) => {
   const smartContractProvider = web3();
   const tippingContract = await new ethers.Contract(
