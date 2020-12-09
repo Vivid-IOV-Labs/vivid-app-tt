@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-ons-toolbar-button @click="showPopover">
-      <base-icon class="btn__icon--white" name="bars"></base-icon>
+      <base-icon class="btn__icon--white" name="info-circle"></base-icon>
     </v-ons-toolbar-button>
     <v-ons-popover
       cancelable
@@ -12,11 +12,11 @@
     >
       <h6 class="text-center">Peerkat <small>BETA</small></h6>
       <v-ons-list class="text-center p-2">
-        <v-ons-list-item class="text-center" modifier="tappable"
+        <!-- <v-ons-list-item class="text-center" modifier="tappable"
           ><a class="menu__link" href="#" @click="toOnboarding">
             User Guide
           </a>
-        </v-ons-list-item>
+        </v-ons-list-item> -->
         <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"

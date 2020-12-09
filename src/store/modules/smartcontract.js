@@ -103,7 +103,6 @@ export default {
     getWeb3Provider({ commit, dispatch }) {
       getWeb3
         .then(result => {
-          debugger;
           devLog("committing result to registerWeb3Instance mutation");
           // const cloneResult = JSON.parse(JSON.stringify({ ...result }));
           // dispatch("registerWeb3ProviderInstance", result);

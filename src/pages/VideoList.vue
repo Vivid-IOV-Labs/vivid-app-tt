@@ -9,23 +9,19 @@
       </div>
     </v-ons-toolbar>
     <div class="scroller">
-      <v-ons-list>
-        <v-ons-list-item v-for="media in getAll" :key="media.mediaID">
+      <h3>Latest Videos</h3>
+      <v-ons-list modifier="tappable">
+        <v-ons-list-item
+          v-for="media in getAll"
+          :key="media.mediaID"
+          @click="pushToVideo(media.mediaID)"
+        >
           <div class="flex-center-y full-width p-4">
             <div>
               <h3>{{ media.details }}</h3>
               <p>
                 {{ media.twitter.hashtags }}
               </p>
-            </div>
-
-            <div class="ml-auto">
-              <v-ons-button
-                @click="pushToVideo"
-                class="btn btn--round bnt--large text-center"
-              >
-                <base-icon class="btn__icon" name="angle-right"></base-icon
-              ></v-ons-button>
             </div>
           </div>
         </v-ons-list-item>
@@ -55,8 +51,8 @@ export default {
   },
   methods: {
     ...mapActions(["populateAll"]),
-    pushToVideo() {
-      this.$router.push({ path: "viewvideo" });
+    pushToVideo(mediaID) {
+      this.$router.push({ path: `viewvideo/${mediaID}` });
     }
   }
 };

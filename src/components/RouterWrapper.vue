@@ -1,6 +1,11 @@
 <template>
   <v-ons-navigator
     swipeable
+    @push-back="goBack"
+    @reset-home-page="
+      pageStack.pop();
+      pageStack.push($event);
+    "
     :page-stack="pageStack"
     :pop-page="goBack"
   ></v-ons-navigator>
@@ -43,7 +48,7 @@ export default {
   methods: {
     goBack() {
       this.$router.push({
-        name: this.$route.matched[this.$route.matched.length - 2].name
+        name: this.$route.matched[this.$route.matched.length - 1].name
       });
     }
   }

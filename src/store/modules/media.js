@@ -5,7 +5,10 @@ const state = {
 };
 
 const getters = {
-  getAll: state => state.all
+  getAll: state => state.all,
+  getById: state => id => {
+    return state.all.find(media => media.mediaID === id);
+  }
 };
 
 const actions = {

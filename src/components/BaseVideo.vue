@@ -31,6 +31,12 @@ export default {
       default() {
         return {};
       }
+    },
+    source: {
+      type: Object,
+      default() {
+        return {};
+      }
     }
   },
   data() {
@@ -40,15 +46,13 @@ export default {
   },
   async mounted() {
     this.player = new Plyr(this.$refs.video, this.options);
-    // const videoUrl =
-    //   "https://streams.vividiov.media:5443/WebRTCAppEE/streams/953594478786080819185945.mp4";
-    const videoUrl =
-      "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4";
-    this.player.source = {
-      type: "video",
-      title: "Example title",
-      sources: [{ src: videoUrl, type: "video/mp4" }]
-    };
+    console.log(this.source);
+    this.player.source = this.source;
+    // this.player.source = {
+    //   type: "video",
+    //   title: "Example title",
+    //   sources: [{ src: videoUrl, type: "video/mp4" }]
+    // };
 
     this.player.on("ready", () => {
       trackEvent({ category: "Viewing Video", action: "play" });

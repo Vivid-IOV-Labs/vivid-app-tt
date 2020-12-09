@@ -1,6 +1,6 @@
 <template>
   <v-ons-page id="viewStreamPage">
-    <base-video ref="videoplayer" :options="videoOptions">
+    <base-video ref="videoplayer" :source="sourceMedia" :options="videoOptions">
       <template v-slot:top>
         <div class="stream__controls stream__controls--top">
           <div class="flex">
@@ -88,8 +88,7 @@
 </template>
 <script>
 import BaseVideo from "@/components/BaseVideo.vue";
-import { createNamespacedHelpers } from "vuex";
-const { mapGetters } = createNamespacedHelpers("smartcontract");
+import { mapGetters } from "vuex";
 import { trackEvent } from "@/util/analytics";
 import delay from "@/util/delay.js";
 
@@ -118,11 +117,36 @@ export default {
       popoverTarget: null
     };
   },
+  computed: {
+    ...mapGetters("media", ["getById"]),
+    ...mapGetters("smartcontract", ["getTippingContractWithSigner"]),
+    mediaID() {
+      return this.$route.params.mediaID;
+    },
+    currentMedia() {
+      return this.getById(this.mediaID);
+    },
+    videoUrl() {
+      const url = `https://streams.vividiov.media:5443/WebRTCAppEE/streams/${this.mediaID}.mp4`;
+      return url;
+    },
+    sourceMedia() {
+      return {
+        type: "video",
+        title: "Example title",
+        sources: [
+          {
+            src: this.videoUrl,
+            type: "video/mp4"
+          }
+        ]
+      };
+    }
+  },
   methods: {
-    ...mapGetters(["getTippingContractWithSigner"]),
     endViewingVideo() {
       trackEvent({ category: "Viewing Video", action: "end" });
-      this.$router.push({ path: "/" });
+      this.$router.back();
     },
     dropVideoMenu() {
       this.isVideoMenuDropped = !this.isVideoMenuDropped;
@@ -135,7 +159,7 @@ export default {
         nonce: 0,
         value: ethers.utils.parseEther("1.0")
       };
-      await this.getTippingContractWithSigner().tip(
+      await this.getTippingContractWithSigner.tip(
         "0x6537da7F34d3454fce2bD9534491935687014bBd",
         overrideOptions
       );
