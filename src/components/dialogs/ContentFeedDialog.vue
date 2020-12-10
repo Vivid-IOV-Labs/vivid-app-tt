@@ -14,67 +14,83 @@
         <div class="grid-x3">
           <div class="grid-x3__cell flex-column flex-center-xy  mb-2 ">
             <v-ons-button
-              class="btn btn--large  btn--opacity-soft btn--circle mb-2"
+              class="btn btn--round-large text-azure btn--opacity-soft nd mb-2"
             >
               <base-icon class="btn__icon" name="crypto"></base-icon>
             </v-ons-button>
-            <span class="mb-2">Crypto</span>
+            <span class="mb-2 text-center">Crypto</span>
           </div>
           <div class="grid-x3__cell flex-column flex-center-xy  mb-2">
             <v-ons-button
-              class="btn btn--large  btn--opacity-soft btn--circle mb-2"
+              class="btn btn--round-large text-azure btn--opacity-soft nd mb-2"
             >
-              <base-icon class="btn__icon" name="gaming"></base-icon>
+              <base-icon
+                class="btn__icon"
+                :fill="false"
+                name="gaming"
+              ></base-icon>
             </v-ons-button>
-            <span class="mb-2">Gaming</span>
+            <span class="mb-2 text-center">Gaming</span>
           </div>
           <div class="grid-x3__cell flex-column flex-center-xy  mb-2">
             <v-ons-button
-              class="btn btn--large  btn--opacity-soft btn--circle mb-2"
+              class="btn btn--round-large text-azure btn--opacity-soft nd mb-2"
             >
               <base-icon class="btn__icon" name="sports"></base-icon>
             </v-ons-button>
-            <span class="mb-2">Sports</span>
+            <span class="mb-2 text-center">Sports</span>
           </div>
           <div class="grid-x3__cell flex-column flex-center-xy  mb-2">
             <v-ons-button
-              class="btn btn--large  btn--opacity-soft btn--circle mb-2"
+              class="btn btn--round-large text-azure btn--opacity-soft nd mb-2"
             >
               <base-icon class="btn__icon" name="entertainment"></base-icon>
             </v-ons-button>
-            <span class="mb-2">Entertainment</span>
+            <span class="mb-2 text-center">Entertainment</span>
           </div>
           <div class="grid-x3__cell flex-column flex-center-xy  mb-2">
             <v-ons-button
-              class="btn btn--large  btn--opacity-soft btn--circle mb-2"
+              class="btn btn--round-large text-azure btn--opacity-soft mb-2"
             >
-              <base-icon class="btn__icon" name="food_drink"></base-icon>
+              <base-icon
+                class="btn__icon"
+                :fill="false"
+                name="food_drink"
+              ></base-icon>
             </v-ons-button>
-            food&drink
+            <span class="mb-2 text-center">Food &amp; Drink</span>
           </div>
           <div class="grid-x3__cell flex-column flex-center-xy  mb-2">
             <v-ons-button
-              class="btn btn--large  btn--opacity-soft btn--circle mb-2"
+              class="btn btn--round-large text-azure btn--opacity-soft mb-2"
             >
-              <base-icon class="btn__icon" name="healt_wellbeing"></base-icon>
+              <base-icon
+                class="btn__icon"
+                :fill="false"
+                name="healt_wellbeing"
+              ></base-icon>
             </v-ons-button>
-            <span class="mb-2">Healt &amp; Wellbeing</span>
+            <span class="mb-2 text-center">Healt &amp; Wellbeing</span>
           </div>
           <div class="grid-x3__cell flex-column flex-center-xy  mb-2">
             <v-ons-button
-              class="btn btn--large  btn--opacity-soft btn--circle mb-2"
+              class="btn btn--round-large text-azure btn--opacity-soft mb-2"
             >
-              <base-icon class="btn__icon" name="travel_outdoors"></base-icon>
+              <base-icon
+                class="btn__icon"
+                :fill="false"
+                name="travel_outdoors"
+              ></base-icon>
             </v-ons-button>
-            <span class="mb-2">Travel &amp; Outdoors</span>
+            <span class="mb-2 text-center">Travel &amp; Outdoors</span>
           </div>
           <div class="grid-x3__cell flex-column flex-center-xy  mb-2">
             <v-ons-button
-              class="btn btn--large  btn--opacity-soft btn--circle mb-2"
+              class="btn btn--round-large text-azure btn--opacity-soft mb-2"
             >
               <base-icon class="btn__icon" name="science_tech"></base-icon>
             </v-ons-button>
-            <span class="mb-2">Science &amp; Tech</span>
+            <span class="mb-2 text-center">Science &amp; Tech</span>
           </div>
         </div>
       </div>
@@ -109,24 +125,25 @@ export default {
 .grid-x3 {
   display: flex;
   flex-flow: row wrap;
-  align-items: center;
+  align-items: baseline;
   justify-content: flex-end;
 }
 
 .grid-x3__cell {
-  flex: 0 1 48%;
+  width: 25%;
+  flex: 0 1 25%;
 }
 
 @media (max-width: 1024px) {
   .grid-x3__cell {
-    flex: 0 1 48%;
+    flex: 0 1 25%;
   }
 }
 
 @media (max-width: 767px) {
   .grid-x3__cell {
     margin-bottom: 1rem;
-    flex: 0 1 48%;
+    flex: 0 1 25%;
   }
 }
 </style>
