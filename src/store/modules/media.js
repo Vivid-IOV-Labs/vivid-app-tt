@@ -1,5 +1,5 @@
 import MediaService from "@/services/MediaService";
-import devLog from "@/util/devLog";
+import devLog from "@/util/devlog.js";
 
 const state = {
   all: []
