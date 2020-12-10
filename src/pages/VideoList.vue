@@ -57,3 +57,24 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.page__background {
+  background: lighten($color: $dark-grey, $amount: 15);
+}
+.page,
+.page__content {
+  background: lighten($color: $dark-grey, $amount: 15);
+  color: $white;
+}
+.bottom-bar,
+.toolbar {
+  background-image: none;
+  background: $dark-grey;
+}
+.list {
+  background: lighten($color: $dark-grey, $amount: 15);
+}
+.list-item {
+  color: $white;
+}
+</style>
