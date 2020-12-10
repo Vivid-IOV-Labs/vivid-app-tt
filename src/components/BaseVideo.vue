@@ -46,7 +46,6 @@ export default {
   },
   async mounted() {
     this.player = new Plyr(this.$refs.video, this.options);
-    console.log(this.source);
     this.player.source = this.source;
     // this.player.source = {
     //   type: "video",

@@ -1,4 +1,5 @@
 import MediaService from "@/services/MediaService";
+import devLog from "@/util/devLog";
 
 const state = {
   all: []
@@ -17,7 +18,7 @@ const actions = {
       const { data } = await MediaService.getAll();
       commit("setAll", data);
     } catch (error) {
-      console.log(error);
+      devLog(error);
     }
   }
 };
