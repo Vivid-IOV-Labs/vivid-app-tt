@@ -29,6 +29,13 @@ svg.icon {
   width: 1em;
   pointer-events: none;
 }
+svg.icon--fill {
+  fill: currentColor;
+}
+svg.icon--notfill {
+  fill: none;
+  stroke: currentColor;
+}
 svg.icon-spin {
   animation: icon-spin 2s infinite linear;
 }

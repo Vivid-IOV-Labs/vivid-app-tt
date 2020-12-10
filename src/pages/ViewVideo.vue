@@ -43,14 +43,16 @@
                   v-show="isVideoMenuDropped"
                   class="video__controls__menu flex-column"
                 >
-                  <v-ons-button
+                  <a
                     class="btn btn--square  btn--opacity-soft btn--small  mb-2"
+                    :href="currentMedia.shop.link"
+                    target="_blank"
                   >
                     <base-icon
                       class="btn__icon"
                       name="shopping-cart"
                     ></base-icon>
-                  </v-ons-button>
+                  </a>
                 </div>
               </transition>
             </div>
@@ -136,8 +138,12 @@ export default {
         title: "Example title",
         sources: [
           {
-            src: this.videoUrl,
-            type: "video/mp4"
+            // src: this.videoUrl,
+            // type: "video/mp4",
+            src:
+              "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4",
+            type: "video/mp4",
+            size: "720"
           }
         ]
       };

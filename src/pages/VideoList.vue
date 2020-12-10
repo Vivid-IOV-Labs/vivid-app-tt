@@ -18,22 +18,20 @@
         >
           <div class="flex-center-y full-width">
             <div>
-              <p>{{ media.details }}</p>
-              <span>
-                {{ media.twitter.hashtags }}
-              </span>
+              <span>{{ media.details.title }}</span>
             </div>
           </div>
         </v-ons-list-item>
       </v-ons-list>
     </div>
-    <v-ons-bottom-toolbar></v-ons-bottom-toolbar>
+    <content-feed-dialog v-model="isContentFeedDialog"></content-feed-dialog>
   </v-ons-page>
 </template>
 
 <script>
 import HeadMenu from "@/components/HeadMenu.vue";
 import HeadLogo from "@/components/HeadLogo.vue";
+import ContentFeedDialog from "@/components/dialogs/ContentFeedDialog.vue";
 import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapGetters } = createNamespacedHelpers("media");
 
@@ -41,7 +39,13 @@ export default {
   name: "VideoList",
   components: {
     HeadMenu,
-    HeadLogo
+    HeadLogo,
+    ContentFeedDialog
+  },
+  data() {
+    return {
+      isContentFeedDialog: false
+    };
   },
   created() {
     this.populateAll();
@@ -53,7 +57,13 @@ export default {
     ...mapActions(["populateAll"]),
     pushToVideo(mediaID) {
       this.$router.push({ path: `viewvideo/${mediaID}` });
+    },
+    showContentFeedDialog() {
+      this.isContentFeedDialog = true;
     }
+  },
+  mounted() {
+    this.showContentFeedDialog();
   }
 };
 </script>

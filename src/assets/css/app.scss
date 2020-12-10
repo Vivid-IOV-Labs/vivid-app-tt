@@ -16,10 +16,12 @@ button:disabled {
   border-radius: 1.3rem;
   text-align: center;
   background-color: $dark-grey;
+  line-height: 2;
   font-weight: 550;
   height: fit-content;
   padding: 0.4rem 0.8rem;
   border-color: transparent;
+  user-select: none;
 }
 
 .btn__icon--white{
@@ -29,14 +31,13 @@ button:disabled {
   border-radius: 0.4rem;
 }
 .btn--round{
-  width: 3rem;
-  height: 3rem;
-  border-radius: 3rem;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 6px 0px;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.42857;
 }
 .btn--default {
   color: $white;
@@ -145,6 +146,9 @@ button:disabled {
 }
 
 /** Atoms **/
+.content{
+  padding: 1rem;
+}
 .flex{
   display: flex;
 }
@@ -167,6 +171,12 @@ button:disabled {
 .flex-stretch{
   width: 100%;
   flex: 1;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.space-between{
+  justify-content: space-between;
 }
 .justify-center {
   justify-content: center;
