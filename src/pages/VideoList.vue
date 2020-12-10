@@ -1,5 +1,5 @@
 <template>
-  <v-ons-page>
+  <v-ons-page class="viewlist">
     <v-ons-toolbar>
       <div class="left">
         <head-logo></head-logo>
@@ -8,20 +8,20 @@
         <head-menu></head-menu>
       </div>
     </v-ons-toolbar>
-    <div class="scroller">
-      <h3>Latest Videos</h3>
+    <div class="scroller viewlist__content">
+      <h3 class="viewlist__title">Latest Videos</h3>
       <v-ons-list modifier="tappable">
         <v-ons-list-item
           v-for="media in getAll"
           :key="media.mediaID"
           @click="pushToVideo(media.mediaID)"
         >
-          <div class="flex-center-y full-width p-4">
+          <div class="flex-center-y full-width">
             <div>
-              <h3>{{ media.details }}</h3>
-              <p>
+              <p>{{ media.details }}</p>
+              <span>
                 {{ media.twitter.hashtags }}
-              </p>
+              </span>
             </div>
           </div>
         </v-ons-list-item>
@@ -58,23 +58,28 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.page__background {
-  background: lighten($color: $dark-grey, $amount: 15);
-}
-.page,
-.page__content {
-  background: lighten($color: $dark-grey, $amount: 15);
-  color: $white;
-}
-.bottom-bar,
-.toolbar {
-  background-image: none;
-  background: $dark-grey;
-}
-.list {
-  background: lighten($color: $dark-grey, $amount: 15);
-}
-.list-item {
-  color: $white;
+.viewlist {
+  .viewlist__title {
+    font-weight: bold;
+    color: $white;
+    font-size: 1.2rem;
+    margin: 0.4rem 0 0;
+    text-transform: uppercase;
+    display: block;
+    padding: 0.4rem 0;
+    //background: linear-gradient(black 60%, transparent 20%);
+  }
+  .viewlist__content {
+    padding: 1rem;
+  }
+  .list {
+    background: lighten($color: $dark-grey, $amount: 15);
+  }
+  .list-item {
+    color: $white;
+    border-bottom: solid;
+    padding: 0;
+    border-color: $dark-grey;
+  }
 }
 </style>

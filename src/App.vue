@@ -12,6 +12,19 @@
 body {
   font-family: "Source Code Pro";
 }
+.page__background {
+  background: lighten($color: $dark-grey, $amount: 15);
+}
+
+.page__content {
+  background: lighten($color: $dark-grey, $amount: 15);
+  color: $white;
+}
+.bottom-bar,
+.toolbar {
+  background-image: none;
+  background: $dark-grey;
+}
 </style>
 
 <script>
