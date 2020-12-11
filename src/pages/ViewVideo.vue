@@ -4,12 +4,12 @@
       <template v-slot:top>
         <div class="stream__controls stream__controls--top">
           <div class="flex">
-            <v-ons-button
+            <!-- <v-ons-button
               class="btn btn--small btn--opacity-soft flex-center-xy"
             >
               <base-icon class="btn__icon" name="user"></base-icon>
               <span class="ml-2">101</span>
-            </v-ons-button>
+            </v-ons-button> -->
             <v-ons-button
               class="btn btn--small btn--opacity-soft flex-center-xy ml-2"
             >
@@ -32,7 +32,7 @@
               >
                 <base-icon class="btn__icon" name="times"></base-icon>
               </v-ons-button>
-              <v-ons-button
+              <!-- <v-ons-button
                 @click="dropVideoMenu"
                 class="btn btn--small  btn--opacity-soft btn--square mb-2"
               >
@@ -54,7 +54,7 @@
                     ></base-icon>
                   </a>
                 </div>
-              </transition>
+              </transition> -->
             </div>
           </div>
         </div>

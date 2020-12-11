@@ -69,7 +69,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .viewlist {
   .viewlist__content {
     padding: 1rem;
@@ -83,5 +83,9 @@ export default {
     padding: 0;
     border-color: $dark-grey;
   }
+}
+.dialog-container {
+  background-color: lighten($color: $dark-grey, $amount: 15);
+  color: $white;
 }
 </style>

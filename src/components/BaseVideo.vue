@@ -44,8 +44,31 @@ export default {
       player: null
     };
   },
+  methods: {
+    fixMobileClick() {
+      const player = this.player;
+      const { wrapper, container } = player.elements;
+      if (!container._clickListener) {
+        container._clickListener = event => {
+          const targets = [container, wrapper];
+
+          // Ignore if click if not container or in video wrapper
+          if (
+            !targets.includes(event.target) &&
+            !wrapper.contains(event.target)
+          ) {
+            return;
+          }
+
+          if (player.touch) player.togglePlay();
+        };
+        container.addEventListener("click", container._clickListener);
+      }
+    }
+  },
   async mounted() {
     this.player = new Plyr(this.$refs.video, this.options);
+    this.fixMobileClick();
     this.player.source = this.source;
     // this.player.source = {
     //   type: "video",
@@ -95,7 +118,7 @@ export default {
     width: 100%;
   }
   @media screen and (orientation: portrait) {
-    .plyr video {
+    .islive video {
       object-fit: cover;
     }
   }
