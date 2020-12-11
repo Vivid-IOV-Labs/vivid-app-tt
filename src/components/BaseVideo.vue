@@ -95,7 +95,9 @@ export default {
     width: 100%;
   }
   @media screen and (orientation: portrait) {
-    object-fit: cover;
+    .plyr video {
+      object-fit: cover;
+    }
   }
 
   .plyr--video .plyr__controls {
