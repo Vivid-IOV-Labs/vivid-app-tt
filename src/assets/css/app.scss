@@ -229,7 +229,12 @@ button:disabled {
 .c-white{
   color: $white;
 }
-
+.hr-space{
+  visibility: hidden;
+  border: none;
+  clear: both;
+  height: 1rem;
+}
 /** Streamer Video View**/
 .stream__container {
   width: 100%;
@@ -379,3 +384,15 @@ button:disabled {
   -ms-overflow-style: none;
   -ms-scroll-snap-type: mandatory;
 }
+
+/** Typos **/
+.page .page__title{
+  font-weight: bold;
+  color: $white;
+  font-size: 1.2rem;
+  margin: 0.4rem 0 0.6rem;
+  text-transform: uppercase;
+  display: block;
+  padding: 0.4rem 0;
+  background: rgb(0,0,0);
+  background: linear-gradient(145deg, rgba(0,0,0,10) 20%, transparent 100%);}

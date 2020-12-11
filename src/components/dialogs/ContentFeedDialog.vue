@@ -10,7 +10,7 @@
         </div>
       </v-ons-toolbar>
       <div class="scroller content">
-        <h3>What what do you like to see most?</h3>
+        <h3 class="page__title">What what do you like to see most?</h3>
         <div class="grid-x3">
           <div class="grid-x3__cell flex-column flex-center-xy  mb-2 ">
             <label
@@ -193,6 +193,21 @@
             >
           </div>
         </div>
+        <h3 class="page__title">Become a Peerkat OG</h3>
+        <p>
+          Please join our Telegram group now to help us create an awesome
+          platform for you
+        </p>
+        <div class="flex mt-2 mb-2 flex-center-xy">
+          <a
+            href="https://t.me/joinchat/M90RPBklSbAkMzfLl02Qcw"
+            target="_blank"
+            class="btn btn--round-large btn--opacity-soft mb-2 "
+          >
+            <base-icon class="btn__icon" name="telegram"></base-icon>
+          </a>
+        </div>
+        <hr class="hr-space" />
       </div>
     </v-ons-page>
   </v-ons-dialog>

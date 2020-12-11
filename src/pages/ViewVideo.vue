@@ -19,12 +19,12 @@
           </div>
 
           <div class="ml-auto flex">
-            <v-ons-button
+            <!-- <v-ons-button
               @click="reportConfirm = true"
               class="btn btn--square  btn--opacity-soft btn--small "
             >
               <base-icon class="btn__icon" name="flag"></base-icon>
-            </v-ons-button>
+            </v-ons-button> -->
             <div class="flex-column ml-2">
               <v-ons-button
                 @click="endViewingVideo"
@@ -66,10 +66,10 @@
         >
           <div class="flex-column stream-detail">
             <h5 class="stream-detail__title">
-              details
+              {{ title }}
             </h5>
             <p class="stream-detail__hashtag">
-              hashtags
+              {{ hashtags }}
             </p>
           </div>
 
@@ -139,7 +139,6 @@ export default {
         sources: [
           {
             // src: this.videoUrl,
-            // type: "video/mp4",
             src:
               "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4",
             type: "video/mp4",
@@ -147,6 +146,34 @@ export default {
           }
         ]
       };
+    },
+    title() {
+      if (
+        this.currentMedia &&
+        this.currentMedia.details &&
+        this.currentMedia.details.title
+      ) {
+        return this.currentMedia.details.title;
+      } else {
+        return "";
+      }
+    },
+    hashtags() {
+      if (
+        this.currentMedia &&
+        this.currentMedia.details &&
+        this.currentMedia.details.twitter &&
+        this.currentMedia.details.twitter.hashtags
+      ) {
+        return this.currentMedia.details.twitter.hashtags
+          .reduce((acc, tag) => {
+            acc += ` #${tag},`;
+            return acc;
+          }, "")
+          .slice(1, -1);
+      } else {
+        return "";
+      }
     }
   },
   methods: {

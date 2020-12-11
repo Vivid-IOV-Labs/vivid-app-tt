@@ -9,7 +9,7 @@
       </div>
     </v-ons-toolbar>
     <div class="scroller viewlist__content">
-      <h3 class="viewlist__title">Latest Videos</h3>
+      <h3 class="page__title">Latest Videos</h3>
       <v-ons-list modifier="tappable">
         <v-ons-list-item
           v-for="media in getAll"
@@ -69,16 +69,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .viewlist {
-  .viewlist__title {
-    font-weight: bold;
-    color: $white;
-    font-size: 1.2rem;
-    margin: 0.4rem 0 0;
-    text-transform: uppercase;
-    display: block;
-    padding: 0.4rem 0;
-    //background: linear-gradient(black 60%, transparent 20%);
-  }
   .viewlist__content {
     padding: 1rem;
   }
