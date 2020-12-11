@@ -9,7 +9,9 @@
       </div>
     </v-ons-toolbar>
     <div class="scroller viewlist__content">
-      <h3 class="page__title">Latest Videos</h3>
+      <div class="page__title__background">
+        <h3 class="page__title">Latest Videos</h3>
+      </div>
       <v-ons-list modifier="tappable">
         <v-ons-list-item
           v-for="media in getAll"

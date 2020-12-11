@@ -10,7 +10,9 @@
         </div>
       </v-ons-toolbar>
       <div class="scroller content">
-        <h3 class="page__title">What what do you like to see most?</h3>
+        <div class="page__title__background">
+          <h3 class="page__title">What what do you like to see most?</h3>
+        </div>
         <div class="grid-x3">
           <div class="grid-x3__cell flex-column flex-center-xy  mb-4 ">
             <label
@@ -193,7 +195,9 @@
             >
           </div>
         </div>
-        <h3 class="page__title">Become a Peerkat OG</h3>
+        <div class="page__title__background">
+          <h3 class="page__title">Become a Peerkat OG</h3>
+        </div>
         <p>
           Please join our Telegram group now to help us create an awesome
           platform for you
