@@ -12,10 +12,10 @@
       <div class="scroller content">
         <h3 class="page__title">What what do you like to see most?</h3>
         <div class="grid-x3">
-          <div class="grid-x3__cell flex-column flex-center-xy  mb-2 ">
+          <div class="grid-x3__cell flex-column flex-center-xy  mb-4 ">
             <label
               for="crypto_content"
-              class="mb-2 text-center flex-column flex-center-xy "
+              class="mb-4 text-center flex-column flex-center-xy "
             >
               <input
                 type="checkbox"
@@ -26,17 +26,17 @@
               />
 
               <v-ons-button
-                class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft nd mb-2"
+                class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft nd mb-4"
               >
                 <base-icon class="btn__icon" name="crypto"></base-icon>
               </v-ons-button>
               Crypto</label
             >
           </div>
-          <div class="grid-x3__cell flex-column flex-center-xy  mb-2">
+          <div class="grid-x3__cell flex-column flex-center-xy  mb-4">
             <label
               for="gaming_content"
-              class="mb-2 text-center flex-column flex-center-xy "
+              class="mb-4 text-center flex-column flex-center-xy "
             >
               <input
                 type="checkbox"
@@ -46,7 +46,7 @@
                 id="gaming_content"
               />
               <v-ons-button
-                class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft nd mb-2"
+                class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft nd mb-4"
               >
                 <base-icon
                   class="btn__icon"
@@ -56,10 +56,10 @@
               >Gaming</label
             >
           </div>
-          <div class="grid-x3__cell flex-column flex-center-xy  mb-2">
+          <div class="grid-x3__cell flex-column flex-center-xy  mb-4">
             <label
               for="sports_content"
-              class="mb-2 text-center flex-column flex-center-xy "
+              class="mb-4 text-center flex-column flex-center-xy "
             >
               <input
                 type="checkbox"
@@ -69,7 +69,7 @@
                 id="sports_content"
               />
               <v-ons-button
-                class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft nd mb-2"
+                class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft nd mb-4"
               >
                 <base-icon
                   class="btn__icon"
@@ -78,10 +78,10 @@
               >Sports</label
             >
           </div>
-          <div class="grid-x3__cell flex-column flex-center-xy  mb-2">
+          <div class="grid-x3__cell flex-column flex-center-xy  mb-4">
             <label
               for="entertainment_content"
-              class="mb-2 text-center flex-column flex-center-xy "
+              class="mb-4 text-center flex-column flex-center-xy "
             >
               <input
                 type="checkbox"
@@ -91,7 +91,7 @@
                 id="entertainment_content"
               />
               <v-ons-button
-                class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft nd mb-2"
+                class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft nd mb-4"
               >
                 <base-icon
                   class="btn__icon"
@@ -100,10 +100,10 @@
               >Entertainment</label
             >
           </div>
-          <div class="grid-x3__cell flex-column flex-center-xy  mb-2">
+          <div class="grid-x3__cell flex-column flex-center-xy  mb-4">
             <label
               for="food_drinks_content"
-              class="mb-2 text-center flex-column flex-center-xy "
+              class="mb-4 text-center flex-column flex-center-xy "
             >
               <input
                 type="checkbox"
@@ -113,7 +113,7 @@
                 id="food_drinks_content"
               />
               <v-ons-button
-                class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft mb-2"
+                class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft mb-4"
               >
                 <base-icon
                   class="btn__icon"
@@ -124,10 +124,10 @@
               Food &amp; Drink</label
             >
           </div>
-          <div class="grid-x3__cell flex-column flex-center-xy  mb-2">
+          <div class="grid-x3__cell flex-column flex-center-xy  mb-4">
             <label
               for="healt_wellbeing_content"
-              class="mb-2 text-center flex-column flex-center-xy "
+              class="mb-4 text-center flex-column flex-center-xy "
             >
               <input
                 type="checkbox"
@@ -137,7 +137,7 @@
                 id="healt_wellbeing_content"
               />
               <v-ons-button
-                class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft mb-2"
+                class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft mb-4"
               >
                 <base-icon
                   class="btn__icon"
@@ -147,10 +147,10 @@
               >Healt &amp; Wellbeing</label
             >
           </div>
-          <div class="grid-x3__cell flex-column flex-center-xy  mb-2">
+          <div class="grid-x3__cell flex-column flex-center-xy  mb-4">
             <label
               for="travel_outdoors_content"
-              class="mb-2 text-center flex-column flex-center-xy "
+              class="mb-4 text-center flex-column flex-center-xy "
             >
               <input
                 type="checkbox"
@@ -160,7 +160,7 @@
                 id="travel_outdoors_content"
               />
               <v-ons-button
-                class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft mb-2"
+                class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft mb-4"
               >
                 <base-icon
                   class="btn__icon"
@@ -170,10 +170,10 @@
               >Travel &amp; Outdoors</label
             >
           </div>
-          <div class="grid-x3__cell flex-column flex-center-xy  mb-2">
+          <div class="grid-x3__cell flex-column flex-center-xy  mb-4">
             <label
               for="science_tech_content"
-              class="mb-2 text-center flex-column flex-center-xy "
+              class="mb-4 text-center flex-column flex-center-xy "
             >
               <input
                 type="checkbox"
@@ -183,7 +183,7 @@
                 id="science_tech_content"
               />
               <v-ons-button
-                class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft mb-2"
+                class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft mb-4"
               >
                 <base-icon
                   class="btn__icon"
@@ -198,11 +198,11 @@
           Please join our Telegram group now to help us create an awesome
           platform for you
         </p>
-        <div class="flex mt-2 mb-2 flex-center-xy">
+        <div class="flex mt-2 mb-4 flex-center-xy">
           <a
             href="https://t.me/joinchat/M90RPBklSbAkMzfLl02Qcw"
             target="_blank"
-            class="btn btn--round-large btn--opacity-soft mb-2 "
+            class="btn btn--round-large btn--opacity-soft mb-4 "
           >
             <base-icon class="btn__icon" name="telegram"></base-icon>
           </a>
