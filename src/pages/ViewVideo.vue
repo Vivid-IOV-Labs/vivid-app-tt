@@ -110,7 +110,8 @@ export default {
           "progress",
           "current-time",
           "mute",
-          "settings"
+          "settings",
+          "fullscreen"
         ],
         settings: ["speed", "loop"]
       },
@@ -139,8 +140,9 @@ export default {
         sources: [
           {
             // src: this.videoUrl,
-            src:
-              "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4",
+            // src:
+            //   "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4",            // src:
+            src: "/720P.mp4",
             type: "video/mp4",
             size: "720"
           }

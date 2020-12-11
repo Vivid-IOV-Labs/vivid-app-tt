@@ -90,11 +90,14 @@ export default {
     height: 100%;
   }
   .plyr video {
-    object-fit: cover;
     min-height: 100%;
     height: 100%;
     width: 100%;
   }
+  @media screen and (orientation: portrait) {
+    object-fit: cover;
+  }
+
   .plyr--video .plyr__controls {
     padding: 1rem;
     z-index: 1003;
