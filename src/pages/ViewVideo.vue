@@ -13,7 +13,11 @@
             <v-ons-button
               class="btn btn--small btn--opacity-soft flex-center-xy ml-2"
             >
-              <base-icon class="btn__icon" name="thundercore"></base-icon>
+              <base-icon
+                class="btn__icon"
+                :fill="false"
+                name="thundercore"
+              ></base-icon>
               <span class="ml-2">101</span>
             </v-ons-button>
           </div>
@@ -75,9 +79,20 @@
 
           <div class=" ml-auto flex-column ">
             <div ref="tipbutton">
-              <a @click.prevent="tipStreamer" class="btn-tip mb-2">
+              <v-ons-button
+                @click.prevent="tipStreamer"
+                class="btn btn--round-large btn--opacity-dark mb-2"
+                style="font-size: 3.4rem; padding: 0.2rem 0 0 0.2rem; border:solid 2px #fff"
+              >
+                <base-icon
+                  class="btn__icon"
+                  :fill="false"
+                  name="thundercore"
+                ></base-icon>
+              </v-ons-button>
+              <!-- <a @click.prevent="tipStreamer" class="btn-tip mb-2">
                 <img src="@/assets/img/thundercore-logo.svg" />
-              </a>
+              </a> -->
             </div>
           </div>
         </div>
