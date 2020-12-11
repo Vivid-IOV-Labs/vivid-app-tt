@@ -70,11 +70,15 @@ export default {
     this.player = new Plyr(this.$refs.video, this.options);
     this.fixMobileClick();
     this.player.source = this.source;
-    // this.player.source = {
-    //   type: "video",
-    //   title: "Example title",
-    //   sources: [{ src: videoUrl, type: "video/mp4" }]
-    // };
+    const videoWrapper = document.getElementsByClassName(
+      "plyr__video-wrapper"
+    )[0];
+    videoWrapper.addEventListener("click", event => {
+      this.player.togglePlay();
+      event.stopPropagation(); // Necessary or the video will toggle twice => no playback
+    });
+
+    this.player.toggleControls(false);
 
     this.player.on("ready", () => {
       trackEvent({ category: "Viewing Video", action: "play" });
