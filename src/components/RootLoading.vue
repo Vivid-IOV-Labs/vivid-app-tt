@@ -28,6 +28,8 @@ import { address, ABI } from "@/util/constants/tippingContract";
 
 import { ethers } from "ethers";
 
+import axios from "axios";
+
 export default {
   name: "RootLoading",
   methods: {
@@ -50,8 +52,16 @@ export default {
     
     let waitRes = await result.wait()
 
-    waitRes = JSON.stringify(waitRes)
-    console.log(waitRes)
+    if(waitRes){
+
+        axios.create({
+          baseURL: "http://127.0.0.1:1336/"
+        }).post("tips/verify", {
+        mediaID: "953594478786080819185942",
+        transactionHash: JSON.parse(JSON.stringify(waitRes.transactionHash))
+      })
+
+    }
 
   
     }
