@@ -108,8 +108,7 @@ import BaseVideo from "@/components/BaseVideo.vue";
 import { mapGetters } from "vuex";
 import { trackEvent } from "@/util/analytics";
 import delay from "@/util/delay.js";
-
-import { ethers } from "ethers";
+import env from "@/env.js";
 
 export default {
   name: "ViewVideo",
@@ -137,7 +136,7 @@ export default {
   },
   computed: {
     ...mapGetters("media", ["getById"]),
-    ...mapGetters("smartcontract", ["getTippingContractWithSigner"]),
+    ...mapGetters("smartcontract", ["getTipContract"]),
     mediaID() {
       return this.$route.params.mediaID;
     },
@@ -145,7 +144,7 @@ export default {
       return this.getById(this.mediaID);
     },
     videoUrl() {
-      const url = `https://streams.vividiov.media:5443/WebRTCAppEE/streams/${this.mediaID}.mp4`;
+      const url = `${env.media_server}/${this.mediaID}.mp4`;
       return url;
     },
     sourceMedia() {
@@ -203,16 +202,7 @@ export default {
     },
     async tipStreamer() {
       trackEvent({ category: "Viewing Video", action: "tip" });
-      var overrideOptions = {
-        gasLimit: 250000,
-        gasPrice: 9000000000,
-        nonce: 0,
-        value: ethers.utils.parseEther("1.0")
-      };
-      await this.getTippingContractWithSigner.tip(
-        "0x6537da7F34d3454fce2bD9534491935687014bBd",
-        overrideOptions
-      );
+      await this.getTipContract();
     }
   },
   async mounted() {
