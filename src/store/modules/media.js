@@ -27,9 +27,9 @@ const mutations = {
   setAll(state, all) {
     state.all = all;
   },
-  setTotalTip(state, { mediaID, totalTip }) {
+  setTotalTip(state, { mediaID, totalTips }) {
     const mediaIndex = state.all.findIndex(media => media.mediaID === mediaID);
-    Vue.set(state.all[mediaIndex].statistics.total, "tips", totalTip);
+    Vue.set(state.all[mediaIndex].statistics.total, "tips", totalTips);
   }
 };
 
