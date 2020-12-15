@@ -62,7 +62,8 @@ const getSmartContractWithSigner = async (smartContractProvider, signer) => {
   return await tippingContract.connect(signer);
 };
 
-const createTippingContratc = contractWithSigner => async (
+const createTippingContratc = (
+  contractWithSigner,
   addressToTip = "0x6537da7F34d3454fce2bD9534491935687014bBd",
   { gasLimit, gasPrice, nonce, value } = {
     gasLimit: 250000,
@@ -78,7 +79,7 @@ const createTippingContratc = contractWithSigner => async (
     nonce,
     value: parsedValue
   };
-  await contractWithSigner.tip(addressToTip, options);
+  return async () => await contractWithSigner.tip(addressToTip, options);
 };
 
 const createGetSmartContract = async () => {
@@ -92,7 +93,7 @@ const createGetSmartContract = async () => {
     provider,
     signer
   );
-  const tipContract = await createTippingContratc(smartContractWithSigner);
+  const tipContract = createTippingContratc(smartContractWithSigner);
   return {
     provider,
     network,

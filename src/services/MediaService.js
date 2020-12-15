@@ -4,7 +4,10 @@ const API_ENDPOINT = "/media";
 
 class MediaService {
   async getAll() {
-    return await ApiService.get(`${API_ENDPOINT}/list/`);
+    const {
+      data: { allMedia }
+    } = await ApiService.get(`${API_ENDPOINT}/list/`);
+    return allMedia;
   }
 }
 

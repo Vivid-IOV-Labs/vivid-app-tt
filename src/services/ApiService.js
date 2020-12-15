@@ -20,7 +20,8 @@ const successHandler = response => {
   if (isHandlerEnabled(response.config)) {
     // Handle responses
   }
-  return response;
+  const { data } = response;
+  return data;
 };
 
 apiService.interceptors.response.use(

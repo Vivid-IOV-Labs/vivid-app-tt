@@ -16,9 +16,10 @@
               <base-icon
                 class="btn__icon"
                 :fill="false"
+                style="font-size:1.8rem"
                 name="thundercore"
               ></base-icon>
-              <span class="ml-2">101</span>
+              <span class="ml-2">{{ totalTips }}</span>
             </v-ons-button>
           </div>
 
@@ -90,9 +91,6 @@
                   name="thundercore"
                 ></base-icon>
               </v-ons-button>
-              <!-- <a @click.prevent="tipStreamer" class="btn-tip mb-2">
-                <img src="@/assets/img/thundercore-logo.svg" />
-              </a> -->
             </div>
           </div>
         </div>
@@ -105,10 +103,12 @@
 </template>
 <script>
 import BaseVideo from "@/components/BaseVideo.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import { trackEvent } from "@/util/analytics";
 import delay from "@/util/delay.js";
 import env from "@/env.js";
+import TipService from "@/services/TipService";
+import webSocketService from "@/util/webSocketService.js";
 
 export default {
   name: "ViewVideo",
@@ -153,9 +153,6 @@ export default {
         title: "Example title",
         sources: [
           {
-            // src: this.videoUrl,
-            // src:
-            //   "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4",            // src:
             src: "/720P.mp4",
             type: "video/mp4",
             size: "720"
@@ -190,9 +187,26 @@ export default {
       } else {
         return "";
       }
+    },
+    totalTips: {
+      get() {
+        if (
+          this.currentMedia.statistics &&
+          this.currentMedia.statistics.total &&
+          this.currentMedia.statistics.total.tips
+        ) {
+          return this.currentMedia.statistics.total.tips;
+        } else {
+          return 0;
+        }
+      },
+      set(newVal) {
+        this.setTotalTip({ mediaID: this.mediaID, totalTips: newVal });
+      }
     }
   },
   methods: {
+    ...mapMutations("media", ["setTotalTip"]),
     endViewingVideo() {
       trackEvent({ category: "Viewing Video", action: "end" });
       this.$router.back();
@@ -201,11 +215,20 @@ export default {
       this.isVideoMenuDropped = !this.isVideoMenuDropped;
     },
     async tipStreamer() {
+      const result = await this.getTipContract();
+      const { transactionHash } = await result.wait();
+      await TipService.verify({
+        transactionHash,
+        mediaID: this.mediaID
+      });
       trackEvent({ category: "Viewing Video", action: "tip" });
-      await this.getTipContract();
     }
   },
   async mounted() {
+    webSocketService.socket.on("media-updated-tip", ({ data }) => {
+      console.log(data);
+      this.totalTips = data;
+    });
     this.popoverTarget = this.$refs.tipbutton;
     await delay(1200);
     this.$nextTick(() => {
