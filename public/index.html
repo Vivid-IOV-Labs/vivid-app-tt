@@ -59,7 +59,13 @@
       userAgent = window.navigator.userAgent.toLowerCase(),
       safari = /safari/.test(userAgent),
       ios = /iphone|ipod|ipad/.test(userAgent);
-
+      var is_uiwebview = /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(userAgent);
+//       function is_webview(){
+//     return userAgent.match(/android.*applewebkit(?=.*version)/)
+// }
+// function is_uiwebview(){
+//     return userAgent.match(/\(ip.*applewebkit(?!.*(version|crios))/)
+// }
     if (ios) {
       if (!standalone && safari) {
         //browser
