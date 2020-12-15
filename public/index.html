@@ -69,11 +69,14 @@
     if (ios) {
       if (!standalone && safari) {
         //browser
+        window.location.replace("https://www.vividiov.com/peerkat");
+
       } else if (standalone && !safari) {
         //standalone
+        window.location.replace("https://www.vividiov.com/peerkat");
+
       } else if (!standalone && !safari) {
         //uiwebview
-        window.location.replace("https://www.vividiov.com/peerkat");
       };
     } else {
       //not iOS
