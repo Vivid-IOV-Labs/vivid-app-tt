@@ -226,7 +226,6 @@ export default {
   },
   async mounted() {
     webSocketService.socket.on("media-updated-tip", ({ data }) => {
-      console.log(data);
       this.totalTips = data;
     });
     this.popoverTarget = this.$refs.tipbutton;
