@@ -54,11 +54,30 @@
     if (!isMobile()) {
       document.body.classList.add('constrain-width')
     }
-    if (navigator.userAgent.includes('wv')) {
-      //Inside the webview      
+
+    var standalone = window.navigator.standalone,
+      userAgent = window.navigator.userAgent.toLowerCase(),
+      safari = /safari/.test(userAgent),
+      ios = /iphone|ipod|ipad/.test(userAgent);
+
+    if (ios) {
+      if (!standalone && safari) {
+        //browser
+      } else if (standalone && !safari) {
+        //standalone
+      } else if (!standalone && !safari) {
+        //uiwebview
+        window.location.replace("https://www.vividiov.com/peerkat");
+      };
     } else {
-      window.location.replace("https://www.vividiov.com/peerkat");
-    }
+      //not iOS
+      if (navigator.userAgent.includes('wv')) {
+        //Inside the webview      
+      } else {
+        window.location.replace("https://www.vividiov.com/peerkat");
+      }
+    };
+
   </script>
   <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
   <!-- built files will be auto injected -->
