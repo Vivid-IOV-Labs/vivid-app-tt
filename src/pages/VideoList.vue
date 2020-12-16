@@ -92,7 +92,7 @@ export default {
   }
   .medialist__item {
     border-bottom: solid 2px $dark-grey;
-    padding: 1rem 0.2rem;
+    padding: 1.2rem 0.2rem;
   }
   .list-item {
     color: $white;
