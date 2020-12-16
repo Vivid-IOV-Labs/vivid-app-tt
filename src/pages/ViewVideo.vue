@@ -96,8 +96,15 @@
         </div>
       </template>
     </base-video>
-    <v-ons-popover :visible.sync="isPopoverVisible" :target="popoverTarget">
+    <v-ons-popover :visible.sync="isPopoverClickTT" :target="popoverTarget">
       <p class="bold text-center">Click here to tip 1TT</p>
+    </v-ons-popover>
+    <v-ons-popover
+      cancelable
+      :visible.sync="isPopoverTTSuccess"
+      :target="popoverTarget"
+    >
+      <p class="bold text-center">Tip done! &#128512;</p>
     </v-ons-popover>
   </v-ons-page>
 </template>
@@ -130,7 +137,8 @@ export default {
         settings: ["speed", "loop"]
       },
       isVideoMenuDropped: false,
-      isPopoverVisible: false,
+      isPopoverClickTT: false,
+      isPopoverTTSuccess: false,
       popoverTarget: null
     };
   },
@@ -215,6 +223,7 @@ export default {
       this.isVideoMenuDropped = !this.isVideoMenuDropped;
     },
     async tipStreamer() {
+      this.isPopoverClickTT = false;
       const result = await this.getTipContract();
       const { transactionHash } = await result.wait();
       await TipService.verify({
@@ -225,23 +234,27 @@ export default {
     }
   },
   async mounted() {
-    webSocketService.socket.on("media-updated-tip", ({ data }) => {
+    webSocketService.socket.on("media-updated-tip", async ({ data }) => {
       this.totalTips = data;
+
+      this.isPopoverTTSuccess = true;
+      await delay(3000);
+      this.isPopoverTTSuccess = false;
     });
     this.popoverTarget = this.$refs.tipbutton;
     await delay(1200);
     this.$nextTick(() => {
-      this.isPopoverVisible = true;
+      this.isPopoverClickTT = true;
 
       const popOverMask = document.querySelectorAll(".popover-mask")[1];
       popOverMask.style.display = "none";
       const popOver = document.querySelectorAll(".popover")[1];
       popOver.addEventListener("click", () => {
-        this.isPopoverVisible = false;
+        this.isPopoverClickTT = false;
       });
     });
     await delay(900000);
-    this.isPopoverVisible = false;
+    this.isPopoverClickTT = false;
   }
 };
 </script>
