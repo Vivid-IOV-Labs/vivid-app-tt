@@ -18,10 +18,9 @@
           :key="media.mediaID"
           @click="pushToVideo(media.mediaID)"
         >
-          <div class="flex-center-y full-width p-2">
-            <div>
-              <span>{{ media.details.title }}</span>
-            </div>
+          <div class="flex-center-y full-width medialist__item">
+            <span>{{ media.details.title }}</span>
+            <base-icon class="ml-auto" name="angle-right"></base-icon>
           </div>
         </v-ons-list-item>
       </v-ons-list>
@@ -33,6 +32,7 @@
 <script>
 import HeadMenu from "@/components/HeadMenu.vue";
 import HeadLogo from "@/components/HeadLogo.vue";
+import BaseIcon from "@/components/BaseIcon.vue";
 import ContentFeedDialog from "@/components/dialogs/ContentFeedDialog.vue";
 import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapGetters, mapMutations } = createNamespacedHelpers(
@@ -45,6 +45,7 @@ export default {
   components: {
     HeadMenu,
     HeadLogo,
+    BaseIcon,
     ContentFeedDialog
   },
   data() {
@@ -85,16 +86,24 @@ export default {
     padding: 1rem;
   }
   .list {
+    padding: 0;
+    margin: 0;
     background: lighten($color: $dark-grey, $amount: 15);
+  }
+  .medialist__item {
+    border-bottom: solid 2px $dark-grey;
+    padding: 1rem 0.2rem;
   }
   .list-item {
     color: $white;
-    border-bottom: solid 2px;
-    border-color: $dark-grey;
-    background-image: none;
+    padding: 0;
+    margin: 0;
   }
   .list-item__center {
+    padding: 0;
+    margin: 0;
     background-image: none;
+    border: none;
   }
 }
 .dialog-container {
