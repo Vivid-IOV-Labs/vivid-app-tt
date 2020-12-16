@@ -28,7 +28,7 @@ const mutations = {
     state.all = all;
   },
   add(state, item) {
-    state.all = [...state.all, { item }];
+    state.all = [...state.all, item];
   },
   delete(state, { mediaID }) {
     state.all = state.all.filter(media => media.mediaID !== mediaID);
