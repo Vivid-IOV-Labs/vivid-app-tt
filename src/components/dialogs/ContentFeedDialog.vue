@@ -104,7 +104,7 @@ export default {
         },
         {
           label: "travel_outdoors",
-          text: "Ttravel & Outdoors",
+          text: "Travel & Outdoors",
           fill: false
         },
         {

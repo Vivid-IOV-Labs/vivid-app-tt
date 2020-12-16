@@ -25,7 +25,13 @@ const actions = {
 
 const mutations = {
   setAll(state, all) {
-    state.all = all;
+    state.all = [...state.all, all];
+  },
+  add(state, item) {
+    state.all = [...state.all, { item }];
+  },
+  delete(state, {mediaID}) {
+    state.all = state.all.filter(media => media.mediaID !=== mediaID);
   },
   setTotalTip(state, { mediaID, totalTips }) {
     const mediaIndex = state.all.findIndex(media => media.mediaID === mediaID);

@@ -36,6 +36,7 @@ import HeadLogo from "@/components/HeadLogo.vue";
 import ContentFeedDialog from "@/components/dialogs/ContentFeedDialog.vue";
 import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapGetters } = createNamespacedHelpers("media");
+import webSocketService from "@/util/webSocketService.js";
 
 export default {
   name: "VideoList",
@@ -56,7 +57,7 @@ export default {
     ...mapGetters(["getAll"])
   },
   methods: {
-    ...mapActions(["populateAll"]),
+    ...mapActions(["populateAll", "add", "delete"]),
     pushToVideo(mediaID) {
       this.$router.push({ path: `viewvideo/${mediaID}` });
     },
@@ -65,6 +66,12 @@ export default {
     }
   },
   mounted() {
+    webSocketService.socket.on("media-added", async ({ data }) => {
+      await this.add(data);
+    });
+    webSocketService.socket.on("media-deleted", async ({ data }) => {
+      await this.delete(data);
+    });
     this.showContentFeedDialog();
   }
 };
