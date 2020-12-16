@@ -18,7 +18,7 @@
           :key="media.mediaID"
           @click="pushToVideo(media.mediaID)"
         >
-          <div class="flex-center-y full-width">
+          <div class="flex-center-y full-width p-2">
             <div>
               <span>{{ media.details.title }}</span>
             </div>
@@ -89,9 +89,12 @@ export default {
   }
   .list-item {
     color: $white;
-    border-bottom: solid;
-    padding: 0;
+    border-bottom: solid 2px;
     border-color: $dark-grey;
+    background-image: none;
+  }
+  .list-item__center {
+    background-image: none;
   }
 }
 .dialog-container {
