@@ -13,185 +13,24 @@
         <h3 class="page__title">What do you like to see most?</h3>
       </div>
       <div class="grid-x3">
-        <div class="grid-x3__cell flex-column flex-center-xy  mb-4 ">
-          <label
-            for="crypto_content"
-            class="mb-4 text-center flex-column flex-center-xy "
+        <div
+          class="grid-x3__cell flex-column flex-center-xy  mb-4 "
+          v-for="preference in preferences"
+          :key="preference.label"
+        >
+          <base-check-button
+            :name="preference.label"
+            :selected="contentSelected.includes(preference.label)"
+            :limit="1"
+            v-model="contentSelected"
           >
-            <input
-              type="checkbox"
-              style="display:none"
-              value="crypto"
-              v-model="contentSelected"
-              id="crypto_content"
-            />
-
-            <v-ons-button
-              class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft nd mb-4"
-            >
-              <base-icon class="btn__icon" name="crypto"></base-icon>
-            </v-ons-button>
-            Crypto</label
-          >
-        </div>
-        <div class="grid-x3__cell flex-column flex-center-xy  mb-4">
-          <label
-            for="gaming_content"
-            class="mb-4 text-center flex-column flex-center-xy "
-          >
-            <input
-              type="checkbox"
-              style="display:none"
-              value="gaming"
-              v-model="contentSelected"
-              id="gaming_content"
-            />
-            <v-ons-button
-              class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft nd mb-4"
-            >
-              <base-icon
-                class="btn__icon"
-                :fill="false"
-                name="gaming"
-              ></base-icon> </v-ons-button
-            >Gaming</label
-          >
-        </div>
-        <div class="grid-x3__cell flex-column flex-center-xy  mb-4">
-          <label
-            for="sports_content"
-            class="mb-4 text-center flex-column flex-center-xy "
-          >
-            <input
-              type="checkbox"
-              style="display:none"
-              value="sports"
-              v-model="contentSelected"
-              id="sports_content"
-            />
-            <v-ons-button
-              class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft nd mb-4"
-            >
-              <base-icon
-                class="btn__icon"
-                name="sports"
-              ></base-icon> </v-ons-button
-            >Sports</label
-          >
-        </div>
-        <div class="grid-x3__cell flex-column flex-center-xy  mb-4">
-          <label
-            for="entertainment_content"
-            class="mb-4 text-center flex-column flex-center-xy "
-          >
-            <input
-              type="checkbox"
-              style="display:none"
-              value="entertainment"
-              v-model="contentSelected"
-              id="entertainment_content"
-            />
-            <v-ons-button
-              class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft nd mb-4"
-            >
-              <base-icon
-                class="btn__icon"
-                name="entertainment"
-              ></base-icon> </v-ons-button
-            >Entertainment</label
-          >
-        </div>
-        <div class="grid-x3__cell flex-column flex-center-xy  mb-4">
-          <label
-            for="food_drinks_content"
-            class="mb-4 text-center flex-column flex-center-xy "
-          >
-            <input
-              type="checkbox"
-              style="display:none"
-              value="food_drinks"
-              v-model="contentSelected"
-              id="food_drinks_content"
-            />
-            <v-ons-button
-              class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft mb-4"
-            >
-              <base-icon
-                class="btn__icon"
-                :fill="false"
-                name="food_drink"
-              ></base-icon>
-            </v-ons-button>
-            Food &amp; Drink</label
-          >
-        </div>
-        <div class="grid-x3__cell flex-column flex-center-xy  mb-4">
-          <label
-            for="healt_wellbeing_content"
-            class="mb-4 text-center flex-column flex-center-xy "
-          >
-            <input
-              type="checkbox"
-              style="display:none"
-              value="healt_wellbeing"
-              v-model="contentSelected"
-              id="healt_wellbeing_content"
-            />
-            <v-ons-button
-              class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft mb-4"
-            >
-              <base-icon
-                class="btn__icon"
-                :fill="false"
-                name="healt_wellbeing"
-              ></base-icon> </v-ons-button
-            >Healt &amp; Wellbeing</label
-          >
-        </div>
-        <div class="grid-x3__cell flex-column flex-center-xy  mb-4">
-          <label
-            for="travel_outdoors_content"
-            class="mb-4 text-center flex-column flex-center-xy "
-          >
-            <input
-              type="checkbox"
-              style="display:none"
-              value="travel_outdoors"
-              v-model="contentSelected"
-              id="travel_outdoors_content"
-            />
-            <v-ons-button
-              class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft mb-4"
-            >
-              <base-icon
-                class="btn__icon"
-                :fill="false"
-                name="travel_outdoors"
-              ></base-icon> </v-ons-button
-            >Travel &amp; Outdoors</label
-          >
-        </div>
-        <div class="grid-x3__cell flex-column flex-center-xy  mb-4">
-          <label
-            for="science_tech_content"
-            class="mb-4 text-center flex-column flex-center-xy "
-          >
-            <input
-              type="checkbox"
-              style="display:none"
-              value="science_tech"
-              v-model="contentSelected"
-              id="science_tech_content"
-            />
-            <v-ons-button
-              class="btn btn--checkbox btn--round-large text-azure btn--opacity-soft mb-4"
-            >
-              <base-icon
-                class="btn__icon"
-                name="science_tech"
-              ></base-icon> </v-ons-button
-            >Science &amp; Tech</label
-          >
+            <base-icon
+              class="btn__icon"
+              :fill="preference.fill"
+              :name="preference.label"
+            ></base-icon>
+          </base-check-button>
+          <span class="text-center">{{ preference.text }}</span>
         </div>
       </div>
       <div class="flex mt-2 mb-4 flex-center-xy">
@@ -224,11 +63,58 @@
 </template>
 
 <script>
+import BaseCheckButton from "@/components/BaseCheckButton.vue";
 export default {
   name: "ContentFeedDialog",
+  components: {
+    BaseCheckButton
+  },
   data() {
     return {
+      preferences: [
+        {
+          label: "crypto",
+          text: "Crypto",
+          fill: true
+        },
+        {
+          label: "gaming",
+          text: "Gaming",
+          fill: false
+        },
+        {
+          label: "sports",
+          text: "Sports",
+          fill: true
+        },
+        {
+          label: "entertainment",
+          text: "Entertainment",
+          fill: true
+        },
+        {
+          label: "food_drink",
+          text: "Food & Drink",
+          fill: false
+        },
+        {
+          label: "healt_wellbeing",
+          text: "Healt & Wellbeing",
+          fill: false
+        },
+        {
+          label: "travel_outdoors",
+          text: "Ttravel & Outdoors",
+          fill: false
+        },
+        {
+          label: "science_tech",
+          text: "Science & Tech",
+          fill: true
+        }
+      ],
       contentSelected: [],
+      limit: 1,
       feedBackSent: false
     };
   },
@@ -279,17 +165,5 @@ export default {
     margin-bottom: 1rem;
     flex: 0 1 25%;
   }
-}
-input[type="checkbox"]:checked ~ .btn--checkbox {
-  border: 2px solid $azure;
-}
-.btn--checkbox:hover {
-  background: $dark-grey;
-  color: $azure;
-}
-.btn--checkbox {
-  background: $dark-grey;
-  color: $azure;
-  border: 2px solid $dark-grey;
 }
 </style>
