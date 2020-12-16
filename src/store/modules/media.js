@@ -25,7 +25,7 @@ const actions = {
 
 const mutations = {
   setAll(state, all) {
-    state.all = [...state.all, all];
+    state.all = [...state.all, ...all];
   },
   add(state, item) {
     state.all = [...state.all, { item }];

@@ -72,7 +72,7 @@ export default {
     webSocketService.socket.on("media-deleted", async ({ data }) => {
       await this.delete(data);
     });
-    this.showContentFeedDialog();
+    //this.showContentFeedDialog();
   }
 };
 </script>
