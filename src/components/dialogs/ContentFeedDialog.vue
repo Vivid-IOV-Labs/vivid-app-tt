@@ -21,7 +21,7 @@
           <base-check-button
             :name="preference.label"
             :selected="contentSelected.includes(preference.label)"
-            :limit="1"
+            :limit="limit"
             v-model="contentSelected"
           >
             <base-icon
@@ -131,7 +131,7 @@ export default {
         }
       ],
       contentSelected: [],
-      limit: 1,
+      limit: 3,
       feedBackSent: false
     };
   },

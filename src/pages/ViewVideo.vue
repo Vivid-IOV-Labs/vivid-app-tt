@@ -240,8 +240,8 @@ export default {
   },
   async mounted() {
     webSocketService.socket.on("media-updated-tip", async ({ data }) => {
-      this.totalTips = data;
-
+      const { totalTips } = data;
+      this.totalTips = totalTips;
       this.isPopoverTTSuccess = true;
       await delay(3000);
       this.isPopoverTTSuccess = false;

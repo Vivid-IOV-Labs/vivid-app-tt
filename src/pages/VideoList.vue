@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     ...mapActions("media", ["populateAll"]),
-    ...mapMutations("media", ["add", "delete"]),
+    ...mapMutations("media", ["add", "delete", "setTotalTip"]),
     pushToVideo(mediaID) {
       this.$router.push({ path: `viewvideo/${mediaID}` });
     },
@@ -73,6 +73,10 @@ export default {
     });
     webSocketService.socket.on("media-deleted", async ({ data }) => {
       await this.delete(data);
+    });
+    webSocketService.socket.on("media-updated-tip", async ({ data }) => {
+      const { totalTips, mediaID } = data;
+      this.setTotalTip({ mediaID, totalTips });
     });
     if (!this.getInterestsSubmitted) {
       this.showContentFeedDialog();
