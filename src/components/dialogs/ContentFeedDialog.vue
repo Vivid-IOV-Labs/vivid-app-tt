@@ -70,6 +70,8 @@
 import BaseCheckButton from "@/components/BaseCheckButton.vue";
 import { createNamespacedHelpers } from "vuex";
 const { mapActions } = createNamespacedHelpers("user");
+import { trackEvent } from "@/util/analytics";
+
 export default {
   name: "ContentFeedDialog",
   components: {
@@ -143,7 +145,13 @@ export default {
       this.$emit("input", false);
     },
     async sendFeedBack() {
-      await this.addUserInterests(this.contentSelected);
+      try {
+        await this.addUserInterests(this.contentSelected);
+      } catch (err) {
+        console.log(err);
+      }
+      const label = this.contentSelected.map(el => `${el}, `);
+      trackEvent({ category: "Interest feedback", action: "send", label });
       this.feedBackSent = true;
     }
   }

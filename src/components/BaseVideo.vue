@@ -9,7 +9,7 @@
 
 <script>
 import Plyr from "plyr";
-import { trackEvent } from "../util/analytics";
+import { trackEvent } from "@/util/analytics";
 import "plyr/dist/plyr.css";
 
 const totalSecondsToHMS = totalSecs => {
