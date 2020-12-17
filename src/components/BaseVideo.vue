@@ -78,9 +78,8 @@ export default {
 
     this.player = new Plyr(this.$refs.video, this.options);
     this.fixMobileClick();
-    //this.player.source = this.source;
     if (!Hls.isSupported()) {
-      //video.src = source;
+      this.player.source = this.source;
     } else {
       // For more Hls.js options, see https://github.com/dailymotion/hls.js
       var videoSrc = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
