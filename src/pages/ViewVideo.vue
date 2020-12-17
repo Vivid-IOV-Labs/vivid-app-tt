@@ -11,6 +11,7 @@
               <span class="ml-2">101</span>
             </v-ons-button> -->
             <v-ons-button
+              style="border:solid 2px #fff"
               class="btn btn--small btn--opacity-soft flex-center-xy ml-2"
             >
               <base-icon
