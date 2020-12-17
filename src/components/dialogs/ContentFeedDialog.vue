@@ -34,7 +34,11 @@
         </div>
       </div>
       <div class="flex mt-2 mb-4 flex-center-xy">
-        <v-ons-button @click="sendFeedBack" class="btn btn--large mb-4 ">
+        <v-ons-button
+          :disabled="!contentSelected.length"
+          @click="sendFeedBack"
+          class="btn btn--large mb-4 "
+        >
           Send Feedback
         </v-ons-button>
       </div>
@@ -64,6 +68,8 @@
 
 <script>
 import BaseCheckButton from "@/components/BaseCheckButton.vue";
+import { createNamespacedHelpers } from "vuex";
+const { mapActions } = createNamespacedHelpers("user");
 export default {
   name: "ContentFeedDialog",
   components: {
@@ -129,13 +135,15 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["addUserInterests"]),
     updateVisible(value) {
       this.$emit("input", value);
     },
     close() {
       this.$emit("input", false);
     },
-    sendFeedBack() {
+    async sendFeedBack() {
+      await this.addUserInterests(this.contentSelected);
       this.feedBackSent = true;
     }
   }

@@ -96,7 +96,11 @@
         </div>
       </template>
     </base-video>
-    <v-ons-popover :visible.sync="isPopoverClickTT" :target="popoverTarget">
+    <v-ons-popover
+      class="isPopoverClickTT"
+      :visible.sync="isPopoverClickTT"
+      :target="popoverTarget"
+    >
       <p class="bold text-center">Click here to tip 1TT</p>
     </v-ons-popover>
     <v-ons-popover
@@ -245,7 +249,6 @@ export default {
     await delay(1200);
     this.$nextTick(() => {
       this.isPopoverClickTT = true;
-
       const popOverMask = document.querySelectorAll(".popover-mask")[1];
       popOverMask.style.display = "none";
       const popOver = document.querySelectorAll(".popover")[1];

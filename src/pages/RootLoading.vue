@@ -17,12 +17,20 @@
 
 <script>
 import delay from "@/util/delay.js";
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "RootLoading",
-  async beforeCreate() {
-    await this.$store.dispatch("smartcontract/createSmartContractFactory");
+  computed: {
+    ...mapGetters("smartcontract", ["getUserWalletAddress"])
+  },
+  methods: {
+    ...mapActions("user", ["login"]),
+    ...mapActions("smartcontract", ["createSmartContractFactory"])
   },
   async mounted() {
+    await this.$store.dispatch("smartcontract/createSmartContractFactory");
+    await this.login(this.getUserWalletAddress);
     await delay(4000);
     this.$router.push({ path: "videolist" });
   }
