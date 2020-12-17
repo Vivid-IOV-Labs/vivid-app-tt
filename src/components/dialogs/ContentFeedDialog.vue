@@ -145,11 +145,7 @@ export default {
       this.$emit("input", false);
     },
     async sendFeedBack() {
-      try {
-        await this.addUserInterests(this.contentSelected);
-      } catch (err) {
-        console.log(err);
-      }
+      await this.addUserInterests(this.contentSelected);
       const label = this.contentSelected.map(el => `${el}, `);
       trackEvent({ category: "Interest feedback", action: "send", label });
       this.feedBackSent = true;
