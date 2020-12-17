@@ -166,9 +166,8 @@ export default {
         title: "Example title",
         sources: [
           {
-            src: "/720P.mp4",
-            type: "video/mp4",
-            size: "720"
+            src: this.videoUrl,
+            type: "video/mp4"
           }
         ]
       };
