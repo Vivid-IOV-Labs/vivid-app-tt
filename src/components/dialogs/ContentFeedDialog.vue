@@ -132,7 +132,7 @@ export default {
       ],
       contentSelected: [],
       limit: 1,
-      feedBackSent: true
+      feedBackSent: false
     };
   },
   props: {
