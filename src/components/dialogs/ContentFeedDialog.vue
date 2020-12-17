@@ -14,7 +14,7 @@
       </div>
       <div class="grid-x3">
         <div
-          class="grid-x3__cell flex-column flex-center-xy  mb-4 "
+          class="grid-x3__cell flex-column flex-center-xy  mb-4 interests"
           v-for="preference in preferences"
           :key="preference.label"
         >
@@ -30,7 +30,9 @@
               :name="preference.label"
             ></base-icon>
           </base-check-button>
-          <span class="text-center">{{ preference.text }}</span>
+          <span class="text-center interests__label">{{
+            preference.text
+          }}</span>
         </div>
       </div>
       <div class="flex mt-2 mb-4 flex-center-xy">
@@ -42,27 +44,34 @@
           Send Feedback
         </v-ons-button>
       </div>
+      <hr class="hr-space" />
     </div>
     <div class="scroller content" v-else>
       <div class="page__title__background">
         <h3 class="page__title">Become a Peerkat OG</h3>
       </div>
-      <p>
+      <p class="mb-4 mt-4">
         Please join our Telegram group now to help us create an awesome platform
         for you
       </p>
-      <div class="flex mt-2 mb-4 flex-center-xy">
-        <a
-          href="https://t.me/joinchat/M90RPBklSbAkMzfLl02Qcw"
-          target="_blank"
+      <div class="flex mt-4 mb-4 flex-column flex-center-xy">
+        <v-ons-button
           class="btn btn--round-large btn--opacity-soft mb-4 "
+          @click="copyTelegramGroup"
         >
           <base-icon class="btn__icon" name="telegram"></base-icon>
-        </a>
-      </div>
-    </div>
+          <input type="hidden" id="telegram-group" value="@PeerkatLive" />
+        </v-ons-button>
+        <h3 class="mb-4 mt-4" style="margin:0">Peerkat</h3>
+        <h4 class="mb-4" style="margin:0">@PeerkatLive</h4>
+        <hr class="hr-space" />
 
-    <hr class="hr-space" />
+        <v-ons-button @click="close" class="btn btn--large mt-4 ">
+          Close Window
+        </v-ons-button>
+      </div>
+      <hr class="hr-space" />
+    </div>
   </v-ons-dialog>
 </template>
 
@@ -123,7 +132,7 @@ export default {
       ],
       contentSelected: [],
       limit: 1,
-      feedBackSent: false
+      feedBackSent: true
     };
   },
   props: {
@@ -144,6 +153,25 @@ export default {
     close() {
       this.$emit("input", false);
     },
+    copyTelegramGroup() {
+      let testingCodeToCopy = document.querySelector("#telegram-group");
+      testingCodeToCopy.setAttribute("type", "text");
+      testingCodeToCopy.select();
+      testingCodeToCopy.setSelectionRange(0, 99999); /* For mobile devices */
+
+      try {
+        document.execCommand("copy");
+        this.$ons.notification.toast("Copied successfully!", { timeout: 2000 });
+      } catch (err) {
+        this.$ons.notification.toast("Oops, unable to copy ", {
+          timeout: 2000
+        });
+      }
+
+      /* unselect the range */
+      testingCodeToCopy.setAttribute("type", "hidden");
+      window.getSelection().removeAllRanges();
+    },
     async sendFeedBack() {
       await this.addUserInterests(this.contentSelected);
       const label = this.contentSelected.map(el => `${el}, `);
@@ -158,24 +186,28 @@ export default {
   display: flex;
   flex-flow: row wrap;
   align-items: baseline;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 .grid-x3__cell {
-  width: 25%;
-  flex: 0 1 25%;
+  width: 40%;
+  flex: 0 1 40%;
+}
+.interests__label {
+  font-size: 0.8rem;
+  font-weight: bold;
 }
 
 @media (max-width: 1024px) {
   .grid-x3__cell {
-    flex: 0 1 25%;
+    flex: 0 1 40%;
   }
 }
 
 @media (max-width: 767px) {
   .grid-x3__cell {
     margin-bottom: 1rem;
-    flex: 0 1 25%;
+    flex: 0 1 40%;
   }
 }
 </style>
