@@ -2,13 +2,20 @@
   <div class="video__container">
     <slot name="top"></slot>
 
-    <video ref="video" playsinline preload="auto"></video>
+    <video
+      id="video"
+      ref="video"
+      crossorigin
+      playsinline
+      preload="auto"
+    ></video>
     <slot name="bottom"></slot>
   </div>
 </template>
 
 <script>
 import Plyr from "plyr";
+import Hls from "hls.js";
 import { trackEvent } from "@/util/analytics";
 import "plyr/dist/plyr.css";
 
@@ -67,9 +74,21 @@ export default {
     }
   },
   async mounted() {
+    var video = document.getElementById("video");
+
     this.player = new Plyr(this.$refs.video, this.options);
     this.fixMobileClick();
-    this.player.source = this.source;
+    //this.player.source = this.source;
+    if (!Hls.isSupported()) {
+      //video.src = source;
+    } else {
+      // For more Hls.js options, see https://github.com/dailymotion/hls.js
+      var videoSrc = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
+      var hls = new Hls();
+      hls.loadSource(videoSrc);
+      hls.attachMedia(video);
+      window.hls = hls;
+    }
     const videoWrapper = document.getElementsByClassName(
       "plyr__video-wrapper"
     )[0];
