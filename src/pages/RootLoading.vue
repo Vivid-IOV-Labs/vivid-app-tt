@@ -29,8 +29,11 @@ export default {
     ...mapActions("smartcontract", ["createSmartContractFactory"])
   },
   async mounted() {
-    await this.$store.dispatch("smartcontract/createSmartContractFactory");
-    await this.login(this.getUserWalletAddress);
+    await this.createSmartContractFactory();
+
+    if (this.getUserWalletAddress) {
+      await this.login(this.getUserWalletAddress);
+    }
     await delay(4000);
     this.$router.push({ path: "videolist" });
   }

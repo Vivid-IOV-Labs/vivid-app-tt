@@ -106,8 +106,8 @@ export default {
           fill: false
         },
         {
-          label: "healt_wellbeing",
-          text: "Healt & Wellbeing",
+          label: "health_wellbeing",
+          text: "Health & Wellbeing",
           fill: false
         },
         {
