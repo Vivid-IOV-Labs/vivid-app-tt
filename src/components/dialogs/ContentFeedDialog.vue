@@ -15,24 +15,22 @@
       <div class="grid-x3">
         <div
           class="grid-x3__cell flex-column flex-center-xy  mb-4 interests"
-          v-for="preference in preferences"
-          :key="preference.label"
+          v-for="interest in interests"
+          :key="interest.label"
         >
           <base-check-button
-            :name="preference.label"
-            :selected="contentSelected.includes(preference.label)"
+            :name="interest.label"
+            :selected="contentSelected.includes(interest.label)"
             :limit="limit"
             v-model="contentSelected"
           >
             <base-icon
               class="btn__icon"
-              :fill="preference.fill"
-              :name="preference.label"
+              :fill="interest.fill"
+              :name="interest.label"
             ></base-icon>
           </base-check-button>
-          <span class="text-center interests__label">{{
-            preference.text
-          }}</span>
+          <span class="text-center interests__label">{{ interest.text }}</span>
         </div>
       </div>
       <div class="flex mt-2 mb-4 flex-center-xy">
@@ -92,7 +90,7 @@ export default {
   },
   data() {
     return {
-      preferences: [
+      interests: [
         {
           label: "crypto",
           text: "Crypto",
