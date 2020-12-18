@@ -74,20 +74,21 @@ export default {
     }
   },
   async mounted() {
-    var video = document.getElementById("video");
-
     this.player = new Plyr(this.$refs.video, this.options);
     this.fixMobileClick();
-    if (!Hls.isSupported()) {
-      this.player.source = this.source;
-    } else {
-      // For more Hls.js options, see https://github.com/dailymotion/hls.js
-      var videoSrc = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
-      var hls = new Hls();
-      hls.loadSource(videoSrc);
-      hls.attachMedia(video);
-      window.hls = hls;
-    }
+    this.player.source = this.source;
+    // var video = document.getElementById("video");
+
+    // if (!Hls.isSupported()) {
+    //   this.player.source = this.source;
+    // } else {
+    //   // For more Hls.js options, see https://github.com/dailymotion/hls.js
+    //   var videoSrc = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
+    //   var hls = new Hls();
+    //   hls.loadSource(videoSrc);
+    //   hls.attachMedia(video);
+    //   window.hls = hls;
+    // }
     const videoWrapper = document.getElementsByClassName(
       "plyr__video-wrapper"
     )[0];

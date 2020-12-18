@@ -160,10 +160,15 @@ export default {
       const url = `${env.media_server}/${this.mediaID}.mp4`;
       return url;
     },
+    posterUrl() {
+      const url = `${env.media_storage}/${this.mediaID}.png`;
+      return url;
+    },
     sourceMedia() {
       return {
         type: "video",
         title: "Example title",
+        poster: this.posterUrl,
         sources: [
           {
             src: this.videoUrl,
