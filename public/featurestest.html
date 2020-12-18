@@ -74,12 +74,10 @@
       </ul>
     </div>
     <div v-if="checkOrientation">
-      <table class="table table-responsive">
-        <tr>
-          <td>Orientation type</td><td><pre>{{screenOrientationType}}</pre></td>
-          <td>Orientation Angle</td><td><pre>{{screenOrientationAngle}}</pre></td>
-        </tr>
-      </table>
+      <ul class="table table-responsive">
+          <li>Orientation type <pre>{{screenOrientationType}}</pre></li>
+          <li>Orientation Angle <pre>{{screenOrientationAngle}}</pre></li>
+      </ul>
       
     </div>
   </div>
