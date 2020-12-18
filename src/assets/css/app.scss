@@ -442,5 +442,9 @@ button:disabled {
 }
 *::-webkit-scrollbar-track-piece:end {
   background: transparent;
-  margin-bottom:2rem; 
+  margin-bottom:1rem; 
+}
+*::-webkit-scrollbar-track-piece:start {
+  background: transparent;
+  margin-bottom:1rem; 
 }
