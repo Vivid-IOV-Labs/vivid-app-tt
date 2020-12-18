@@ -10,7 +10,9 @@
   <meta http-equiv="Expires" content="0" />
   <title>
     Peerkat.live WEB API Features To Test
-  </title>
+  </title><!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 </head>
 <style>
   ul {
@@ -29,7 +31,7 @@
 </style>
 
 <body>
-  <div id="app">
+  <div class="container-fluid" v-on:deviceorientation="handleOrientation" id="app">
     <h1>Peerkat.live Features Test</h1>
     <h3>Must</h3>
     <ul>
@@ -47,18 +49,20 @@
     <hr>
     <h2 style="margin-bottom: 0.2rem;">Check Permissions </h2>
     <i>Please click buttons below</i>
-      <hr>
-    <div sltyle="display:flex">
-      <button v-on:click="goToHTTPS">Force https</button>
-      <button v-on:click="getGeolocation">Get Location</button>
-      <button v-on:click="captureAndInjectCameraFeed">Get Camera &amp; Microphone</button>
+    <hr>
+    <div class="flex justify-content-between">
+      <button class="btn btn--large ml-2" v-on:click="goToHTTPS">Force https</button>
+      <button class="btn btn--large ml-2" v-on:click="getGeolocation">Get Location</button>
+      <button class="btn btn--large ml-2" v-on:click="captureAndInjectCameraFeed">Get Camera &amp; Microphone</button>
+      <button class="btn btn--large ml-2" v-on:click="checkOrientation = !checkOrientation">Check Orientation</button>
     </div>
-    <hr  v-if="allowResponse.message">
-    <h4 v-if="allowResponse.message">Get {{allowResponse.feat=== 'Camera' ? 'Camera &amp; Microphone'  : allowResponse.feat}}: Status </h4> 
-    <div v-if="allowResponse.message" :class="{ success: allowResponse.isAllowed , error: !allowResponse.isAllowed }"
-    >
-   <strong>{{allowResponse.message}}</p> </div>
-    <hr v-if="allowResponse.message" >
+    <hr v-if="allowResponse.message">
+    <h4 v-if="allowResponse.message">Get {{allowResponse.feat=== 'Camera' ? 'Camera &amp; Microphone' :
+      allowResponse.feat}}: Status </h4>
+    <div v-if="allowResponse.message" :class="{ success: allowResponse.isAllowed , error: !allowResponse.isAllowed }">
+      <strong>{{allowResponse.message}}</p>
+    </div>
+    <hr v-if="allowResponse.message">
     <video v-show="allowResponse.feat==='Camera' && allowResponse.isAllowed" ref="video"></video>
     <div class="success" v-if="allDevices.length && allowResponse.feat==='Camera' && allowResponse.isAllowed">
       <h4>List of Media Devices</h4>
@@ -69,7 +73,16 @@
         </li>
       </ul>
     </div>
-  </div> 
+    <div v-if="checkOrientation">
+      <table class="table table-responsive">
+        <tr>
+          <td>Orientation type</td><td><pre>{{screenOrientationType}}</pre></td>
+          <td>Orientation Angle</td><td><pre>{{screenOrientationAngle}}</pre></td>
+        </tr>
+      </table>
+      
+    </div>
+  </div>
   <script src="./modernizr.js"></script>
   <script src="https://unpkg.com/vue@next"></script>
   <script>
@@ -100,9 +113,12 @@
     const app = {
       data() {
         return {
-          allowResponse: {message:null, isAllowed:null, feat:null},
+          checkOrientation:false,
+          screenOrientationType:window.screen.orientation.type,
+          screenOrientationAngle:window.screen.orientation.angle,
+          allowResponse: { message: null, isAllowed: null, feat: null },
           userMediaErrors: null,
-          allDevices:[],
+          allDevices: [],
           must: [
             { text: 'https', supported: testHTTPS() },
             { text: 'geolocation', supported: Modernizr.geolocation },
@@ -115,21 +131,34 @@
             { text: 'localstorage', supported: Modernizr.localstorage },
             { text: 'datachannel', supported: Modernizr.datachannel },
             { text: 'devicemotion', supported: Modernizr.devicemotion },
-            { text: 'deviceorientation', supported: Modernizr.deviceorientation },
+            { text: 'device ntation', supported: Modernizr.deviceorientation },
             { text: 'facingMode', supported: testFacingMode() },
           ]
         }
       },
+      mounted() {
+    window.addEventListener(
+      "orientationchange",
+      this.handleOrientationChange
+    );
+  },
       methods: {
+        handleOrientationChange(event) {
+          this.screenOrientationType = window.screen.orientation.type;
+          this.screenOrientationAngle = window.screen.orientation.angle;
+        },
         goToHTTPS() {
+          this.checkOrientation = false;
           location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
         },
         getGeolocation() {
+          this.checkOrientation = false;
+
           if (Modernizr.geolocation) {
             this.allowResponse.feat = "Location"
             getPosition()
-              .then((data)=>{
-                this.allowResponse.message = `Success Lat:${data.coords.latitude}, Long:${data.coords.longitude}` ;
+              .then((data) => {
+                this.allowResponse.message = `Success Lat:${data.coords.latitude}, Long:${data.coords.longitude}`;
                 this.allowResponse.isAllowed = true;
               })
               .catch((err) => {
@@ -139,11 +168,13 @@
           }
         },
         captureAndInjectCameraFeed() {
+          this.checkOrientation = false;
+
           this.allowResponse.feat = "Camera"
-          getDevices().then((devices)=>{
-            this.allDevices =devices
+          getDevices().then((devices) => {
+            this.allDevices = devices
           })
-          const video =  this.$refs.video;
+          const video = this.$refs.video;
           video.width = 640;
           video.height = 480;
           video.setAttribute('autoplay', '');
@@ -161,7 +192,7 @@
           navigator.mediaDevices.getUserMedia(constraints).
             then(handleSuccess).catch((err) => {
               this.allowResponse.message = err,
-              this.allowResponse.isAllowed = false
+                this.allowResponse.isAllowed = false
             })
         }
       }
