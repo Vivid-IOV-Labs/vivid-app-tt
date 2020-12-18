@@ -54,22 +54,6 @@
           </a></v-ons-list-item
         >
       </v-ons-list>
-      <div class="flex justify-center">
-        <a
-          href="https://twitter.com/PeerkatLive"
-          target="_blank"
-          class="btn btn--link btn--large"
-        >
-          <base-icon class="btn__icon" name="twitter"></base-icon>
-        </a>
-        <a
-          href="https://t.me/joinchat/M90RPBklSbAkMzfLl02Qcw"
-          target="_blank"
-          class="btn btn--link btn--large"
-        >
-          <base-icon class="btn__icon" name="telegram"></base-icon>
-        </a>
-      </div>
       <div class="text-center p-1 ">
         <small>© 2020 Peerkat. All rights reserved. </small>
       </div>

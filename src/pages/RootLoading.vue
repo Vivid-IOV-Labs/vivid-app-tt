@@ -9,7 +9,9 @@
       </div>
 
       <div class="logo-page__footer">
-        <h5 class="logo-page__copyright">Copyright Vivid IoV Labs 2020</h5>
+        <h5 class="logo-page__copyright">
+          © 2020 Peerkat. All rights reserved.
+        </h5>
       </div>
     </div>
   </v-ons-page>

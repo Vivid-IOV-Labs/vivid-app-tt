@@ -60,7 +60,11 @@
           @click="copyTelegramGroup"
         >
           <base-icon class="btn__icon" name="telegram"></base-icon>
-          <input type="hidden" id="telegram-group" value="@PeerkatLive" />
+          <input
+            type="hidden"
+            id="telegram-group"
+            value="https://t.me/joinchat/M90RPBklSbAkMzfLl02Qcw"
+          />
         </v-ons-button>
         <h3 class="mb-4 mt-4" style="margin:0">Peerkat</h3>
         <h4 class="mb-4" style="margin:0">@PeerkatLive</h4>

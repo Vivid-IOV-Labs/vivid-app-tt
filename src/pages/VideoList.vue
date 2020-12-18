@@ -25,6 +25,26 @@
         </v-ons-list-item>
       </v-ons-list>
     </div>
+    <v-ons-bottom-toolbar>
+      <div class="flex justify-center">
+        <v-ons-toolbar-button @click="copyTwitterLink" class="btn--large">
+          <input
+            type="hidden"
+            id="twitter-link"
+            value="https://twitter.com/PeerkatLive"
+          />
+          <base-icon class="btn__icon--white" name="twitter"></base-icon>
+        </v-ons-toolbar-button>
+        <v-ons-toolbar-button @click="copyTelegramGroup" class="btn--large">
+          <input
+            type="hidden"
+            id="telegram-group"
+            value="https://t.me/joinchat/M90RPBklSbAkMzfLl02Qcw"
+          />
+          <base-icon class="btn__icon--white" name="telegram"></base-icon>
+        </v-ons-toolbar-button>
+      </div>
+    </v-ons-bottom-toolbar>
     <content-feed-dialog v-model="isContentFeedDialog"></content-feed-dialog>
   </v-ons-page>
 </template>
@@ -65,6 +85,30 @@ export default {
     },
     showContentFeedDialog() {
       this.isContentFeedDialog = true;
+    },
+    copyTextValue(selector) {
+      let testingCodeToCopy = document.querySelector(selector);
+      testingCodeToCopy.setAttribute("type", "text");
+      testingCodeToCopy.select();
+      testingCodeToCopy.setSelectionRange(0, 99999); /* For mobile devices */
+
+      try {
+        document.execCommand("copy");
+        this.$ons.notification.toast("Copied successfully!", { timeout: 2000 });
+      } catch (err) {
+        this.$ons.notification.toast("Oops, unable to copy ", {
+          timeout: 2000
+        });
+      }
+      /* unselect the range */
+      testingCodeToCopy.setAttribute("type", "hidden");
+      window.getSelection().removeAllRanges();
+    },
+    copyTelegramGroup() {
+      this.copyTextValue("#telegram-group");
+    },
+    copyTwitterLink() {
+      this.copyTextValue("#twitter-link");
     }
   },
   mounted() {

@@ -6,7 +6,7 @@ import Vue from "vue";
 
 import VueOnsen from "vue-onsenui/esm";
 import VOnsToolbar from "vue-onsenui/esm/components/VOnsToolbar";
-// import VOnsBottomToolbar from "vue-onsenui/esm/components/VOnsBottomToolbar";
+import VOnsBottomToolbar from "vue-onsenui/esm/components/VOnsBottomToolbar";
 import VOnsToolbarButton from "vue-onsenui/esm/components/VOnsToolbarButton";
 import VOnsButton from "vue-onsenui/esm/components/VOnsButton";
 import VOnsBackButton from "vue-onsenui/esm/components/VOnsBackButton";
@@ -28,7 +28,7 @@ import VOnsAlertDialogButton from "vue-onsenui/esm/components/VOnsAlertDialogBut
 Vue.use(VueOnsen);
 Vue.component(VOnsPage.name, VOnsPage);
 Vue.component(VOnsToolbar.name, VOnsToolbar);
-// Vue.component(VOnsBottomToolbar.name, VOnsBottomToolbar);
+Vue.component(VOnsBottomToolbar.name, VOnsBottomToolbar);
 Vue.component(VOnsToolbarButton.name, VOnsToolbarButton);
 Vue.component(VOnsButton.name, VOnsButton);
 Vue.component(VOnsBackButton.name, VOnsBackButton);
