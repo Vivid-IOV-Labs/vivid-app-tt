@@ -164,19 +164,6 @@ export default {
       const url = `${env.media_storage}/${this.mediaID}.png`;
       return url;
     },
-    sourceMedia() {
-      return {
-        type: "video",
-        title: "Example title",
-        poster: this.posterUrl,
-        sources: [
-          {
-            src: this.videoUrl,
-            type: "video/mp4"
-          }
-        ]
-      };
-    },
     title() {
       if (
         this.currentMedia &&
@@ -205,6 +192,20 @@ export default {
         return "";
       }
     },
+    sourceMedia() {
+      return {
+        type: "video",
+        title: this.title,
+        poster: this.posterUrl,
+        sources: [
+          {
+            src: this.videoUrl,
+            type: "video/mp4"
+          }
+        ]
+      };
+    },
+
     totalTips: {
       get() {
         if (

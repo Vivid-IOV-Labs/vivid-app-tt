@@ -18,8 +18,11 @@
           :key="media.mediaID"
           @click="pushToVideo(media.mediaID)"
         >
-          <div class="flex-center-y full-width medialist__item">
-            <span>{{ media.details.title }}</span>
+          <div class="flex-center-y full-width medialist__item ">
+            <div class="px-2">
+              {{ media.details.title }} asd aasddas dasdas dasdasdasdas
+              asdasdasdasdasdasdasda
+            </div>
             <base-icon class="ml-auto" name="angle-right"></base-icon>
           </div>
         </v-ons-list-item>
