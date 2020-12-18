@@ -15,7 +15,7 @@
 
 <script>
 import Plyr from "plyr";
-import Hls from "hls.js";
+// import Hls from "hls.js";
 import { trackEvent } from "@/util/analytics";
 import "plyr/dist/plyr.css";
 
