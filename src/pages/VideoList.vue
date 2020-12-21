@@ -9,12 +9,31 @@
       </div>
     </v-ons-toolbar>
     <div class="scroller viewlist__content">
+      <div v-if="getHighlighted.length">
+        <div class="page__title__background">
+          <h3 class="page__title">Thundercore Introduction</h3>
+        </div>
+        <v-ons-list modifier="tappable">
+          <v-ons-list-item
+            v-for="media in getHighlighted"
+            :key="media.mediaID"
+            @click="pushToVideo(media.mediaID)"
+          >
+            <div class="flex-center-y full-width medialist__item ">
+              <div class="px-2">
+                {{ media.details.title }}
+              </div>
+              <base-icon class="ml-auto" name="angle-right"></base-icon>
+            </div>
+          </v-ons-list-item>
+        </v-ons-list>
+      </div>
       <div class="page__title__background">
         <h3 class="page__title">Latest Videos</h3>
       </div>
       <v-ons-list modifier="tappable">
         <v-ons-list-item
-          v-for="media in getAll"
+          v-for="media in getLatests"
           :key="media.mediaID"
           @click="pushToVideo(media.mediaID)"
         >
@@ -76,7 +95,7 @@ export default {
     this.populateAll();
   },
   computed: {
-    ...mapGetters("media", ["getAll"]),
+    ...mapGetters("media", ["getLatests", "getHighlighted"]),
     ...mapGetters("user", ["getInterestsSubmitted"])
   },
   methods: {

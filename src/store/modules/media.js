@@ -2,11 +2,15 @@ import MediaService from "@/services/MediaService";
 import devLog from "@/util/devlog.js";
 import Vue from "vue";
 const state = {
-  all: []
+  all: [],
+  highlighted: [],
+  latests: []
 };
 
 const getters = {
   getAll: state => state.all,
+  getHighlighted: state => state.highlighted,
+  getLatests: state => state.latests,
   getById: state => id => {
     return state.all.find(media => media.mediaID === id);
   }
@@ -16,7 +20,22 @@ const actions = {
   async populateAll({ commit }) {
     try {
       const all = await MediaService.getAll();
-      commit("setAll", all);
+      const allSortedByTime = all.sort((a, b) => {
+        return a.createdAt - b.createdAt;
+      });
+      commit("setAll", allSortedByTime);
+      const latestsSortedByTime = all
+        .filter(f => !f.list.highlighted)
+        .sort((a, b) => {
+          return a.createdAt - b.createdAt;
+        });
+      commit("setLatests", latestsSortedByTime);
+      const highlightedSortedByOrder = all
+        .filter(f => f.list.highlighted)
+        .sort((a, b) => {
+          return a.list.order - b.list.order;
+        });
+      commit("setHighlighted", highlightedSortedByOrder);
     } catch (error) {
       devLog(error);
     }
@@ -26,6 +45,12 @@ const actions = {
 const mutations = {
   setAll(state, all) {
     state.all = all;
+  },
+  setLatests(state, latests) {
+    state.latests = latests;
+  },
+  setHighlighted(state, highlighted) {
+    state.highlighted = highlighted;
   },
   add(state, item) {
     state.all = [...state.all, item];
