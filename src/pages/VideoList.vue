@@ -11,7 +11,7 @@
     <div class="scroller viewlist__content">
       <div v-if="getHighlighted.length">
         <div class="page__title__background">
-          <h3 class="page__title">Thundercore Introduction</h3>
+          <h3 class="page__title">Highlights</h3>
         </div>
         <v-ons-list modifier="tappable">
           <v-ons-list-item
