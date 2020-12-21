@@ -163,6 +163,9 @@ export default {
     border-bottom: solid 2px $dark-grey;
     padding: 1.2rem 0.2rem;
   }
+  .list-item:last-child .medialist__item {
+    border-bottom: none;
+  }
   .list-item {
     color: $white;
     padding: 0;
