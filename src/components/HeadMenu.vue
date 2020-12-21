@@ -29,15 +29,6 @@
         <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"
-            href="https://www.vividiov.com/privacy"
-            target="_blank"
-          >
-            Privacy Policy
-          </a></v-ons-list-item
-        >
-        <v-ons-list-item class="text-center" modifier="tappable"
-          ><a
-            class="menu__link"
             href="mailto:info@vividiov.com?subject=Report Bug"
             target="_blank"
           >
