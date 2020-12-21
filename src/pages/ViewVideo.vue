@@ -72,7 +72,7 @@
         >
           <div class="flex-column stream-detail">
             <h5 class="stream-detail__title">
-              {{ title }}
+              {{ truncatedTitle }}
             </h5>
             <p class="stream-detail__hashtag">
               {{ hashtags }}
@@ -121,7 +121,12 @@ import delay from "@/util/delay.js";
 import env from "@/env.js";
 import TipService from "@/services/TipService";
 import webSocketService from "@/util/webSocketService.js";
-
+const truncateString = (str, num) => {
+  if (str.length <= num) {
+    return str;
+  }
+  return str.slice(0, num) + "...";
+};
 export default {
   name: "ViewVideo",
   components: {
@@ -174,6 +179,9 @@ export default {
       } else {
         return "";
       }
+    },
+    truncatedTitle() {
+      return truncateString(this.title, 26);
     },
     hashtags() {
       if (
