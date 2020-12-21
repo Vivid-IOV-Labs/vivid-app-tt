@@ -10,8 +10,6 @@
   <!-- Google Analytics -->
   <script>
     window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) }; ga.l = +new Date;
-    ga('create', 'UA-172830767-1', 'auto');
-    ga('send', 'pageview');
   </script>
   <script async src='https://www.google-analytics.com/analytics.js'></script>
   <!-- End Google Analytics -->
@@ -29,7 +27,7 @@
           MIXPANEL_CUSTOM_LIB_URL : "file:" === c.location.protocol && "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//) ? "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js" : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; d = c.getElementsByTagName("script")[0]; d.parentNode.insertBefore(b, d)
       }
     })(document, window.mixpanel || []);
-    mixpanel.init("4a5957de7c10115f4919cb5969bedf8a", { "api_host": "https://api-eu.mixpanel.com", batch_requests: true })</script>
+    </script>
 </head>
 
 <body>

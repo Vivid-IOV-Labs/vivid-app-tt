@@ -1,4 +1,13 @@
 /* eslint-disable no-undef */
+import env from "@/env";
+export const trackInit = () => {
+  mixpanel.init(env.mixpanel_id, {
+    api_host: "https://api-eu.mixpanel.com",
+    batch_requests: true
+  });
+  ga("create", env.google_analytics_id, "auto");
+  ga("send", "pageview");
+};
 export const trackPage = path => {
   ga("send", "pageview", path);
   mixpanel.track(`Page view: ${path}`);

@@ -1,4 +1,7 @@
-// Webpack CSS import
+// Init Analytics
+import { trackInit } from "@/util/analytics";
+trackInit();
+
 import "onsenui/css/onsenui-core.min.css";
 import "onsenui/css/onsen-css-components.min.css";
 
