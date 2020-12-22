@@ -178,11 +178,12 @@ export default {
     },
     async sendFeedBack() {
       await this.addUserInterests(this.contentSelected);
-      const label = this.contentSelected.join(", ").slice(0, -1);
-      trackEvent({
-        category: "Interest feedback view",
-        action: "send-feedback",
-        label
+      this.contentSelected.forEach(label => {
+        trackEvent({
+          category: "Interest Feedback View",
+          action: "send-feedback",
+          label
+        });
       });
       this.feedBackSent = true;
     }

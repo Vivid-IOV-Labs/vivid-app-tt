@@ -233,9 +233,9 @@ export default {
     ...mapMutations("media", ["setTotalTip"]),
     endViewingVideo() {
       trackEvent({
-        category: "Viewing Video",
-        action: "end",
-        label: "Title :" + this.title + ", MediaId:" + this.mediaID
+        category: "Video Play View",
+        action: "close-video",
+        label: "MediaId:" + this.mediaID
       });
       this.$router.back();
     },
@@ -250,7 +250,11 @@ export default {
         transactionHash,
         mediaID: this.mediaID
       });
-      trackEvent({ category: "Viewing Video", action: "tip" });
+      trackEvent({
+        category: "Video Play View",
+        action: "tip-video",
+        label: "MediaId:" + this.mediaID
+      });
     }
   },
   async mounted() {
@@ -274,11 +278,6 @@ export default {
     });
     await delay(900000);
     this.isPopoverClickTT = false;
-    trackEvent({
-      category: "Viewing Video",
-      action: "land",
-      label: "Title :" + this.title + ", MediaId:" + this.mediaID
-    });
   }
 };
 </script>

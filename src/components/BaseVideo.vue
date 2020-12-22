@@ -101,18 +101,16 @@ export default {
 
     this.player.on("ready", () => {
       trackEvent({
-        category: "Viewing Video",
-        action: "play",
-        label:
-          "Title :" + this.source.title + ", MediaId:" + this.source.mediaID
+        category: "Video Play View",
+        action: "play-video",
+        label: "MediaId:" + this.source.mediaID
       });
     });
     this.player.on("pause", () => {
       trackEvent({
-        category: "Viewing Video",
-        action: "pause",
-        label:
-          "Title :" + this.source.title + ", MediaId:" + this.source.mediaID
+        category: "Video Play View",
+        action: "pause-video",
+        label: "MediaId:" + this.source.mediaID
       });
     });
     this.player.on("timeupdate", () => {
