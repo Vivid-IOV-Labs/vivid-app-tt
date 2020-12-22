@@ -113,6 +113,13 @@ export default {
         label: "MediaId:" + this.source.mediaID
       });
     });
+    this.player.on("ended", () => {
+      trackEvent({
+        category: "Video Play View",
+        action: "finished-video",
+        label: "MediaId:" + this.source.mediaID
+      });
+    });
     this.player.on("timeupdate", () => {
       const currentTime = totalSecondsToHMS(this.player.currentTime);
       this.$emit("timeupdate", currentTime);

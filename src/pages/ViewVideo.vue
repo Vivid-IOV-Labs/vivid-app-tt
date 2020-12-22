@@ -255,7 +255,7 @@ export default {
         });
         trackEvent({
           category: "Video Play View",
-          action: "tip-video",
+          action: "tip-video-started",
           label: "MediaId:" + this.mediaID
         });
       } catch (err) {
@@ -268,6 +268,11 @@ export default {
       const { totalTips } = data;
       this.totalTips = totalTips;
       this.isPopoverTTSuccess = true;
+      trackEvent({
+        category: "Video Play View",
+        action: "tip-video-verified",
+        label: "MediaId:" + this.mediaID
+      });
       await delay(3000);
       this.isPopoverTTSuccess = false;
     });
