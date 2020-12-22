@@ -27,5 +27,5 @@ export const trackPage = path => {
 
 export const trackEvent = ({ category, action, label = null }) => {
   ga("send", "event", category, action, label);
-  mixpanel.track(`${category} - ${action} - ${label}`);
+  mixpanel.track(`${category}`, { action, label });
 };
