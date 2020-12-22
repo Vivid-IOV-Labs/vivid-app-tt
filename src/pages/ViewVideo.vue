@@ -1,6 +1,12 @@
 <template>
   <v-ons-page id="viewStreamPage">
-    <base-video ref="videoplayer" :source="sourceMedia" :options="videoOptions">
+    <base-video
+      ref="videoplayer"
+      :title="title"
+      :media_id="mediaID"
+      :source="sourceMedia"
+      :options="videoOptions"
+    >
       <template v-slot:top>
         <div class="stream__controls stream__controls--top">
           <div class="flex">
@@ -195,6 +201,7 @@ export default {
       return {
         type: "video",
         title: this.title,
+        mediaID: this.mediaID,
         poster: this.posterUrl,
         sources: [
           {
@@ -227,7 +234,7 @@ export default {
     endViewingVideo() {
       trackEvent({
         category: "Viewing Video",
-        action: "exit",
+        action: "end",
         label: "Title :" + this.title + ", MediaId:" + this.mediaID
       });
       this.$router.back();
@@ -269,7 +276,7 @@ export default {
     this.isPopoverClickTT = false;
     trackEvent({
       category: "Viewing Video",
-      action: "landing",
+      action: "land",
       label: "Title :" + this.title + ", MediaId:" + this.mediaID
     });
   }

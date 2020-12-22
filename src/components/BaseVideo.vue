@@ -100,10 +100,20 @@ export default {
     this.player.toggleControls(false);
 
     this.player.on("ready", () => {
-      trackEvent({ category: "Viewing Video", action: "play" });
+      trackEvent({
+        category: "Viewing Video",
+        action: "play",
+        label:
+          "Title :" + this.source.title + ", MediaId:" + this.source.mediaID
+      });
     });
     this.player.on("pause", () => {
-      trackEvent({ category: "Viewing Video", action: "pause" });
+      trackEvent({
+        category: "Viewing Video",
+        action: "pause",
+        label:
+          "Title :" + this.source.title + ", MediaId:" + this.source.mediaID
+      });
     });
     this.player.on("timeupdate", () => {
       const currentTime = totalSecondsToHMS(this.player.currentTime);

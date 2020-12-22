@@ -104,7 +104,7 @@ export default {
     ...mapMutations("media", ["add", "delete", "setTotalTip"]),
     pushToVideo(mediaID) {
       trackEvent({
-        category: "VideoList",
+        category: "VideoList view",
         action: "click",
         label: "Title :" + this.title + ", MediaId:" + this.mediaID
       });
