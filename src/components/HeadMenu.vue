@@ -20,7 +20,7 @@
         <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"
-            href="https://www.vividiov.com/terms"
+            href="https://www.vividiov.com/peerkat-terms"
             target="_blank"
           >
             User Terms

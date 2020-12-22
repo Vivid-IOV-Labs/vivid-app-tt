@@ -405,7 +405,24 @@ button:disabled {
     background: linear-gradient(335deg, transparent 20%, black 40%);
   }
 }
-
+.content{
+  .page__title{
+    font-weight: bold;
+    color: $white;
+    font-size: 1.2rem;
+    margin: 0.4rem 0 0.6rem;
+    text-transform: uppercase;
+    display: block;
+    padding: 0.4rem 0;
+  
+  }
+  .page__title__background{
+    background: rgb(0,0,0);
+    margin-left: -1rem;
+    padding-left: 1rem;
+    background: linear-gradient(335deg, transparent 20%, black 40%);
+  }
+}
 .dialog__head{
   display: flex;
   justify-content: space-between;

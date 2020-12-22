@@ -77,6 +77,7 @@ import BaseIcon from "@/components/BaseIcon.vue";
 import ContentFeedDialog from "@/components/dialogs/ContentFeedDialog.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import webSocketService from "@/util/webSocketService.js";
+import { trackEvent } from "@/util/analytics";
 
 export default {
   name: "VideoList",
@@ -102,6 +103,11 @@ export default {
     ...mapActions("media", ["populateAll"]),
     ...mapMutations("media", ["add", "delete", "setTotalTip"]),
     pushToVideo(mediaID) {
+      trackEvent({
+        category: "VideoList",
+        action: "click",
+        label: "Title :" + this.title + ", MediaId:" + this.mediaID
+      });
       this.$router.push({ path: `viewvideo/${mediaID}` });
     },
     showContentFeedDialog() {

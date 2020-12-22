@@ -225,7 +225,11 @@ export default {
   methods: {
     ...mapMutations("media", ["setTotalTip"]),
     endViewingVideo() {
-      trackEvent({ category: "Viewing Video", action: "end" });
+      trackEvent({
+        category: "Viewing Video",
+        action: "exit",
+        label: "Title :" + this.title + ", MediaId:" + this.mediaID
+      });
       this.$router.back();
     },
     dropVideoMenu() {
@@ -263,6 +267,11 @@ export default {
     });
     await delay(900000);
     this.isPopoverClickTT = false;
+    trackEvent({
+      category: "Viewing Video",
+      action: "landing",
+      label: "Title :" + this.title + ", MediaId:" + this.mediaID
+    });
   }
 };
 </script>

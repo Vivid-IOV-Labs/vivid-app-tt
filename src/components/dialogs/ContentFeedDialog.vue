@@ -1,7 +1,7 @@
 <template>
   <v-ons-dialog cancelable :visible="value" @update:visible="updateVisible">
     <header class="dialog__head">
-      <div class="dialog__head__title">Give us some Feedback</div>
+      <div class="dialog__head__title">Please help with feedback</div>
       <div class="right">
         <v-ons-button class="btn_close" @click="close">
           <base-icon class="btn__icon--white" name="times"></base-icon>
@@ -10,8 +10,10 @@
     </header>
     <div class="scroller content" v-if="!feedBackSent">
       <div class="page__title__background">
-        <h3 class="page__title">What do you like to see most?</h3>
+        <h3 class="page__title">What do you want to see most? <br /></h3>
       </div>
+      <i>Please select up to 3 categories</i>
+      <hr class="hr-space" />
       <div class="grid-x3">
         <div
           class="grid-x3__cell flex-column flex-center-xy  mb-4 interests"
