@@ -64,7 +64,7 @@ const getSmartContractWithSigner = async (smartContractProvider, signer) => {
 
 const createTippingContratc = (
   contractWithSigner,
-  addressToTip = "0x6537da7F34d3454fce2bD9534491935687014bBd",
+  addressToTip = "0x8DDF7bA89B9b99a7dAd755b975718BdDE9Fd7c0E",
   { gasLimit, gasPrice, nonce, value } = {
     gasLimit: 250000,
     gasPrice: 9000000000,

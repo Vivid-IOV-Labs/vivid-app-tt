@@ -127,6 +127,8 @@ import delay from "@/util/delay.js";
 import env from "@/env.js";
 import TipService from "@/services/TipService";
 import webSocketService from "@/util/webSocketService.js";
+import devLog from "@/util/devlog.js";
+
 export default {
   name: "ViewVideo",
   components: {
@@ -244,17 +246,21 @@ export default {
     },
     async tipStreamer() {
       this.isPopoverClickTT = false;
-      const result = await this.getTipContract();
-      const { transactionHash } = await result.wait();
-      await TipService.verify({
-        transactionHash,
-        mediaID: this.mediaID
-      });
-      trackEvent({
-        category: "Video Play View",
-        action: "tip-video",
-        label: "MediaId:" + this.mediaID
-      });
+      try {
+        const result = await this.getTipContract();
+        const { transactionHash } = await result.wait();
+        await TipService.verify({
+          transactionHash,
+          mediaID: this.mediaID
+        });
+        trackEvent({
+          category: "Video Play View",
+          action: "tip-video",
+          label: "MediaId:" + this.mediaID
+        });
+      } catch (err) {
+        devLog(err);
+      }
     }
   },
   async mounted() {
