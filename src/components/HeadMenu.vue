@@ -21,6 +21,7 @@
           ><a
             class="menu__link"
             href="https://www.vividiov.com/peerkat-terms"
+            @click="trackLink('User Terms')"
             target="_blank"
           >
             User Terms
@@ -53,6 +54,8 @@
 </template>
 
 <script>
+import { trackEvent } from "@/util/analytics";
+
 export default {
   name: "HeadMenu",
   data() {
@@ -73,6 +76,17 @@ export default {
       this.popoverDirection = direction;
       this.coverTarget = coverTarget;
       this.popoverVisible = true;
+      trackEvent({
+        category: "Video List View",
+        action: "click-menu"
+      });
+    },
+    trackLink(link) {
+      trackEvent({
+        category: "Video List View",
+        action: "select-menu-item",
+        label: link
+      });
     }
   }
 };
