@@ -155,6 +155,13 @@ export default {
       this.$emit("input", value);
     },
     close() {
+      if (!this.contentSelected.length) {
+        trackEvent({
+          category: "Interest Feedback View",
+          action: "feedback-notsent"
+        });
+      }
+
       this.$emit("input", false);
     },
     copyTelegramGroup() {
