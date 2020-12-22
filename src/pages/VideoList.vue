@@ -121,6 +121,7 @@ export default {
 
       try {
         document.execCommand("copy");
+
         this.$ons.notification.toast("Copied successfully!", { timeout: 2000 });
       } catch (err) {
         this.$ons.notification.toast("Oops, unable to copy ", {
@@ -133,9 +134,19 @@ export default {
     },
     copyTelegramGroup() {
       this.copyTextValue("#telegram-group");
+      trackEvent({
+        category: "Video List View",
+        action: "copy-social",
+        label: "telegram"
+      });
     },
     copyTwitterLink() {
       this.copyTextValue("#twitter-link");
+      trackEvent({
+        category: "Video List View",
+        action: "copy-social",
+        label: "twitter"
+      });
     }
   },
   mounted() {

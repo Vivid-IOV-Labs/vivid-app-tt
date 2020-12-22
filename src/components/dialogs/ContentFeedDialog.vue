@@ -165,6 +165,11 @@ export default {
 
       try {
         document.execCommand("copy");
+        trackEvent({
+          category: "Interest Feedback View",
+          action: "copy-social",
+          label: "telegram"
+        });
         this.$ons.notification.toast("Copied successfully!", { timeout: 2000 });
       } catch (err) {
         this.$ons.notification.toast("Oops, unable to copy ", {
