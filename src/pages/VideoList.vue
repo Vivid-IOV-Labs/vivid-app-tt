@@ -15,7 +15,7 @@
         </div>
         <v-ons-list modifier="tappable">
           <v-ons-list-item
-            v-for="media in highlightedSorted"
+            v-for="media in getHighlighted"
             :key="media.mediaID"
             @click="pushToVideo(media.mediaID)"
           >
@@ -33,7 +33,7 @@
       </div>
       <v-ons-list modifier="tappable">
         <v-ons-list-item
-          v-for="media in latestSorted"
+          v-for="media in getLatests"
           :key="media.mediaID"
           @click="pushToVideo(media.mediaID)"
         >
@@ -97,17 +97,7 @@ export default {
   },
   computed: {
     ...mapGetters("media", ["getLatests", "getHighlighted"]),
-    ...mapGetters("user", ["getInterestsSubmitted"]),
-    latestSorted() {
-      return [...this.getLatests].sort((a, b) => {
-        return b.createdAt - a.createdAt;
-      });
-    },
-    highlightedSorted() {
-      return [...this.getHighlighted].sort((a, b) => {
-        return a.list && a.list.order - b.list && b.list.order;
-      });
-    }
+    ...mapGetters("user", ["getInterestsSubmitted"])
   },
   methods: {
     ...mapActions("media", ["populateAll", "add", "delete"]),

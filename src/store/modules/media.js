@@ -20,11 +20,20 @@ const actions = {
   async populateAll({ commit }) {
     try {
       const all = await MediaService.getAll();
+
       commit("setAll", all);
-      const latests = all.filter(f => !f.list || !f.list.highlighted);
-      commit("setLatests", latests);
-      const highlighted = all.filter(f => f.list && f.list.highlighted);
-      commit("setHighlighted", highlighted);
+      const latestsSortedByTime = all
+        .filter(f => !f.list || !f.list.highlighted)
+        .sort((a, b) => {
+          return b.createdAt - a.createdAt;
+        });
+      commit("setLatests", latestsSortedByTime);
+      const highlightedSortedByOrder = all
+        .filter(f => f.list && f.list.highlighted)
+        .sort((a, b) => {
+          return a.list && a.list.order - b.list && b.list.order;
+        });
+      commit("setHighlighted", highlightedSortedByOrder);
     } catch (error) {
       devLog(error);
     }
@@ -64,7 +73,7 @@ const mutations = {
     state.latests = [item, ...state.latests];
   },
   addHighlighted(state, item) {
-    state.highlighted = [...state.highlighted, item];
+    state.highlighted = [item, ...state.highlighted];
   },
   delete(state, { code }) {
     state.all = state.all.filter(media => media.code !== code);
