@@ -112,10 +112,13 @@
     </v-ons-popover>
     <v-ons-popover
       cancelable
-      :visible.sync="isPopoverTTSuccess"
+      :visible.sync="isPopoverTTSuccess || isPopoverTTProgress"
       :target="popoverTarget"
     >
-      <p class="bold text-center">Tip done! &#128512;</p>
+      <div v-if="isPopoverTTProgress" class="dot-flashing"></div>
+      <p v-if="isPopoverTTSuccess" class="bold text-center">
+        Tip done! &#128512;
+      </p>
     </v-ons-popover>
   </v-ons-page>
 </template>
@@ -151,6 +154,7 @@ export default {
       isVideoMenuDropped: false,
       isPopoverClickTT: false,
       isPopoverTTSuccess: false,
+      isPopoverTTProgress: false,
       popoverTarget: null
     };
   },
@@ -246,6 +250,8 @@ export default {
     },
     async tipStreamer() {
       this.isPopoverClickTT = false;
+      this.isPopoverTTProgress = true;
+
       try {
         const result = await this.getTipContract();
         const { transactionHash } = await result.wait();
@@ -253,6 +259,7 @@ export default {
           transactionHash,
           mediaID: this.mediaID
         });
+
         trackEvent({
           category: "Video Play View",
           action: "tip-video-started",
@@ -267,6 +274,7 @@ export default {
     webSocketService.socket.on("media-updated-tip", async ({ data }) => {
       const { totalTips } = data;
       this.totalTips = totalTips;
+      this.isPopoverTTProgress = false;
       this.isPopoverTTSuccess = true;
       trackEvent({
         category: "Video Play View",
