@@ -137,8 +137,47 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
-  .plyr--loading {
-    background: chocolate;
+  .plyr--loading .plyr__progress__buffer {
+    animation: plyr-progress 1s linear infinite;
+    background-image: linear-gradient(
+      -45deg,
+      rgba(35, 40, 47, 0.6) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(35, 40, 47, 0.6) 50%,
+      rgba(35, 40, 47, 0.6) 75%,
+      transparent 75%,
+      transparent
+    );
+    background-image: linear-gradient(
+      -45deg,
+      var(--plyr-progress-loading-background, rgba(35, 40, 47, 0.6)) 25%,
+      transparent 25%,
+      transparent 50%,
+      var(--plyr-progress-loading-background, rgba(35, 40, 47, 0.6)) 50%,
+      var(--plyr-progress-loading-background, rgba(35, 40, 47, 0.6)) 75%,
+      transparent 75%,
+      transparent
+    );
+    background-repeat: repeat-x;
+    background-size: 25px 25px;
+    background-size: var(--plyr-progress-loading-size, 25px)
+      var(--plyr-progress-loading-size, 25px);
+    color: transparent;
+  }
+  .plyr--video.plyr--loading .plyr__progress__buffer {
+    background-color: rgba(255, 255, 255, 0.25);
+    background-color: var(
+      --plyr-video-progress-buffered-background,
+      rgba(255, 255, 255, 0.25)
+    );
+  }
+  .plyr--audio.plyr--loading .plyr__progress__buffer {
+    background-color: rgba(193, 200, 209, 0.6);
+    background-color: var(
+      --plyr-audio-progress-buffered-background,
+      rgba(193, 200, 209, 0.6)
+    );
   }
   .plyr--video.plyr--menu-open + .stream__controls--bottom {
     z-index: 2;

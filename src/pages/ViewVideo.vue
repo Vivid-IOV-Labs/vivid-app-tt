@@ -219,14 +219,12 @@ export default {
         poster: this.posterUrl,
         sources: [
           {
-            src: this.videoUrl,
+            src:
+              "https://dvt5d0bl14r31.cloudfront.net/streams/833460705146554020930032.mp4",
             type: "video/mp4"
           }
         ]
       };
-    },
-    isPopoverTTProgressOrSuccess() {
-      return this.isPopoverTTSuccess || this.isPopoverTTProgress;
     },
     totalTips: {
       get() {
@@ -258,13 +256,17 @@ export default {
     dropVideoMenu() {
       this.isVideoMenuDropped = !this.isVideoMenuDropped;
     },
+    async startTimer() {
+      await delay(120000);
+      this.isPopoverTTProgress = false;
+    },
     async tipStreamer() {
       this.isPopoverClickTT = false;
 
       try {
         const result = await this.getTipContract();
         this.isPopoverTTProgress = true;
-
+        this.startTimer();
         const { transactionHash } = await result.wait();
         await TipService.verify({
           transactionHash,
