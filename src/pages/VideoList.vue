@@ -100,8 +100,8 @@ export default {
     ...mapGetters("user", ["getInterestsSubmitted"])
   },
   methods: {
-    ...mapActions("media", ["populateAll"]),
-    ...mapMutations("media", ["add", "delete", "setTotalTip"]),
+    ...mapActions("media", ["populateAll", "add", "delete"]),
+    ...mapMutations("media", ["setTotalTip"]),
     pushToVideo(mediaID) {
       trackEvent({
         category: "Video List View",

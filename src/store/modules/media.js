@@ -39,6 +39,22 @@ const actions = {
     } catch (error) {
       devLog(error);
     }
+  },
+  add({ commit }, newVideo) {
+    if (newVideo.list && newVideo.list.highlighted) {
+      commit("addHighlighted", newVideo);
+    } else {
+      commit("addLatest", newVideo);
+    }
+    commit("add", newVideo);
+  },
+  delete({ commit }, video) {
+    if (video.list && video.list.highlighted) {
+      commit("deleteHighlighted", video);
+    } else {
+      commit("deleteLatest", video);
+    }
+    commit("delete", video);
   }
 };
 
@@ -53,10 +69,24 @@ const mutations = {
     state.highlighted = highlighted;
   },
   add(state, item) {
-    state.all = [...state.all, item];
+    state.all = [item, ...state.all];
+  },
+  addLatest(state, item) {
+    state.latests = [item, ...state.latests];
+  },
+  addHighlighted(state, item) {
+    state.highlighted = [item, ...state.highlighted];
   },
   delete(state, { mediaID }) {
     state.all = state.all.filter(media => media.mediaID !== mediaID);
+  },
+  deleteLatest(state, { mediaID }) {
+    state.latests = state.latests.filter(media => media.mediaID !== mediaID);
+  },
+  deleteHighlighted(state, { mediaID }) {
+    state.highlighted = state.highlighted.filter(
+      media => media.mediaID !== mediaID
+    );
   },
   setTotalTip(state, { mediaID, totalTips }) {
     const mediaIndex = state.all.findIndex(media => media.mediaID === mediaID);
