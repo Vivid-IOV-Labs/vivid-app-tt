@@ -64,7 +64,7 @@ const mutations = {
     state.latests = [item, ...state.latests];
   },
   addHighlighted(state, item) {
-    state.highlighted = [item, ...state.highlighted];
+    state.highlighted = [...state.highlighted, item];
   },
   delete(state, { code }) {
     state.all = state.all.filter(media => media.code !== code);
