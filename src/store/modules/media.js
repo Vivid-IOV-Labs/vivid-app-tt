@@ -20,22 +20,11 @@ const actions = {
   async populateAll({ commit }) {
     try {
       const all = await MediaService.getAll();
-      const allSortedByTime = all.sort((a, b) => {
-        return a.createdAt - b.createdAt;
-      });
-      commit("setAll", allSortedByTime);
-      const latestsSortedByTime = all
-        .filter(f => !f.list || !f.list.highlighted)
-        .sort((a, b) => {
-          return b.createdAt - a.createdAt;
-        });
-      commit("setLatests", latestsSortedByTime);
-      const highlightedSortedByOrder = all
-        .filter(f => f.list && f.list.highlighted)
-        .sort((a, b) => {
-          return a.list && a.list.order - b.list && b.list.order;
-        });
-      commit("setHighlighted", highlightedSortedByOrder);
+      commit("setAll", all);
+      const latests = all.filter(f => !f.list || !f.list.highlighted);
+      commit("setLatests", latests);
+      const highlighted = all.filter(f => f.list && f.list.highlighted);
+      commit("setHighlighted", highlighted);
     } catch (error) {
       devLog(error);
     }
