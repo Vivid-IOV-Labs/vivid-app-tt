@@ -31,7 +31,7 @@ const actions = {
       const highlightedSortedByOrder = all
         .filter(f => f.list && f.list.highlighted)
         .sort((a, b) => {
-          return a.list && a.list.order - b.list && b.list.order;
+          return a.list.order - b.list.order;
         });
       commit("setHighlighted", highlightedSortedByOrder);
     } catch (error) {
@@ -72,15 +72,22 @@ const mutations = {
   addHighlighted(state, newMedia) {
     const findPosition = (arr, el) => {
       for (let i = 0; i < arr.length; i++) {
-        if (arr[i].list.order >= el.list.order) return i;
+        if (arr[i].list.order > el.list.order) {
+          return i;
+        }
       }
       return arr.length;
     };
-    const insert = (arr, item, index) =>
-      arr.reduce((s, a, i) => {
-        i === index ? s.push(item, a) : s.push(a);
-        return s;
-      }, []);
+    const insert = (arr, item, index) => {
+      if (index >= arr.length) {
+        return [...arr, item];
+      } else {
+        return arr.reduce((s, a, i) => {
+          i === index ? s.push(item, a) : s.push(a);
+          return s;
+        }, []);
+      }
+    };
 
     const position = findPosition(state.highlighted, newMedia);
     const newHighlighted = insert(state.highlighted, newMedia, position);
