@@ -30,7 +30,7 @@
         <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"
-            href="mailto:info@vividiov.com?subject=Report Bug"
+            href="mailto:team@peerkat.live?subject=Report Bug"
             target="_blank"
           >
             Report Bug
@@ -39,10 +39,19 @@
         <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"
-            href="mailto:info@vividiov.com?subject=Customer Support"
+            href="mailto:team@peerkat.live?subject=Customer Support"
             target="_blank"
           >
             Customer Support
+          </a></v-ons-list-item
+        >
+        <v-ons-list-item class="text-center" modifier="tappable"
+          ><a
+            class="menu__link"
+            href="mailto:team@peerkat.live?subject=Register interest in becoming a Peerkat content creator"
+            target="_blank"
+          >
+            Become a creator
           </a></v-ons-list-item
         >
       </v-ons-list>
