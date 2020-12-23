@@ -77,14 +77,16 @@ const mutations = {
   addHighlighted(state, item) {
     state.highlighted = [item, ...state.highlighted];
   },
-  delete(state, { code }) {
-    state.all = state.all.filter(media => media.code !== code);
+  delete(state, { mediaID }) {
+    state.all = state.all.filter(media => media.mediaID !== mediaID);
   },
-  deleteLatest(state, { code }) {
-    state.latests = state.latests.filter(media => media.code !== code);
+  deleteLatest(state, { mediaID }) {
+    state.latests = state.latests.filter(media => media.mediaID !== mediaID);
   },
-  deleteHighlighted(state, { code }) {
-    state.highlighted = state.highlighted.filter(media => media.code !== code);
+  deleteHighlighted(state, { mediaID }) {
+    state.highlighted = state.highlighted.filter(
+      media => media.mediaID !== mediaID
+    );
   },
   setTotalTip(state, { mediaID, totalTips }) {
     const mediaIndex = state.all.findIndex(media => media.mediaID === mediaID);
