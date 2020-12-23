@@ -25,15 +25,15 @@ const actions = {
       });
       commit("setAll", allSortedByTime);
       const latestsSortedByTime = all
-        .filter(f => !f.list.highlighted)
+        .filter(f => !f.list || !f.list.highlighted)
         .sort((a, b) => {
           return a.createdAt - b.createdAt;
         });
       commit("setLatests", latestsSortedByTime);
       const highlightedSortedByOrder = all
-        .filter(f => f.list.highlighted)
+        .filter(f => f.list && f.list.highlighted)
         .sort((a, b) => {
-          return a.list.order - b.list.order;
+          return a.list && a.list.order - b.list && b.list.order;
         });
       commit("setHighlighted", highlightedSortedByOrder);
     } catch (error) {
