@@ -27,7 +27,7 @@ const actions = {
       const latestsSortedByTime = all
         .filter(f => !f.list || !f.list.highlighted)
         .sort((a, b) => {
-          return a.createdAt - b.createdAt;
+          return b.createdAt - a.createdAt;
         });
       commit("setLatests", latestsSortedByTime);
       const highlightedSortedByOrder = all
