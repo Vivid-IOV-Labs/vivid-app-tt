@@ -112,11 +112,19 @@
     </v-ons-popover>
     <v-ons-popover
       cancelable
-      :visible.sync="isPopoverTTSuccess || isPopoverTTProgress"
+      :visible.sync="isPopoverTTProgress"
       :target="popoverTarget"
     >
-      <div v-if="isPopoverTTProgress" class="dot-flashing"></div>
-      <p v-if="isPopoverTTSuccess" class="bold text-center">
+      <div style="padding:1rem">
+        <div class="dot-flashing"></div>
+      </div>
+    </v-ons-popover>
+    <v-ons-popover
+      cancelable
+      :visible.sync="isPopoverTTSuccess"
+      :target="popoverTarget"
+    >
+      <p class="bold text-center">
         Tip done! &#128512;
       </p>
     </v-ons-popover>
@@ -217,7 +225,9 @@ export default {
         ]
       };
     },
-
+    isPopoverTTProgressOrSuccess() {
+      return this.isPopoverTTSuccess || this.isPopoverTTProgress;
+    },
     totalTips: {
       get() {
         if (
@@ -250,10 +260,11 @@ export default {
     },
     async tipStreamer() {
       this.isPopoverClickTT = false;
-      this.isPopoverTTProgress = true;
 
       try {
         const result = await this.getTipContract();
+        this.isPopoverTTProgress = true;
+
         const { transactionHash } = await result.wait();
         await TipService.verify({
           transactionHash,
@@ -266,6 +277,8 @@ export default {
           label: "MediaId:" + this.mediaID
         });
       } catch (err) {
+        this.isPopoverTTProgress = false;
+
         devLog(err);
       }
     }

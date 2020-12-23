@@ -137,6 +137,9 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
+  .plyr--loading {
+    background: chocolate;
+  }
   .plyr--video.plyr--menu-open + .stream__controls--bottom {
     z-index: 2;
   }
