@@ -219,8 +219,7 @@ export default {
         poster: this.posterUrl,
         sources: [
           {
-            src:
-              "https://dvt5d0bl14r31.cloudfront.net/streams/833460705146554020930032.mp4",
+            src: this.videoUrl,
             type: "video/mp4"
           }
         ]
