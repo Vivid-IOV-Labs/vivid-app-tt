@@ -101,7 +101,7 @@ export default {
   },
   methods: {
     ...mapActions("media", ["populateAll", "add", "delete"]),
-    ...mapMutations("media", ["setTotalTip"]),
+    ...mapMutations("media", ["setTotalTip", "addHighlighted"]),
     pushToVideo(mediaID) {
       trackEvent({
         category: "Video List View",
@@ -147,6 +147,37 @@ export default {
         action: "copy-social",
         label: "twitter"
       });
+    },
+    addNewMedia() {
+      const newMedia = {
+        type: "video",
+        live: false,
+        publisher: {
+          walletAddress: "0x8DDF7bA89B9b99a7dAd755b975718BdDE9Fd7c0E"
+        },
+        mediaID: "451299675670168564816464",
+        shop: {
+          link: ""
+        },
+        list: {
+          highlighted: true,
+          order: 14
+        },
+        statistics: {
+          total: {
+            viewers: 0,
+            reportFlags: 0,
+            tips: 0
+          }
+        },
+        details: {
+          title: "Latest BIG news COTI Network + Technical Analysis",
+          twitter: {
+            hashtags: ["crypto", "blockchain", "coti"]
+          }
+        }
+      };
+      this.addHighlighted(newMedia);
     }
   },
   mounted() {

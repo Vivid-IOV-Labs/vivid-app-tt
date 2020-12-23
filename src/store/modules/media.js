@@ -72,8 +72,22 @@ const mutations = {
   addLatest(state, item) {
     state.latests = [item, ...state.latests];
   },
-  addHighlighted(state, item) {
-    state.highlighted = [item, ...state.highlighted];
+  addHighlighted(state, newMedia) {
+    const findPosition = (arr, el) => {
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].list.order >= el.list.order) return i;
+      }
+      return arr.length;
+    };
+    const insert = (arr, item, index) =>
+      arr.reduce((s, a, i) => {
+        i === index ? s.push(item, a) : s.push(a);
+        return s;
+      }, []);
+
+    const position = findPosition(state.highlighted, newMedia);
+    const newHighlighted = insert(state.highlighted, newMedia, position);
+    state.highlighted = newHighlighted;
   },
   delete(state, { code }) {
     state.all = state.all.filter(media => media.code !== code);
