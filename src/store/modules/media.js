@@ -47,11 +47,8 @@ const actions = {
     commit("add", newVideo);
   },
   delete({ commit }, video) {
-    if (video.list && video.list.highlighted) {
-      commit("deleteHighlighted", video);
-    } else {
-      commit("deleteLatest", video);
-    }
+    commit("deleteHighlighted", video);
+    commit("deleteLatest", video);
     commit("delete", video);
   }
 };
