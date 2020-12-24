@@ -20,18 +20,16 @@ const actions = {
   async populateAll({ commit }) {
     try {
       const all = await MediaService.getAll();
-      const allSortedByTime = all.sort((a, b) => {
-        return a.createdAt - b.createdAt;
-      });
-      commit("setAll", allSortedByTime);
+
+      commit("setAll", all);
       const latestsSortedByTime = all
-        .filter(f => !f.list.highlighted)
+        .filter(f => !f.list || !f.list.highlighted)
         .sort((a, b) => {
-          return a.createdAt - b.createdAt;
+          return b.createdAt - a.createdAt;
         });
       commit("setLatests", latestsSortedByTime);
       const highlightedSortedByOrder = all
-        .filter(f => f.list.highlighted)
+        .filter(f => f.list && f.list.highlighted)
         .sort((a, b) => {
           return a.list.order - b.list.order;
         });
@@ -39,6 +37,19 @@ const actions = {
     } catch (error) {
       devLog(error);
     }
+  },
+  add({ commit }, newVideo) {
+    if (newVideo.list && newVideo.list.highlighted) {
+      commit("addHighlighted", newVideo);
+    } else {
+      commit("addLatest", newVideo);
+    }
+    commit("add", newVideo);
+  },
+  delete({ commit }, video) {
+    commit("deleteHighlighted", video);
+    commit("deleteLatest", video);
+    commit("delete", video);
   }
 };
 
@@ -53,10 +64,43 @@ const mutations = {
     state.highlighted = highlighted;
   },
   add(state, item) {
-    state.all = [...state.all, item];
+    state.all = [item, ...state.all];
   },
-  delete(state, { mediaID }) {
-    state.all = state.all.filter(media => media.mediaID !== mediaID);
+  addLatest(state, item) {
+    state.latests = [item, ...state.latests];
+  },
+  addHighlighted(state, newMedia) {
+    const findPosition = (arr, el) => {
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].list.order > el.list.order) {
+          return i;
+        }
+      }
+      return arr.length;
+    };
+    const insert = (arr, item, index) => {
+      if (index >= arr.length) {
+        return [...arr, item];
+      } else {
+        return arr.reduce((s, a, i) => {
+          i === index ? s.push(item, a) : s.push(a);
+          return s;
+        }, []);
+      }
+    };
+
+    const position = findPosition(state.highlighted, newMedia);
+    const newHighlighted = insert(state.highlighted, newMedia, position);
+    state.highlighted = newHighlighted;
+  },
+  delete(state, { code }) {
+    state.all = state.all.filter(media => media.code !== code);
+  },
+  deleteLatest(state, { code }) {
+    state.latests = state.latests.filter(media => media.code !== code);
+  },
+  deleteHighlighted(state, { code }) {
+    state.highlighted = state.highlighted.filter(media => media.code !== code);
   },
   setTotalTip(state, { mediaID, totalTips }) {
     const mediaIndex = state.all.findIndex(media => media.mediaID === mediaID);

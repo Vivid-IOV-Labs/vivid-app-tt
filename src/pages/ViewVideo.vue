@@ -112,10 +112,21 @@
     </v-ons-popover>
     <v-ons-popover
       cancelable
+      :visible.sync="isPopoverTTProgress"
+      :target="popoverTarget"
+    >
+      <div style="padding:1rem">
+        <div class="dot-flashing"></div>
+      </div>
+    </v-ons-popover>
+    <v-ons-popover
+      cancelable
       :visible.sync="isPopoverTTSuccess"
       :target="popoverTarget"
     >
-      <p class="bold text-center">Tip done! &#128512;</p>
+      <p class="bold text-center">
+        Tip done! &#128512;
+      </p>
     </v-ons-popover>
   </v-ons-page>
 </template>
@@ -151,6 +162,7 @@ export default {
       isVideoMenuDropped: false,
       isPopoverClickTT: false,
       isPopoverTTSuccess: false,
+      isPopoverTTProgress: false,
       popoverTarget: null
     };
   },
@@ -213,7 +225,6 @@ export default {
         ]
       };
     },
-
     totalTips: {
       get() {
         if (
@@ -244,21 +255,31 @@ export default {
     dropVideoMenu() {
       this.isVideoMenuDropped = !this.isVideoMenuDropped;
     },
+    async startTimer() {
+      await delay(120000);
+      this.isPopoverTTProgress = false;
+    },
     async tipStreamer() {
       this.isPopoverClickTT = false;
+
       try {
         const result = await this.getTipContract();
+        this.isPopoverTTProgress = true;
+        this.startTimer();
         const { transactionHash } = await result.wait();
         await TipService.verify({
           transactionHash,
           mediaID: this.mediaID
         });
+
         trackEvent({
           category: "Video Play View",
           action: "tip-video-started",
           label: "MediaId:" + this.mediaID
         });
       } catch (err) {
+        this.isPopoverTTProgress = false;
+
         devLog(err);
       }
     }
@@ -267,6 +288,7 @@ export default {
     webSocketService.socket.on("media-updated-tip", async ({ data }) => {
       const { totalTips } = data;
       this.totalTips = totalTips;
+      this.isPopoverTTProgress = false;
       this.isPopoverTTSuccess = true;
       trackEvent({
         category: "Video Play View",

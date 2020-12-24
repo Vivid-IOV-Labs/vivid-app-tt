@@ -9,6 +9,9 @@
       playsinline
       preload="auto"
     ></video>
+    <div class="loading ">
+      <base-icon name="spinner" :spin="true"></base-icon>
+    </div>
     <slot name="bottom"></slot>
   </div>
 </template>
@@ -16,6 +19,7 @@
 <script>
 import Plyr from "plyr";
 // import Hls from "hls.js";
+import BaseIcon from "@/components/BaseIcon.vue";
 import { trackEvent } from "@/util/analytics";
 import "plyr/dist/plyr.css";
 
@@ -32,6 +36,9 @@ const totalSecondsToHMS = totalSecs => {
 
 export default {
   name: "BsseVideo",
+  components: {
+    BaseIcon
+  },
   props: {
     options: {
       type: Object,
@@ -75,7 +82,7 @@ export default {
   },
   async mounted() {
     this.player = new Plyr(this.$refs.video, this.options);
-    this.fixMobileClick();
+
     this.player.source = this.source;
     // var video = document.getElementById("video");
 
@@ -89,15 +96,21 @@ export default {
     //   hls.attachMedia(video);
     //   window.hls = hls;
     // }
-    const videoWrapper = document.getElementsByClassName(
-      "plyr__video-wrapper"
-    )[0];
-    videoWrapper.addEventListener("click", event => {
-      this.player.togglePlay();
-      event.stopPropagation(); // Necessary or the video will toggle twice => no playback
-    });
+    this.$nextTick(() => {
+      document
+        .querySelector(".plyr--video")
+        .appendChild(document.querySelector(".loading"));
+      this.fixMobileClick();
+      const videoWrapper = document.getElementsByClassName(
+        "plyr__video-wrapper"
+      )[0];
+      videoWrapper.addEventListener("click", event => {
+        this.player.togglePlay();
+        event.stopPropagation(); // Necessary or the video will toggle twice => no playback
+      });
 
-    this.player.toggleControls(false);
+      this.player.toggleControls(false);
+    });
 
     this.player.on("ready", () => {
       trackEvent({
@@ -137,6 +150,24 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
+  .loading {
+    display: none;
+    left: 50%;
+    opacity: 0.9;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: 0.3s;
+    z-index: 2;
+    font-size: 2.4rem;
+    padding: 1rem;
+    background: none;
+  }
+  .plyr--loading {
+    .loading {
+      display: block;
+    }
+  }
   .plyr--video.plyr--menu-open + .stream__controls--bottom {
     z-index: 2;
   }

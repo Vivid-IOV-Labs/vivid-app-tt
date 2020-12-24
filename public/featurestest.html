@@ -11,7 +11,8 @@
   <title>
     Peerkat.live WEB API Features To Test
   </title><!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 </head>
 <style>
@@ -45,7 +46,6 @@
         {{ feat.text }} <span v-if="feat.supported ">&#10003;</span> <span v-else>&times;</span>
       </li>
     </ul>
-
     <hr>
     <h2 style="margin-bottom: 0.2rem;">Check Permissions </h2>
     <i>Please click buttons below</i>
@@ -55,6 +55,7 @@
       <button class="btn btn--large ml-2" v-on:click="getGeolocation">Get Location</button>
       <button class="btn btn--large ml-2" v-on:click="captureAndInjectCameraFeed">Get Camera &amp; Microphone</button>
       <button class="btn btn--large ml-2" v-on:click="checkOrientation = !checkOrientation">Check Orientation</button>
+      <a href="mailto:team@peerkat.live?subject=Test Thundercore feat" target="_blank" class="btn btn--large ml-2">Check Mailto link</button>
     </div>
     <hr v-if="allowResponse.message">
     <h4 v-if="allowResponse.message">Get {{allowResponse.feat=== 'Camera' ? 'Camera &amp; Microphone' :
@@ -75,10 +76,14 @@
     </div>
     <div v-if="checkOrientation">
       <ul class="table table-responsive">
-          <li>Orientation type <pre>{{screenOrientationType}}</pre></li>
-          <li>Orientation Angle <pre>{{screenOrientationAngle}}</pre></li>
+        <li>Orientation type
+          <pre>{{screenOrientationType}}</pre>
+        </li>
+        <li>Orientation Angle
+          <pre>{{screenOrientationAngle}}</pre>
+        </li>
       </ul>
-      
+
     </div>
   </div>
   <script src="./modernizr.js"></script>
@@ -111,9 +116,9 @@
     const app = {
       data() {
         return {
-          checkOrientation:false,
-          screenOrientationType:window.screen.orientation.type,
-          screenOrientationAngle:window.screen.orientation.angle,
+          checkOrientation: false,
+          screenOrientationType: window.screen.orientation.type,
+          screenOrientationAngle: window.screen.orientation.angle,
           allowResponse: { message: null, isAllowed: null, feat: null },
           userMediaErrors: null,
           allDevices: [],
@@ -135,11 +140,11 @@
         }
       },
       mounted() {
-    window.addEventListener(
-      "orientationchange",
-      this.handleOrientationChange
-    );
-  },
+        window.addEventListener(
+          "orientationchange",
+          this.handleOrientationChange
+        );
+      },
       methods: {
         handleOrientationChange(event) {
           this.screenOrientationType = window.screen.orientation.type;

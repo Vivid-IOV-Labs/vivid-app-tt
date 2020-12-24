@@ -22,16 +22,25 @@
             class="menu__link"
             href="https://www.vividiov.com/peerkat-terms"
             @click="trackLink('User Terms')"
-            target="_blank"
           >
             User Terms
           </a>
         </v-ons-list-item>
-        <v-ons-list-item class="text-center" modifier="tappable"
+        <v-ons-list-item class="text-center" modifier="tappable">
+          <a class="menu__link" @click.prevent="copyMail">
+            <input type="hidden" id="mailto" value="team@peerkat.live" />
+            <h6 class="mt-2 mb-2">Get in touch!</h6>
+            <p class="mt-2 mb-4"><i>To add videos or report bugs</i></p>
+            <strong class="mb-4">team@peerkat.live</strong>
+          </a>
+        </v-ons-list-item>
+        <!-- <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"
-            href="mailto:info@vividiov.com?subject=Report Bug"
-            target="_blank"
+            onClick="javascript:window.open('mailto:team@peerkat.live?subject=Report Bug', 'mail');event.preventDefault()"
+            href="mailto:team@peerkat.live?subject=Report Bug"
+            target="_parent"
+            rel="noopener noreferrer"
           >
             Report Bug
           </a></v-ons-list-item
@@ -39,14 +48,25 @@
         <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"
-            href="mailto:info@vividiov.com?subject=Customer Support"
-            target="_blank"
+            href="mailto:team@peerkat.live?subject=Customer Support"
+            target="_parent"
+            rel="noopener noreferrer"
           >
             Customer Support
           </a></v-ons-list-item
         >
+        <v-ons-list-item class="text-center" modifier="tappable"
+          ><a
+            class="menu__link"
+            href="mailto:team@peerkat.live?subject=Register interest in becoming a Peerkat content creator"
+            target="_top"
+            rel="noopener noreferrer"
+          >
+            Become a creator
+          </a></v-ons-list-item
+        > -->
       </v-ons-list>
-      <div class="text-center p-1 ">
+      <div class="text-center mt-4 p-1 ">
         <small>© 2020 Peerkat. All rights reserved. </small>
       </div>
     </v-ons-popover>
@@ -87,6 +107,27 @@ export default {
         action: "select-menu-item",
         label: link
       });
+    },
+    copyMail() {
+      let testingCodeToCopy = document.querySelector("#mailto");
+      testingCodeToCopy.setAttribute("type", "text");
+      testingCodeToCopy.select();
+      testingCodeToCopy.setSelectionRange(0, 99999); /* For mobile devices */
+
+      try {
+        document.execCommand("copy");
+
+        this.$ons.notification.toast("Email Copied successfully!", {
+          timeout: 2000
+        });
+      } catch (err) {
+        this.$ons.notification.toast("Oops, unable to copy ", {
+          timeout: 2000
+        });
+      }
+      /* unselect the range */
+      testingCodeToCopy.setAttribute("type", "hidden");
+      window.getSelection().removeAllRanges();
     }
   }
 };
