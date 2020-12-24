@@ -30,7 +30,7 @@
         <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"
-            href="https://mailto:team@peerkat.live?subject=Report Bug"
+            href="mailto:team@peerkat.live?subject=Report Bug"
           >
             Report Bug
           </a></v-ons-list-item
@@ -38,7 +38,7 @@
         <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"
-            href="https://mailto:team@peerkat.live?subject=Customer Support"
+            href="mailto:team@peerkat.live?subject=Customer Support"
             target="_blank"
           >
             Customer Support
@@ -47,7 +47,7 @@
         <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"
-            href="https://mailto:team@peerkat.live?subject=Register interest in becoming a Peerkat content creator"
+            href="mailto:team@peerkat.live?subject=Register interest in becoming a Peerkat content creator"
             target="_top"
           >
             Become a creator
