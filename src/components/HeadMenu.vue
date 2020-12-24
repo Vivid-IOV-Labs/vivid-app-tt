@@ -28,7 +28,7 @@
         </v-ons-list-item>
         <v-ons-list-item class="text-center" modifier="tappable">
           <a class="menu__link" @click.prevent="copyMail">
-            <input type="hidden" id="mailto" value="mailto:team@peerkat.live" />
+            <input type="hidden" id="mailto" value="team@peerkat.live" />
             <h6 class="mt-2 mb-2">Get in touch!</h6>
             <p class="mt-2 mb-4"><i>To add videos or report bugs</i></p>
             <strong class="mb-4">team@peerkat.live</strong>
