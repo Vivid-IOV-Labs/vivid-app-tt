@@ -22,7 +22,7 @@
             class="menu__link"
             href="https://www.vividiov.com/peerkat-terms"
             @click="trackLink('User Terms')"
-            arget="_blank"
+            arget="_parent"
             rel="noopener noreferrer"
           >
             User Terms
@@ -33,7 +33,7 @@
             class="menu__link"
             onClick="javascript:window.open('mailto:team@peerkat.live?subject=Report Bug', 'mail');event.preventDefault()"
             href="mailto:team@peerkat.live?subject=Report Bug"
-            target="_blank"
+            target="_parent"
             rel="noopener noreferrer"
           >
             Report Bug
@@ -42,9 +42,8 @@
         <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"
-            onClick="javascript:window.open('mailto:team@peerkat.live?subject=Customer Support', 'mail');event.preventDefault()"
             href="mailto:team@peerkat.live?subject=Customer Support"
-            target="_blank"
+            target="_parent"
             rel="noopener noreferrer"
           >
             Customer Support
@@ -53,9 +52,8 @@
         <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"
-            onClick="javascript:window.open('mailto:team@peerkat.live?subject=Register interest in becoming a Peerkat content creator', 'mail');event.preventDefault()"
             href="mailto:team@peerkat.live?subject=Register interest in becoming a Peerkat content creator"
-            target="_blank"
+            target="_top"
             rel="noopener noreferrer"
           >
             Become a creator
