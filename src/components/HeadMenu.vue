@@ -31,6 +31,7 @@
           ><a
             class="menu__link"
             href="mailto:team@peerkat.live?subject=Report Bug"
+            target="_blank"
           >
             Report Bug
           </a></v-ons-list-item
@@ -48,7 +49,7 @@
           ><a
             class="menu__link"
             href="mailto:team@peerkat.live?subject=Register interest in becoming a Peerkat content creator"
-            target="_top"
+            target="_blank"
           >
             Become a creator
           </a></v-ons-list-item
