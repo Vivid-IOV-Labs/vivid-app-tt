@@ -22,13 +22,19 @@
             class="menu__link"
             href="https://www.vividiov.com/peerkat-terms"
             @click="trackLink('User Terms')"
-            arget="_parent"
-            rel="noopener noreferrer"
           >
             User Terms
           </a>
         </v-ons-list-item>
-        <v-ons-list-item class="text-center" modifier="tappable"
+        <v-ons-list-item class="text-center" modifier="tappable">
+          <input type="hidden" id="mailto" value="mailto:team@peerkat.live" /><a
+            class="menu__link"
+            @click.prevent="copyMail"
+          >
+            Get in touch! To add videos or report bugs :- team@peerkat.live
+          </a>
+        </v-ons-list-item>
+        <!-- <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"
             onClick="javascript:window.open('mailto:team@peerkat.live?subject=Report Bug', 'mail');event.preventDefault()"
@@ -58,7 +64,7 @@
           >
             Become a creator
           </a></v-ons-list-item
-        >
+        > -->
       </v-ons-list>
       <div class="text-center p-1 ">
         <small>© 2020 Peerkat. All rights reserved. </small>
@@ -101,6 +107,25 @@ export default {
         action: "select-menu-item",
         label: link
       });
+    },
+    copyMail() {
+      let testingCodeToCopy = document.querySelector(".mailto");
+      testingCodeToCopy.setAttribute("type", "text");
+      testingCodeToCopy.select();
+      testingCodeToCopy.setSelectionRange(0, 99999); /* For mobile devices */
+
+      try {
+        document.execCommand("copy");
+
+        this.$ons.notification.toast("Copied successfully!", { timeout: 2000 });
+      } catch (err) {
+        this.$ons.notification.toast("Oops, unable to copy ", {
+          timeout: 2000
+        });
+      }
+      /* unselect the range */
+      testingCodeToCopy.setAttribute("type", "hidden");
+      window.getSelection().removeAllRanges();
     }
   }
 };
