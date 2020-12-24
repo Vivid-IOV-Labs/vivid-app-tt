@@ -27,11 +27,11 @@
           </a>
         </v-ons-list-item>
         <v-ons-list-item class="text-center" modifier="tappable">
-          <input type="hidden" id="mailto" value="mailto:team@peerkat.live" /><a
-            class="menu__link"
-            @click.prevent="copyMail"
-          >
-            Get in touch! To add videos or report bugs :- team@peerkat.live
+          <a class="menu__link" @click.prevent="copyMail">
+            <input type="hidden" id="mailto" value="mailto:team@peerkat.live" />
+            <h6 class="mt-2 mb-2">Get in touch!</h6>
+            <p class="mt-2 mb-4"><i>To add videos or report bugs</i></p>
+            <strong class="mb-4">team@peerkat.live</strong>
           </a>
         </v-ons-list-item>
         <!-- <v-ons-list-item class="text-center" modifier="tappable"
@@ -66,7 +66,7 @@
           </a></v-ons-list-item
         > -->
       </v-ons-list>
-      <div class="text-center p-1 ">
+      <div class="text-center mt-4 p-1 ">
         <small>© 2020 Peerkat. All rights reserved. </small>
       </div>
     </v-ons-popover>
@@ -109,7 +109,7 @@ export default {
       });
     },
     copyMail() {
-      let testingCodeToCopy = document.querySelector(".mailto");
+      let testingCodeToCopy = document.querySelector("#mailto");
       testingCodeToCopy.setAttribute("type", "text");
       testingCodeToCopy.select();
       testingCodeToCopy.setSelectionRange(0, 99999); /* For mobile devices */
@@ -117,7 +117,9 @@ export default {
       try {
         document.execCommand("copy");
 
-        this.$ons.notification.toast("Copied successfully!", { timeout: 2000 });
+        this.$ons.notification.toast("Email Copied successfully!", {
+          timeout: 2000
+        });
       } catch (err) {
         this.$ons.notification.toast("Oops, unable to copy ", {
           timeout: 2000

@@ -177,7 +177,9 @@ export default {
           action: "copy-social",
           label: "telegram"
         });
-        this.$ons.notification.toast("Copied successfully!", { timeout: 2000 });
+        this.$ons.notification.toast("Telegram copied successfully!", {
+          timeout: 2000
+        });
       } catch (err) {
         this.$ons.notification.toast("Oops, unable to copy ", {
           timeout: 2000

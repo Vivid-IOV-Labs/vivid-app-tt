@@ -113,7 +113,7 @@ export default {
     showContentFeedDialog() {
       this.isContentFeedDialog = true;
     },
-    copyTextValue(selector) {
+    copyTextValue(selector, successText) {
       let testingCodeToCopy = document.querySelector(selector);
       testingCodeToCopy.setAttribute("type", "text");
       testingCodeToCopy.select();
@@ -122,7 +122,7 @@ export default {
       try {
         document.execCommand("copy");
 
-        this.$ons.notification.toast("Copied successfully!", { timeout: 2000 });
+        this.$ons.notification.toast(successText, { timeout: 2000 });
       } catch (err) {
         this.$ons.notification.toast("Oops, unable to copy ", {
           timeout: 2000
@@ -133,7 +133,7 @@ export default {
       window.getSelection().removeAllRanges();
     },
     copyTelegramGroup() {
-      this.copyTextValue("#telegram-group");
+      this.copyTextValue("#telegram-group", "Telegram copied successfully!");
       trackEvent({
         category: "Video List View",
         action: "copy-social",
@@ -141,7 +141,7 @@ export default {
       });
     },
     copyTwitterLink() {
-      this.copyTextValue("#twitter-link");
+      this.copyTextValue("#twitter-link", "Twitter copied successfully!");
       trackEvent({
         category: "Video List View",
         action: "copy-social",
