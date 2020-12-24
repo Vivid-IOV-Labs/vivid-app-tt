@@ -31,8 +31,9 @@
         <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"
+            onClick="javascript:window.open('mailto:team@peerkat.live?subject=Report Bug', 'mail');event.preventDefault()"
             href="mailto:team@peerkat.live?subject=Report Bug"
-            arget="_blank"
+            target="_blank"
             rel="noopener noreferrer"
           >
             Report Bug
@@ -41,8 +42,9 @@
         <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"
+            onClick="javascript:window.open('mailto:team@peerkat.live?subject=Customer Support', 'mail');event.preventDefault()"
             href="mailto:team@peerkat.live?subject=Customer Support"
-            arget="_blank"
+            target="_blank"
             rel="noopener noreferrer"
           >
             Customer Support
@@ -51,8 +53,9 @@
         <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"
+            onClick="javascript:window.open('mailto:team@peerkat.live?subject=Register interest in becoming a Peerkat content creator', 'mail');event.preventDefault()"
             href="mailto:team@peerkat.live?subject=Register interest in becoming a Peerkat content creator"
-            arget="_blank"
+            target="_blank"
             rel="noopener noreferrer"
           >
             Become a creator
