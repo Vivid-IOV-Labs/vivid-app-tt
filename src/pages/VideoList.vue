@@ -21,7 +21,7 @@
           >
             <div class="flex-center-y full-width medialist__item ">
               <div class="px-2">
-                {{ media.details.title }} - {{ media.list.order }}
+                {{ media.details.title }}
               </div>
               <base-icon class="ml-auto" name="angle-right"></base-icon>
             </div>
