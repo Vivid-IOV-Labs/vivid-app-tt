@@ -37,59 +37,6 @@
         continue.</strong>
   </noscript>
   <div id="app"></div>
-  <script>
-    function redirectIfNotWebView() {
-      var standalone = window.navigator.standalone,
-        userAgent = window.navigator.userAgent.toLowerCase(),
-        safari = /safari/.test(userAgent),
-        ios = /iphone|ipod|ipad/.test(userAgent);
-      var is_uiwebview = /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(userAgent);
-      //       function is_webview(){
-      //     return userAgent.match(/android.*applewebkit(?=.*version)/)
-      // }
-      // function is_uiwebview(){
-      //     return userAgent.match(/\(ip.*applewebkit(?!.*(version|crios))/)
-      // }
-      if (ios) {
-        if (!standalone && safari) {
-          //browser
-          window.location.replace("https://www.vividiov.com/peerkat");
-
-        } else if (standalone && !safari) {
-          //standalone
-          window.location.replace("https://www.vividiov.com/peerkat");
-
-        } else if (!standalone && !safari) {
-          //uiwebview
-        };
-      } else {
-        //not iOS
-        if (navigator.userAgent.includes('wv')) {
-          //Inside the webview      
-        } else {
-          window.location.replace("https://www.vividiov.com/peerkat");
-        }
-      };
-    }
-    function isMobile() {
-      if (
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-          navigator.userAgent
-        )
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    };
-    if (!isMobile()) {
-      document.body.classList.add('constrain-width')
-    }
-    if(!(window.avatar || window.hubId)){
-      window.location.replace("https://www.vividiov.com/peerkat");
-    }
-    // redirectIfNotWebView();
-  </script>
   <!-- <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script> -->
   <!-- built files will be auto injected -->
 </body>
