@@ -11,9 +11,9 @@ function isMobile() {
     return false;
   }
 }
-if (!isMobile()) {
-  document.body.classList.add("constrain-width");
-}
+// if (!isMobile()) {
+//   document.body.classList.add("constrain-width");
+// }
 if (!(window.avatar || window.hubId) && process.env.NODE_ENV === "production") {
   window.location.replace("https://www.vividiov.com/peerkat");
 }
