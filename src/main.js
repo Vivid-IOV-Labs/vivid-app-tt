@@ -1,4 +1,23 @@
 // Init Analytics
+
+// function isMobile() {
+//   if (
+//     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+//       navigator.userAgent
+//     )
+//   ) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// }
+// if (!isMobile()) {
+//   document.body.classList.add("constrain-width");
+// }
+if (!(window.avatar || window.hubId) && process.env.NODE_ENV === "production") {
+  window.location.replace("https://www.vividiov.com/peerkat");
+}
+
 import { trackInit } from "@/util/analytics";
 trackInit();
 
