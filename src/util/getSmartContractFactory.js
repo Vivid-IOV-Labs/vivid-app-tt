@@ -61,10 +61,11 @@ const getSmartContractWithSigner = async (smartContractProvider, signer) => {
   );
   return await tippingContract.connect(signer);
 };
-
+//Nikos 0x38ffA90E1D92D61D7Fe0B6A54cfa9FD5e743d645
+//Ike 0x8DDF7bA89B9b99a7dAd755b975718BdDE9Fd7c0E
 const createTippingContratc = (
   contractWithSigner,
-  addressToTip = "0x8DDF7bA89B9b99a7dAd755b975718BdDE9Fd7c0E",
+  addressToTip = "0x38ffA90E1D92D61D7Fe0B6A54cfa9FD5e743d645",
   { gasLimit, gasPrice, nonce, value } = {
     gasLimit: 250000,
     gasPrice: 9000000000,
