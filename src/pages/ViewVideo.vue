@@ -256,7 +256,7 @@ export default {
       this.isVideoMenuDropped = !this.isVideoMenuDropped;
     },
     async startTimer() {
-      await delay(120000);
+      await delay(10000);
       this.isPopoverTTProgress = false;
     },
     async tipStreamer() {
