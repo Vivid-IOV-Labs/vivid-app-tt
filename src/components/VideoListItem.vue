@@ -7,8 +7,8 @@
     />
     <div class="px-2 medialist__item__title">
       {{ media.details.title }}
+      <base-icon class="ml-auto" name="angle-right"></base-icon>
     </div>
-    <base-icon class="ml-auto" name="angle-right"></base-icon>
   </div>
 </template>
 
@@ -38,6 +38,8 @@ export default {
 <style lang="scss">
 .medialist__item {
   position: relative;
+  border-bottom: solid 2px $dark-grey;
+  padding: 1.2rem 0rem;
 }
 .medialist__item_poster {
   object-fit: contain;
