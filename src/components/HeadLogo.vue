@@ -25,7 +25,7 @@ export default {
 }
 .head_logo__img {
   width: 2rem;
-  margin: 0 0.8rem;
+  margin: 0 0 0 0.8rem;
 }
 
 .head_logo__beta {

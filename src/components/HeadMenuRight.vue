@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-ons-toolbar-button @click="showPopover">
+    <v-ons-toolbar-button style="padding:0 0 0 0.2rem" @click="showPopover">
       <strong>@PeerkatLive</strong>
     </v-ons-toolbar-button>
     <v-ons-popover
