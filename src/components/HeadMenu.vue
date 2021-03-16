@@ -13,7 +13,6 @@
       <v-ons-list class="text-center p-2">
         <v-ons-list-item class="text-center" modifier="tappable">
           <a class="menu__link" @click.prevent="copyMail">
-            <input type="hidden" id="mailto" value="team@peerkat.live" />
             <h6 class="mt-2 mb-2">Email us to upload a video</h6>
             <p class="mt-2 mb-4"><i>to copy the email click here</i></p>
             <strong class="mb-4">team@peerkat.live</strong>
@@ -26,6 +25,7 @@
 
 <script>
 import { trackEvent } from "@/util/analytics";
+import * as clipboard from "clipboard-polyfill/text";
 
 export default {
   name: "HeadMenu",
@@ -59,27 +59,21 @@ export default {
         label: link
       });
     },
-    copyMail() {
-      let testingCodeToCopy = document.querySelector("#mailto");
-      testingCodeToCopy.setAttribute("type", "text");
-      testingCodeToCopy.select();
-      testingCodeToCopy.setSelectionRange(0, 99999); /* For mobile devices */
-
+    async copyTextValue(copyText, successText) {
       try {
-        document.execCommand("copy");
+        await clipboard.writeText(copyText);
 
-        this.$ons.notification.toast("Email copied successfully!", {
-          timeout: 2000,
-          animation: "ascend"
+        this.$ons.notification.toast(successText, {
+          timeout: 2000
         });
       } catch (err) {
         this.$ons.notification.toast("Oops, unable to copy ", {
           timeout: 2000
         });
       }
-      /* unselect the range */
-      testingCodeToCopy.setAttribute("type", "hidden");
-      window.getSelection().removeAllRanges();
+    },
+    copyMail() {
+      this.copyTextValue("team@peerkat.live", "Email copied successfully!");
     }
   }
 };

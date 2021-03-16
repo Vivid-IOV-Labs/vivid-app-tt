@@ -16,11 +16,6 @@
             <h6 class="mt-2 mb-2">Search for us @PeerkatLive on twitter!</h6>
             <p class="mt-2 mb-4"><i>to copy the handle click here</i></p>
           </a>
-          <input
-            type="hidden"
-            id="twitter-link"
-            value="https://twitter.com/PeerkatLive"
-          />
         </v-ons-list-item>
         <v-ons-list-item class="text-center" modifier="tappable"
           ><a
@@ -41,6 +36,7 @@
 
 <script>
 import { trackEvent } from "@/util/analytics";
+import * as clipboard from "clipboard-polyfill/text";
 
 export default {
   name: "HeadMenu",
@@ -74,35 +70,9 @@ export default {
         label: link
       });
     },
-    copyMail() {
-      let testingCodeToCopy = document.querySelector("#mailto");
-      testingCodeToCopy.setAttribute("type", "text");
-      testingCodeToCopy.select();
-      testingCodeToCopy.setSelectionRange(0, 99999); /* For mobile devices */
-
+    async copyTextValue(copyText, successText) {
       try {
-        document.execCommand("copy");
-
-        this.$ons.notification.toast("Email Copied successfully!", {
-          timeout: 2000
-        });
-      } catch (err) {
-        this.$ons.notification.toast("Oops, unable to copy ", {
-          timeout: 2000
-        });
-      }
-      /* unselect the range */
-      testingCodeToCopy.setAttribute("type", "hidden");
-      window.getSelection().removeAllRanges();
-    },
-    copyTextValue(selector, successText) {
-      let testingCodeToCopy = document.querySelector(selector);
-      testingCodeToCopy.setAttribute("type", "text");
-      testingCodeToCopy.select();
-      testingCodeToCopy.setSelectionRange(0, 99999); /* For mobile devices */
-
-      try {
-        document.execCommand("copy");
+        await clipboard.writeText(copyText);
 
         this.$ons.notification.toast(successText, {
           timeout: 2000
@@ -112,20 +82,12 @@ export default {
           timeout: 2000
         });
       }
-      /* unselect the range */
-      testingCodeToCopy.setAttribute("type", "hidden");
-      window.getSelection().removeAllRanges();
-    },
-    copyTelegramGroup() {
-      this.copyTextValue("#telegram-group", "Telegram copied successfully!");
-      trackEvent({
-        category: "Video List View",
-        action: "copy-social",
-        label: "telegram"
-      });
     },
     copyTwitterLink() {
-      this.copyTextValue("#twitter-link", "Twitter copied successfully!");
+      this.copyTextValue(
+        "https://twitter.com/PeerkatLive",
+        "Twitter copied successfully!"
+      );
       trackEvent({
         category: "Video List View",
         action: "copy-social",
