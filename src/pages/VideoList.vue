@@ -46,7 +46,7 @@
         </v-ons-list-item>
       </v-ons-list>
     </div>
-    <v-ons-bottom-toolbar>
+    <!-- <v-ons-bottom-toolbar>
       <div class="flex justify-center">
         <v-ons-toolbar-button @click="copyTwitterLink" class="btn--large">
           <input
@@ -65,7 +65,7 @@
           <base-icon class="btn__icon--white" name="telegram"></base-icon>
         </v-ons-toolbar-button>
       </div>
-    </v-ons-bottom-toolbar>
+    </v-ons-bottom-toolbar> -->
     <content-feed-dialog v-model="isContentFeedDialog"></content-feed-dialog>
   </v-ons-page>
 </template>
