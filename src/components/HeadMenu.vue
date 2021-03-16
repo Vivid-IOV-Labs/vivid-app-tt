@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-ons-toolbar-button @click="showPopover">
-      <base-icon class="btn__icon--white" name="info-circle"></base-icon>
+      <base-icon class="btn__icon--white" name="upload"></base-icon>
     </v-ons-toolbar-button>
     <v-ons-popover
       cancelable
@@ -10,65 +10,16 @@
       direction="left"
       :cover-target="coverTarget"
     >
-      <h6 class="text-center">Peerkat <small>BETA</small></h6>
       <v-ons-list class="text-center p-2">
-        <!-- <v-ons-list-item class="text-center" modifier="tappable"
-          ><a class="menu__link" href="#" @click="toOnboarding">
-            User Guide
-          </a>
-        </v-ons-list-item> -->
-        <v-ons-list-item class="text-center" modifier="tappable"
-          ><a
-            class="menu__link"
-            href="https://www.vividiov.com/peerkat-terms"
-            @click="trackLink('User Terms')"
-          >
-            User Terms
-          </a>
-        </v-ons-list-item>
         <v-ons-list-item class="text-center" modifier="tappable">
           <a class="menu__link" @click.prevent="copyMail">
             <input type="hidden" id="mailto" value="team@peerkat.live" />
-            <h6 class="mt-2 mb-2">Get in touch!</h6>
-            <p class="mt-2 mb-4"><i>To add videos or report bugs</i></p>
+            <h6 class="mt-2 mb-2">Email us to upload a video</h6>
+            <p class="mt-2 mb-4"><i>to copy the email click here</i></p>
             <strong class="mb-4">team@peerkat.live</strong>
           </a>
         </v-ons-list-item>
-        <!-- <v-ons-list-item class="text-center" modifier="tappable"
-          ><a
-            class="menu__link"
-            onClick="javascript:window.open('mailto:team@peerkat.live?subject=Report Bug', 'mail');event.preventDefault()"
-            href="mailto:team@peerkat.live?subject=Report Bug"
-            target="_parent"
-            rel="noopener noreferrer"
-          >
-            Report Bug
-          </a></v-ons-list-item
-        >
-        <v-ons-list-item class="text-center" modifier="tappable"
-          ><a
-            class="menu__link"
-            href="mailto:team@peerkat.live?subject=Customer Support"
-            target="_parent"
-            rel="noopener noreferrer"
-          >
-            Customer Support
-          </a></v-ons-list-item
-        >
-        <v-ons-list-item class="text-center" modifier="tappable"
-          ><a
-            class="menu__link"
-            href="mailto:team@peerkat.live?subject=Register interest in becoming a Peerkat content creator"
-            target="_top"
-            rel="noopener noreferrer"
-          >
-            Become a creator
-          </a></v-ons-list-item
-        > -->
       </v-ons-list>
-      <div class="text-center mt-4 p-1 ">
-        <small>© 2020 Peerkat. All rights reserved. </small>
-      </div>
     </v-ons-popover>
   </div>
 </template>
@@ -117,8 +68,9 @@ export default {
       try {
         document.execCommand("copy");
 
-        this.$ons.notification.toast("Email Copied successfully!", {
-          timeout: 2000
+        this.$ons.notification.toast("Email copied successfully!", {
+          timeout: 2000,
+          animation: "ascend"
         });
       } catch (err) {
         this.$ons.notification.toast("Oops, unable to copy ", {

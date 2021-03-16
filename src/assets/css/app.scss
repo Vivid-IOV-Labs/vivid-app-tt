@@ -344,6 +344,16 @@ button:disabled {
 .list .list-item:last-child > div{
   background-image: none;
 }
+.list{
+  background-image: none;
+}
+
+.toast{
+  background: $azure;
+}
+.toast__message{
+  color: $black!important
+}
 /**How TO **/
 
 .howtoicon{

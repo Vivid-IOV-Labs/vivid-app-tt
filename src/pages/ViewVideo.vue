@@ -302,9 +302,11 @@ export default {
     await delay(1200);
     this.$nextTick(() => {
       this.isPopoverClickTT = true;
-      const popOverMask = document.querySelectorAll(".popover-mask")[1];
+      const popOverMask = document.querySelector(
+        ".isPopoverClickTT .popover-mask"
+      );
       popOverMask.style.display = "none";
-      const popOver = document.querySelectorAll(".popover")[1];
+      const popOver = document.querySelector(".isPopoverClickTT .popover");
       popOver.addEventListener("click", () => {
         this.isPopoverClickTT = false;
       });
