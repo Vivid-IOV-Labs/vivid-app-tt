@@ -176,8 +176,8 @@ export default {
       return this.getById(this.mediaID);
     },
     videoUrl() {
-      const url = `${env.media_server}/${this.mediaID}.mp4`;
-      return url;
+      //const url = `${env.media_server}/${this.mediaID}.mp4`;
+      return "https://dnglor3cyu4p1.cloudfront.net/streams/599302719599493147334949.mp4";
     },
     posterUrl() {
       const url = `${env.media_storage}/${this.mediaID}.png`;
