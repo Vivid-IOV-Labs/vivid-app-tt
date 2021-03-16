@@ -8,8 +8,6 @@
       crossorigin
       playsinline
       preload="auto"
-      muted
-      autoplay
     ></video>
     <div class="loading ">
       <base-icon name="spinner" :spin="true"></base-icon>
