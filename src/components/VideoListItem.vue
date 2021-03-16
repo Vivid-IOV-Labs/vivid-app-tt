@@ -49,7 +49,7 @@ export default {
 .medialist__item__title {
   position: absolute;
   width: 100%;
-  bottom: 2.4rem;
+  bottom: 3rem;
   font-weight: 600;
   background: rgba(0, 0, 0, 0.8);
   padding: 0.6rem 1rem;
