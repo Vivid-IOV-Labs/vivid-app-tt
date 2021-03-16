@@ -49,8 +49,8 @@ export default {
 .medialist__item__title {
   position: absolute;
   bottom: 2.4rem;
-  font-size: -8.8rem;
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.8);
   padding: 0.6rem 1rem;
-  background: rgb(0, 0, 0, 0.6);
 }
 </style>
