@@ -256,7 +256,7 @@ export default {
       this.isVideoMenuDropped = !this.isVideoMenuDropped;
     },
     async startTimer() {
-      await delay(10000);
+      await delay(120000);
       this.isPopoverTTProgress = false;
     },
     async tipStreamer() {
@@ -309,7 +309,7 @@ export default {
         this.isPopoverClickTT = false;
       });
     });
-    await delay(900000);
+    await delay(10000);
     this.isPopoverClickTT = false;
   }
 };
