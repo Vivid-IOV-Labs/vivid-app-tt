@@ -19,12 +19,7 @@
             :key="media.mediaID"
             @click="pushToVideo(media.mediaID)"
           >
-            <div class="flex-center-y full-width medialist__item ">
-              <div class="px-2">
-                {{ media.details.title }}
-              </div>
-              <base-icon class="ml-auto" name="angle-right"></base-icon>
-            </div>
+            <video-list-item :media="media"></video-list-item>
           </v-ons-list-item>
         </v-ons-list>
       </div>
@@ -37,12 +32,7 @@
           :key="media.mediaID"
           @click="pushToVideo(media.mediaID)"
         >
-          <div class="flex-center-y full-width medialist__item ">
-            <div class="px-2">
-              {{ media.details.title }}
-            </div>
-            <base-icon class="ml-auto" name="angle-right"></base-icon>
-          </div>
+          <video-list-item :media="media"></video-list-item>
         </v-ons-list-item>
       </v-ons-list>
     </div>
@@ -73,7 +63,7 @@
 <script>
 import HeadMenu from "@/components/HeadMenu.vue";
 import HeadLogo from "@/components/HeadLogo.vue";
-import BaseIcon from "@/components/BaseIcon.vue";
+import VideoListItem from "@/components/VideoListItem.vue";
 import ContentFeedDialog from "@/components/dialogs/ContentFeedDialog.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import webSocketService from "@/util/webSocketService.js";
@@ -84,7 +74,7 @@ export default {
   components: {
     HeadMenu,
     HeadLogo,
-    BaseIcon,
+    VideoListItem,
     ContentFeedDialog
   },
   data() {
