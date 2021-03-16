@@ -48,6 +48,7 @@ export default {
 }
 .medialist__item__title {
   position: absolute;
+  width: 100%;
   bottom: 2.4rem;
   font-weight: 600;
   background: rgba(0, 0, 0, 0.8);
