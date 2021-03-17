@@ -1,13 +1,17 @@
 <template>
-  <div class="flex-center-y full-width medialist__item ">
-    <img
-      class="medialist__item_poster"
-      :src="posterUrl"
-      :alt="media.details.title"
-    />
+  <div class="full-width medialist__item ">
+    <div>
+      <img
+        class="medialist__item_poster"
+        :src="posterUrl"
+        :alt="media.details.title"
+      />
+    </div>
     <div class="px-2 medialist__item__title">
-      {{ media.details.title }}
-      <base-icon class="ml-auto" name="angle-right"></base-icon>
+      <h6>
+        {{ media.details.title }}
+        <base-icon class="ml-auto" name="angle-right"></base-icon>
+      </h6>
     </div>
   </div>
 </template>
@@ -46,7 +50,7 @@ export default {
   width: 100%;
   border-radius: 0.6rem;
 }
-.medialist__item__title {
+.medialist__item__caption {
   position: absolute;
   width: 100%;
   bottom: 3rem;
