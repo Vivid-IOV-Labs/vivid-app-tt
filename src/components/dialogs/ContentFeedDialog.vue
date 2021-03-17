@@ -55,17 +55,6 @@
         for you
       </p>
       <div class="flex mt-4 mb-4 flex-column flex-center-xy">
-        <v-ons-button
-          class="btn btn--round-large btn--opacity-soft mb-4 "
-          @click="copyTelegramGroup"
-        >
-          <base-icon class="btn__icon" name="telegram"></base-icon>
-          <input
-            type="hidden"
-            id="telegram-group"
-            value="https://t.me/joinchat/M90RPBklSbAkMzfLl02Qcw"
-          />
-        </v-ons-button>
         <h3 class="mb-4 mt-4" style="margin:0">Peerkat</h3>
         <h4 class="mb-4" style="margin:0">@PeerkatLive</h4>
         <hr class="hr-space" />
@@ -163,32 +152,6 @@ export default {
       }
 
       this.$emit("input", false);
-    },
-    copyTelegramGroup() {
-      let testingCodeToCopy = document.querySelector("#telegram-group");
-      testingCodeToCopy.setAttribute("type", "text");
-      testingCodeToCopy.select();
-      testingCodeToCopy.setSelectionRange(0, 99999); /* For mobile devices */
-
-      try {
-        document.execCommand("copy");
-        trackEvent({
-          category: "Interest Feedback View",
-          action: "copy-social",
-          label: "telegram"
-        });
-        this.$ons.notification.toast("Telegram copied successfully!", {
-          timeout: 2000
-        });
-      } catch (err) {
-        this.$ons.notification.toast("Oops, unable to copy ", {
-          timeout: 2000
-        });
-      }
-
-      /* unselect the range */
-      testingCodeToCopy.setAttribute("type", "hidden");
-      window.getSelection().removeAllRanges();
     },
     async sendFeedBack() {
       await this.addUserInterests(this.contentSelected);

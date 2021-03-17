@@ -1,5 +1,12 @@
 @import "./variables.scss";
 
+body {
+  background-color: $dark-grey;
+  color: $white;
+  height: 100%;
+  font-family: 'Prompt', sans-serif;
+}
+
 *{
   box-sizing: border-box;
 }
@@ -22,6 +29,10 @@ button:disabled {
   padding: 0.4rem 0.8rem;
   border-color: transparent;
   user-select: none;
+}
+.btn--primary{
+  background-color:$azure;
+  color: $white;
 }
 
 .btn__icon--white{

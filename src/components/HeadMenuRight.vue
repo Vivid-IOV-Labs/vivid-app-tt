@@ -12,10 +12,30 @@
     >
       <v-ons-list class="text-center p-2">
         <v-ons-list-item class="text-center" modifier="tappable"
-          ><a class="menu__link" @click.prevent="copyTwitterLink">
-            <h6 class="mt-2 mb-2">Search for us @PeerkatLive on twitter!</h6>
-            <p class="mt-2 mb-4"><i>to copy the handle click here</i></p>
-          </a>
+          ><span class="menu__link">
+            <h6 class="mt-2 mb-2">
+              Search for us at @PeerkatLive <br />
+              on Twitter and Telegram!
+            </h6>
+            <p>
+              <small class="mt-2 mb-4">
+                <i>Copy the handle by clicking on the buttons below:</i>
+              </small>
+            </p>
+
+            <v-ons-button
+              @click="copyTwitterLink"
+              class="btn--large  btn--primary"
+            >
+              <base-icon class="btn__icon--white" name="twitter"></base-icon>
+            </v-ons-button>
+            <v-ons-button
+              @click="copyTelegramGroup"
+              class="btn--large ml-2 btn--primary"
+            >
+              <base-icon class="btn__icon--white" name="telegram"></base-icon>
+            </v-ons-button>
+          </span>
         </v-ons-list-item>
         <v-ons-list-item class="text-center" modifier="tappable"
           ><a
@@ -26,9 +46,18 @@
             User Terms
           </a>
         </v-ons-list-item>
+        <v-ons-list-item class="text-center" modifier="tappable"
+          ><a
+            class="menu__link"
+            href="https://www.vividiov.com/privacy"
+            @click="trackLink('Privacy Policy')"
+          >
+            Privacy Policy
+          </a>
+        </v-ons-list-item>
       </v-ons-list>
       <div class="text-center mt-4 p-1 ">
-        <small>© 2020 Peerkat. All rights reserved. </small>
+        <small>© 2021 Peerkat. All rights reserved. </small>
       </div>
     </v-ons-popover>
   </div>
@@ -75,11 +104,11 @@ export default {
         await clipboard.writeText(copyText);
 
         this.$ons.notification.toast(successText, {
-          timeout: 2000
+          timeout: 1000
         });
       } catch (err) {
         this.$ons.notification.toast("Oops, unable to copy ", {
-          timeout: 2000
+          timeout: 1000
         });
       }
     },
@@ -92,6 +121,17 @@ export default {
         category: "Video List View",
         action: "copy-social",
         label: "twitter"
+      });
+    },
+    copyTelegramGroup() {
+      this.copyTextValue(
+        "https://t.me/joinchat/M90RPBklSbAkMzfLl02Qcw",
+        "Telegram copied successfully!"
+      );
+      trackEvent({
+        category: "Video List View",
+        action: "copy-social",
+        label: "telegram"
       });
     }
   }

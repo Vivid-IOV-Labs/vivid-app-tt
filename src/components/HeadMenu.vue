@@ -13,8 +13,15 @@
       <v-ons-list class="text-center p-2">
         <v-ons-list-item class="text-center" modifier="tappable">
           <a class="menu__link" @click.prevent="copyMail">
-            <h6 class="mt-2 mb-2">Email us to upload a video</h6>
-            <p class="mt-2 mb-4"><i>to copy the email click here</i></p>
+            <h6 class="mt-2 mb-2">
+              Email us to add your <br />
+              videos to Peerkat
+            </h6>
+            <p>
+              <small class="mt-2 mb-4"
+                ><i>Copy the email by clicking here:</i></small
+              >
+            </p>
             <strong class="mb-4">team@peerkat.live</strong>
           </a>
         </v-ons-list-item>
