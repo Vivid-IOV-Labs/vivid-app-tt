@@ -7,12 +7,10 @@
         :alt="media.details.title"
       />
     </div>
-    <div class="px-2 medialist__item__title">
-      <h6>
-        {{ media.details.title }}
-        <base-icon class="ml-auto" name="angle-right"></base-icon>
-      </h6>
-    </div>
+    <span class="medialist__item__title">
+      {{ media.details.title }}
+      <base-icon class="ml-auto" name="angle-right"></base-icon>
+    </span>
   </div>
 </template>
 
@@ -43,7 +41,7 @@ export default {
 .medialist__item {
   position: relative;
   border-bottom: solid 2px $dark-grey;
-  padding: 1.2rem 0rem;
+  padding: 1.2rem 0rem 0.8rem;
 }
 .medialist__item_poster {
   object-fit: contain;
@@ -57,5 +55,9 @@ export default {
   font-weight: 600;
   background: rgba(0, 0, 0, 0.8);
   padding: 0.6rem 1rem;
+}
+.medialist__item__title {
+  font-weight: bold;
+  padding: 0.2rem 0 0rem;
 }
 </style>
