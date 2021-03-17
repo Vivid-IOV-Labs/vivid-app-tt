@@ -55,7 +55,6 @@
         for you
       </p>
       <div class="flex mt-4 mb-4 flex-column flex-center-xy">
-        <h3 class="mb-4 mt-4" style="margin:0">Peerkat</h3>
         <h4 class="mb-4" style="margin:0">@PeerkatLive</h4>
         <hr class="hr-space" />
 

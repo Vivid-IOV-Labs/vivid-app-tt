@@ -1,7 +1,7 @@
 <template>
   <v-ons-page class="viewlist">
     <v-ons-toolbar>
-      <div class="left">
+      <div>
         <head-logo></head-logo>
       </div>
       <div class="right">

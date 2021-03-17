@@ -10,7 +10,7 @@
 
       <div class="logo-page__footer">
         <h5 class="logo-page__copyright">
-          © 2020 Peerkat. All rights reserved.
+          © 2021 Peerkat. All rights reserved.
         </h5>
       </div>
     </div>
@@ -37,7 +37,7 @@ export default {
       await this.login(this.getUserWalletAddress);
     }
     await delay(2000);
-    //  this.$router.push({ path: "videolist" });
+    this.$router.push({ path: "videolist" });
   }
 };
 </script>

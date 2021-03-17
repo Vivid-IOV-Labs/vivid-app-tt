@@ -321,9 +321,9 @@ button:disabled {
   width: 90%;
   border-radius: 1rem;
 }
-.dialog-container {
-  height: 100%;
-}
+// .dialog-container {
+//   height: 100%;
+// }
 .alert-dialog-footer--rowfooter {
   flex-direction: column;
   border-bottom-right-radius: 0.6rem;
@@ -363,7 +363,8 @@ button:disabled {
   background: $azure;
 }
 .toast__message{
-  color: $black!important
+  color: $white!important;
+  font-weight: bold;
 }
 /**How TO **/
 
