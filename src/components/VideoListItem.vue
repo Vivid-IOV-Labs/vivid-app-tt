@@ -1,6 +1,6 @@
 <template>
   <div class="full-width medialist__item ">
-    <div>
+    <div class="medialist__item_picture-frame">
       <img
         class="medialist__item_poster"
         :src="posterUrl"
@@ -42,6 +42,10 @@ export default {
   position: relative;
   border-bottom: solid 2px $dark-grey;
   padding: 1.2rem 0rem 0.8rem;
+}
+.medialist__item_picture-frame {
+  margin-bottom: 0.8rem;
+  width: 100%;
 }
 .medialist__item_poster {
   object-fit: contain;
