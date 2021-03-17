@@ -2,8 +2,12 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
-const RootLoading = () =>
-  import(/* webpackChunkName: "RootLoading" */ "@/pages/RootLoading");
+// const RootLoading = () =>
+//   import(/* webpackChunkName: "RootLoading" */ "@/pages/RootLoading");
+const RootLogin = () =>
+  import(/* webpackChunkName: "RootLogin" */ "@/pages/RootLogin");
+const Profile = () =>
+  import(/* webpackChunkName: "Profile" */ "@/pages/Profile");
 const ViewVideo = () =>
   import(/* webpackChunkName: "ViewVideo" */ "@/pages/ViewVideo");
 const VideoList = () =>
@@ -18,7 +22,9 @@ const VideoList = () =>
 //   import(/* webpackChunkName: "SupplyStream" */ "@/pages/SupplyStream");
 
 const routes = [
-  { name: "root", path: "/", component: RootLoading },
+  // { name: "root", path: "/", component: RootLoading },
+  { name: "root", path: "/", component: RootLogin },
+  { name: "profile", path: "/profile", component: Profile },
   { name: "videolist", path: "/videolist", component: VideoList },
   { name: "viewvideo", path: "/viewvideo/:mediaID", component: ViewVideo }
   // { name: "onboarding", path: "/onboarding", component: OnBoarding },

@@ -37,7 +37,7 @@ export default {
       await this.login(this.getUserWalletAddress);
     }
     await delay(2000);
-    this.$router.push({ path: "videolist" });
+    //  this.$router.push({ path: "videolist" });
   }
 };
 </script>
