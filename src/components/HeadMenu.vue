@@ -26,7 +26,9 @@
           </a>
         </v-ons-list-item>
         <v-ons-list-item class="text-center" modifier="tappable">
-          <router-link to="profile">Pro</router-link>
+          <a class="menu__link" @click.prevent="toProfile">
+            <strong>Pro</strong>
+          </a>
         </v-ons-list-item>
       </v-ons-list>
     </v-ons-popover>
@@ -48,9 +50,9 @@ export default {
     };
   },
   methods: {
-    toOnboarding() {
+    toProfile() {
       this.popoverVisible = false;
-      this.$router.push({ path: "onboarding" });
+      this.$router.push({ path: "profile" });
     },
     showPopover(event, direction, coverTarget = false) {
       this.popoverTarget = event;
