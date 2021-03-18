@@ -46,6 +46,8 @@ export default {
 .medialist__item_picture-frame {
   margin-bottom: 0.8rem;
   width: 100%;
+  line-height: unset;
+  height: 180px;
 }
 .medialist__item_poster {
   object-fit: contain;
