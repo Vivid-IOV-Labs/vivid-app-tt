@@ -24,9 +24,9 @@ const VideoList = () =>
 const routes = [
   { name: "root", path: "/", component: RootLoading },
   // { name: "root", path: "/", component: RootLogin },
-  { name: "profile", path: "/profile", component: Profile },
   { name: "videolist", path: "/videolist", component: VideoList },
-  { name: "viewvideo", path: "/viewvideo/:mediaID", component: ViewVideo }
+  { name: "viewvideo", path: "/viewvideo/:mediaID", component: ViewVideo },
+  { name: "profile", path: "/profile", component: Profile }
   // { name: "onboarding", path: "/onboarding", component: OnBoarding },
   // { name: "home", path: "/home", component: Home },
   // { name: "viewstream", path: "/viewstream", component: ViewStream },
