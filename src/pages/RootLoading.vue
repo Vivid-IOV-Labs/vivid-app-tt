@@ -38,6 +38,7 @@ export default {
     }
     await delay(2000);
     this.$router.push({ path: "videolist" });
+    //this.$router.push({ path: "profile" });
   }
 };
 </script>

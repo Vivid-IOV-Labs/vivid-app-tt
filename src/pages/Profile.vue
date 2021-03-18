@@ -15,6 +15,10 @@
       </div>
     </v-ons-toolbar>
     <div class="profile-page">
+      <v-ons-button @click="createUserFromTwitter" class="btn btn--primary">
+        COnnect to Twitter
+        <v-ons-icon class="btn__icon" icon="fa-check"></v-ons-icon>
+      </v-ons-button>
       <v-ons-card v-if="profile">
         <img class="profile__avatar" :src="profile.avatar" />
         <div class="title text-center">
@@ -36,19 +40,8 @@
               <span class="left">HashTags</span>
               <span class="right">#tag, #tag, #tag</span>
             </v-ons-list-item>
-            <v-ons-list-item>
-              <v-ons-button
-                class="btn btn--profile"
-                @click="_createPayidUser(userid)"
-                >Get Payid
-              </v-ons-button>
-            </v-ons-list-item>
           </v-ons-list>
           <v-ons-list style="padding:1rem; border:solid 1px ">
-            <v-ons-list-item>
-              <span class="left">PayId</span>
-              <span class="right">{{ payid }}</span>
-            </v-ons-list-item>
             <v-ons-list-item>
               <span class="left">Peerkat</span>
               <span class="right">@username</span>
@@ -66,13 +59,13 @@
           <div
             style="display:flex; justify-content:space-between; margin-top:1rem"
           >
-            <v-ons-button class="btn btn--profile">
+            <v-ons-button class="btn btn--primary">
               Balance
             </v-ons-button>
-            <v-ons-button class="btn btn--profile">
+            <v-ons-button class="btn btn--primary">
               Cancel <v-ons-icon class="btn__icon" icon="fa-times"></v-ons-icon>
             </v-ons-button>
-            <v-ons-button class="btn btn--profile">
+            <v-ons-button class="btn btn--primary">
               Save <v-ons-icon class="btn__icon" icon="fa-check"></v-ons-icon>
             </v-ons-button>
           </div>
@@ -87,21 +80,34 @@
 
 <script>
 /* eslint-disable no-undef */
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Profile",
   computed: {
     ...mapGetters({
-      profile: "getUser",
-      payid: "getPayIdUsername",
-      userid: "getPayIdUserID"
+      profile: "user/getUser"
     })
   },
   methods: {
-    ...mapActions({
-      _createPayidUser: "createPayidUser"
-    })
+    async createUserFromTwitter(
+      user = {
+        id: "Twitter_id",
+        name: "Twitter_name",
+        email: "Twitter_email",
+        loaction: "Twitter_location",
+        avatar: "Twitter_image"
+      }
+    ) {
+      const profile = {
+        twitterID: user.id,
+        name: user.name,
+        email: user.email,
+        loaction: user.loaction,
+        avatar: user.profile_image_url
+      };
+      await this.$store.dispatch("user/setUser", profile);
+    }
   }
 };
 </script>
@@ -111,11 +117,5 @@ export default {
   width: 60%;
   border-radius: 50%;
   margin: 0 auto;
-}
-.btn--profile {
-  background-color: #fff;
-  border-color: #1d1d1b;
-  border-width: 2px;
-  color: #1d1d1b;
 }
 </style>

@@ -6,8 +6,8 @@ const RootLoading = () =>
   import(/* webpackChunkName: "RootLoading" */ "@/pages/RootLoading");
 // const RootLogin = () =>
 //   import(/* webpackChunkName: "RootLogin" */ "@/pages/RootLogin");
-// const Profile = () =>
-//   import(/* webpackChunkName: "Profile" */ "@/pages/Profile");
+const Profile = () =>
+  import(/* webpackChunkName: "Profile" */ "@/pages/Profile");
 const ViewVideo = () =>
   import(/* webpackChunkName: "ViewVideo" */ "@/pages/ViewVideo");
 const VideoList = () =>
@@ -24,7 +24,7 @@ const VideoList = () =>
 const routes = [
   { name: "root", path: "/", component: RootLoading },
   // { name: "root", path: "/", component: RootLogin },
-  // { name: "profile", path: "/profile", component: Profile },
+  { name: "profile", path: "/profile", component: Profile },
   { name: "videolist", path: "/videolist", component: VideoList },
   { name: "viewvideo", path: "/viewvideo/:mediaID", component: ViewVideo }
   // { name: "onboarding", path: "/onboarding", component: OnBoarding },

@@ -1,12 +1,14 @@
 import UserService from "@/services/UserService";
 import devLog from "@/util/devlog.js";
 const state = {
+  user: null,
   walletAddress: null,
   interests: [],
   interestsSubmitted: false
 };
 
 const getters = {
+  getUser: state => state.user,
   getWallet: state => state.walletAddress,
   getInterestsSubmitted: state => state.interestsSubmitted
 };
@@ -20,6 +22,10 @@ const actions = {
     } catch (error) {
       devLog(error);
     }
+  },
+  async setUser({ commit }, user) {
+    await Promise.resolve(user);
+    commit("setUser", user);
   },
   async addUserInterests({ commit, getters }, interests) {
     try {
@@ -36,6 +42,9 @@ const actions = {
 };
 
 const mutations = {
+  setUser(state, user) {
+    state.user = user;
+  },
   setWallet(state, wallet) {
     state.walletAddress = wallet;
   },

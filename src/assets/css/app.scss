@@ -4,8 +4,15 @@ body {
   background-color: $dark-grey;
   color: $white;
   height: 100%;
-  font-family: 'Prompt', sans-serif;
+  font-family: 'Prompt', sans-serif !important;
+  .toolbar, p, h1,h2,h3,h4,h5,h6,.btn, .toolbar--material__center, .toolbar-button,.list--material{
+    font-family: 'Prompt', sans-serif !important;
+  
+  }
+
 }
+
+
 
 *{
   box-sizing: border-box;

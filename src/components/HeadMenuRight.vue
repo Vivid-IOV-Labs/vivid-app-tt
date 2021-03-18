@@ -11,7 +11,7 @@
       :cover-target="coverTarget"
     >
       <v-ons-list class="text-center p-2">
-        <v-ons-list-item class="text-center" modifier="tappable"
+        <v-ons-list-item class="text-center"
           ><span class="menu__link">
             <h6 class="mt-2 mb-2">
               Search for us at @PeerkatLive <br />
