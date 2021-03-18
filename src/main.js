@@ -47,6 +47,9 @@ import VOnsDialog from "vue-onsenui/esm/components/VOnsDialog";
 import VOnsAlertDialog from "vue-onsenui/esm/components/VOnsAlertDialog";
 import VOnsAlertDialogButton from "vue-onsenui/esm/components/VOnsAlertDialogButton";
 
+import VueLazyload from "vue-lazyload";
+
+Vue.use(VueLazyload);
 Vue.use(VueOnsen);
 Vue.component(VOnsPage.name, VOnsPage);
 Vue.component(VOnsToolbar.name, VOnsToolbar);

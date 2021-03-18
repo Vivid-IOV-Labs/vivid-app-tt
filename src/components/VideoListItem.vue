@@ -3,7 +3,7 @@
     <div class="medialist__item_picture-frame">
       <img
         class="medialist__item_poster"
-        :src="posterUrl"
+        v-lazy="posterUrl"
         :alt="media.details.title"
       />
     </div>
