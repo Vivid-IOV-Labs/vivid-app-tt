@@ -25,6 +25,9 @@
             <strong class="mb-4">team@peerkat.live</strong>
           </a>
         </v-ons-list-item>
+        <v-ons-list-item class="text-center" modifier="tappable">
+          <router-link to="profile">Pro</router-link>
+        </v-ons-list-item>
       </v-ons-list>
     </v-ons-popover>
   </div>

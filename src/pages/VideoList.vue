@@ -5,7 +5,6 @@
         <head-logo></head-logo>
       </div>
       <div class="right">
-        <router-link to="profile">Profile</router-link>
         <head-menu></head-menu>
       </div>
     </v-ons-toolbar>
