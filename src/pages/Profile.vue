@@ -86,7 +86,7 @@ const googleClientID = process.env.VUE_APP_GOOGLE_ID;
 const twitterClientID = process.env.VUE_APP_TWITTER_API_KEY;
 const appUrl = process.env.VUE_APP_APP_URL;
 
-const twitterCallback = `${appUrl}/login`;
+const twitterCallback = `${appUrl}/profile`;
 
 import hello from "hellojs/dist/hello.all.js";
 export default {
@@ -159,10 +159,13 @@ export default {
       // Listen to signin requests
       hello.on("auth.login", r => {
         // Get Profile
+        console.log(r);
+        debugger;
         hello(r.network)
           .api("/me")
           .then(p => {
             console.log(p);
+            debugger;
             this.createUserFromTwitter(p); // output user information
           })
           .catch(console.log);
