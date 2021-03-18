@@ -153,8 +153,6 @@ export default {
       );
     },
     loginTwitter() {
-      this.isLoading = true;
-
       hello("twitter").login();
       // Listen to signin requests
       hello.on("auth.login", r => {
