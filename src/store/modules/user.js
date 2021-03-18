@@ -4,13 +4,15 @@ const state = {
   user: null,
   walletAddress: null,
   interests: [],
-  interestsSubmitted: false
+  interestsSubmitted: false,
+  termsAccepted: false
 };
 
 const getters = {
   getUser: state => state.user,
   getWallet: state => state.walletAddress,
-  getInterestsSubmitted: state => state.interestsSubmitted
+  getInterestsSubmitted: state => state.interestsSubmitted,
+  getTermsAccepted: state => state.termsAccepted
 };
 
 const actions = {
@@ -38,6 +40,14 @@ const actions = {
     } catch (error) {
       devLog(error);
     }
+  },
+  async acceptTerms({ commit }) {
+    try {
+      await Promise.resolve();
+      commit("setTermsAccepted", true);
+    } catch (error) {
+      devLog(error);
+    }
   }
 };
 
@@ -53,6 +63,9 @@ const mutations = {
   },
   setInterestsSubmitted(state, interestsSubmitted) {
     state.interestsSubmitted = interestsSubmitted;
+  },
+  setTermsAccepted(state, accepted) {
+    state.termsAccepted = accepted;
   }
 };
 

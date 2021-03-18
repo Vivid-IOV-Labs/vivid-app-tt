@@ -5,6 +5,7 @@
         <head-logo></head-logo>
       </div>
       <div class="right">
+        <router-link to="profile">Profile</router-link>
         <head-menu></head-menu>
       </div>
     </v-ons-toolbar>
@@ -67,7 +68,7 @@ export default {
   },
   computed: {
     ...mapGetters("media", ["getLatests", "getHighlighted"]),
-    ...mapGetters("user", ["getInterestsSubmitted"])
+    ...mapGetters("user", ["getInterestsSubmitted", "getTermsAccepted"])
   },
   methods: {
     ...mapActions("media", ["populateAll", "add", "delete"]),
@@ -130,7 +131,7 @@ export default {
       const { totalTips, mediaID } = data;
       this.setTotalTip({ mediaID, totalTips });
     });
-    if (!this.getInterestsSubmitted) {
+    if (!this.getInterestsSubmitted || !this.getTermsAccepted) {
       this.showContentFeedDialog();
     }
   }

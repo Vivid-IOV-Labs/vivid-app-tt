@@ -15,7 +15,7 @@
       </div>
     </v-ons-toolbar>
     <div class="profile-page">
-      <v-ons-button @click="createUserFromTwitter" class="btn btn--primary">
+      <v-ons-button @click="loginTwitter" class="btn btn--primary">
         COnnect to Twitter
         <v-ons-icon class="btn__icon" icon="fa-check"></v-ons-icon>
       </v-ons-button>
@@ -81,24 +81,94 @@
 <script>
 /* eslint-disable no-undef */
 import { mapGetters } from "vuex";
+const scope = "profile email";
+const googleClientID = process.env.VUE_APP_GOOGLE_ID;
+const twitterClientID = process.env.VUE_APP_TWITTER_API_KEY;
+const appUrl = process.env.VUE_APP_APP_URL;
 
+const twitterCallback = `${appUrl}/login`;
+
+import hello from "hellojs/dist/hello.all.js";
 export default {
   name: "Profile",
+  data() {
+    return {
+      scope,
+      googleClientID,
+      isLoading: false
+    };
+  },
   computed: {
     ...mapGetters({
       profile: "user/getUser"
     })
   },
   methods: {
-    async createUserFromTwitter(
-      user = {
-        id: "Twitter_id",
-        name: "Twitter_name",
-        email: "Twitter_email",
-        loaction: "Twitter_location",
-        avatar: "Twitter_image"
-      }
-    ) {
+    async createUserFromGoogle(user) {
+      const profile = user.getBasicProfile();
+      const basicUser = {
+        id: profile.getId(),
+        name: profile.getName(),
+        email: profile.getEmail(),
+        avatar: profile.getImageUrl(),
+        location: ""
+      };
+      await this.$store.dispatch("setUser", basicUser);
+      this.isLoading = false;
+
+      this.$router.push({ path: `profile` });
+    },
+    loadGoogleAuth() {
+      let auth2;
+      const attachSignin = element => {
+        auth2.attachClickHandler(
+          element,
+          {},
+          googleUser => {
+            this.createUserFromGoogle(googleUser);
+          },
+          error => {
+            console.log(JSON.stringify(error, undefined, 2));
+          }
+        );
+      };
+      gapi.load("auth2", () => {
+        auth2 = gapi.auth2.init({
+          clientId: googleClientID,
+          scope,
+          cookiepolicy: "single_host_origin"
+        });
+        attachSignin(document.getElementById("google-auth"));
+      });
+    },
+    loadTwitterAuth() {
+      hello.init(
+        {
+          twitter: twitterClientID
+        },
+        {
+          scope: "email",
+          redirect_uri: twitterCallback
+        }
+      );
+    },
+    loginTwitter() {
+      this.isLoading = true;
+
+      hello("twitter").login();
+      // Listen to signin requests
+      hello.on("auth.login", r => {
+        // Get Profile
+        hello(r.network)
+          .api("/me")
+          .then(p => {
+            console.log(p);
+            this.createUserFromTwitter(p); // output user information
+          })
+          .catch(console.log);
+      });
+    },
+    async createUserFromTwitter(user) {
       const profile = {
         twitterID: user.id,
         name: user.name,
@@ -106,9 +176,33 @@ export default {
         loaction: user.loaction,
         avatar: user.profile_image_url
       };
+      console.log(profile);
       await this.$store.dispatch("user/setUser", profile);
     }
+  },
+  async mounted() {
+    this.loadTwitterAuth();
+    // this.loadGoogleAuth();
+    // await this.getLocation();
   }
+  // async createUserFromTwitter(
+  //   user = {
+  //     id: "Twitter_id",
+  //     name: "Twitter_name",
+  //     email: "Twitter_email",
+  //     loaction: "Twitter_location",
+  //     avatar: "Twitter_image"
+  //   }
+  // ) {
+  //   const profile = {
+  //     twitterID: user.id,
+  //     name: user.name,
+  //     email: user.email,
+  //     loaction: user.loaction,
+  //     avatar: user.profile_image_url
+  //   };
+  //   await this.$store.dispatch("user/setUser", profile);
+  // }
 };
 </script>
 <style>

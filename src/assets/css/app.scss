@@ -174,6 +174,7 @@ button:disabled {
 /** Atoms **/
 .content{
   padding: 1rem;
+  max-height: 500px;
 }
 .flex{
   display: flex;
@@ -326,9 +327,9 @@ button:disabled {
   max-width: 100%;
 }
 .dialog {
-  top: 46%;
-  height: 82%;
-  width: 90%;
+  height: auto;
+  max-height: 80%;
+  width: 96%;
   border-radius: 1rem;
 }
 // .dialog-container {

@@ -8,12 +8,27 @@
         </v-ons-button>
       </div>
     </header>
-    <div class="scroller content" v-if="!feedBackSent">
+    <div v-show="!termsAccepted" class=" content">
+      <div class="page__title__background">
+        <h3 class="page__title">
+          Terms and conditions
+        </h3>
+      </div>
+      <i
+        >Please read trhough and accept our terms and conditions in order to
+        proceed</i
+      >
+      <div class="flex mt-2 flex-center-xy">
+        <v-ons-button @click="sendAcceptedTerms" class="btn btn--large mb-4 ">
+          I agree
+        </v-ons-button>
+      </div>
+    </div>
+    <div class="scroller content" v-show="!feedBackSent && termsAccepted">
       <div class="page__title__background">
         <h3 class="page__title">What do you want to see most? <br /></h3>
       </div>
       <i>Please select up to 3 categories</i>
-      <hr class="hr-space" />
       <div class="grid-x3">
         <div
           class="grid-x3__cell flex-column flex-center-xy  mb-4 interests"
@@ -35,7 +50,7 @@
           <span class="text-center interests__label">{{ interest.text }}</span>
         </div>
       </div>
-      <div class="flex mt-2 mb-4 flex-center-xy">
+      <div class="flex mt-2 flex-center-xy">
         <v-ons-button
           :disabled="!contentSelected.length"
           @click="sendFeedBack"
@@ -44,9 +59,8 @@
           Send Feedback
         </v-ons-button>
       </div>
-      <hr class="hr-space" />
     </div>
-    <div class="scroller content" v-else>
+    <div class=" content" v-show="feedBackSent && termsAccepted">
       <div class="page__title__background">
         <h3 class="page__title">Become a Peerkat OG</h3>
       </div>
@@ -56,13 +70,10 @@
       </p>
       <div class="flex mt-4 mb-4 flex-column flex-center-xy">
         <h4 class="mb-4" style="margin:0">@PeerkatLive</h4>
-        <hr class="hr-space" />
-
         <v-ons-button @click="close" class="btn btn--large mt-4 ">
           Close Window
         </v-ons-button>
       </div>
-      <hr class="hr-space" />
     </div>
   </v-ons-dialog>
 </template>
@@ -124,7 +135,8 @@ export default {
       ],
       contentSelected: [],
       limit: 3,
-      feedBackSent: false
+      feedBackSent: false,
+      termsAccepted: false
     };
   },
   props: {
@@ -138,7 +150,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["addUserInterests"]),
+    ...mapActions(["addUserInterests", "acceptTerms"]),
     updateVisible(value) {
       this.$emit("input", value);
     },
@@ -162,6 +174,14 @@ export default {
         });
       });
       this.feedBackSent = true;
+    },
+    async sendAcceptedTerms() {
+      await this.acceptTerms();
+      trackEvent({
+        category: "Terms and Conditions View",
+        action: "accepts-terms"
+      });
+      this.termsAccepted = true;
     }
   }
 };
