@@ -126,6 +126,16 @@ export default {
       });
     }
   },
+  watch: {
+    getTermsAgreed(newValue, oldValue) {
+      console.log(newValue, oldValue);
+      if (newValue) {
+        if (!this.getInterestsSubmitted) {
+          this.showContentFeedDialog();
+        }
+      }
+    }
+  },
   mounted() {
     webSocketService.socket.on("media-added", async ({ data }) => {
       await this.add(data);
@@ -139,9 +149,6 @@ export default {
     });
     if (!this.getTermsAgreed) {
       this.showTermsAgreeDialog();
-    }
-    if (!this.getInterestsSubmitted && this.getTermsAgreed) {
-      this.showContentFeedDialog();
     }
   }
 };

@@ -3,7 +3,7 @@
     <header class="dialog__head">
       <div class="dialog__head__title">Please accept our terms</div>
     </header>
-    <div v-show="!termsAccepted" class=" content">
+    <div class=" content">
       <div class="page__title__background">
         <h3 class="page__title">
           Terms and conditions
