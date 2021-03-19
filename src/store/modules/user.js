@@ -5,25 +5,25 @@ const state = {
   walletAddress: null,
   interests: [],
   interestsSubmitted: false,
-  termsAccepted: false
+  termsAgreed: false
 };
 
 const getters = {
   getUser: state => state.user,
   getWallet: state => state.walletAddress,
   getInterestsSubmitted: state => state.interestsSubmitted,
-  getTermsAccepted: state => state.termsAccepted
+  getTermsAgreed: state => state.termsAgreed
 };
 
 const actions = {
   async login({ commit }, userWalletAddress) {
     try {
-      const { interestsSubmitted, termsAccepted } = await UserService.login(
+      const { interestsSubmitted, termsAgreed } = await UserService.login(
         userWalletAddress
       );
       commit("setWallet", userWalletAddress);
       commit("setInterestsSubmitted", interestsSubmitted);
-      commit("setTermsAccepted", termsAccepted);
+      commit("setTermsAgreed", termsAgreed);
     } catch (error) {
       devLog(error);
     }
@@ -50,7 +50,7 @@ const actions = {
       await UserService.acceptTerms({
         userWalletAddress
       });
-      commit("setTermsAccepted", true);
+      commit("setTermsAgreed", true);
     } catch (error) {
       devLog(error);
     }
@@ -70,8 +70,8 @@ const mutations = {
   setInterestsSubmitted(state, interestsSubmitted) {
     state.interestsSubmitted = interestsSubmitted;
   },
-  setTermsAccepted(state, accepted) {
-    state.termsAccepted = accepted;
+  setTermsAgreed(state, accepted) {
+    state.termsAgreed = accepted;
   }
 };
 

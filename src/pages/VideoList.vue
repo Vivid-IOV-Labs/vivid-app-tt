@@ -67,7 +67,7 @@ export default {
   },
   computed: {
     ...mapGetters("media", ["getLatests", "getHighlighted"]),
-    ...mapGetters("user", ["getInterestsSubmitted", "getTermsAccepted"])
+    ...mapGetters("user", ["getInterestsSubmitted", "getTermsAgreed"])
   },
   methods: {
     ...mapActions("media", ["populateAll", "add", "delete"]),
@@ -130,7 +130,7 @@ export default {
       const { totalTips, mediaID } = data;
       this.setTotalTip({ mediaID, totalTips });
     });
-    if (!this.getInterestsSubmitted || !this.getTermsAccepted) {
+    if (!this.getInterestsSubmitted || !this.getTermsAgreed) {
       this.showContentFeedDialog();
     }
   }
