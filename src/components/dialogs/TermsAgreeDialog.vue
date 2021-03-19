@@ -1,21 +1,23 @@
 <template>
   <v-ons-dialog :visible="value" @update:visible="updateVisible">
     <header class="dialog__head">
-      <div class="dialog__head__title">Please accept our terms</div>
+      <div class="dialog__head__title">Terms and conditions</div>
     </header>
     <div class=" content">
-      <div class="page__title__background">
-        <h3 class="page__title">
-          Terms and conditions
-        </h3>
-      </div>
-      <i
-        >Please read trhough and accept our terms and conditions in order to
-        proceed</i
-      >
-      <div class="flex mt-2 flex-center-xy">
+      <p>
+        Please
+        <a
+          href="https://www.vividiov.com/peerkat-terms"
+          target="_blank"
+          class="btn--link btn--primary"
+          >click here</a
+        >
+        to our read terms and conditions.
+      </p>
+
+      <div class="flex mt-4 flex-center-xy">
         <v-ons-button @click="sendAcceptedTerms" class="btn btn--large mb-4 ">
-          I agree
+          Agree Terms
         </v-ons-button>
       </div>
     </div>
