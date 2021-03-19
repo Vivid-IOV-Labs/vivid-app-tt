@@ -8,23 +8,7 @@
         </v-ons-button>
       </div>
     </header>
-    <div v-show="!termsAccepted" class=" content">
-      <div class="page__title__background">
-        <h3 class="page__title">
-          Terms and conditions
-        </h3>
-      </div>
-      <i
-        >Please read trhough and accept our terms and conditions in order to
-        proceed</i
-      >
-      <div class="flex mt-2 flex-center-xy">
-        <v-ons-button @click="sendAcceptedTerms" class="btn btn--large mb-4 ">
-          I agree
-        </v-ons-button>
-      </div>
-    </div>
-    <div class="scroller content" v-show="!feedBackSent && termsAccepted">
+    <div class="scroller content" v-show="!feedBackSent">
       <div class="page__title__background">
         <h3 class="page__title">What do you want to see most? <br /></h3>
       </div>
@@ -60,7 +44,7 @@
         </v-ons-button>
       </div>
     </div>
-    <div class=" content" v-show="feedBackSent && termsAccepted">
+    <div class=" content" v-show="feedBackSent">
       <div class="page__title__background">
         <h3 class="page__title">Become a Peerkat OG</h3>
       </div>
@@ -135,8 +119,7 @@ export default {
       ],
       contentSelected: [],
       limit: 3,
-      feedBackSent: false,
-      termsAccepted: false
+      feedBackSent: false
     };
   },
   props: {
@@ -150,7 +133,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["addUserInterests", "acceptTerms"]),
+    ...mapActions(["addUserInterests"]),
     updateVisible(value) {
       this.$emit("input", value);
     },
@@ -174,14 +157,6 @@ export default {
         });
       });
       this.feedBackSent = true;
-    },
-    async sendAcceptedTerms() {
-      await this.acceptTerms();
-      trackEvent({
-        category: "Terms and Conditions View",
-        action: "accepts-terms"
-      });
-      this.termsAccepted = true;
     }
   }
 };

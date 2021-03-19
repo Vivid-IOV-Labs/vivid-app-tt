@@ -29,11 +29,6 @@ import { trackEvent } from "@/util/analytics";
 
 export default {
   name: "TermsAgreeDialog",
-  data() {
-    return {
-      termsAccepted: false
-    };
-  },
   props: {
     value: {
       type: Boolean,
@@ -51,7 +46,7 @@ export default {
         category: "Terms and Conditions View",
         action: "accepts-terms"
       });
-      this.termsAccepted = true;
+      this.$emit("input", false);
     }
   }
 };
