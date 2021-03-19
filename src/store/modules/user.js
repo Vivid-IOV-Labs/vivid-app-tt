@@ -18,9 +18,12 @@ const getters = {
 const actions = {
   async login({ commit }, userWalletAddress) {
     try {
-      const { interestsSubmitted } = await UserService.login(userWalletAddress);
+      const { interestsSubmitted, termsAccepted } = await UserService.login(
+        userWalletAddress
+      );
       commit("setWallet", userWalletAddress);
       commit("setInterestsSubmitted", interestsSubmitted);
+      commit("setTermsAccepted", termsAccepted);
     } catch (error) {
       devLog(error);
     }
@@ -43,7 +46,10 @@ const actions = {
   },
   async acceptTerms({ commit }) {
     try {
-      await Promise.resolve();
+      const userWalletAddress = getters.getWallet;
+      await UserService.acceptTerms({
+        userWalletAddress
+      });
       commit("setTermsAccepted", true);
     } catch (error) {
       devLog(error);

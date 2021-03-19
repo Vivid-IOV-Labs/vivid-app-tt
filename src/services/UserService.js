@@ -16,6 +16,12 @@ class UserService {
     });
     return data;
   }
+  async acceptTerms({ userWalletAddress }) {
+    const { data } = await ApiService.post(`${API_ENDPOINT}/agreeTerms`, {
+      userWalletAddress
+    });
+    return data;
+  }
 }
 
 export default new UserService();
