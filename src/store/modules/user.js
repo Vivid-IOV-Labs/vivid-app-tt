@@ -44,7 +44,7 @@ const actions = {
       devLog(error);
     }
   },
-  async acceptTerms({ commit }) {
+  async acceptTerms({ commit, getters }) {
     try {
       const userWalletAddress = getters.getWallet();
       await UserService.acceptTerms({
