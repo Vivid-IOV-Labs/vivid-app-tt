@@ -33,8 +33,9 @@ const actions = {
     commit("setUser", user);
   },
   async addUserInterests({ commit, getters }, interests) {
+    const userWalletAddress = getters.getWallet;
+
     try {
-      const userWalletAddress = getters.getWallet;
       await UserService.registerInterests({
         userWalletAddress,
         interests
@@ -45,8 +46,9 @@ const actions = {
     }
   },
   async acceptTerms({ commit, getters }) {
+    const userWalletAddress = getters.getWallet;
+
     try {
-      const userWalletAddress = getters.getWallet;
       await UserService.acceptTerms({
         userWalletAddress
       });

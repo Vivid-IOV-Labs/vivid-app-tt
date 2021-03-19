@@ -37,6 +37,7 @@
       </v-ons-list>
     </div>
     <content-feed-dialog v-model="isContentFeedDialog"></content-feed-dialog>
+    <terms-agree-dialog v-model="isTermsAgreeDialog"></terms-agree-dialog>
   </v-ons-page>
 </template>
 
@@ -45,6 +46,7 @@ import HeadMenu from "@/components/HeadMenu.vue";
 import HeadLogo from "@/components/HeadLogo.vue";
 import VideoListItem from "@/components/VideoListItem.vue";
 import ContentFeedDialog from "@/components/dialogs/ContentFeedDialog.vue";
+import TermsAgreeDialog from "@/components/dialogs/TermsAgreeDialog.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import webSocketService from "@/util/webSocketService.js";
 import { trackEvent } from "@/util/analytics";
@@ -55,11 +57,13 @@ export default {
     HeadMenu,
     HeadLogo,
     VideoListItem,
-    ContentFeedDialog
+    ContentFeedDialog,
+    TermsAgreeDialog
   },
   data() {
     return {
-      isContentFeedDialog: false
+      isContentFeedDialog: false,
+      isTermsAgreeDialog: false
     };
   },
   created() {
@@ -82,6 +86,9 @@ export default {
     },
     showContentFeedDialog() {
       this.isContentFeedDialog = true;
+    },
+    showTermsAgreeDialog() {
+      this.isTermsAgreeDialog = true;
     },
     copyTextValue(selector, successText) {
       let testingCodeToCopy = document.querySelector(selector);
@@ -130,7 +137,10 @@ export default {
       const { totalTips, mediaID } = data;
       this.setTotalTip({ mediaID, totalTips });
     });
-    if (!this.getInterestsSubmitted || !this.getTermsAgreed) {
+    if (!this.getTermsAgreed) {
+      this.showTermsAgreeDialog();
+    }
+    if (!this.getInterestsSubmitted && this.getTermsAgreed) {
       this.showContentFeedDialog();
     }
   }
