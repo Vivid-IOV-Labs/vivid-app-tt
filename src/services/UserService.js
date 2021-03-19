@@ -17,7 +17,6 @@ class UserService {
     return data;
   }
   async acceptTerms({ userWalletAddress }) {
-    console.log("post accetpTerms userWalletAddress", userWalletAddress);
     const { data } = await ApiService.post(`${API_ENDPOINT}/agreeTerms`, {
       userWalletAddress
     });

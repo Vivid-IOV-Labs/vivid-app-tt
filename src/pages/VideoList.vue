@@ -127,8 +127,7 @@ export default {
     }
   },
   watch: {
-    getTermsAgreed(newValue, oldValue) {
-      console.log(newValue, oldValue);
+    getTermsAgreed(newValue) {
       if (newValue) {
         if (!this.getInterestsSubmitted) {
           this.showContentFeedDialog();
