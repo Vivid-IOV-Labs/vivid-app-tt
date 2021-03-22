@@ -96,17 +96,13 @@ export default {
       window.getSelection().removeAllRanges();
     },
     async copyTextValue(copyText, successText) {
-      if (navigator.clipboard) {
-        try {
-          await clipboard.writeText(copyText);
+      try {
+        await clipboard.writeText(copyText);
 
-          this.$ons.notification.toast(successText, {
-            timeout: 1000
-          });
-        } catch (err) {
-          this.copyTextValueOld(copyText, successText);
-        }
-      } else {
+        this.$ons.notification.toast(successText, {
+          timeout: 1000
+        });
+      } catch (err) {
         this.copyTextValueOld(copyText, successText);
       }
     },
