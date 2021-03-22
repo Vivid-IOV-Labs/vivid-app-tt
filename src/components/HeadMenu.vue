@@ -25,11 +25,11 @@
             <strong class="mb-4">team@peerkat.live</strong>
           </a>
         </v-ons-list-item>
-        <v-ons-list-item class="text-center" modifier="tappable">
+        <!-- <v-ons-list-item class="text-center" modifier="tappable">
           <a class="menu__link" @click.prevent="toProfile">
             <strong>Pro</strong>
           </a>
-        </v-ons-list-item>
+        </v-ons-list-item> -->
       </v-ons-list>
     </v-ons-popover>
   </div>
