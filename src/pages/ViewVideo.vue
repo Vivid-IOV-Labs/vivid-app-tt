@@ -176,8 +176,8 @@ export default {
           "settings",
           "fullscreen"
         ],
-        autoplay: false,
-        muted: false,
+        autoplay: true,
+        muted: true,
         settings: ["speed", "loop"]
       },
       isVideoMenuDropped: false,
