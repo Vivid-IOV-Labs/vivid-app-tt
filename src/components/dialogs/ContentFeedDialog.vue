@@ -36,15 +36,17 @@
               interest.text
             }}</span>
           </div>
-        </div>
-        <div class="flex mt-2 mb-4 flex-column flex-center-xy">
-          <v-ons-button
-            :disabled="!contentSelected.length"
-            @click="sendFeedBack"
-            class="btn btn--large"
+          <div
+            class="grid-x3__cell_full flex  mt-2 mb-4 flex-column flex-center-xy"
           >
-            Send Feedback
-          </v-ons-button>
+            <v-ons-button
+              :disabled="!contentSelected.length"
+              @click="sendFeedBack"
+              class="btn btn--large"
+            >
+              Send Feedback
+            </v-ons-button>
+          </div>
         </div>
       </div>
       <div class=" content" v-show="feedBackSent">
@@ -176,6 +178,10 @@ export default {
 .grid-x3__cell {
   width: 40%;
   flex: 0 1 40%;
+}
+.grid-x3__cell_full {
+  width: 100%;
+  flex: 0 1 100%;
 }
 .interests__label {
   font-size: 0.8rem;
