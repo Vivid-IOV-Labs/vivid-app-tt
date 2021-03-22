@@ -83,34 +83,32 @@ export default {
       try {
         document.execCommand("copy");
 
-        this.$ons.notification.toast(successText);
+        this.$ons.notification.toast(successText, {
+          timeout: 1000
+        });
       } catch (err) {
-        this.$ons.notification.toast(err);
+        this.$ons.notification.toast(err, {
+          timeout: 1000
+        });
       }
       /* unselect the range */
       input.setAttribute("type", "hidden");
       window.getSelection().removeAllRanges();
     },
     async copyTextValue(copyText, successText) {
-      let permissionStatus;
       if (navigator.clipboard) {
         try {
-          const queryOpts = {
-            name: "clipboard-read",
-            allowWithoutGesture: false
-          };
-          permissionStatus = await navigator.permissions.query(queryOpts);
           await clipboard.writeText(copyText);
 
-          this.$ons.notification.toast(successText);
+          this.$ons.notification.toast(successText, {
+            timeout: 1000
+          });
         } catch (err) {
-          permissionStatus = err;
           this.copyTextValueOld(copyText, successText);
         }
       } else {
         this.copyTextValueOld(copyText, successText);
       }
-      this.$ons.notification.toast(permissionStatus);
     },
     copyMail() {
       this.copyTextValue("team@peerkat.live", "Email copied successfully!");
