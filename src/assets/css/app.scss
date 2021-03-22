@@ -172,10 +172,7 @@ button:disabled {
 }
 
 /** Atoms **/
-.content{
-  padding: 1rem;
-  max-height: 500px;
-}
+
 .flex{
   display: flex;
 }
@@ -412,12 +409,24 @@ button:disabled {
 }
 .scroller {
   display: block;
-  height: 100%;
+  height: auto;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
   -ms-scroll-snap-type: mandatory;
-  padding-bottom: 2rem;
+  max-height: 500px;
+}
+.scroller .content{
+  padding: 1rem 1rem 2rem;
+
+}
+.scroller .content:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
 }
 
 /** Typos **/

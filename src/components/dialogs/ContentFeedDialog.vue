@@ -8,55 +8,59 @@
         </v-ons-button>
       </div>
     </header>
-    <div class="scroller content" v-show="!feedBackSent">
-      <div class="page__title__background">
-        <h3 class="page__title">What do you want to see most? <br /></h3>
-      </div>
-      <i>Please select up to 3 categories</i>
-      <div class="grid-x3">
-        <div
-          class="grid-x3__cell flex-column flex-center-xy  mb-4 interests"
-          v-for="interest in interests"
-          :key="interest.label"
-        >
-          <base-check-button
-            :name="interest.label"
-            :selected="contentSelected.includes(interest.label)"
-            :limit="limit"
-            v-model="contentSelected"
+    <div class="scroller">
+      <div class=" content" v-show="!feedBackSent">
+        <div class="page__title__background">
+          <h3 class="page__title">What do you want to see most? <br /></h3>
+        </div>
+        <i>Please select up to 3 categories</i>
+        <div class="grid-x3">
+          <div
+            class="grid-x3__cell flex-column flex-center-xy  mb-4 interests"
+            v-for="interest in interests"
+            :key="interest.label"
           >
-            <base-icon
-              class="btn__icon"
-              :fill="interest.fill"
+            <base-check-button
               :name="interest.label"
-            ></base-icon>
-          </base-check-button>
-          <span class="text-center interests__label">{{ interest.text }}</span>
+              :selected="contentSelected.includes(interest.label)"
+              :limit="limit"
+              v-model="contentSelected"
+            >
+              <base-icon
+                class="btn__icon"
+                :fill="interest.fill"
+                :name="interest.label"
+              ></base-icon>
+            </base-check-button>
+            <span class="text-center interests__label">{{
+              interest.text
+            }}</span>
+          </div>
+        </div>
+        <div class="flex mt-2 mb-4 flex-column flex-center-xy">
+          <v-ons-button
+            :disabled="!contentSelected.length"
+            @click="sendFeedBack"
+            class="btn btn--large"
+          >
+            Send Feedback
+          </v-ons-button>
         </div>
       </div>
-      <div class="flex mt-2 mb-4 flex-column flex-center-xy">
-        <v-ons-button
-          :disabled="!contentSelected.length"
-          @click="sendFeedBack"
-          class="btn btn--large"
-        >
-          Send Feedback
-        </v-ons-button>
-      </div>
-    </div>
-    <div class=" content" v-show="feedBackSent">
-      <div class="page__title__background">
-        <h3 class="page__title">Become a Peerkat OG</h3>
-      </div>
-      <p class="mb-4 mt-4">
-        Please join our Telegram group now to help us create an awesome platform
-        for you
-      </p>
-      <div class="flex mt-4 mb-4 flex-column flex-center-xy">
-        <h4 class="mb-4" style="margin:0">@PeerkatLive</h4>
-        <v-ons-button @click="close" class="btn btn--large mt-4 ">
-          Close Window
-        </v-ons-button>
+      <div class=" content" v-show="feedBackSent">
+        <div class="page__title__background">
+          <h3 class="page__title">Become a Peerkat OG</h3>
+        </div>
+        <p class="mb-4 mt-4">
+          Please join our Telegram group now to help us create an awesome
+          platform for you
+        </p>
+        <div class="flex mt-4 mb-4 flex-column flex-center-xy">
+          <h4 class="mb-4" style="margin:0">@PeerkatLive</h4>
+          <v-ons-button @click="close" class="btn btn--large mt-4 ">
+            Close Window
+          </v-ons-button>
+        </div>
       </div>
     </div>
   </v-ons-dialog>
