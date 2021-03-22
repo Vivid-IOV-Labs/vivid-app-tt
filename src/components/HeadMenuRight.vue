@@ -103,13 +103,9 @@ export default {
       try {
         await clipboard.writeText(copyText);
 
-        this.$ons.notification.toast(successText, {
-          timeout: 1000
-        });
+        this.$ons.notification.toast(successText);
       } catch (err) {
-        this.$ons.notification.toast("Oops, unable to copy ", {
-          timeout: 1000
-        });
+        this.$ons.notification.toast(` ${err} `);
       }
     },
     copyTwitterLink() {
