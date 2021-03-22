@@ -99,14 +99,46 @@ export default {
         label: link
       });
     },
-    async copyTextValue(copyText, successText) {
+    copyTextValueOld(copyText, successText) {
+      const input = document.createElement("input");
+      input.setAttribute("type", "hidden");
+      input.setAttribute("value", copyText);
+      input.setAttribute("type", "text");
+      document.body.appendChild(input);
+      input.select();
+      input.setSelectionRange(0, 99999); /* For mobile devices */
+
       try {
-        await clipboard.writeText(copyText);
+        document.execCommand("copy");
 
         this.$ons.notification.toast(successText);
       } catch (err) {
-        this.$ons.notification.toast(` ${err} `);
+        this.$ons.notification.toast(err);
       }
+      /* unselect the range */
+      input.setAttribute("type", "hidden");
+      window.getSelection().removeAllRanges();
+    },
+    async copyTextValue(copyText, successText) {
+      let permissionStatus;
+      if (navigator.clipboard) {
+        try {
+          const queryOpts = {
+            name: "clipboard-read",
+            allowWithoutGesture: false
+          };
+          permissionStatus = await navigator.permissions.query(queryOpts);
+          await clipboard.writeText(copyText);
+
+          this.$ons.notification.toast(successText);
+        } catch (err) {
+          permissionStatus = err;
+          this.copyTextValueOld(copyText, successText);
+        }
+      } else {
+        this.copyTextValueOld(copyText, successText);
+      }
+      this.$ons.notification.toast(permissionStatus);
     },
     copyTwitterLink() {
       this.copyTextValue(
