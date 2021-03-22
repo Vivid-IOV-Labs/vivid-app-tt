@@ -414,7 +414,7 @@ button:disabled {
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
   -ms-scroll-snap-type: mandatory;
-  max-height: 500px;
+  max-height: 400px;
 }
 .scroller .content{
   display: inline-block;
@@ -463,6 +463,7 @@ button:disabled {
     margin-left: -1rem;
     padding-left: 1rem;
     background: linear-gradient(335deg, transparent 20%, black 40%);
+    display: block;
   }
 }
 .dialog__head{
