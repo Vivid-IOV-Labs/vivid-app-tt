@@ -71,17 +71,41 @@ export default {
         label: link
       });
     },
-    async copyTextValue(copyText, successText) {
-      try {
-        await clipboard.writeText(copyText);
+    copyTextValueOld(copyText, successText) {
+      const input = document.createElement("input");
+      input.setAttribute("type", "hidden");
+      input.setAttribute("value", copyText);
+      input.setAttribute("type", "text");
+      document.body.appendChild(input);
+      input.select();
+      input.setSelectionRange(0, 99999); /* For mobile devices */
 
-        this.$ons.notification.toast(successText, {
-          timeout: 2000
-        });
+      try {
+        document.execCommand("copy");
+
+        this.$ons.notification.toast(successText);
       } catch (err) {
-        this.$ons.notification.toast(` ${err} `, {
-          timeout: 2000
-        });
+        this.$ons.notification.toast(err);
+      }
+      /* unselect the range */
+      input.setAttribute("type", "hidden");
+      window.getSelection().removeAllRanges();
+    },
+    async copyTextValue(copyText, successText) {
+      const queryOpts = { name: "clipboard-read", allowWithoutGesture: false };
+      const permissionStatus = await navigator.permissions.query(queryOpts);
+      // Will be 'granted', 'denied' or 'prompt':
+      console.log(permissionStatus.state);
+      if (navigator.clipboard && permissionStatus.state == "granted") {
+        try {
+          await clipboard.writeText(copyText);
+
+          this.$ons.notification.toast(successText);
+        } catch (err) {
+          this.$ons.notification.toast(` ${err} `);
+        }
+      } else {
+        this.copyTextValueOld(copyText, successText);
       }
     },
     copyMail() {
