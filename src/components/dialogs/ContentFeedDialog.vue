@@ -42,9 +42,7 @@
         >
           Send Feedback
         </v-ons-button>
-        <hr class="hr-space" />
       </div>
-      <hr class="hr-space" />
     </div>
     <div class=" content" v-show="feedBackSent">
       <div class="page__title__background">
