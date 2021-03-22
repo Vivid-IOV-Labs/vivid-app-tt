@@ -243,13 +243,13 @@ export default {
         type: "video",
         title: this.title,
         mediaID: this.mediaID,
-        poster: this.posterUrl
-        // sources: [
-        //   {
-        //     src: this.videoUrl,
-        //     type: "video/mp4"
-        //   }
-        // ]
+        poster: this.posterUrl,
+        sources: [
+          {
+            src: this.videoUrl,
+            type: "video/mp4"
+          }
+        ]
       };
     },
     totalTips: {
@@ -313,16 +313,16 @@ export default {
   },
   async mounted() {
     this.player = this.$refs.videoplayer.player;
-    const video = this.player;
-    if (Hls.isSupported()) {
-      var hls = new Hls();
-      hls.loadSource(this.hlsUrl);
-      hls.attachMedia(video);
-    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      video.src = this.hlsUrl;
-    } else {
-      video.src = this.videoUrl;
-    }
+    // const video = this.player;
+    // if (Hls.isSupported()) {
+    //   var hls = new Hls();
+    //   hls.loadSource(this.hlsUrl);
+    //   hls.attachMedia(video);
+    // } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    //   video.src = this.hlsUrl;
+    // } else {
+    //   video.src = this.videoUrl;
+    // }
     // let duration = 0;
     // this.$refs.videoplayer.player.on("loadedmetadata", () => {
     //   duration = this.$refs.videoplayer.player.duration;
