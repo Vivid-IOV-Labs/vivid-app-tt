@@ -417,14 +417,14 @@ button:disabled {
   max-height: 500px;
 }
 .scroller .content{
-  display: flow-root;
+  display: inline-block;
   height: 100%;
-  padding: 1rem 1rem 2rem;
+  padding: 1rem 1rem 20%;
 
 }
 .scroller .content:after {
-  display: block;
   content: "";
+  display: table;
   clear: both;
 }
 
