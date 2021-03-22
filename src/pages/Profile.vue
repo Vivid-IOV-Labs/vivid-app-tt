@@ -126,10 +126,10 @@ export default {
           {},
           googleUser => {
             this.createUserFromGoogle(googleUser);
-          },
-          error => {
-            console.log(JSON.stringify(error, undefined, 2));
           }
+          // error => {
+          //   console.log(JSON.stringify(error, undefined, 2));
+          // }
         );
       };
       gapi.load("auth2", () => {
@@ -157,16 +157,11 @@ export default {
       // Listen to signin requests
       hello.on("auth.login", r => {
         // Get Profile
-        console.log(r);
-        debugger;
         hello(r.network)
           .api("/me")
           .then(p => {
-            console.log(p);
-            debugger;
             this.createUserFromTwitter(p); // output user information
-          })
-          .catch(console.log);
+          });
       });
     },
     async createUserFromTwitter(user) {
@@ -177,7 +172,6 @@ export default {
         loaction: user.loaction,
         avatar: user.profile_image_url
       };
-      console.log(profile);
       await this.$store.dispatch("user/setUser", profile);
     }
   },
