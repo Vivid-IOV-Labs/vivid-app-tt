@@ -92,21 +92,25 @@ export default {
       window.getSelection().removeAllRanges();
     },
     async copyTextValue(copyText, successText) {
-      const queryOpts = { name: "clipboard-read", allowWithoutGesture: false };
-      const permissionStatus = await navigator.permissions.query(queryOpts);
-      // Will be 'granted', 'denied' or 'prompt':
-      console.log(permissionStatus.state);
-      if (navigator.clipboard && permissionStatus.state == "granted") {
+      let permissionStatus;
+      if (navigator.clipboard) {
         try {
+          const queryOpts = {
+            name: "clipboard-read",
+            allowWithoutGesture: false
+          };
+          permissionStatus = await navigator.permissions.query(queryOpts);
           await clipboard.writeText(copyText);
 
           this.$ons.notification.toast(successText);
         } catch (err) {
-          this.$ons.notification.toast(` ${err} `);
+          permissionStatus = err;
+          this.copyTextValueOld(copyText, successText);
         }
       } else {
         this.copyTextValueOld(copyText, successText);
       }
+      this.$ons.notification.toast(permissionStatus);
     },
     copyMail() {
       this.copyTextValue("team@peerkat.live", "Email copied successfully!");
