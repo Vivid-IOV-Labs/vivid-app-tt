@@ -409,11 +409,13 @@ button:disabled {
 }
 .scroller {
   display: block;
-  height: auto;
+  height: 100%;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
   -ms-scroll-snap-type: mandatory;
+}
+.dialog .scroller{
   max-height: 400px;
 }
 
