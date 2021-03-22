@@ -139,6 +139,7 @@ import env from "@/env.js";
 import TipService from "@/services/TipService";
 import webSocketService from "@/util/webSocketService.js";
 import devLog from "@/util/devlog.js";
+import Hls from "hls.js";
 // function Timer(callback, delay) {
 //   var timerId,
 //     start,
@@ -175,8 +176,8 @@ export default {
           "settings",
           "fullscreen"
         ],
-        autoplay: true,
-        muted: true,
+        autoplay: false,
+        muted: false,
         settings: ["speed", "loop"]
       },
       isVideoMenuDropped: false,
@@ -197,6 +198,11 @@ export default {
     },
     videoUrl() {
       const url = `${env.media_server}/${this.mediaID}.mp4`;
+      //"https://dnglor3cyu4p1.cloudfront.net/streams/599302719599493147334949.mp4"
+      return url;
+    },
+    hlsUrl() {
+      const url = `${env.media_server}/${this.mediaID}.m3u8`;
       //"https://dnglor3cyu4p1.cloudfront.net/streams/599302719599493147334949.mp4"
       return url;
     },
@@ -237,13 +243,13 @@ export default {
         type: "video",
         title: this.title,
         mediaID: this.mediaID,
-        poster: this.posterUrl,
-        sources: [
-          {
-            src: this.videoUrl,
-            type: "video/mp4"
-          }
-        ]
+        poster: this.posterUrl
+        // sources: [
+        //   {
+        //     src: this.videoUrl,
+        //     type: "video/mp4"
+        //   }
+        // ]
       };
     },
     totalTips: {
@@ -307,6 +313,16 @@ export default {
   },
   async mounted() {
     this.player = this.$refs.videoplayer.player;
+    const video = this.player;
+    if (Hls.isSupported()) {
+      var hls = new Hls();
+      hls.loadSource(this.hlsUrl);
+      hls.attachMedia(video);
+    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      video.src = this.hlsUrl;
+    } else {
+      video.src = this.videoUrl;
+    }
     // let duration = 0;
     // this.$refs.videoplayer.player.on("loadedmetadata", () => {
     //   duration = this.$refs.videoplayer.player.duration;
@@ -326,6 +342,7 @@ export default {
     // });
     webSocketService.socket.on("media-updated-tip", async ({ data }) => {
       const { totalTips } = data;
+      console.log(data);
       this.totalTips = totalTips;
       this.isPopoverTTProgress = false;
       this.isPopoverTTSuccess = true;
