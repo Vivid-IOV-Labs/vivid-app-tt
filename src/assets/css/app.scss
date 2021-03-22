@@ -408,8 +408,8 @@ button:disabled {
   background: $white;
 }
 .scroller {
-  display: block;
-  height: auto;
+  display: flow-root;
+    height: auto;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
@@ -417,6 +417,8 @@ button:disabled {
   max-height: 500px;
 }
 .scroller .content{
+  display: flow-root;
+  overflow: auto;
   padding: 1rem 1rem 2rem;
 
 }
