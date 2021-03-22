@@ -341,18 +341,19 @@ export default {
     //   console.log("watched", watched);
     // });
     webSocketService.socket.on("media-updated-tip", async ({ data }) => {
-      const { totalTips } = data;
-      console.log(data);
-      this.totalTips = totalTips;
-      this.isPopoverTTProgress = false;
-      this.isPopoverTTSuccess = true;
-      trackEvent({
-        category: "Video Play View",
-        action: "tip-video-verified",
-        label: "MediaId:" + this.mediaID
-      });
-      await delay(3000);
-      this.isPopoverTTSuccess = false;
+      const { totalTips, mediaID } = data;
+      if (mediaID == this.mediaID) {
+        this.totalTips = totalTips;
+        this.isPopoverTTProgress = false;
+        this.isPopoverTTSuccess = true;
+        trackEvent({
+          category: "Video Play View",
+          action: "tip-video-verified",
+          label: "MediaId:" + this.mediaID
+        });
+        await delay(3000);
+        this.isPopoverTTSuccess = false;
+      }
     });
     this.popoverTarget = this.$refs.tipbutton;
     await delay(1200);
