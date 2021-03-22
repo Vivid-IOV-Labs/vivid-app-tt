@@ -43,6 +43,7 @@
           Send Feedback
         </v-ons-button>
       </div>
+      <hr class="hr-space" />
     </div>
     <div class=" content" v-show="feedBackSent">
       <div class="page__title__background">
@@ -58,7 +59,6 @@
           Close Window
         </v-ons-button>
       </div>
-      <hr class="hr-space" />
     </div>
   </v-ons-dialog>
 </template>
