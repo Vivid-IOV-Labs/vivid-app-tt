@@ -3,7 +3,7 @@
     <header class="dialog__head">
       <div class="dialog__head__title">Terms and conditions</div>
     </header>
-    <div class=" content">
+    <div class="content">
       <p>
         Please
         <a
