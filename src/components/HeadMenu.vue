@@ -79,7 +79,7 @@ export default {
           timeout: 2000
         });
       } catch (err) {
-        this.$ons.notification.toast("Oops, unable to copy ", {
+        this.$ons.notification.toast(` ${err} `, {
           timeout: 2000
         });
       }
