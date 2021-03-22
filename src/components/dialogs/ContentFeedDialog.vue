@@ -34,11 +34,11 @@
           <span class="text-center interests__label">{{ interest.text }}</span>
         </div>
       </div>
-      <div class="flex mt-2 flex-column flex-center-xy">
+      <div class="flex mt-2 mb-4 flex-column flex-center-xy">
         <v-ons-button
           :disabled="!contentSelected.length"
           @click="sendFeedBack"
-          class="btn btn--large mb-4 "
+          class="btn btn--large"
         >
           Send Feedback
         </v-ons-button>
