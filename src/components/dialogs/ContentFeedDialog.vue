@@ -58,6 +58,7 @@
           Close Window
         </v-ons-button>
       </div>
+      <hr class="hr-space" />
     </div>
   </v-ons-dialog>
 </template>
