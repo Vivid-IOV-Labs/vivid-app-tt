@@ -1,29 +1,41 @@
 import UserService from "@/services/UserService";
 import devLog from "@/util/devlog.js";
 const state = {
+  user: null,
   walletAddress: null,
   interests: [],
-  interestsSubmitted: false
+  interestsSubmitted: false,
+  termsAgreed: false
 };
 
 const getters = {
+  getUser: state => state.user,
   getWallet: state => state.walletAddress,
-  getInterestsSubmitted: state => state.interestsSubmitted
+  getInterestsSubmitted: state => state.interestsSubmitted,
+  getTermsAgreed: state => state.termsAgreed
 };
 
 const actions = {
   async login({ commit }, userWalletAddress) {
     try {
-      const { interestsSubmitted } = await UserService.login(userWalletAddress);
+      const { interestsSubmitted, termsAgreed } = await UserService.login(
+        userWalletAddress
+      );
       commit("setWallet", userWalletAddress);
       commit("setInterestsSubmitted", interestsSubmitted);
+      commit("setTermsAgreed", termsAgreed);
     } catch (error) {
       devLog(error);
     }
   },
+  async setUser({ commit }, user) {
+    await Promise.resolve(user);
+    commit("setUser", user);
+  },
   async addUserInterests({ commit, getters }, interests) {
+    const userWalletAddress = getters.getWallet;
+
     try {
-      const userWalletAddress = getters.getWallet;
       await UserService.registerInterests({
         userWalletAddress,
         interests
@@ -32,10 +44,25 @@ const actions = {
     } catch (error) {
       devLog(error);
     }
+  },
+  async acceptTerms({ commit, getters }) {
+    const userWalletAddress = getters.getWallet;
+
+    try {
+      await UserService.acceptTerms({
+        userWalletAddress
+      });
+      commit("setTermsAgreed", true);
+    } catch (error) {
+      devLog(error);
+    }
   }
 };
 
 const mutations = {
+  setUser(state, user) {
+    state.user = user;
+  },
   setWallet(state, wallet) {
     state.walletAddress = wallet;
   },
@@ -44,6 +71,9 @@ const mutations = {
   },
   setInterestsSubmitted(state, interestsSubmitted) {
     state.interestsSubmitted = interestsSubmitted;
+  },
+  setTermsAgreed(state, accepted) {
+    state.termsAgreed = accepted;
   }
 };
 

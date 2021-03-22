@@ -1,5 +1,19 @@
 @import "./variables.scss";
 
+body {
+  background-color: $dark-grey;
+  color: $white;
+  height: 100%;
+  font-family: 'Prompt', sans-serif !important;
+  .toolbar, p, h1,h2,h3,h4,h5,h6,.btn, .toolbar--material__center, .toolbar-button,.list--material{
+    font-family: 'Prompt', sans-serif !important;
+  
+  }
+
+}
+
+
+
 *{
   box-sizing: border-box;
 }
@@ -22,6 +36,10 @@ button:disabled {
   padding: 0.4rem 0.8rem;
   border-color: transparent;
   user-select: none;
+}
+.btn--primary{
+  background-color:$azure;
+  color: $white;
 }
 
 .btn__icon--white{
@@ -71,9 +89,9 @@ button:disabled {
   display: inline;
   background: none;
   border: none;
-  padding: 0 0.4rem;
-  margin:  0.2rem;
-  color: $dark-grey;
+}
+.btn--link:hover {
+  color:$azure
 }
 .btn--default .btn__icon {
   margin-left: 0.2rem;
@@ -154,9 +172,7 @@ button:disabled {
 }
 
 /** Atoms **/
-.content{
-  padding: 1rem;
-}
+
 .flex{
   display: flex;
 }
@@ -298,21 +314,24 @@ button:disabled {
 }
 .popover{
   z-index: 99999;
+  max-width: 96%;
+
 }
 .popover__content{
   width: auto;
   min-height: unset;
   padding: 0.4rem 0.6rem;
+  max-width: 100%;
 }
 .dialog {
-  top: 46%;
-  height: 82%;
-  width: 90%;
+  height: auto;
+  max-height: 80%;
+  width: 92%;
   border-radius: 1rem;
 }
-.dialog-container {
-  height: 100%;
-}
+// .dialog-container {
+//   height: 100%;
+// }
 .alert-dialog-footer--rowfooter {
   flex-direction: column;
   border-bottom-right-radius: 0.6rem;
@@ -343,6 +362,17 @@ button:disabled {
 }
 .list .list-item:last-child > div{
   background-image: none;
+}
+.list{
+  background-image: none;
+}
+
+.toast{
+  background: $azure;
+}
+.toast__message{
+  color: $white!important;
+  font-weight: bold;
 }
 /**How TO **/
 
@@ -385,6 +415,20 @@ button:disabled {
   -ms-overflow-style: none;
   -ms-scroll-snap-type: mandatory;
 }
+.dialog .scroller{
+  max-height: 400px;
+}
+
+.content{
+  height: 100%;
+  width: 100%;
+  padding: 1rem 1rem 2rem;
+}
+.scroller .content:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 
 /** Typos **/
 .page{
@@ -421,6 +465,7 @@ button:disabled {
     margin-left: -1rem;
     padding-left: 1rem;
     background: linear-gradient(335deg, transparent 20%, black 40%);
+    display: block;
   }
 }
 .dialog__head{

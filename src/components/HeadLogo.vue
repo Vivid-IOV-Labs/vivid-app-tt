@@ -1,16 +1,20 @@
-<template functional>
+<template>
   <div class="head_logo">
     <img
       class="head_logo__img"
       src="../assets/img/logopeerkat.png"
       alt="Peerkat Logo"
     />
-    <span class="head_logo__beta">BETA</span>
+    <head-menu-right></head-menu-right>
   </div>
 </template>
 <script>
+import HeadMenuRight from "@/components/HeadMenuRight.vue";
 export default {
-  name: "HeadLogo"
+  name: "HeadLogo",
+  components: {
+    HeadMenuRight
+  }
 };
 </script>
 <style lang="scss">
@@ -21,7 +25,7 @@ export default {
 }
 .head_logo__img {
   width: 2rem;
-  margin: 0 0.8rem;
+  margin: 0 0 0 0.8rem;
 }
 
 .head_logo__beta {

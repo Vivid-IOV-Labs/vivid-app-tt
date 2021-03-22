@@ -139,6 +139,25 @@ import env from "@/env.js";
 import TipService from "@/services/TipService";
 import webSocketService from "@/util/webSocketService.js";
 import devLog from "@/util/devlog.js";
+import Hls from "hls.js";
+// function Timer(callback, delay) {
+//   var timerId,
+//     start,
+//     remaining = delay;
+
+//   this.pause = function() {
+//     window.clearTimeout(timerId);
+//     remaining -= new Date() - start;
+//   };
+
+//   this.resume = function() {
+//     start = new Date();
+//     window.clearTimeout(timerId);
+//     timerId = window.setTimeout(callback, remaining);
+//   };
+
+//   this.resume();
+// }
 
 export default {
   name: "ViewVideo",
@@ -157,6 +176,8 @@ export default {
           "settings",
           "fullscreen"
         ],
+        autoplay: true,
+        muted: true,
         settings: ["speed", "loop"]
       },
       isVideoMenuDropped: false,
@@ -177,6 +198,12 @@ export default {
     },
     videoUrl() {
       const url = `${env.media_server}/${this.mediaID}.mp4`;
+      //"https://dnglor3cyu4p1.cloudfront.net/streams/599302719599493147334949.mp4"
+      return url;
+    },
+    hlsUrl() {
+      const url = `${env.media_server}/${this.mediaID}.m3u8`;
+      //"https://dnglor3cyu4p1.cloudfront.net/streams/599302719599493147334949.mp4"
       return url;
     },
     posterUrl() {
@@ -285,31 +312,63 @@ export default {
     }
   },
   async mounted() {
+    this.player = this.$refs.videoplayer.player;
+    // const video = this.player;
+    // if (Hls.isSupported()) {
+    //   var hls = new Hls();
+    //   hls.loadSource(this.hlsUrl);
+    //   hls.attachMedia(video);
+    // } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    //   video.src = this.hlsUrl;
+    // } else {
+    //   video.src = this.videoUrl;
+    // }
+    // let duration = 0;
+    // this.$refs.videoplayer.player.on("loadedmetadata", () => {
+    //   duration = this.$refs.videoplayer.player.duration;
+    //   // console.log(duration.toFixed(2));
+    //   // const minutes = Math.floor((duration % 3600) / 60);
+    //   // const seconds = Math.floor(duration % 60);
+    //   // console.log(minutes, seconds);
+    // });
+    // // eslint-disable-next-line no-unused-vars
+    // let watched = new Set();
+    // this.$refs.videoplayer.player.on("timeupdate", () => {
+    //   watched.add(Math.ceil(this.$refs.videoplayer.player.currentTime));
+    // });
+    // this.$refs.videoplayer.player.on("ended", () => {
+    //   console.log("duration", duration);
+    //   console.log("watched", watched);
+    // });
     webSocketService.socket.on("media-updated-tip", async ({ data }) => {
-      const { totalTips } = data;
-      this.totalTips = totalTips;
-      this.isPopoverTTProgress = false;
-      this.isPopoverTTSuccess = true;
-      trackEvent({
-        category: "Video Play View",
-        action: "tip-video-verified",
-        label: "MediaId:" + this.mediaID
-      });
-      await delay(3000);
-      this.isPopoverTTSuccess = false;
+      const { totalTips, mediaID } = data;
+      if (mediaID == this.mediaID) {
+        this.totalTips = totalTips;
+        this.isPopoverTTProgress = false;
+        this.isPopoverTTSuccess = true;
+        trackEvent({
+          category: "Video Play View",
+          action: "tip-video-verified",
+          label: "MediaId:" + this.mediaID
+        });
+        await delay(3000);
+        this.isPopoverTTSuccess = false;
+      }
     });
     this.popoverTarget = this.$refs.tipbutton;
     await delay(1200);
     this.$nextTick(() => {
       this.isPopoverClickTT = true;
-      const popOverMask = document.querySelectorAll(".popover-mask")[1];
+      const popOverMask = document.querySelector(
+        ".isPopoverClickTT .popover-mask"
+      );
       popOverMask.style.display = "none";
-      const popOver = document.querySelectorAll(".popover")[1];
+      const popOver = document.querySelector(".isPopoverClickTT .popover");
       popOver.addEventListener("click", () => {
         this.isPopoverClickTT = false;
       });
     });
-    await delay(900000);
+    await delay(10000);
     this.isPopoverClickTT = false;
   }
 };

@@ -1,7 +1,7 @@
 <template>
   <v-ons-page class="viewlist">
     <v-ons-toolbar>
-      <div class="left">
+      <div>
         <head-logo></head-logo>
       </div>
       <div class="right">
@@ -19,12 +19,7 @@
             :key="media.mediaID"
             @click="pushToVideo(media.mediaID)"
           >
-            <div class="flex-center-y full-width medialist__item ">
-              <div class="px-2">
-                {{ media.details.title }}
-              </div>
-              <base-icon class="ml-auto" name="angle-right"></base-icon>
-            </div>
+            <video-list-item :media="media"></video-list-item>
           </v-ons-list-item>
         </v-ons-list>
       </div>
@@ -37,44 +32,21 @@
           :key="media.mediaID"
           @click="pushToVideo(media.mediaID)"
         >
-          <div class="flex-center-y full-width medialist__item ">
-            <div class="px-2">
-              {{ media.details.title }}
-            </div>
-            <base-icon class="ml-auto" name="angle-right"></base-icon>
-          </div>
+          <video-list-item :media="media"></video-list-item>
         </v-ons-list-item>
       </v-ons-list>
     </div>
-    <v-ons-bottom-toolbar>
-      <div class="flex justify-center">
-        <v-ons-toolbar-button @click="copyTwitterLink" class="btn--large">
-          <input
-            type="hidden"
-            id="twitter-link"
-            value="https://twitter.com/PeerkatLive"
-          />
-          <base-icon class="btn__icon--white" name="twitter"></base-icon>
-        </v-ons-toolbar-button>
-        <v-ons-toolbar-button @click="copyTelegramGroup" class="btn--large">
-          <input
-            type="hidden"
-            id="telegram-group"
-            value="https://t.me/joinchat/M90RPBklSbAkMzfLl02Qcw"
-          />
-          <base-icon class="btn__icon--white" name="telegram"></base-icon>
-        </v-ons-toolbar-button>
-      </div>
-    </v-ons-bottom-toolbar>
     <content-feed-dialog v-model="isContentFeedDialog"></content-feed-dialog>
+    <terms-agree-dialog v-model="isTermsAgreeDialog"></terms-agree-dialog>
   </v-ons-page>
 </template>
 
 <script>
 import HeadMenu from "@/components/HeadMenu.vue";
 import HeadLogo from "@/components/HeadLogo.vue";
-import BaseIcon from "@/components/BaseIcon.vue";
+import VideoListItem from "@/components/VideoListItem.vue";
 import ContentFeedDialog from "@/components/dialogs/ContentFeedDialog.vue";
+import TermsAgreeDialog from "@/components/dialogs/TermsAgreeDialog.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import webSocketService from "@/util/webSocketService.js";
 import { trackEvent } from "@/util/analytics";
@@ -84,12 +56,14 @@ export default {
   components: {
     HeadMenu,
     HeadLogo,
-    BaseIcon,
-    ContentFeedDialog
+    VideoListItem,
+    ContentFeedDialog,
+    TermsAgreeDialog
   },
   data() {
     return {
-      isContentFeedDialog: false
+      isContentFeedDialog: false,
+      isTermsAgreeDialog: false
     };
   },
   created() {
@@ -97,7 +71,7 @@ export default {
   },
   computed: {
     ...mapGetters("media", ["getLatests", "getHighlighted"]),
-    ...mapGetters("user", ["getInterestsSubmitted"])
+    ...mapGetters("user", ["getInterestsSubmitted", "getTermsAgreed"])
   },
   methods: {
     ...mapActions("media", ["populateAll", "add", "delete"]),
@@ -112,6 +86,9 @@ export default {
     },
     showContentFeedDialog() {
       this.isContentFeedDialog = true;
+    },
+    showTermsAgreeDialog() {
+      this.isTermsAgreeDialog = true;
     },
     copyTextValue(selector, successText) {
       let testingCodeToCopy = document.querySelector(selector);
@@ -149,6 +126,15 @@ export default {
       });
     }
   },
+  watch: {
+    getTermsAgreed(newValue) {
+      if (newValue) {
+        if (!this.getInterestsSubmitted) {
+          this.showContentFeedDialog();
+        }
+      }
+    }
+  },
   mounted() {
     webSocketService.socket.on("media-added", async ({ data }) => {
       await this.add(data);
@@ -160,7 +146,10 @@ export default {
       const { totalTips, mediaID } = data;
       this.setTotalTip({ mediaID, totalTips });
     });
-    if (!this.getInterestsSubmitted) {
+    if (!this.getTermsAgreed) {
+      this.showTermsAgreeDialog();
+    }
+    if (!this.getInterestsSubmitted && this.getTermsAgreed) {
       this.showContentFeedDialog();
     }
   }
@@ -176,10 +165,7 @@ export default {
     margin: 0;
     background: lighten($color: $dark-grey, $amount: 15);
   }
-  .medialist__item {
-    border-bottom: solid 2px $dark-grey;
-    padding: 1.2rem 0.2rem;
-  }
+
   .list-item:last-child .medialist__item {
     border-bottom: none;
   }
