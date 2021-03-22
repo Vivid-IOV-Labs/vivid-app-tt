@@ -149,6 +149,9 @@ export default {
     if (!this.getTermsAgreed) {
       this.showTermsAgreeDialog();
     }
+    if (!this.getInterestsSubmitted && this.getTermsAgreed) {
+      this.showContentFeedDialog();
+    }
   }
 };
 </script>
