@@ -77,6 +77,7 @@
           class="stream__controls stream__controls--bottom"
         >
           <div class="flex-column stream-detail">
+            {{ percentageWatched }}
             <h5 class="stream-detail__title">
               {{ title }}
             </h5>
@@ -139,6 +140,24 @@ import env from "@/env.js";
 import TipService from "@/services/TipService";
 import webSocketService from "@/util/webSocketService.js";
 import devLog from "@/util/devlog.js";
+// function Timer(callback, delay) {
+//   var timerId,
+//     start,
+//     remaining = delay;
+
+//   this.pause = function() {
+//     window.clearTimeout(timerId);
+//     remaining -= new Date() - start;
+//   };
+
+//   this.resume = function() {
+//     start = new Date();
+//     window.clearTimeout(timerId);
+//     timerId = window.setTimeout(callback, remaining);
+//   };
+
+//   this.resume();
+// }
 
 export default {
   name: "ViewVideo",
@@ -178,8 +197,8 @@ export default {
       return this.getById(this.mediaID);
     },
     videoUrl() {
-      const url = `${env.media_server}/${this.mediaID}.mp4`;
-      return url;
+      // const url = `${env.media_server}/${this.mediaID}.mp4`;
+      return "https://dnglor3cyu4p1.cloudfront.net/streams/599302719599493147334949.mp4";
     },
     posterUrl() {
       const url = `${env.media_storage}/${this.mediaID}.png`;
@@ -242,6 +261,10 @@ export default {
       set(newVal) {
         this.setTotalTip({ mediaID: this.mediaID, totalTips: newVal });
       }
+    },
+    percentageWatched() {
+      console.log(this.player);
+      return this.player && this.player.currentTime / this.player.duration;
     }
   },
   methods: {
@@ -287,6 +310,24 @@ export default {
     }
   },
   async mounted() {
+    this.player = this.$refs.videoplayer.player;
+    let duration = 0;
+    this.$refs.videoplayer.player.on("loadedmetadata", () => {
+      duration = this.$refs.videoplayer.player.duration;
+      // console.log(duration.toFixed(2));
+      // const minutes = Math.floor((duration % 3600) / 60);
+      // const seconds = Math.floor(duration % 60);
+      // console.log(minutes, seconds);
+    });
+    // eslint-disable-next-line no-unused-vars
+    let watched = new Set();
+    this.$refs.videoplayer.player.on("timeupdate", () => {
+      watched.add(Math.ceil(this.$refs.videoplayer.player.currentTime));
+    });
+    this.$refs.videoplayer.player.on("ended", () => {
+      console.log("duration", duration);
+      console.log("watched", watched);
+    });
     webSocketService.socket.on("media-updated-tip", async ({ data }) => {
       const { totalTips } = data;
       this.totalTips = totalTips;
