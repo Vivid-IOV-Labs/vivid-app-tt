@@ -10,11 +10,11 @@
     </header>
     <div class="scroller">
       <div class=" content" v-show="!feedBackSent">
-        <div class="page__title__background">
+        <div class="page__title__background mb-2">
           <h3 class="page__title">What do you want to see most? <br /></h3>
         </div>
         <i>Please select up to 3 categories</i>
-        <div class="grid-x3">
+        <div class="grid-x3 mt-4">
           <div
             class="grid-x3__cell flex-column flex-center-xy  mb-4 interests"
             v-for="interest in interests"
