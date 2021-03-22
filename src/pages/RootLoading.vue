@@ -31,11 +31,11 @@ export default {
     ...mapActions("smartcontract", ["createSmartContractFactory"])
   },
   async mounted() {
-    // await this.createSmartContractFactory();
+    await this.createSmartContractFactory();
 
-    // if (this.getUserWalletAddress) {
-    //   await this.login(this.getUserWalletAddress);
-    // }
+    if (this.getUserWalletAddress) {
+      await this.login(this.getUserWalletAddress);
+    }
     await delay(2000);
     this.$router.push({ path: "videolist" });
     //this.$router.push({ path: "profile" });
