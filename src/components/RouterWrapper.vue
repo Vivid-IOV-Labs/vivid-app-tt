@@ -1,7 +1,6 @@
 <template>
   <v-ons-navigator
     swipeable
-    @push-back="goBack"
     @reset-home-page="
       pageStack.pop();
       pageStack.push($event);
@@ -24,6 +23,7 @@ export default {
   watch: {
     $route(to) {
       trackPage(to.path);
+      console.log("to", to);
       const { 0: nextPage } = to.matched.map(m => m.components.default);
       const indexInPageStack = this.pageStack.findIndex(
         page => page.name == nextPage.name
@@ -47,9 +47,10 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.push({
-        name: this.$route.matched[this.$route.matched.length - 1].name
-      });
+      this.$router.back();
+      // this.$router.push({
+      //   name: this.$route.matched[this.$route.matched.length - 1].name
+      // });
     }
   }
 };

@@ -89,7 +89,6 @@
             <div ref="tipbutton">
               <v-ons-button
                 @click.prevent="tipStreamer"
-                :disabled="isTipping"
                 class="btn btn--round-large btn--opacity-dark mb-2"
                 style="font-size: 3.4rem; padding: 0.2rem 0 0 0.2rem; border:solid 2px #fff"
               >
@@ -185,13 +184,12 @@ export default {
       isPopoverClickTT: false,
       isPopoverTTSuccess: false,
       isPopoverTTProgress: false,
-      isTipping: false,
       popoverTarget: null
     };
   },
   computed: {
     ...mapGetters("media", ["getById"]),
-    ...mapGetters("smartcontract", ["getTipContract", "getUserWalletAddress"]),
+    ...mapGetters("smartcontract", ["getTipContract"]),
     mediaID() {
       return this.$route.params.mediaID;
     },
@@ -290,7 +288,7 @@ export default {
     },
     async tipStreamer() {
       this.isPopoverClickTT = false;
-      this.isTipping = true;
+
       try {
         const result = await this.getTipContract();
         this.isPopoverTTProgress = true;
@@ -308,7 +306,7 @@ export default {
         });
       } catch (err) {
         this.isPopoverTTProgress = false;
-        this.isTipping = false;
+
         devLog(err);
       }
     }
@@ -343,15 +341,11 @@ export default {
     //   console.log("watched", watched);
     // });
     webSocketService.socket.on("media-updated-tip", async ({ data }) => {
-      const { totalTips, mediaID, sender } = data;
-      if (
-        mediaID == this.mediaID &&
-        this.getUserWalletAddress == sender.walletAddress
-      ) {
+      const { totalTips, mediaID } = data;
+      if (mediaID == this.mediaID) {
         this.totalTips = totalTips;
         this.isPopoverTTProgress = false;
         this.isPopoverTTSuccess = true;
-        this.isTipping = false;
         trackEvent({
           category: "Video Play View",
           action: "tip-video-verified",

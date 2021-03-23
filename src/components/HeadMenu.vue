@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-ons-toolbar-button @click="showPopover">
-      <base-icon class="btn__icon--white" name="upload"></base-icon>
+      <base-icon class="btn__icon--primary" name="upload"></base-icon>
     </v-ons-toolbar-button>
     <v-ons-popover
       cancelable
