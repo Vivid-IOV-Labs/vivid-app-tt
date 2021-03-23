@@ -309,35 +309,41 @@ export default {
 
         devLog(err);
       }
+    },
+    autoplay(video) {
+      video.addEventListener("canplaythrough", function() {
+        var promise = video.play();
+        if (promise !== undefined) {
+          promise
+            .catch(function() {
+              console.error("Auto-play was prevented");
+              console.error(
+                "We Show a UI element to let the user manually start playback"
+              );
+            })
+            .then(function() {
+              console.info("Auto-play started");
+            });
+        }
+      }); //  Fires when the browser can play through the audio/video without stopping for buffering
+
+      video.muted = "muted";
+      video.autoplay = "autoplay";
+      video.playsinline = "true";
     }
   },
-  autoplay(video) {
-    video.addEventListener("canplaythrough", function() {
-      var promise = video.play();
-      if (promise !== undefined) {
-        promise
-          .catch(function() {
-            console.error("Auto-play was prevented");
-            console.error(
-              "We Show a UI element to let the user manually start playback"
-            );
-          })
-          .then(function() {
-            console.info("Auto-play started");
-          });
-      }
-    }); //  Fires when the browser can play through the audio/video without stopping for buffering
 
-    video.muted = "muted";
-    video.autoplay = "autoplay";
-    video.playsinline = "true";
-  },
   async mounted() {
     this.player = this.$refs.videoplayer.player;
     // const video = this.player;ù
     this.player.on("ready", event => {
       const video = event.detail.plyr;
       console.log(video.media);
+      console.log(
+        "canplay",
+        video.media.canPlayType("application/vnd.apple.mpegurl")
+      );
+
       if (Hls.isSupported()) {
         var hls = new Hls();
         // hls.loadSource(this.hlsUrl);
@@ -352,7 +358,9 @@ export default {
         });
       } else if (video.media.canPlayType("application/vnd.apple.mpegurl")) {
         video.media.src = this.hlsUrl;
-        this.autoplay(this.player);
+        video.addEventListener("loadedmetadata", function() {
+          this.autoplay(this.player);
+        });
       } else {
         video.media.src = this.videoUrl;
         this.autoplay(this.player);
