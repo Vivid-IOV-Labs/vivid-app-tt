@@ -89,6 +89,7 @@
             <div ref="tipbutton">
               <v-ons-button
                 @click.prevent="tipStreamer"
+                :disabled="isTipping"
                 class="btn btn--round-large btn--opacity-dark mb-2"
                 style="font-size: 3.4rem; padding: 0.2rem 0 0 0.2rem; border:solid 2px #fff"
               >
@@ -184,6 +185,7 @@ export default {
       isPopoverClickTT: false,
       isPopoverTTSuccess: false,
       isPopoverTTProgress: false,
+      isTipping: false,
       popoverTarget: null
     };
   },
@@ -288,7 +290,7 @@ export default {
     },
     async tipStreamer() {
       this.isPopoverClickTT = false;
-
+      this.isTipping = true;
       try {
         const result = await this.getTipContract();
         this.isPopoverTTProgress = true;
@@ -349,6 +351,7 @@ export default {
         this.totalTips = totalTips;
         this.isPopoverTTProgress = false;
         this.isPopoverTTSuccess = true;
+        this.isTipping = false;
         trackEvent({
           category: "Video Play View",
           action: "tip-video-verified",
