@@ -358,11 +358,11 @@ export default {
         });
       } else if (video.media.canPlayType("application/vnd.apple.mpegurl")) {
         video.media.src = this.hlsUrl;
-        video.addEventListener("loadedmetadata", function() {
+        video.media.addEventListener("loadedmetadata", function() {
           this.autoplay(this.player);
         });
       } else {
-        video.media.src = this.videoUrl;
+        video.media.src = this.hlsUrl;
         this.autoplay(this.player);
       }
     });
