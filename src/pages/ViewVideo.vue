@@ -337,7 +337,7 @@ export default {
     // const video = this.player;ù
     this.player.on("ready", event => {
       const video = event.detail.plyr;
-      console.log(video);
+      console.log(video.media);
       if (Hls.isSupported()) {
         var hls = new Hls();
         // hls.loadSource(this.hlsUrl);
