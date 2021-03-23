@@ -53,7 +53,6 @@ export default {
   width: 100%;
   max-height: 220px;
   border-radius: 0.6rem;
-  background: url("../assets/img/thumbnail.jpg") center center no-repeat;
 }
 .medialist__item__caption {
   position: absolute;

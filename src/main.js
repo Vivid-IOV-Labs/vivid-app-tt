@@ -77,6 +77,7 @@ import store from "./store";
 import router from "./router";
 import App from "./App.vue";
 const errorimage = require("@/assets/img/thumbnail.jpg");
+console.log(errorimage);
 Vue.use(VueLazyload, {
   preLoad: 1.3,
   error: errorimage,
