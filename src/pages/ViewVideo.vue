@@ -308,7 +308,7 @@ export default {
         });
       } catch (err) {
         this.isPopoverTTProgress = false;
-
+        this.isTipping = false;
         devLog(err);
       }
     }
