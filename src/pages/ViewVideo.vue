@@ -189,7 +189,7 @@ export default {
   },
   computed: {
     ...mapGetters("media", ["getById"]),
-    ...mapGetters("smartcontract", ["getTipContract"]),
+    ...mapGetters("smartcontract", ["getTipContract", "getUserWalletAddress"]),
     mediaID() {
       return this.$route.params.mediaID;
     },
@@ -341,8 +341,11 @@ export default {
     //   console.log("watched", watched);
     // });
     webSocketService.socket.on("media-updated-tip", async ({ data }) => {
-      const { totalTips, mediaID } = data;
-      if (mediaID == this.mediaID) {
+      const { totalTips, mediaID, sender } = data;
+      if (
+        mediaID == this.mediaID &&
+        this.getUserWalletAddress == sender.walletAddress
+      ) {
         this.totalTips = totalTips;
         this.isPopoverTTProgress = false;
         this.isPopoverTTSuccess = true;
