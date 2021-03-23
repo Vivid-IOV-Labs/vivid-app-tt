@@ -139,7 +139,7 @@ import env from "@/env.js";
 import TipService from "@/services/TipService";
 import webSocketService from "@/util/webSocketService.js";
 import devLog from "@/util/devlog.js";
-// import Hls from "hls.js";
+import Hls from "hls.js";
 // function Timer(callback, delay) {
 //   var timerId,
 //     start,
@@ -243,13 +243,13 @@ export default {
         type: "video",
         title: this.title,
         mediaID: this.mediaID,
-        poster: this.posterUrl,
-        sources: [
-          {
-            src: this.videoUrl,
-            type: "video/mp4"
-          }
-        ]
+        poster: this.posterUrl
+        // sources: [
+        //   {
+        //     src: this.videoUrl,
+        //     type: "video/mp4"
+        //   }
+        // ]
       };
     },
     totalTips: {
@@ -311,18 +311,54 @@ export default {
       }
     }
   },
+  autoplay(video) {
+    video.addEventListener("canplaythrough", function() {
+      var promise = video.play();
+      if (promise !== undefined) {
+        promise
+          .catch(function() {
+            console.error("Auto-play was prevented");
+            console.error(
+              "We Show a UI element to let the user manually start playback"
+            );
+          })
+          .then(function() {
+            console.info("Auto-play started");
+          });
+      }
+    }); //  Fires when the browser can play through the audio/video without stopping for buffering
+
+    video.muted = "muted";
+    video.autoplay = "autoplay";
+    video.playsinline = "true";
+  },
   async mounted() {
     this.player = this.$refs.videoplayer.player;
-    // const video = this.player;
-    // if (Hls.isSupported()) {
-    //   var hls = new Hls();
-    //   hls.loadSource(this.hlsUrl);
-    //   hls.attachMedia(video);
-    // } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-    //   video.src = this.hlsUrl;
-    // } else {
-    //   video.src = this.videoUrl;
-    // }
+    // const video = this.player;ù
+    this.player.on("ready", event => {
+      const video = event.detail.plyr;
+      console.log(video);
+      if (Hls.isSupported()) {
+        var hls = new Hls();
+        // hls.loadSource(this.hlsUrl);
+        // hls.attachMedia(video.media);
+        hls.loadSource(
+          "https://content.jwplatform.com/manifests/vM7nH0Kl.m3u8"
+        );
+        hls.attachMedia(video.media);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          console.log("MANIFEST_PARSED");
+          this.autoplay(this.player);
+        });
+      } else if (video.media.canPlayType("application/vnd.apple.mpegurl")) {
+        video.media.src = this.hlsUrl;
+        this.autoplay(this.player);
+      } else {
+        video.media.src = this.videoUrl;
+        this.autoplay(this.player);
+      }
+    });
+
     // let duration = 0;
     // this.$refs.videoplayer.player.on("loadedmetadata", () => {
     //   duration = this.$refs.videoplayer.player.duration;
