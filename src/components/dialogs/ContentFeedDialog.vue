@@ -147,7 +147,8 @@ export default {
       if (!this.contentSelected.length) {
         trackEvent({
           category: "Interest Feedback View",
-          action: "feedback-notsent"
+          action: "feedback-notsent",
+          label: "pop_up_closed"
         });
       }
 
