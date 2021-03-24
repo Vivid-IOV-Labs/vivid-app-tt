@@ -316,8 +316,8 @@ export default {
   },
   async mounted() {
     this.player = this.$refs.videoplayer.player;
-    this.player.on("ended", () => {
-      const code = this.currentMedia;
+    this.player.once("ended", () => {
+      const { code } = this.currentMedia;
       const userWalletAddress = this.getUserWalletAddress;
       this.videoViewed({ code, userWalletAddress });
     });
