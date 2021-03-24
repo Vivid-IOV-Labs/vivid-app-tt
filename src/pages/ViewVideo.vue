@@ -176,8 +176,6 @@ export default {
           "settings",
           "fullscreen"
         ],
-        // autoplay: true,
-        // muted: true,
         settings: ["speed", "loop"]
       },
       isVideoMenuDropped: false,
@@ -244,12 +242,6 @@ export default {
         title: this.title,
         mediaID: this.mediaID,
         poster: this.posterUrl
-        // sources: [
-        //   {
-        //     src: this.videoUrl,
-        //     type: "video/mp4"
-        //   }
-        // ]
       };
     },
     totalTips: {
@@ -311,23 +303,7 @@ export default {
       }
     },
     autoplay(video) {
-      var promise = video.play();
-      if (promise !== undefined) {
-        promise
-          .catch(function() {
-            console.error("Auto-play was prevented");
-            console.error(
-              "We Show a UI element to let the user manually start playback"
-            );
-          })
-          .then(function() {
-            console.info("Auto-play started");
-          });
-      }
-
-      // video.muted = "muted";
-      // video.autoplay = "autoplay";
-      // video.playsinline = "true";
+      video.play();
     }
   },
 
@@ -367,6 +343,9 @@ export default {
       } else {
         video.media.src = this.videoUrl;
         video.media.addEventListener("loadedmetadata", () => {
+          video.muted = "muted";
+          video.autoplay = "autoplay";
+          video.playsinline = "true";
           this.autoplay(video.media);
         });
       }
