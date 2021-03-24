@@ -7,6 +7,7 @@
         :alt="media.details.title"
       />
     </div>
+
     <span class="medialist__item__title">
       {{ media.details.title }}
       <base-icon class="ml-auto" name="angle-right"></base-icon>
@@ -50,6 +51,7 @@ export default {
 .medialist__item_poster {
   object-fit: contain;
   width: 100%;
+  max-height: 220px;
   border-radius: 0.6rem;
 }
 .medialist__item__caption {

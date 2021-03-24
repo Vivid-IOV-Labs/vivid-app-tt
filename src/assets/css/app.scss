@@ -45,6 +45,9 @@ button:disabled {
 .btn__icon--white{
   color: $white;
 }
+.btn__icon--primary{
+  color: $azure;
+}
 .btn--square{
   border-radius: 0.4rem;
 }

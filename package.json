@@ -16,7 +16,7 @@
     "ethers": "^5.0.32",
     "express": "^4.17.1",
     "express-static-gzip": "^2.1.1",
-    "hellojs": "^1.18.8",
+    "hellojs": "^1.19.2",
     "hls.js": "^0.15.0-alpha.2.0.canary.6250",
     "leaflet": "^1.7.1",
     "leaflet-geosearch": "^2.7.0",

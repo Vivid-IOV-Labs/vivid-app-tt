@@ -76,6 +76,13 @@ Vue.component("BaseIcon", BaseIcon);
 import store from "./store";
 import router from "./router";
 import App from "./App.vue";
+const errorimage = require("@/assets/img/thumbnail.jpg");
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  error: errorimage,
+  loading: errorimage,
+  attempt: 1
+});
 
 Vue.config.productionTip = false;
 
