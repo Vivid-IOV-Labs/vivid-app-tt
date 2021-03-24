@@ -133,7 +133,7 @@
 </template>
 <script>
 import BaseVideo from "@/components/BaseVideo.vue";
-import { mapGetters, mapMutations, mapActions } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import { trackEvent } from "@/util/analytics";
 import delay from "@/util/delay.js";
 import env from "@/env.js";
@@ -141,6 +141,8 @@ import TipService from "@/services/TipService";
 import webSocketService from "@/util/webSocketService.js";
 import devLog from "@/util/devlog.js";
 import Hls from "hls.js";
+import MediaService from "@/services/MediaService";
+
 export default {
   name: "ViewVideo",
   components: {
@@ -182,7 +184,7 @@ export default {
       return url;
     },
     hlsUrl() {
-      const url = `${env.media_server}/${this.mediaID}.m3u8`;
+      const url = `${env.media_hls}/${this.mediaID}.m3u8`;
       return url;
     },
     posterUrl() {
@@ -244,7 +246,6 @@ export default {
   },
   methods: {
     ...mapMutations("media", ["setTotalTip"]),
-    ...mapActions("media", ["videoViewed"]),
     endViewingVideo() {
       trackEvent({
         category: "Video Play View",
@@ -315,7 +316,6 @@ export default {
         hls.loadSource(this.hlsUrl);
         hls.attachMedia(video.media);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          console.log("MANIFEST_PARSED");
           video.media.addEventListener("canplaythrough", () => {
             this.autoplay(video.media);
           });
@@ -349,21 +349,11 @@ export default {
       }
     });
 
-    this.player.once("ended", () => {
+    this.player.on("ended", () => {
       const { code } = this.currentMedia;
       const userWalletAddress = this.getUserWalletAddress;
-      this.videoViewed({ code, userWalletAddress });
+      MediaService.videoViewed({ code, userWalletAddress });
     });
-    // const video = this.player;
-    // if (Hls.isSupported()) {
-    //   var hls = new Hls();
-    //   hls.loadSource(this.hlsUrl);
-    //   hls.attachMedia(video);
-    // } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-    //   video.src = this.hlsUrl;
-    // } else {
-    //   video.src = this.videoUrl;
-    // }
     // let duration = 0;
     // this.$refs.videoplayer.player.on("loadedmetadata", () => {
     //   duration = this.$refs.videoplayer.player.duration;
