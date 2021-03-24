@@ -140,25 +140,6 @@ import TipService from "@/services/TipService";
 import webSocketService from "@/util/webSocketService.js";
 import devLog from "@/util/devlog.js";
 import Hls from "hls.js";
-// function Timer(callback, delay) {
-//   var timerId,
-//     start,
-//     remaining = delay;
-
-//   this.pause = function() {
-//     window.clearTimeout(timerId);
-//     remaining -= new Date() - start;
-//   };
-
-//   this.resume = function() {
-//     start = new Date();
-//     window.clearTimeout(timerId);
-//     timerId = window.setTimeout(callback, remaining);
-//   };
-
-//   this.resume();
-// }
-
 export default {
   name: "ViewVideo",
   components: {
@@ -196,12 +177,10 @@ export default {
     },
     videoUrl() {
       const url = `${env.media_server}/${this.mediaID}.mp4`;
-      //"https://dnglor3cyu4p1.cloudfront.net/streams/599302719599493147334949.mp4"
       return url;
     },
     hlsUrl() {
       const url = `${env.media_server}/${this.mediaID}.m3u8`;
-      //"https://dnglor3cyu4p1.cloudfront.net/streams/599302719599493147334949.mp4"
       return url;
     },
     posterUrl() {
@@ -303,28 +282,33 @@ export default {
       }
     },
     autoplay(video) {
-      video.play();
+      var promise = video.play();
+      if (promise !== undefined) {
+        promise
+          .catch(function() {
+            trackEvent({
+              category: "Video Play View",
+              action: "autoplay-error"
+            });
+          })
+          .then(function() {
+            trackEvent({
+              category: "Video Play View",
+              action: "autoplay-success"
+            });
+          });
+      }
     }
   },
 
   async mounted() {
     this.player = this.$refs.videoplayer.player;
-    // const video = this.player;ù
     this.player.on("ready", event => {
       const video = event.detail.plyr;
-      console.log(video.media);
-      console.log(
-        "canplay",
-        video.media.canPlayType("application/vnd.apple.mpegurl")
-      );
 
       if (Hls.isSupported()) {
         var hls = new Hls();
-        // hls.loadSource(this.hlsUrl);
-        // hls.attachMedia(video.media);
-        hls.loadSource(
-          "https://content.jwplatform.com/manifests/vM7nH0Kl.m3u8"
-        );
+        hls.loadSource(this.hlsUrl);
         hls.attachMedia(video.media);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
           console.log("MANIFEST_PARSED");
@@ -333,12 +317,18 @@ export default {
           });
           this.autoplay(video.media);
         });
+        trackEvent({
+          category: "Video Play View",
+          action: "hls-video-playing"
+        });
       } else if (video.media.canPlayType("application/vnd.apple.mpegurl")) {
-        video.media.src =
-          "https://content.jwplatform.com/manifests/vM7nH0Kl.m3u8";
-
+        video.media.src = this.hlsUrl;
         video.media.addEventListener("loadedmetadata", () => {
           this.autoplay(video.media);
+          trackEvent({
+            category: "Video Play View",
+            action: "hls-video-playing"
+          });
         });
       } else {
         video.media.src = this.videoUrl;
@@ -347,6 +337,10 @@ export default {
           video.autoplay = "autoplay";
           video.playsinline = "true";
           this.autoplay(video.media);
+          trackEvent({
+            category: "Video Play View",
+            action: "hls-video-playing"
+          });
         });
       }
     });
