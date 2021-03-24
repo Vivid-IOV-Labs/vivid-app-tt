@@ -89,6 +89,7 @@
             <div ref="tipbutton">
               <v-ons-button
                 @click.prevent="tipStreamer"
+                :disabled="isTipping"
                 class="btn btn--round-large btn--opacity-dark mb-2"
                 style="font-size: 3.4rem; padding: 0.2rem 0 0 0.2rem; border:solid 2px #fff"
               >
