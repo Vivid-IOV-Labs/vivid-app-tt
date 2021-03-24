@@ -176,8 +176,8 @@ export default {
           "settings",
           "fullscreen"
         ],
-        autoplay: true,
-        muted: true,
+        // autoplay: true,
+        // muted: true,
         settings: ["speed", "loop"]
       },
       isVideoMenuDropped: false,
@@ -311,7 +311,23 @@ export default {
       }
     },
     autoplay(video) {
-      video.play();
+      var promise = video.play();
+      if (promise !== undefined) {
+        promise
+          .catch(function() {
+            console.error("Auto-play was prevented");
+            console.error(
+              "We Show a UI element to let the user manually start playback"
+            );
+          })
+          .then(function() {
+            console.info("Auto-play started");
+          });
+      }
+
+      // video.muted = "muted";
+      // video.autoplay = "autoplay";
+      // video.playsinline = "true";
     }
   },
 
