@@ -50,6 +50,11 @@ const actions = {
     commit("deleteHighlighted", video);
     commit("deleteLatest", video);
     commit("delete", video);
+  },
+  async videoViewed({ commit }, { code, userWalletAddress }) {
+    const views = await MediaService.videoViewed({ code, userWalletAddress });
+    console.log(views);
+    commit();
   }
 };
 
@@ -102,14 +107,24 @@ const mutations = {
   deleteHighlighted(state, { code }) {
     state.highlighted = state.highlighted.filter(media => media.code !== code);
   },
-  setTotalTip(state, { mediaID, totalTips }) {
+  setTotalTip(state, { mediaID, views }) {
     const mediaIndex = state.all.findIndex(media => media.mediaID === mediaID);
     if (
       state.all[mediaIndex] &&
       state.all[mediaIndex].statistics &&
       state.all[mediaIndex].statistics.total
     ) {
-      Vue.set(state.all[mediaIndex].statistics.total, "tips", totalTips);
+      Vue.set(state.all[mediaIndex].statistics.total, "tips", views);
+    }
+  },
+  setVideoViewed(state, { mediaID, totalTips }) {
+    const mediaIndex = state.all.findIndex(media => media.mediaID === mediaID);
+    if (
+      state.all[mediaIndex] &&
+      state.all[mediaIndex].statistics &&
+      state.all[mediaIndex].statistics.total
+    ) {
+      Vue.set(state.all[mediaIndex].statistics.total, "views", totalTips);
     }
   }
 };

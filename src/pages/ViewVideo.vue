@@ -132,7 +132,7 @@
 </template>
 <script>
 import BaseVideo from "@/components/BaseVideo.vue";
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 import { trackEvent } from "@/util/analytics";
 import delay from "@/util/delay.js";
 import env from "@/env.js";
@@ -160,6 +160,7 @@ export default {
         settings: ["speed", "loop"]
       },
       isVideoMenuDropped: false,
+      isTipping: false,
       isPopoverClickTT: false,
       isPopoverTTSuccess: false,
       isPopoverTTProgress: false,
@@ -168,7 +169,7 @@ export default {
   },
   computed: {
     ...mapGetters("media", ["getById"]),
-    ...mapGetters("smartcontract", ["getTipContract"]),
+    ...mapGetters("smartcontract", ["getTipContract", "getUserWalletAddress"]),
     mediaID() {
       return this.$route.params.mediaID;
     },
@@ -242,6 +243,7 @@ export default {
   },
   methods: {
     ...mapMutations("media", ["setTotalTip"]),
+    ...mapActions("media", ["videoViewed"]),
     endViewingVideo() {
       trackEvent({
         category: "Video Play View",
@@ -259,7 +261,7 @@ export default {
     },
     async tipStreamer() {
       this.isPopoverClickTT = false;
-
+      this.isTipping = true;
       try {
         const result = await this.getTipContract();
         this.isPopoverTTProgress = true;
@@ -277,6 +279,7 @@ export default {
         });
       } catch (err) {
         this.isPopoverTTProgress = false;
+        this.isTipping = false;
 
         devLog(err);
       }
@@ -345,6 +348,21 @@ export default {
       }
     });
 
+    this.player.once("ended", () => {
+      const { code } = this.currentMedia;
+      const userWalletAddress = this.getUserWalletAddress;
+      this.videoViewed({ code, userWalletAddress });
+    });
+    // const video = this.player;
+    // if (Hls.isSupported()) {
+    //   var hls = new Hls();
+    //   hls.loadSource(this.hlsUrl);
+    //   hls.attachMedia(video);
+    // } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    //   video.src = this.hlsUrl;
+    // } else {
+    //   video.src = this.videoUrl;
+    // }
     // let duration = 0;
     // this.$refs.videoplayer.player.on("loadedmetadata", () => {
     //   duration = this.$refs.videoplayer.player.duration;
@@ -363,8 +381,12 @@ export default {
     //   console.log("watched", watched);
     // });
     webSocketService.socket.on("media-updated-tip", async ({ data }) => {
-      const { totalTips, mediaID } = data;
-      if (mediaID == this.mediaID) {
+      const { totalTips, mediaID, sender } = data;
+      if (
+        mediaID == this.mediaID &&
+        this.getUserWalletAddress == sender.walletAddress
+      ) {
+        this.isTipping = false;
         this.totalTips = totalTips;
         this.isPopoverTTProgress = false;
         this.isPopoverTTSuccess = true;
