@@ -51,8 +51,8 @@ const actions = {
     commit("deleteLatest", video);
     commit("delete", video);
   },
-  async videoViewed({ commit }, { code, userWallet }) {
-    const views = await MediaService.videoViewed({ code, userWallet });
+  async videoViewed({ commit }, { code, userWalletAddress }) {
+    const views = await MediaService.videoViewed({ code, userWalletAddress });
     console.log(views);
     commit();
   }
