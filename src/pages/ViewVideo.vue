@@ -311,21 +311,19 @@ export default {
       }
     },
     autoplay(video) {
-      video.addEventListener("canplaythrough", function() {
-        var promise = video.play();
-        if (promise !== undefined) {
-          promise
-            .catch(function() {
-              console.error("Auto-play was prevented");
-              console.error(
-                "We Show a UI element to let the user manually start playback"
-              );
-            })
-            .then(function() {
-              console.info("Auto-play started");
-            });
-        }
-      }); //  Fires when the browser can play through the audio/video without stopping for buffering
+      var promise = video.play();
+      if (promise !== undefined) {
+        promise
+          .catch(function() {
+            console.error("Auto-play was prevented");
+            console.error(
+              "We Show a UI element to let the user manually start playback"
+            );
+          })
+          .then(function() {
+            console.info("Auto-play started");
+          });
+      }
 
       video.muted = "muted";
       video.autoplay = "autoplay";
@@ -354,17 +352,23 @@ export default {
         hls.attachMedia(video.media);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
           console.log("MANIFEST_PARSED");
-          this.autoplay(this.player);
+          video.media.addEventListener("canplaythrough", () => {
+            this.autoplay(video.media);
+          });
+          this.autoplay(video.media);
         });
       } else if (video.media.canPlayType("application/vnd.apple.mpegurl")) {
-        video.media.src = this.hlsUrl;
+        // video.media.src = this.hlsUrl;
+        hls.loadSource(
+          "https://content.jwplatform.com/manifests/vM7nH0Kl.m3u8"
+        );
         video.media.addEventListener("loadedmetadata", () => {
-          this.autoplay(this.player);
+          this.autoplay(video.media);
         });
       } else {
-        video.media.src = this.hlsUrl;
+        video.media.src = this.videoUrl;
         video.media.addEventListener("loadedmetadata", () => {
-          this.autoplay(this.player);
+          this.autoplay(video.media);
         });
       }
     });
