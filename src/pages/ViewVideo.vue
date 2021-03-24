@@ -133,13 +133,15 @@
 </template>
 <script>
 import BaseVideo from "@/components/BaseVideo.vue";
-import { mapGetters, mapMutations, mapActions } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import { trackEvent } from "@/util/analytics";
 import delay from "@/util/delay.js";
 import env from "@/env.js";
 import TipService from "@/services/TipService";
 import webSocketService from "@/util/webSocketService.js";
 import devLog from "@/util/devlog.js";
+import MediaService from "@/services/MediaService";
+
 // import Hls from "hls.js";
 // function Timer(callback, delay) {
 //   var timerId,
@@ -273,7 +275,6 @@ export default {
   },
   methods: {
     ...mapMutations("media", ["setTotalTip"]),
-    ...mapActions("media", ["videoViewed"]),
     endViewingVideo() {
       trackEvent({
         category: "Video Play View",
@@ -317,10 +318,10 @@ export default {
   },
   async mounted() {
     this.player = this.$refs.videoplayer.player;
-    this.player.once("ended", () => {
+    this.player.on("ended", () => {
       const { code } = this.currentMedia;
       const userWalletAddress = this.getUserWalletAddress;
-      this.videoViewed({ code, userWalletAddress });
+      MediaService.videoViewed({ code, userWalletAddress });
     });
     // const video = this.player;
     // if (Hls.isSupported()) {
