@@ -358,10 +358,9 @@ export default {
           this.autoplay(video.media);
         });
       } else if (video.media.canPlayType("application/vnd.apple.mpegurl")) {
-        // video.media.src = this.hlsUrl;
-        hls.loadSource(
-          "https://content.jwplatform.com/manifests/vM7nH0Kl.m3u8"
-        );
+        video.media.src =
+          "https://content.jwplatform.com/manifests/vM7nH0Kl.m3u8";
+
         video.media.addEventListener("loadedmetadata", () => {
           this.autoplay(video.media);
         });
