@@ -311,23 +311,7 @@ export default {
       }
     },
     autoplay(video) {
-      var promise = video.play();
-      if (promise !== undefined) {
-        promise
-          .catch(function() {
-            console.error("Auto-play was prevented");
-            console.error(
-              "We Show a UI element to let the user manually start playback"
-            );
-          })
-          .then(function() {
-            console.info("Auto-play started");
-          });
-      }
-
-      video.muted = "muted";
-      video.autoplay = "autoplay";
-      video.playsinline = "true";
+      video.play();
     }
   },
 
