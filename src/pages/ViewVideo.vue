@@ -384,6 +384,33 @@ export default {
       });
       await delay(10000);
       this.isPopoverClickTT = false;
+    },
+    recordVideoWatched() {
+      let duration = 0;
+      this.player.on("loadedmetadata", () => {
+        duration = this.player.duration;
+      });
+      let watched = new Set();
+      this.player.on("timeupdate", () => {
+        watched.add(Math.ceil(this.player.currentTime));
+      });
+      this.player.on("ended", () => {
+        const secondsWatched = Array.from(watched).length;
+        const secondsDuration = Math.ceil(duration);
+        if (secondsWatched == secondsDuration) {
+          console.log(" you wathced the all video");
+        } else {
+          const secondsToWatch = secondsDuration - secondsWatched;
+          const percentageToWatch = Math.round(
+            (secondsToWatch / secondsDuration) * 100
+          );
+          const percentageWatched = Math.round(
+            (secondsWatched / secondsDuration) * 100
+          );
+          console.log("percentageToWatch", percentageToWatch);
+          console.log("percentageWatched", percentageWatched);
+        }
+      });
     }
   },
   async mounted() {
@@ -391,27 +418,7 @@ export default {
     this.player.on("ready", this.attachHls);
     this.player.on("ended", this.countVideoViewed);
 
-    let duration = 0;
-    this.player.on("loadedmetadata", () => {
-      duration = this.player.duration;
-    });
-    let watched = new Set();
-    this.player.on("timeupdate", () => {
-      watched.add(Math.ceil(this.player.currentTime));
-    });
-    this.player.on("ended", () => {
-      console.log("ended duration", Math.ceil(duration));
-      console.log("ended duration", Array.from(watched).length);
-      if (Array.from(watched).length == Math.ceil(duration)) {
-        console.log(" you wathced the all video");
-      } else {
-        const toWatch = Math.ceil(duration) - Array.from(watched).length;
-        const percentage = Math.round((toWatch / Math.ceil(duration)) * 100);
-        console.log(
-          `you neet to watch ${toWatch} sec or in percentge ${percentage}%`
-        );
-      }
-    });
+    this.recordVideoWatched();
     webSocketService.socket.on("media-updated-tip", this.updateTip);
     this.popoverTarget = this.$refs.tipbutton;
     await this.showTipPoUP();
