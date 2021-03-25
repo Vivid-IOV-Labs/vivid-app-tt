@@ -386,31 +386,31 @@ export default {
       this.isPopoverClickTT = false;
     },
     recordVideoWatched() {
-      let duration = 0;
-      this.player.on("loadedmetadata", () => {
-        duration = this.player.duration;
-      });
-      let watched = new Set();
-      this.player.on("timeupdate", () => {
-        watched.add(Math.ceil(this.player.currentTime));
-      });
-      this.player.on("ended", () => {
-        const secondsWatched = Array.from(watched).length;
-        const secondsDuration = Math.ceil(duration);
-        if (secondsWatched == secondsDuration) {
-          console.log(" you wathced the all video");
-        } else {
-          const secondsToWatch = secondsDuration - secondsWatched;
-          const percentageToWatch = Math.round(
-            (secondsToWatch / secondsDuration) * 100
-          );
-          const percentageWatched = Math.round(
-            (secondsWatched / secondsDuration) * 100
-          );
-          console.log("percentageToWatch", percentageToWatch);
-          console.log("percentageWatched", percentageWatched);
-        }
-      });
+      // let duration = 0;
+      // this.player.on("loadedmetadata", () => {
+      //   duration = this.player.duration;
+      // });
+      // let watched = new Set();
+      // this.player.on("timeupdate", () => {
+      //   watched.add(Math.ceil(this.player.currentTime));
+      // });
+      // this.player.on("ended", () => {
+      //   const secondsWatched = Array.from(watched).length;
+      //   const secondsDuration = Math.ceil(duration);
+      //   if (secondsWatched == secondsDuration) {
+      //     console.log(" you wathced the all video");
+      //   } else {
+      //     const secondsToWatch = secondsDuration - secondsWatched;
+      //     const percentageToWatch = Math.round(
+      //       (secondsToWatch / secondsDuration) * 100
+      //     );
+      //     const percentageWatched = Math.round(
+      //       (secondsWatched / secondsDuration) * 100
+      //     );
+      //     console.log("percentageToWatch", percentageToWatch);
+      //     console.log("percentageWatched", percentageWatched);
+      //   }
+      // });
     }
   },
   async mounted() {
