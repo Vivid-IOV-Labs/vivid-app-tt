@@ -160,6 +160,7 @@ export default {
           "settings",
           "fullscreen"
         ],
+        autoplay: true,
         settings: ["speed", "loop"]
       },
       isVideoMenuDropped: false,
