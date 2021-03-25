@@ -350,7 +350,7 @@ export default {
       const userWalletAddress = this.getUserWalletAddress;
       MediaService.videoViewed({ code, userWalletAddress });
     },
-    async updateTip({ data }) {
+    async updateTip(data) {
       const { totalTips, mediaID, sender } = data;
       if (
         mediaID == this.mediaID &&
@@ -419,7 +419,9 @@ export default {
     this.player.on("ended", this.countVideoViewed);
 
     this.recordVideoWatched();
-    webSocketService.socket.on("media-updated-tip", this.updateTip);
+    webSocketService.socket.on("media-updated-tip", ({ data }) =>
+      this.updateTip(data)
+    );
     this.popoverTarget = this.$refs.tipbutton;
     await this.showTipPoUP();
   },
