@@ -352,12 +352,15 @@ export default {
     },
     async updateTip(data) {
       const { totalTips, mediaID, sender } = data;
+      if (mediaID == this.mediaID) {
+        this.totalTips = totalTips;
+      }
       if (
         mediaID == this.mediaID &&
         this.getUserWalletAddress == sender.walletAddress
       ) {
         this.isTipping = false;
-        this.totalTips = totalTips;
+
         this.isPopoverTTProgress = false;
         this.isPopoverTTSuccess = true;
         trackEvent({
