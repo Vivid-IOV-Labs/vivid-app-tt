@@ -399,17 +399,16 @@ export default {
       // console.log(minutes, seconds);
     });
     let watched = new Set();
-    // this.player.on("timeupdate", () => {
-    //   console.log("timeupdate current", Math.ceil(this.player.currentTime));
-
-    //   watched.add(Math.ceil(this.player.currentTime));
-    // });
+    this.player.on("timeupdate", () => {
+      watched.add(Math.ceil(this.player.currentTime));
+    });
     // this.player.on("pause", () => {
     //   console.log("paused duration", duration);
     //   console.log("paused watched", watched);
     // });
     this.player.on("ended", () => {
       console.log("ended duration", Math.ceil(duration));
+      console.log("ended duration", Array.from(watched).length);
       if (Array.from(watched).length == Math.ceil(duration)) {
         console.log(" you wathced the all video");
       } else {
