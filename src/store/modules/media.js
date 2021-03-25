@@ -50,12 +50,12 @@ const actions = {
     commit("deleteHighlighted", video);
     commit("deleteLatest", video);
     commit("delete", video);
-  },
-  async videoViewed({ commit }, { code, userWalletAddress }) {
-    const views = await MediaService.videoViewed({ code, userWalletAddress });
-    console.log(views);
-    commit();
   }
+  // async videoViewed({ commit }, { code, userWalletAddress }) {
+  //   const views = await MediaService.videoViewed({ code, userWalletAddress });
+  //   console.log(views);
+  //   commit();
+  // }
 };
 
 const mutations = {
