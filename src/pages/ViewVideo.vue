@@ -410,10 +410,10 @@ export default {
     // });
     this.player.on("ended", () => {
       console.log("ended duration", Math.ceil(duration));
-      if (Array.from(watched).length == duration) {
+      if (Array.from(watched).length == Math.ceil(duration)) {
         console.log(" you wathced the all video");
       } else {
-        const toWatch = duration - Array.from(watched).length;
+        const toWatch = Math.ceil(duration) - Array.from(watched).length;
         console.log(`you missed ${toWatch} sec`);
       }
     });
