@@ -390,22 +390,15 @@ export default {
     this.player = this.$refs.videoplayer.player;
     this.player.on("ready", this.attachHls);
     this.player.on("ended", this.countVideoViewed);
+
     let duration = 0;
-    this.$refs.videoplayer.player.on("loadedmetadata", () => {
-      duration = this.$refs.videoplayer.player.duration;
-      // console.log(duration.toFixed(2));
-      // const minutes = Math.floor((duration % 3600) / 60);
-      // const seconds = Math.floor(duration % 60);
-      // console.log(minutes, seconds);
+    this.player.on("loadedmetadata", () => {
+      duration = this.player.duration;
     });
     let watched = new Set();
     this.player.on("timeupdate", () => {
       watched.add(Math.ceil(this.player.currentTime));
     });
-    // this.player.on("pause", () => {
-    //   console.log("paused duration", duration);
-    //   console.log("paused watched", watched);
-    // });
     this.player.on("ended", () => {
       console.log("ended duration", Math.ceil(duration));
       console.log("ended duration", Array.from(watched).length);
@@ -419,7 +412,6 @@ export default {
         );
       }
     });
-
     webSocketService.socket.on("media-updated-tip", this.updateTip);
     this.popoverTarget = this.$refs.tipbutton;
     await this.showTipPoUP();
