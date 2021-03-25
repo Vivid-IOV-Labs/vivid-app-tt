@@ -3,7 +3,7 @@
     <div class="medialist__item_picture-frame">
       <img
         class="medialist__item_poster"
-        v-lazy="posterUrl"
+        v-lazy="imgObj"
         :alt="media.details.title"
       />
     </div>
@@ -34,6 +34,13 @@ export default {
     posterUrl() {
       const url = `${env.media_storage}/${this.media.mediaID}.png`;
       return url;
+    },
+    imgObj() {
+      return {
+        src: this.posterUrl,
+        error: "/thumbnail.jpg",
+        loading: "/thumbnail.jpg"
+      };
     }
   }
 };
