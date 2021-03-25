@@ -399,14 +399,23 @@ export default {
       // console.log(minutes, seconds);
     });
     let watched = new Set();
-    this.player.on("timeupdate", () => {
-      console.log("current", this.player.currentTime);
+    // this.player.on("timeupdate", () => {
+    //   console.log("timeupdate current", Math.ceil(this.player.currentTime));
 
-      watched.add(Math.ceil(this.player.currentTime));
-    });
+    //   watched.add(Math.ceil(this.player.currentTime));
+    // });
+    // this.player.on("pause", () => {
+    //   console.log("paused duration", duration);
+    //   console.log("paused watched", watched);
+    // });
     this.player.on("ended", () => {
-      console.log("duration", duration);
-      console.log("watched", watched);
+      console.log("ended duration", Math.ceil(duration));
+      if (Array.from(watched).length == duration) {
+        console.log(" you wathced the all video");
+      } else {
+        const toWatch = duration - Array.from(watched).length;
+        console.log(`you missed ${toWatch} sec`);
+      }
     });
 
     webSocketService.socket.on("media-updated-tip", this.updateTip);
