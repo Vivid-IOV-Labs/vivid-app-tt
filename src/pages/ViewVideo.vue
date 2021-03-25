@@ -344,36 +344,13 @@ export default {
           });
         });
       }
-    }
-  },
-
-  async mounted() {
-    this.player = this.$refs.videoplayer.player;
-    this.player.on("ready", this.attachHls);
-
-    this.player.on("ended", () => {
+    },
+    countVideoViewed() {
       const { code } = this.currentMedia;
       const userWalletAddress = this.getUserWalletAddress;
       MediaService.videoViewed({ code, userWalletAddress });
-    });
-    // let duration = 0;
-    // this.$refs.videoplayer.player.on("loadedmetadata", () => {
-    //   duration = this.$refs.videoplayer.player.duration;
-    //   // console.log(duration.toFixed(2));
-    //   // const minutes = Math.floor((duration % 3600) / 60);
-    //   // const seconds = Math.floor(duration % 60);
-    //   // console.log(minutes, seconds);
-    // });
-    // // eslint-disable-next-line no-unused-vars
-    // let watched = new Set();
-    // this.$refs.videoplayer.player.on("timeupdate", () => {
-    //   watched.add(Math.ceil(this.$refs.videoplayer.player.currentTime));
-    // });
-    // this.$refs.videoplayer.player.on("ended", () => {
-    //   console.log("duration", duration);
-    //   console.log("watched", watched);
-    // });
-    webSocketService.socket.on("media-updated-tip", async ({ data }) => {
+    },
+    async updateTip({ data }) {
       const { totalTips, mediaID, sender } = data;
       if (
         mediaID == this.mediaID &&
@@ -391,22 +368,49 @@ export default {
         await delay(3000);
         this.isPopoverTTSuccess = false;
       }
-    });
-    this.popoverTarget = this.$refs.tipbutton;
-    await delay(1200);
-    this.$nextTick(() => {
-      this.isPopoverClickTT = true;
-      const popOverMask = document.querySelector(
-        ".isPopoverClickTT .popover-mask"
-      );
-      popOverMask.style.display = "none";
-      const popOver = document.querySelector(".isPopoverClickTT .popover");
-      popOver.addEventListener("click", () => {
-        this.isPopoverClickTT = false;
+    },
+    async showTipPoUP() {
+      await delay(1200);
+      this.$nextTick(() => {
+        this.isPopoverClickTT = true;
+        const popOverMask = document.querySelector(
+          ".isPopoverClickTT .popover-mask"
+        );
+        popOverMask.style.display = "none";
+        const popOver = document.querySelector(".isPopoverClickTT .popover");
+        popOver.addEventListener("click", () => {
+          this.isPopoverClickTT = false;
+        });
       });
+      await delay(10000);
+      this.isPopoverClickTT = false;
+    }
+  },
+  async mounted() {
+    this.player = this.$refs.videoplayer.player;
+    this.player.on("ready", this.attachHls);
+    this.player.on("ended", this.countVideoViewed);
+    let duration = 0;
+    this.$refs.videoplayer.player.on("loadedmetadata", () => {
+      duration = this.$refs.videoplayer.player.duration;
+      // console.log(duration.toFixed(2));
+      // const minutes = Math.floor((duration % 3600) / 60);
+      // const seconds = Math.floor(duration % 60);
+      // console.log(minutes, seconds);
     });
-    await delay(10000);
-    this.isPopoverClickTT = false;
+    let watched = new Set();
+    this.player.on("timeupdate", () => {
+      console.log("current", this.player.currentTime);
+      watched.add(Math.ceil(this.player.currentTime));
+    });
+    this.player.on("ended", () => {
+      console.log("duration", duration);
+      console.log("watched", watched);
+    });
+
+    webSocketService.socket.on("media-updated-tip", this.updateTip);
+    this.popoverTarget = this.$refs.tipbutton;
+    await this.showTipPoUP();
   },
   beforeDestroy() {
     this.player.off("ready", this.attachHls);
