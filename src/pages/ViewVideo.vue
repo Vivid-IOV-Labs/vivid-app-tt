@@ -413,7 +413,10 @@ export default {
         console.log(" you wathced the all video");
       } else {
         const toWatch = Math.ceil(duration) - Array.from(watched).length;
-        console.log(`you missed ${toWatch} sec`);
+        const percentage = Math.round((toWatch / Math.ceil(duration)) * 100);
+        console.log(
+          `you neet to watch ${toWatch} sec or in percentge ${percentage}%`
+        );
       }
     });
 
