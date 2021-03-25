@@ -160,7 +160,6 @@ export default {
           "settings",
           "fullscreen"
         ],
-        autoplay: true,
         settings: ["speed", "loop"]
       },
       isVideoMenuDropped: false,
@@ -402,6 +401,7 @@ export default {
     let watched = new Set();
     this.player.on("timeupdate", () => {
       console.log("current", this.player.currentTime);
+
       watched.add(Math.ceil(this.player.currentTime));
     });
     this.player.on("ended", () => {
