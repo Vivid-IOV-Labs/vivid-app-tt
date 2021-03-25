@@ -287,6 +287,8 @@ export default {
       }
     },
     autoplay(video) {
+      if (!video) return;
+
       var promise = video.play();
       if (promise !== undefined) {
         promise
@@ -303,12 +305,8 @@ export default {
             });
           });
       }
-    }
-  },
-
-  async mounted() {
-    this.player = this.$refs.videoplayer.player;
-    this.player.on("ready", event => {
+    },
+    attachHls(event) {
       const video = event.detail.plyr;
 
       if (Hls.isSupported()) {
@@ -319,7 +317,6 @@ export default {
           video.media.addEventListener("canplaythrough", () => {
             this.autoplay(video.media);
           });
-          this.autoplay(video.media);
         });
         trackEvent({
           category: "Video Play View",
@@ -347,7 +344,12 @@ export default {
           });
         });
       }
-    });
+    }
+  },
+
+  async mounted() {
+    this.player = this.$refs.videoplayer.player;
+    this.player.on("ready", this.attachHls);
 
     this.player.on("ended", () => {
       const { code } = this.currentMedia;
@@ -405,6 +407,9 @@ export default {
     });
     await delay(10000);
     this.isPopoverClickTT = false;
+  },
+  beforeDestroy() {
+    this.player.off("ready", this.attachHls);
   }
 };
 </script>
