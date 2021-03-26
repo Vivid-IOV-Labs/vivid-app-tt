@@ -295,7 +295,6 @@ export default {
           .removeAttribute("style");
       }
 
-      console.log(video);
       var promise = video.play();
       if (promise !== undefined) {
         promise
