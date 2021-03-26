@@ -302,7 +302,8 @@ export default {
         this.isPopoverTTProgress = false;
         this.isPopoverTTFailed = true;
         this.isTipping = false;
-
+        await delay(3000);
+        this.isPopoverTTFailed = false;
         devLog(err);
       }
     },
