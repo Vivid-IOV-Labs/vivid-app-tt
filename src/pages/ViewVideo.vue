@@ -287,8 +287,8 @@ export default {
       }
     },
     autoplay(video) {
-      if (!video) return;
-
+      // if (!video) return;
+      console.log(video);
       var promise = video.play();
       if (promise !== undefined) {
         promise
