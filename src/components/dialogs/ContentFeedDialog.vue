@@ -40,7 +40,7 @@
             class="grid-x3__cell_full flex  mt-2 mb-4 flex-column flex-center-xy"
           >
             <v-ons-button
-              :disabled="!contentSelected.length"
+              :disabled="!contentSelected.length || isSendingFeedBack"
               @click="sendFeedBack"
               class="btn btn--large"
             >
@@ -125,7 +125,8 @@ export default {
       ],
       contentSelected: [],
       limit: 3,
-      feedBackSent: false
+      feedBackSent: false,
+      isSendingFeedBack: false
     };
   },
   props: {
@@ -155,15 +156,20 @@ export default {
       this.$emit("input", false);
     },
     async sendFeedBack() {
-      await this.addUserInterests(this.contentSelected);
-      this.contentSelected.forEach(label => {
-        trackEvent({
-          category: "Interest Feedback View",
-          action: "send-feedback",
-          label
+      try {
+        this.isSendingFeedBack = true;
+        await this.addUserInterests(this.contentSelected);
+        this.contentSelected.forEach(label => {
+          trackEvent({
+            category: "Interest Feedback View",
+            action: "send-feedback",
+            label
+          });
         });
-      });
-      this.feedBackSent = true;
+      } finally {
+        this.isSendingFeedBack = false;
+        this.feedBackSent = true;
+      }
     }
   }
 };
