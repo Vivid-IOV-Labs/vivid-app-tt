@@ -151,10 +151,15 @@ import webSocketService from "@/util/webSocketService.js";
 import devLog from "@/util/devlog.js";
 import Hls from "hls.js";
 import MediaService from "@/services/MediaService";
-function kFormatter(num) {
-  return Math.abs(num) > 999
-    ? Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + "k"
-    : Math.sign(num) * Math.abs(num);
+function bigNumberFormatter(numberToFormat) {
+  return Math.abs(numberToFormat) > 99999
+    ? Math.sign(numberToFormat) *
+        (Math.abs(numberToFormat) / 1000000).toFixed(1) +
+        "m"
+    : Math.abs(numberToFormat) > 999
+    ? Math.sign(numberToFormat) * (Math.abs(numberToFormat) / 1000).toFixed(1) +
+      "k"
+    : Math.sign(numberToFormat) * Math.abs(numberToFormat);
 }
 export default {
   name: "ViewVideo",
@@ -248,7 +253,7 @@ export default {
           this.currentMedia.statistics.total &&
           this.currentMedia.statistics.total.tips
         ) {
-          return kFormatter(this.currentMedia.statistics.total.tips);
+          return bigNumberFormatter(this.currentMedia.statistics.total.tips);
         } else {
           return 0;
         }
@@ -407,7 +412,7 @@ export default {
           this.isPopoverClickTT = false;
         });
       });
-      await delay(10000);
+      await delay(100000);
       this.isPopoverClickTT = false;
     },
     recordVideoWatched() {
