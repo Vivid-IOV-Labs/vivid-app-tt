@@ -107,24 +107,24 @@ const mutations = {
   deleteHighlighted(state, { code }) {
     state.highlighted = state.highlighted.filter(media => media.code !== code);
   },
-  setTotalTip(state, { mediaID, views }) {
+  setTotalTip(state, { mediaID, totalTips }) {
     const mediaIndex = state.all.findIndex(media => media.mediaID === mediaID);
     if (
       state.all[mediaIndex] &&
       state.all[mediaIndex].statistics &&
       state.all[mediaIndex].statistics.total
     ) {
-      Vue.set(state.all[mediaIndex].statistics.total, "tips", views);
+      Vue.set(state.all[mediaIndex].statistics.total, "tips", totalTips);
     }
   },
-  setVideoViewed(state, { mediaID, totalTips }) {
+  setVideoViewed(state, { mediaID, views }) {
     const mediaIndex = state.all.findIndex(media => media.mediaID === mediaID);
     if (
       state.all[mediaIndex] &&
       state.all[mediaIndex].statistics &&
       state.all[mediaIndex].statistics.total
     ) {
-      Vue.set(state.all[mediaIndex].statistics.total, "views", totalTips);
+      Vue.set(state.all[mediaIndex].statistics.total, "views", views);
     }
   }
 };
