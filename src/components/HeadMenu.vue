@@ -12,17 +12,16 @@
     >
       <v-ons-list class="text-center p-2">
         <v-ons-list-item class="text-center" modifier="tappable">
-          <a class="menu__link" @click.prevent="copyMail">
+          <a class="menu__link">
             <h6 class="mt-2 mb-2">
-              Email us to add your <br />
-              videos to Peerkat
+              Crypto or Gaming YouTubers <br />
+              & Twitch streamers:
             </h6>
             <p>
-              <small class="mt-2 mb-4"
-                ><i>Copy the email by clicking here:</i></small
-              >
+              To become a Peerkat Content Partner send your YouTube/Twitch
+              channel links to <strong>@PeerkatLive</strong> on Telegram or
+              Twitter
             </p>
-            <strong class="mb-4">team@peerkat.live</strong>
           </a>
         </v-ons-list-item>
         <!-- <v-ons-list-item class="text-center" modifier="tappable">
