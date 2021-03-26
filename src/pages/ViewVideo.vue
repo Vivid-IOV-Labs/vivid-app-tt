@@ -283,9 +283,9 @@ export default {
     async tipStreamer() {
       this.isPopoverClickTT = false;
       this.isTipping = true;
+      this.isPopoverTTProgress = true;
       try {
         const result = await this.getTipContract();
-        this.isPopoverTTProgress = true;
         this.startTimer();
         const { transactionHash } = await result.wait();
         await TipService.verify({
