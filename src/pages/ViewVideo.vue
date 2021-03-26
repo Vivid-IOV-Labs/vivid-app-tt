@@ -160,7 +160,8 @@ export default {
           "settings",
           "fullscreen"
         ],
-        settings: ["speed", "loop"]
+        settings: ["speed", "loop"],
+        autoplay: true
       },
       isVideoMenuDropped: false,
       isTipping: false,
@@ -287,7 +288,7 @@ export default {
       }
     },
     autoplay(video) {
-      // if (!video) return;
+      if (!video) return;
       console.log("autoplay");
 
       console.log(video);
@@ -340,9 +341,9 @@ export default {
       } else {
         video.media.src = this.videoUrl;
         video.media.addEventListener("loadedmetadata", () => {
-          video.muted = "muted";
-          video.autoplay = "autoplay";
-          video.playsinline = "true";
+          video.media.muted = "muted";
+          video.media.autoplay = "autoplay";
+          video.media.playsinline = "true";
           this.autoplay(video.media);
           trackEvent({
             category: "Video Play View",
