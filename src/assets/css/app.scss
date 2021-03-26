@@ -316,6 +316,7 @@ button:disabled {
   background-color: $white;
 }
 .popover{
+  z-index: 2000;
   max-width: 96%;
 }
 .popover__content{
