@@ -155,10 +155,10 @@ function bigNumberFormatter(numberToFormat) {
   return Math.abs(numberToFormat) > 99999
     ? Math.sign(numberToFormat) *
         (Math.abs(numberToFormat) / 1000000).toFixed(1) +
-        "m"
+        "M"
     : Math.abs(numberToFormat) > 999
     ? Math.sign(numberToFormat) * (Math.abs(numberToFormat) / 1000).toFixed(1) +
-      "k"
+      "K"
     : Math.sign(numberToFormat) * Math.abs(numberToFormat);
 }
 export default {
