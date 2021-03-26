@@ -152,7 +152,7 @@ import devLog from "@/util/devlog.js";
 import Hls from "hls.js";
 import MediaService from "@/services/MediaService";
 function bigNumberFormatter(numberToFormat) {
-  return Math.abs(numberToFormat) > 99999
+  return Math.abs(numberToFormat) > 999999
     ? Math.sign(numberToFormat) *
         (Math.abs(numberToFormat) / 1000000).toFixed(1) +
         "M"
