@@ -287,10 +287,13 @@ export default {
       }
     },
     autoplay(video) {
+      //clear all the listener on destroy?
       if (!video) return;
-      document
-        .querySelector(".plyr__control--overlaid")
-        .removeAttribute("style");
+      if (document.querySelector(".plyr__control--overlaid")) {
+        document
+          .querySelector(".plyr__control--overlaid")
+          .removeAttribute("style");
+      }
 
       console.log(video);
       var promise = video.play();
@@ -319,11 +322,7 @@ export default {
         hls.loadSource(this.hlsUrl);
         hls.attachMedia(video.media);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          console.log("manifest");
-          console.log(video.media);
           video.media.addEventListener("loadedmetadata", () => {
-            console.log("canplaythrough");
-
             this.autoplay(video.media);
           });
         });
@@ -438,7 +437,9 @@ export default {
     await this.showTipPoUP();
   },
   beforeDestroy() {
-    this.player.off("ready", this.attachHls);
+    // var old_element = this.player;
+    // var new_element = old_element.cloneNode(true);
+    // old_element.parentNode.replaceChild(new_element, old_element);
   }
 };
 </script>
