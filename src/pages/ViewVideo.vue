@@ -288,6 +288,8 @@ export default {
     },
     autoplay(video) {
       // if (!video) return;
+      console.log("autoplay");
+
       console.log(video);
       var promise = video.play();
       if (promise !== undefined) {
@@ -314,7 +316,10 @@ export default {
         hls.loadSource(this.hlsUrl);
         hls.attachMedia(video.media);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          console.log("manifest");
           video.media.addEventListener("canplaythrough", () => {
+            console.log("canplaythrough");
+
             this.autoplay(video.media);
           });
         });
