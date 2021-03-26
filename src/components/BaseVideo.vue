@@ -203,9 +203,6 @@ export default {
   .plyr--full-ui input[type="range"] {
     color: $azure;
   }
-  .plyr--fullscreen-fallback {
-    z-index: 99999999;
-  }
   .plyr__control--overlaid {
     background-color: $azure;
   }

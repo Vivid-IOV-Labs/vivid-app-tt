@@ -412,7 +412,7 @@ export default {
           this.isPopoverClickTT = false;
         });
       });
-      await delay(100000);
+      await delay(1000000);
       this.isPopoverClickTT = false;
     },
     recordVideoWatched() {
