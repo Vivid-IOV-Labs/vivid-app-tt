@@ -129,6 +129,15 @@
         Tip done! &#128512;
       </p>
     </v-ons-popover>
+    <v-ons-popover
+      cancelable
+      :visible.sync="isPopoverTTFailed"
+      :target="popoverTarget"
+    >
+      <p class="bold text-center">
+        Tipping failed &#128549;
+      </p>
+    </v-ons-popover>
   </v-ons-page>
 </template>
 <script>
@@ -142,7 +151,11 @@ import webSocketService from "@/util/webSocketService.js";
 import devLog from "@/util/devlog.js";
 import Hls from "hls.js";
 import MediaService from "@/services/MediaService";
-
+function kFormatter(num) {
+  return Math.abs(num) > 999
+    ? Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + "k"
+    : Math.sign(num) * Math.abs(num);
+}
 export default {
   name: "ViewVideo",
   components: {
@@ -166,6 +179,7 @@ export default {
       isTipping: false,
       isPopoverClickTT: false,
       isPopoverTTSuccess: false,
+      isPopoverTTFailed: false,
       isPopoverTTProgress: false,
       popoverTarget: null
     };
@@ -234,7 +248,7 @@ export default {
           this.currentMedia.statistics.total &&
           this.currentMedia.statistics.total.tips
         ) {
-          return this.currentMedia.statistics.total.tips;
+          return kFormatter(this.currentMedia.statistics.total.tips);
         } else {
           return 0;
         }
@@ -281,6 +295,7 @@ export default {
         });
       } catch (err) {
         this.isPopoverTTProgress = false;
+        this.isPopoverTTFailed = true;
         this.isTipping = false;
 
         devLog(err);
