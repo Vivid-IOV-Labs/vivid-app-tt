@@ -160,8 +160,7 @@ export default {
           "settings",
           "fullscreen"
         ],
-        settings: ["speed", "loop"],
-        autoplay: true
+        settings: ["speed", "loop"]
       },
       isVideoMenuDropped: false,
       isTipping: false,
@@ -289,7 +288,9 @@ export default {
     },
     autoplay(video) {
       if (!video) return;
-      console.log("autoplay");
+      document
+        .querySelector(".plyr__control--overlaid")
+        .removeAttribute("style");
 
       console.log(video);
       var promise = video.play();
@@ -311,7 +312,8 @@ export default {
     },
     attachHls(event) {
       const video = event.detail.plyr;
-
+      video.media.parentNode.parentNode.classList.add("plyr--loading");
+      document.querySelector(".plyr__control--overlaid").style.display = "none";
       if (Hls.isSupported()) {
         var hls = new Hls();
         hls.loadSource(this.hlsUrl);
@@ -319,7 +321,7 @@ export default {
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
           console.log("manifest");
           console.log(video.media);
-          video.media.addEventListener("canplaythrough", () => {
+          video.media.addEventListener("loadedmetadata", () => {
             console.log("canplaythrough");
 
             this.autoplay(video.media);
