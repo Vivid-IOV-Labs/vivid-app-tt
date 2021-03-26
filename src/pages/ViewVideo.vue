@@ -317,6 +317,7 @@ export default {
         hls.attachMedia(video.media);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
           console.log("manifest");
+          console.log(video.media);
           video.media.addEventListener("canplaythrough", () => {
             console.log("canplaythrough");
 
