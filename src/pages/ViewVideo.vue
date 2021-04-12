@@ -181,6 +181,7 @@ export default {
         settings: ["speed", "loop"]
       },
       isVideoMenuDropped: false,
+      isFullScreen: false,
       isTipping: false,
       isPopoverClickTT: false,
       isPopoverTTSuccess: false,
@@ -282,8 +283,10 @@ export default {
     },
     async tipStreamer() {
       this.isPopoverClickTT = false;
-      this.isTipping = true;
-      this.isPopoverTTProgress = true;
+      if (!this.isFullScreen) {
+        this.isTipping = true;
+        this.isPopoverTTProgress = true;
+      }
       try {
         const result = await this.getTipContract();
         this.startTimer();
@@ -300,7 +303,9 @@ export default {
         });
       } catch (err) {
         this.isPopoverTTProgress = false;
-        this.isPopoverTTFailed = true;
+        if (!this.isFullScreen) {
+          this.isPopoverTTFailed = true;
+        }
         this.isTipping = false;
         await delay(3000);
         this.isPopoverTTFailed = false;
@@ -390,7 +395,9 @@ export default {
         this.isTipping = false;
 
         this.isPopoverTTProgress = false;
-        this.isPopoverTTSuccess = true;
+        if (!this.isFullScreen) {
+          this.isPopoverTTSuccess = true;
+        }
         trackEvent({
           category: "Video Play View",
           action: "tip-video-verified",
@@ -448,6 +455,8 @@ export default {
     this.player = this.$refs.videoplayer.player;
     this.player.on("ready", this.attachHls);
     this.player.on("ended", this.countVideoViewed);
+    this.player.on("enterfullscreen", () => (this.isFullScreen = true));
+    this.player.on("exitfullscreen", () => (this.isFullScreen = false));
 
     this.recordVideoWatched();
     webSocketService.socket.on("media-updated-tip", ({ data }) =>
