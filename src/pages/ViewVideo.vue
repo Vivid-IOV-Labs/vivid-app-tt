@@ -455,7 +455,13 @@ export default {
     this.player = this.$refs.videoplayer.player;
     this.player.on("ready", this.attachHls);
     this.player.on("ended", this.countVideoViewed);
-    this.player.on("enterfullscreen", () => (this.isFullScreen = true));
+    this.player.on("enterfullscreen", () => {
+      this.isFullScreen = true;
+      this.isPopoverClickTT = false;
+      this.isPopoverTTSuccess = false;
+      this.isPopoverTTFailed = false;
+      this.isPopoverTTProgress = false;
+    });
     this.player.on("exitfullscreen", () => (this.isFullScreen = false));
 
     this.recordVideoWatched();
