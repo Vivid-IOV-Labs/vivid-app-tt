@@ -31,7 +31,7 @@ const actions = {
       const highlightedSortedByOrder = all
         .filter(f => f.list && f.list.highlighted)
         .sort((a, b) => {
-          return a.list.order - b.list.order;
+          return b.list.order - a.list.order;
         });
       commit("setHighlighted", highlightedSortedByOrder);
     } catch (error) {
