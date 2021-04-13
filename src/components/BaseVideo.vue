@@ -21,7 +21,7 @@ import Plyr from "plyr";
 // import Hls from "hls.js";
 import BaseIcon from "@/components/BaseIcon.vue";
 import { trackEvent } from "@/util/analytics";
-import "plyr/dist/plyr.css";
+// import "plyr/dist/plyr.css";
 
 const totalSecondsToHMS = totalSecs => {
   const hours = Math.floor(totalSecs / 3600);
@@ -65,8 +65,6 @@ export default {
       if (!container._clickListener) {
         container._clickListener = event => {
           const targets = [container, wrapper];
-
-          // Ignore if click if not container or in video wrapper
           if (
             !targets.includes(event.target) &&
             !wrapper.contains(event.target)
@@ -84,18 +82,7 @@ export default {
     this.player = new Plyr(this.$refs.video, this.options);
 
     this.player.source = this.source;
-    // var video = document.getElementById("video");
 
-    // if (!Hls.isSupported()) {
-    //   this.player.source = this.source;
-    // } else {
-    //   // For more Hls.js options, see https://github.com/dailymotion/hls.js
-    //   var videoSrc = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
-    //   var hls = new Hls();
-    //   hls.loadSource(videoSrc);
-    //   hls.attachMedia(video);
-    //   window.hls = hls;
-    // }
     this.$nextTick(() => {
       document
         .querySelector(".plyr--video")
@@ -146,6 +133,7 @@ export default {
 };
 </script>
 <style lang="scss">
+@import "~plyr/src/sass/plyr.scss";
 .video__container {
   width: 100%;
   height: 100%;

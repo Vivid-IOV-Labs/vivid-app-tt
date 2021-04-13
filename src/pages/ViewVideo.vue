@@ -407,7 +407,7 @@ export default {
         this.isPopoverTTSuccess = false;
       }
     },
-    async showTipPoUP() {
+    async showTipPopUp() {
       await delay(1200);
       this.$nextTick(() => {
         this.isPopoverClickTT = true;
@@ -451,7 +451,7 @@ export default {
       // });
     }
   },
-  async mounted() {
+  mounted() {
     this.player = this.$refs.videoplayer.player;
     this.player.on("ready", this.attachHls);
     this.player.on("ended", this.countVideoViewed);
@@ -469,7 +469,7 @@ export default {
       this.updateTip(data)
     );
     this.popoverTarget = this.$refs.tipbutton;
-    await this.showTipPoUP();
+    this.showTipPopUp();
   },
   beforeDestroy() {
     // var old_element = this.player;
