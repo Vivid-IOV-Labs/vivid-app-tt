@@ -4,16 +4,14 @@ import ViewVideo from "@/pages/ViewVideo.vue";
 import Vuex from "vuex";
 import store from "@/store";
 import router from "@/router";
-import { htmlMediaMock } from "./htmlMediaMock";
-import delay from "@/util/delay";
+
 const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(VueRouter);
+
 import Plyr from "plyr";
 
 describe("ViewVideo", () => {
-  htmlMediaMock();
-
   const wrapper = mount(ViewVideo, {
     store,
     router,
@@ -34,9 +32,14 @@ describe("ViewVideo", () => {
 
   it("Attempt HLS", async () => {
     const attachHls = jest.spyOn(ViewVideo.methods, "attachHls");
-
     wrapper.vm.player.on("ready", () => {
       expect(attachHls).toHaveBeenCalled();
+    });
+  });
+  it("countVideoViewed on end", async () => {
+    const countVideoViewed = jest.spyOn(ViewVideo.methods, "countVideoViewed");
+    wrapper.vm.player.on("ended", () => {
+      expect(countVideoViewed).toHaveBeenCalled();
     });
   });
 });
