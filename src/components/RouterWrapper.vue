@@ -42,7 +42,7 @@ export default {
     }
   },
   created() {
-    this.$router.push({ path: "/" });
+    this.$router && this.$router.push({ path: "/" });
   },
   methods: {
     goBack() {
