@@ -8,17 +8,15 @@
 </template>
 
 <script>
-const svgContext =
-  require.context &&
-  require.context(
-    "!svg-inline-loader?" +
-      "removeTags=true" +
-      "&removeSVGTagAttrs=true" +
-      "&removingTagAttrs=fill" +
-      "!@/assets/icons",
-    true,
-    /\w+\.svg$/i
-  );
+const svgContext = require.context(
+  "!svg-inline-loader?" +
+    "removeTags=true" +
+    "&removeSVGTagAttrs=true" +
+    "&removingTagAttrs=fill" +
+    "!@/assets/icons",
+  true,
+  /\w+\.svg$/i
+);
 const symbols = svgContext
   ? svgContext.keys().map(path => {
       const content = svgContext(path);

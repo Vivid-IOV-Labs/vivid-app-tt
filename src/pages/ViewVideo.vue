@@ -26,7 +26,7 @@
                 style="font-size:1.8rem"
                 name="thundercore"
               ></base-icon>
-              <span class="ml-2">{{ totalTips }}</span>
+              <span id="total-tips" class="ml-2">{{ totalTips }}</span>
             </v-ons-button>
           </div>
 
@@ -88,7 +88,8 @@
           <div class=" ml-auto flex-column ">
             <div ref="tipbutton">
               <v-ons-button
-                @click.prevent="tipStreamer"
+                id="tip-streamer"
+                @click="tipStreamer"
                 :disabled="isTipping"
                 class="btn btn--round-large btn--opacity-dark mb-2"
                 style="font-size: 3.4rem; padding: 0.2rem 0 0 0.2rem; border:solid 2px #fff"
@@ -280,6 +281,10 @@ export default {
     async startTimer() {
       await delay(120000);
       this.isPopoverTTProgress = false;
+      this.isPopoverTTProgress = false;
+      if (!this.isFullScreen) {
+        this.isPopoverTTFailed = true;
+      }
     },
     async tipStreamer() {
       this.isPopoverClickTT = false;
@@ -465,9 +470,9 @@ export default {
     this.player.on("exitfullscreen", () => (this.isFullScreen = false));
 
     this.recordVideoWatched();
-    webSocketService.socket.on("media-updated-tip", ({ data }) =>
-      this.updateTip(data)
-    );
+    webSocketService.socket.on("media-updated-tip", ({ data }) => {
+      this.updateTip({ data });
+    });
     this.popoverTarget = this.$refs.tipbutton;
     this.showTipPopUp();
   },
