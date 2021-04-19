@@ -15,6 +15,7 @@ import { mount, createLocalVue } from "@vue/test-utils";
 import ViewVideo from "@/pages/ViewVideo.vue";
 import Vuex from "vuex";
 import mediaDb from "../db/media";
+import mockWebSocketService from "@/util/webSocketService.js";
 const mediaState = () => ({
   all: mediaDb,
   latests: mediaDb
@@ -61,12 +62,7 @@ const $route = {
     mediaID: "401758123793384235894995"
   }
 };
-const spyOnAttachHls = jest
-  .spyOn(ViewVideo.methods, "attachHls")
-  .mockImplementation();
-const spyOnautoplay = jest
-  .spyOn(ViewVideo.methods, "autoplay")
-  .mockImplementation();
+
 const wrapper = mount(ViewVideo, {
   store,
   localVue,
@@ -91,6 +87,7 @@ const wrapper = mount(ViewVideo, {
     "base-icon": true,
     "v-ons-page": true,
     "v-ons-popover": true,
+    //  "v-ons-button": true
     "v-ons-button": {
       template:
         '\
@@ -127,6 +124,12 @@ describe("ViewVideo", () => {
     );
   });
   it("Attempts HLS and autoplays on loaded", async () => {
+    const spyOnAttachHls = jest
+      .spyOn(ViewVideo.methods, "attachHls")
+      .mockImplementation();
+    const spyOnautoplay = jest
+      .spyOn(ViewVideo.methods, "autoplay")
+      .mockImplementation();
     wrapper.vm.player.on("ready", () => {
       expect(spyOnAttachHls).toHaveBeenCalled();
       expect(spyOnautoplay).toHaveBeenCalled();
@@ -140,38 +143,22 @@ describe("ViewVideo", () => {
       expect(countVideoViewed).toHaveBeenCalled();
     });
   });
-  // it("Record video pecentage watched", async () => {
-  //   expect(spyOnrecordVideoWatched).toHaveBeenCalled();
-  // });
-  // it("Shows tipping popup on loaded", async () => {
-  //   const showTipPopUp = jest
-  //     .spyOn(ViewVideo.methods, "showTipPopUp")
-  //     .mockImplementation();
-  //   expect(showTipPopUp).toHaveBeenCalled();
-  //   expect(wrapper.vm.isPopoverClickTT).toBeTruthy();
-  // });
-  // it("on websocket", async () => {
-  //   const updateTip = jest.spyOn(ViewVideo.methods, "updateTip");
-  //   const response = {
-  //     data: {
-  //       totalTips: 2,
-  //       mediaID: "401758123793384235894995",
-  //       sender: { walletAddress: "userWalletAddress" }
-  //     }
-  //   };
-  //   mockWebSocketService.socket.emit("media-updated-tip", response);
-  //   await wrapper.vm.$nextTick();
-  //   // const totalTips = wrapper.find("#total-tips").text();
-  //   // console.log(totalTips);
-  //   expect(updateTip).toHaveBeenCalledWith(response);
-  // });
-
-  // it.only("triggers a click", async () => {
-  //   const tipStreamer = jest.spyOn(ViewVideo.methods, "tipStreamer");
-  //   console.log(wrapper.get("#tip-streamer").html());
-
-  //   await wrapper.get("#tip-streamer").trigger("click");
-  //   await wrapper.vm.$nextTick();
-  //   expect(tipStreamer).toHaveBeenCalled();
-  // });
+  it("Updates total tips", async () => {
+    const response = {
+      data: {
+        totalTips: 10,
+        mediaID: "401758123793384235894995",
+        sender: { walletAddress: "userWalletAddress" }
+      }
+    };
+    mockWebSocketService.socket.emit("media-updated-tip", response);
+    await wrapper.vm.$nextTick();
+    const totalTips = wrapper.find("#total-tips").text();
+    expect(totalTips).toBe(response.data.totalTips.toString());
+  });
+  it("On tipStreamer hide popup", async () => {
+    await wrapper.get("#tip-streamer").vm.$emit("click");
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.isPopoverClickTT).toBeFalsy();
+  });
 });

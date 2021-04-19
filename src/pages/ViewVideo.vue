@@ -388,8 +388,9 @@ export default {
       const userWalletAddress = this.getUserWalletAddress;
       MediaService.videoViewed({ code, userWalletAddress });
     },
-    async updateTip(data) {
+    async updateTip({ data }) {
       const { totalTips, mediaID, sender } = data;
+
       if (mediaID == this.mediaID) {
         this.totalTips = totalTips;
       }
@@ -470,9 +471,7 @@ export default {
     this.player.on("exitfullscreen", () => (this.isFullScreen = false));
 
     this.recordVideoWatched();
-    webSocketService.socket.on("media-updated-tip", ({ data }) => {
-      this.updateTip({ data });
-    });
+    webSocketService.socket.on("media-updated-tip", this.updateTip);
     this.popoverTarget = this.$refs.tipbutton;
     this.showTipPopUp();
   },
