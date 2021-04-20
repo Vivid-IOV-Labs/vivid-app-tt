@@ -1,15 +1,13 @@
-import mockEmitter from "../emitter";
+import mockEmitter from "../../emitter";
 import { shallowMount, createLocalVue } from "@vue/test-utils";
 import ViewVideo from "@/pages/ViewVideo.vue";
 import Vuex from "vuex";
-import mediaDb from "../db/media";
+import mediaDb from "../../db/media";
 import mockWebSocketService from "@/util/webSocketService.js";
 import { trackEvent } from "@/util/analytics.js";
-import { verify } from "@/services/TipService.js";
-import mediaGetters from "../../src/store/modules/media/getters";
-import mediaMutations from "../../src/store/modules/media/mutations";
-import smartcontractGetters from "../../src/store/modules/smartcontract/getters";
-
+import mediaGetters from "../../../src/store/modules/media/getters";
+import mediaMutations from "../../../src/store/modules/media/mutations";
+import smartcontractGetters from "../../../src/store/modules/smartcontract/getters";
 import Plyr from "plyr";
 
 jest.mock("@/util/webSocketService.js", () => {
