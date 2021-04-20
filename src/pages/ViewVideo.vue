@@ -300,7 +300,6 @@ export default {
           transactionHash,
           mediaID: this.mediaID
         });
-
         trackEvent({
           category: "Video Play View",
           action: "tip-video-started",
@@ -458,6 +457,9 @@ export default {
     }
   },
   mounted() {
+    this.showTipPopUp();
+    this.recordVideoWatched();
+    this.popoverTarget = this.$refs.tipbutton;
     this.player = this.$refs.videoplayer.player;
     this.player.on("ready", this.attachHls);
     this.player.on("ended", this.countVideoViewed);
@@ -469,16 +471,7 @@ export default {
       this.isPopoverTTProgress = false;
     });
     this.player.on("exitfullscreen", () => (this.isFullScreen = false));
-
-    this.recordVideoWatched();
     webSocketService.socket.on("media-updated-tip", this.updateTip);
-    this.popoverTarget = this.$refs.tipbutton;
-    this.showTipPopUp();
-  },
-  beforeDestroy() {
-    // var old_element = this.player;
-    // var new_element = old_element.cloneNode(true);
-    // old_element.parentNode.replaceChild(new_element, old_element);
   }
 };
 </script>

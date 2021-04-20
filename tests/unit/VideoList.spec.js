@@ -1,5 +1,13 @@
 import mockEmitter from "../emitter";
 import mockMedia from "../db/media";
+import { mount, createLocalVue } from "@vue/test-utils";
+import VideoList from "@/pages/VideoList.vue";
+import VueLazyload from "vue-lazyload";
+import Vuex from "vuex";
+import mediaGetters from "../../src/store/modules/media/getters";
+import mediaMutations from "../../src/store/modules/media/mutations";
+import mediaActions from "../../src/store/modules/media/actions";
+import userGetters from "../../src/store/modules/user/getters";
 
 jest.mock("@/util/webSocketService.js", () => {
   const socket = mockEmitter;
@@ -8,32 +16,21 @@ jest.mock("@/util/webSocketService.js", () => {
   };
   return webSocketService;
 });
-
 jest.mock("@/services/MediaService.js", () => {
   return { getAll: jest.fn().mockResolvedValue(mockMedia) };
 });
-
-import { mount, createLocalVue } from "@vue/test-utils";
-import VideoList from "@/pages/VideoList.vue";
-import VueLazyload from "vue-lazyload";
-
-import Vuex from "vuex";
-
+jest.mock("@/util/analytics.js", () => {
+  return { trackEvent: jest.fn() };
+});
 const mediaState = () => ({
   all: [],
   latests: [],
   highlighted: []
 });
 
-import mediaGetters from "../../src/store/modules/media/getters";
-import mediaMutations from "../../src/store/modules/media/mutations";
-import mediaActions from "../../src/store/modules/media/actions";
-import userGetters from "../../src/store/modules/user/getters";
-
 const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(VueLazyload);
-
 const store = new Vuex.Store({
   modules: {
     user: {
@@ -49,11 +46,9 @@ const store = new Vuex.Store({
     }
   }
 });
-
 const $route = {
   path: "/videolist"
 };
-
 const wrapper = mount(VideoList, {
   store,
   localVue,
@@ -75,6 +70,7 @@ const wrapper = mount(VideoList, {
     lazy: true
   }
 });
+
 describe("VideoList", () => {
   it("Loads latest videos", () => {
     // console.log(wrapper.html());
