@@ -1,4 +1,4 @@
-import mockMedia from "../../../db/media";
+import mockMedia from "../../../../db/media";
 jest.mock("@/services/MediaService.js", () => {
   return { getAll: jest.fn().mockResolvedValue(mockMedia) };
 });
