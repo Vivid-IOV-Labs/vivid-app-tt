@@ -1,5 +1,5 @@
 <template>
-  <button @click="callback">
+  <button :disabled="disabled" @click="callback">
     <slot></slot>
   </button>
 </template>

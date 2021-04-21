@@ -43,6 +43,7 @@
               :disabled="!contentSelected.length || isSendingFeedBack"
               @click="sendFeedBack"
               class="btn btn--large"
+              data-testid="send-feedback"
             >
               Send Feedback
             </v-ons-button>
