@@ -32,10 +32,6 @@ const wrapper = shallowMount(ContentFeedDialog, {
 });
 describe("ContentFeedDialog", () => {
   afterEach(() => {
-    addUserInterests.mockClear();
-    jest.clearAllMocks();
-  });
-  beforeEach(() => {
     jest.clearAllMocks();
   });
 
