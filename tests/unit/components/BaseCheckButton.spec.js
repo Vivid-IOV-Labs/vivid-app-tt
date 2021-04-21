@@ -3,7 +3,6 @@ import BaseCheckButton from "@/components/BaseCheckButton";
 import Button from "../../stubs/Button";
 
 describe("BaseCheckButton", () => {
-  // SUGGESTION: write your tests here
   it("should act as an input checkbox with array model", async () => {
     const wrapper = shallowMount(BaseCheckButton, {
       propsData: {
@@ -52,23 +51,7 @@ describe("BaseCheckButton", () => {
     });
     expect(wrapper.vm.selected).toBe(false);
     expect(wrapper.attributes().checked).toBeFalsy();
-    expect(wrapper.classes("check-button--selected")).toBe(false);
-  });
-  it("should be unselectable", async () => {
-    const value = ["test"];
-    const wrapper = shallowMount(BaseCheckButton, {
-      propsData: {
-        text: "Test",
-        name: "test",
-        value
-      },
-      stubs: {
-        "v-ons-button": Button
-      }
-    });
-    expect(wrapper.vm.selected).toBe(false);
-    expect(wrapper.attributes().checked).toBeFalsy();
-    expect(wrapper.classes("check-button--selected")).toBe(false);
+    expect(wrapper.classes("btn-check--selected")).toBe(false);
   });
   it("should limit selection", async () => {
     const value = ["first", "second"];

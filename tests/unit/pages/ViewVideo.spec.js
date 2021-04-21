@@ -101,8 +101,17 @@ const wrapper = shallowMount(ViewVideo, {
 });
 
 describe("ViewVideo", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.clearAllMocks();
+    await wrapper.setData({
+      isVideoMenuDropped: false,
+      isFullScreen: false,
+      isTipping: false,
+      isPopoverClickTT: false,
+      isPopoverTTSuccess: false,
+      isPopoverTTFailed: false,
+      isPopoverTTProgress: false
+    });
   });
   it("Displays title correctly", async () => {
     expect(wrapper.get(".stream-detail__title").text()).toBe(
@@ -156,7 +165,46 @@ describe("ViewVideo", () => {
     expect(wrapper.vm.isPopoverClickTT).toBeFalsy();
     expect(wrapper.vm.isPopoverTTProgress).toBeTruthy();
     expect(wrapper.vm.isTipping).toBeTruthy();
-    //expect(trackEvent).toHaveBeenCalled();
-    ///  expect(verify).toHaveBeenCalled();
+  });
+  it("should not update tip if mediaID is different", async () => {
+    const response = {
+      data: {
+        totalTips: 10000,
+        mediaID: "anotherMedia",
+        sender: { walletAddress: "anotherUserWalletAddress" }
+      }
+    };
+    mockWebSocketService.socket.emit("media-updated-tip", response);
+    await wrapper.vm.$nextTick();
+    const totalTips = wrapper.find("#total-tips").text();
+    expect(totalTips).toBe("10");
+    expect(wrapper.vm.isPopoverTTSuccess).toBeFalsy();
+  });
+  it("should not show tip done if the sender is not the user", async () => {
+    const response = {
+      data: {
+        totalTips: 100,
+        mediaID: "401758123793384235894995",
+        sender: { walletAddress: "anotherUserWalletAddress" }
+      }
+    };
+    mockWebSocketService.socket.emit("media-updated-tip", response);
+    await wrapper.vm.$nextTick();
+    const totalTips = wrapper.find("#total-tips").text();
+    expect(totalTips).toBe("100");
+    expect(wrapper.vm.isPopoverTTSuccess).toBeFalsy();
+  });
+  it("should format tips", async () => {
+    const response = {
+      data: {
+        totalTips: 10000,
+        mediaID: "401758123793384235894995",
+        sender: { walletAddress: "anotherUserWalletAddress" }
+      }
+    };
+    mockWebSocketService.socket.emit("media-updated-tip", response);
+    await wrapper.vm.$nextTick();
+    const totalTips = wrapper.find("#total-tips").text();
+    expect(totalTips).toBe("10K");
   });
 });

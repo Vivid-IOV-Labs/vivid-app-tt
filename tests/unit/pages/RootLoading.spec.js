@@ -1,7 +1,6 @@
 import RootLoading from "@/pages/RootLoading.vue";
 import { shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
-import delay from "@/util/delay.js";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
