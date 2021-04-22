@@ -2,13 +2,7 @@
   <div class="video__container">
     <slot name="top"></slot>
 
-    <video
-      id="video"
-      ref="video"
-      crossorigin
-      playsinline
-      preload="auto"
-    ></video>
+    <video id="video" ref="video" playsinline preload="auto"></video>
     <div class="loading ">
       <base-icon name="spinner" :spin="true"></base-icon>
     </div>
@@ -35,7 +29,7 @@ const totalSecondsToHMS = totalSecs => {
 };
 
 export default {
-  name: "BsseVideo",
+  name: "BaseVideo",
   components: {
     BaseIcon
   },
@@ -84,22 +78,23 @@ export default {
     this.player.source = this.source;
 
     this.$nextTick(() => {
-      document
-        .querySelector(".plyr--video")
-        .appendChild(document.querySelector(".loading"));
+      const plyrWrapper = document.querySelector(".plyr--video");
+      plyrWrapper &&
+        plyrWrapper.appendChild(document.querySelector(".loading"));
       this.fixMobileClick();
       const videoWrapper = document.getElementsByClassName(
         "plyr__video-wrapper"
       )[0];
-      videoWrapper.addEventListener("click", event => {
-        this.player.togglePlay();
-        event.stopPropagation(); // Necessary or the video will toggle twice => no playback
-      });
+      videoWrapper &&
+        videoWrapper.addEventListener("click", event => {
+          this.player.togglePlay();
+          event.stopPropagation();
+        });
 
       this.player.toggleControls(false);
     });
 
-    this.player.on("ready", () => {
+    this.player.on("play", () => {
       trackEvent({
         category: "Video Play View",
         action: "play-video",
