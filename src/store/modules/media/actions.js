@@ -36,8 +36,8 @@ export default {
     commit("deleteLatest", video);
     commit("delete", video);
   }
-  // async videoViewed({ commit }, { code, userWalletAddress }) {
-  //   const views = await MediaService.videoViewed({ code, userWalletAddress });
+  // async videoViewed({ commit }, { mediaID, userWalletAddress }) {
+  //   const views = await MediaService.videoViewed({ mediaID, userWalletAddress });
   //   console.log(views);
   //   commit();
   // }

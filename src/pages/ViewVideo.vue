@@ -383,9 +383,9 @@ export default {
       }
     },
     countVideoViewed() {
-      const { code } = this.currentMedia;
+      const { mediaID } = this.currentMedia;
       const userWalletAddress = this.getUserWalletAddress;
-      MediaService.videoViewed({ code, userWalletAddress });
+      MediaService.videoViewed({ mediaID, userWalletAddress });
     },
     async updateTip({ data }) {
       const { totalTips, mediaID, sender } = data;
