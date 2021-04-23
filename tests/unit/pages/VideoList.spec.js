@@ -1,14 +1,5 @@
 import mockEmitter from "../../emitter";
 import mockMedia from "../../db/media";
-import { shallowMount, createLocalVue } from "@vue/test-utils";
-import VideoList from "@/pages/VideoList.vue";
-import VueLazyload from "vue-lazyload";
-import Vuex from "vuex";
-import mediaGetters from "@/store/modules/media/getters";
-import mediaMutations from "@/store/modules/media/mutations";
-import mediaActions from "@/store/modules/media/actions";
-import userGetters from "@/store/modules/user/getters";
-
 jest.mock("@/util/webSocketService.js", () => {
   const socket = mockEmitter;
   const webSocketService = {
@@ -28,53 +19,66 @@ const mediaState = () => ({
   highlighted: []
 });
 
+import { shallowMount, createLocalVue } from "@vue/test-utils";
+import VideoList from "@/pages/VideoList.vue";
+import VueLazyload from "vue-lazyload";
+import Vuex from "vuex";
+import mediaGetters from "@/store/modules/media/getters";
+import mediaMutations from "@/store/modules/media/mutations";
+import mediaActions from "@/store/modules/media/actions";
+import userGetters from "@/store/modules/user/getters";
+import webSocketService from "@/util/webSocketService.js";
+
 const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(VueLazyload);
 
-const store = new Vuex.Store({
-  modules: {
-    user: {
-      namespaced: true,
-      getters: userGetters
-    },
-    media: {
-      namespaced: true,
-      state: mediaState(),
-      getters: mediaGetters,
-      mutations: mediaMutations,
-      actions: mediaActions
-    }
-  }
-});
-
-const wrapper = shallowMount(VideoList, {
-  store,
-  localVue,
-  stubs: {
-    "base-icon": true,
-    "v-ons-button": true,
-    "v-ons-dialog": true,
-    "v-ons-list": true,
-    "v-ons-list-item": true,
-    "v-ons-page": true,
-    "v-ons-toolbar": true,
-    "v-ons-toolbar-button": true,
-    "v-ons-popover": true
-  },
-  directives: {
-    lazy: true
-  }
-});
+let store;
+let wrapper;
 
 describe("VideoList", () => {
+  beforeEach(() => {
+    store = new Vuex.Store({
+      modules: {
+        user: {
+          namespaced: true,
+          getters: userGetters
+        },
+        media: {
+          namespaced: true,
+          state: mediaState(),
+          getters: mediaGetters,
+          mutations: mediaMutations,
+          actions: mediaActions
+        }
+      }
+    });
+    wrapper = shallowMount(VideoList, {
+      store,
+      localVue,
+      stubs: {
+        "base-icon": true,
+        "v-ons-button": true,
+        "v-ons-dialog": true,
+        "v-ons-list": true,
+        "v-ons-list-item": true,
+        "v-ons-page": true,
+        "v-ons-toolbar": true,
+        "v-ons-toolbar-button": true,
+        "v-ons-popover": true
+      },
+      directives: {
+        lazy: true
+      }
+    });
+  });
   it("Loads latest videos", () => {
     expect(wrapper.vm.getLatests.length).toBe(1);
   });
-  it("Loads highlighted videos", () => {
+  it("should load highlighted videos", () => {
     expect(wrapper.vm.getHighlighted.length).toBe(2);
   });
-  it("Opens Terms dialog if user didn't agree yet and send interests", () => {
+  it("should open terms dialog if user didn't agree yet and send interests", () => {
     const storeUserNoTermsAndInterests = new Vuex.Store({
       modules: {
         user: {
@@ -114,7 +118,7 @@ describe("VideoList", () => {
     expect(wrapperUserNoTermsAndInterests.vm.isTermsAgreeDialog).toBeTruthy();
     expect(wrapperUserNoTermsAndInterests.vm.isContentFeedDialog).toBeFalsy();
   });
-  it("Opens Interests dialog if user agreed terms but didn't send interests", () => {
+  it("should open interests dialog if user agreed terms but didn't send interests", () => {
     const storeUserTermsNoInterests = new Vuex.Store({
       modules: {
         user: {
@@ -154,7 +158,7 @@ describe("VideoList", () => {
     expect(wrapperUserNoTermsAndInterests.vm.isTermsAgreeDialog).toBeFalsy();
     expect(wrapperUserNoTermsAndInterests.vm.isContentFeedDialog).toBeTruthy();
   });
-  it("Doesn't open any dialogs if user agreed terms and sent interests", () => {
+  it("should not open any dialogs if user agreed terms and sent interests", () => {
     const storeUserTermsNoInterests = new Vuex.Store({
       modules: {
         user: {
@@ -193,5 +197,85 @@ describe("VideoList", () => {
     });
     expect(wrapperUserNoTermsAndInterests.vm.isTermsAgreeDialog).toBeFalsy();
     expect(wrapperUserNoTermsAndInterests.vm.isContentFeedDialog).toBeFalsy();
+  });
+  it("should delete media from the list", async () => {
+    const response = {
+      data: {
+        _id: {
+          $oid: "5fda12118caaa33468ef054e"
+        },
+        type: "video",
+        live: false,
+        publisher: {
+          walletAddress: "19236501263508hfdsg871"
+        },
+        mediaID: "451299675670168564816463",
+        shop: {
+          link: "https://www.example.com"
+        },
+        statistics: {
+          total: {
+            viewers: 0,
+            reportFlags: 0,
+            tips: 5
+          }
+        },
+        details: {
+          title: "Crypto Market Update",
+          twitter: {
+            hashtags: ["crypto", "market", "2021"]
+          }
+        },
+        code: "L8Z0YK0L9Y72S21WVOJ4",
+        createdAt: 1608126993949,
+        updatedAt: 1608126993949,
+        list: {
+          highlighted: false,
+          order: 5
+        }
+      }
+    };
+    webSocketService.socket.emit("media-deleted", response);
+    expect(wrapper.vm.getLatests.length).toBe(0);
+  });
+  it("should add media to the list", async () => {
+    const response = {
+      data: {
+        _id: {
+          $oid: "newid"
+        },
+        type: "video",
+        live: false,
+        publisher: {
+          walletAddress: "newUserWallet"
+        },
+        mediaID: "newmediaid",
+        shop: {
+          link: "https://www.example.com"
+        },
+        statistics: {
+          total: {
+            viewers: 0,
+            reportFlags: 0,
+            tips: 5
+          }
+        },
+        details: {
+          title: "New Title",
+          twitter: {
+            hashtags: ["new", "science", "math"]
+          }
+        },
+        code: "newcode",
+        createdAt: 1608126993949,
+        updatedAt: 1608126993949,
+        list: {
+          highlighted: false,
+          order: 5
+        }
+      }
+    };
+    webSocketService.socket.emit("media-added", response);
+    expect(wrapper.vm.getLatests.length).toBe(2);
   });
 });

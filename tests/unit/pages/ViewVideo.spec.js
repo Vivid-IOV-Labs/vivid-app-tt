@@ -113,17 +113,17 @@ describe("ViewVideo", () => {
       isPopoverTTProgress: false
     });
   });
-  it("Displays title correctly", async () => {
+  it("should displays title correctly", async () => {
     expect(wrapper.get(".stream-detail__title").text()).toBe(
       "Thundercore Intro"
     );
   });
-  it("Displays hashtags correctly", async () => {
+  it("should displays hashtags correctly", async () => {
     expect(wrapper.get(".stream-detail__hashtag").text()).toBe(
       "#crypto, #market, #2021"
     );
   });
-  it("Attempts HLS and autoplays on loaded", async () => {
+  it("should attempts HLS and autoplays on loaded", async () => {
     const spyOnAttachHls = jest
       .spyOn(ViewVideo.methods, "attachHls")
       .mockImplementation();
@@ -136,7 +136,7 @@ describe("ViewVideo", () => {
       expect(trackEvent).toHaveBeenCalled();
     });
   });
-  it("Counts video viewd on end", async () => {
+  it("should counts video viewd on end", async () => {
     const countVideoViewed = jest
       .spyOn(ViewVideo.methods, "countVideoViewed")
       .mockImplementation();
@@ -144,7 +144,7 @@ describe("ViewVideo", () => {
       expect(countVideoViewed).toHaveBeenCalled();
     });
   });
-  it("Updates total tips on websocket", async () => {
+  it("should updates total tips on websocket", async () => {
     const response = {
       data: {
         totalTips: 10,
