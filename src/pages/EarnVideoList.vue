@@ -5,17 +5,20 @@
         <head-logo></head-logo>
       </div>
       <div class="right">
-        <head-menu></head-menu>
+        <v-ons-back-button>back</v-ons-back-button>
       </div>
     </v-ons-toolbar>
     <div class="scroller viewlist__content">
-      <div v-if="getHighlighted.length">
+      <div>
+        <h2>Watch the whole video to get a reward</h2>
+      </div>
+      <div v-if="getEarnHighlighted.length">
         <div class="page__title__background">
           <h3 class="page__title">Top Videos</h3>
         </div>
         <v-ons-list modifier="tappable">
           <v-ons-list-item
-            v-for="media in getHighlighted"
+            v-for="media in getEarnHighlighted"
             :key="media.mediaID"
             @click="pushToVideo(media.mediaID)"
           >
@@ -28,7 +31,7 @@
       </div>
       <v-ons-list modifier="tappable">
         <v-ons-list-item
-          v-for="media in getLatests"
+          v-for="media in getEarnLatests"
           :key="media.mediaID"
           @click="pushToVideo(media.mediaID)"
         >
@@ -36,94 +39,33 @@
         </v-ons-list-item>
       </v-ons-list>
     </div>
-    <content-feed-dialog v-model="isContentFeedDialog"></content-feed-dialog>
-    <terms-agree-dialog v-model="isTermsAgreeDialog"></terms-agree-dialog>
   </v-ons-page>
 </template>
 
 <script>
-import HeadMenu from "@/components/HeadMenu.vue";
 import HeadLogo from "@/components/HeadLogo.vue";
 import VideoListItem from "@/components/VideoListItem.vue";
-import ContentFeedDialog from "@/components/dialogs/ContentFeedDialog.vue";
-import TermsAgreeDialog from "@/components/dialogs/TermsAgreeDialog.vue";
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import { mapGetters } from "vuex";
 import webSocketService from "@/util/webSocketService.js";
 import { trackEvent } from "@/util/analytics";
 
 export default {
   name: "VideoList",
   components: {
-    HeadMenu,
     HeadLogo,
-    VideoListItem,
-    ContentFeedDialog,
-    TermsAgreeDialog
-  },
-  data() {
-    return {
-      isContentFeedDialog: false,
-      isTermsAgreeDialog: false
-    };
-  },
-  created() {
-    this.populateAll();
+    VideoListItem
   },
   computed: {
-    ...mapGetters("media", ["getLatests", "getHighlighted"]),
-    ...mapGetters("user", ["getInterestsSubmitted", "getTermsAgreed"])
+    ...mapGetters("media", ["getEarnLatests", "getEarnHighlighted"])
   },
   methods: {
-    ...mapActions("media", ["populateAll", "add", "delete"]),
-    ...mapMutations("media", ["setTotalTip", "addHighlighted"]),
     pushToVideo(mediaID) {
       trackEvent({
         category: "Video List View",
         action: "select-video",
         label: "MediaId:" + this.mediaID
       });
-      this.$router.push({ path: `viewvideo/${mediaID}` });
-    },
-    showContentFeedDialog() {
-      this.isContentFeedDialog = true;
-    },
-    showTermsAgreeDialog() {
-      this.isTermsAgreeDialog = true;
-    },
-    copyTextValue(selector, successText) {
-      let testingCodeToCopy = document.querySelector(selector);
-      testingCodeToCopy.setAttribute("type", "text");
-      testingCodeToCopy.select();
-      testingCodeToCopy.setSelectionRange(0, 99999); /* For mobile devices */
-
-      try {
-        document.execCommand("copy");
-
-        this.$ons.notification.toast(successText, { timeout: 2000 });
-      } catch (err) {
-        this.$ons.notification.toast("Oops, unable to copy ", {
-          timeout: 2000
-        });
-      }
-      /* unselect the range */
-      testingCodeToCopy.setAttribute("type", "hidden");
-      window.getSelection().removeAllRanges();
-    },
-    copyTelegramGroup() {
-      this.copyTextValue("#telegram-group", "Telegram copied successfully!");
-      trackEvent({
-        category: "Video List View",
-        action: "copy-social",
-        label: "telegram"
-      });
-    },
-    copyTwitterLink() {
-      this.copyTextValue("#twitter-link", "Twitter copied successfully!");
-      trackEvent({
-        category: "Video List View",
-        action: "copy-social",
-        label: "twitter"
-      });
+      this.$router.push({ path: `earnviewvideo/${mediaID}` });
     }
   },
   watch: {
@@ -146,12 +88,6 @@ export default {
       const { totalTips, mediaID } = data;
       this.setTotalTip({ mediaID, totalTips });
     });
-    if (!this.getTermsAgreed) {
-      this.showTermsAgreeDialog();
-    }
-    if (!this.getInterestsSubmitted && this.getTermsAgreed) {
-      this.showContentFeedDialog();
-    }
   }
 };
 </script>

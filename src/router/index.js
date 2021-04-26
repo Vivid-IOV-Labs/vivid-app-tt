@@ -12,6 +12,10 @@ const ViewVideo = () =>
   import(/* webpackChunkName: "ViewVideo" */ "@/pages/ViewVideo");
 const VideoList = () =>
   import(/* webpackChunkName: "VideoList" */ "@/pages/VideoList");
+const EarnViewVideo = () =>
+  import(/* webpackChunkName: "EarnViewVideo" */ "@/pages/EarnViewVideo");
+const EarnVideoList = () =>
+  import(/* webpackChunkName: "EarnVideoList" */ "@/pages/EarnVideoList");
 // const Home = () => import(/* webpackChunkName: "Home" */ "@/pages/Home");
 // const OnBoarding = () =>
 //   import(/* webpackChunkName: "OnBoarding" */ "@/pages/OnBoarding");
@@ -26,6 +30,12 @@ const routes = [
   // { name: "root", path: "/", component: RootLogin },
   { name: "videolist", path: "/videolist", component: VideoList },
   { name: "viewvideo", path: "/viewvideo/:mediaID", component: ViewVideo },
+  { name: "earnvideolist", path: "/earnvideolist", component: EarnVideoList },
+  {
+    name: "earnviewvideo",
+    path: "/earnviewvideo/:mediaID",
+    component: EarnViewVideo
+  },
   { name: "profile", path: "/profile", component: Profile }
   // { name: "onboarding", path: "/onboarding", component: OnBoarding },
   // { name: "home", path: "/home", component: Home },

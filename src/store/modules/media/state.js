@@ -1,8 +1,9 @@
 const state = () => ({
   all: [],
-  earn: [],
+  earnhighlighted: [],
   highlighted: [],
-  latests: []
+  latests: [],
+  earnlatests: []
 });
 
 export default state;

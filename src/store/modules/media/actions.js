@@ -7,25 +7,39 @@ export default {
       const all = await MediaService.getAll();
 
       commit("setAll", all);
+
       const latestsSortedByTime = all
+        .filter(f => !f.earn)
         .filter(f => !f.list || !f.list.highlighted)
         .sort((a, b) => {
           return b.createdAt - a.createdAt;
         });
       commit("setLatests", latestsSortedByTime);
+
       const highlightedSortedByOrder = all
+        .filter(f => !f.earn)
         .filter(f => f.list && f.list.highlighted)
         .sort((a, b) => {
           return b.list.order - a.list.order;
         });
       commit("setHighlighted", highlightedSortedByOrder);
 
-      const earnSortedByOrder = all
+      /**Earn */
+      const earnLatestsSortedByTime = all
         .filter(f => f.earn)
+        .filter(f => !f.list || !f.list.highlighted)
+        .sort((a, b) => {
+          return b.createdAt - a.createdAt;
+        });
+      commit("setEarnLatests", earnLatestsSortedByTime);
+
+      const earnHighlightedSortedByOrder = all
+        .filter(f => f.earn)
+        .filter(f => f.list && f.list.highlighted)
         .sort((a, b) => {
           return b.list.order - a.list.order;
         });
-      commit("setEarn", earnSortedByOrder);
+      commit("setEarnHighlighted", earnHighlightedSortedByOrder);
     } catch (error) {
       devLog(error);
     }

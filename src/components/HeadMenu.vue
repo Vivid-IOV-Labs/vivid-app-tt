@@ -1,5 +1,8 @@
 <template>
   <div>
+    <v-ons-toolbar-button @click="toEarnList">
+      <base-icon class="btn__icon--primary" name="dollar-sign"></base-icon>
+    </v-ons-toolbar-button>
     <v-ons-toolbar-button @click="showPopover">
       <base-icon class="btn__icon--primary" name="upload"></base-icon>
     </v-ons-toolbar-button>
@@ -52,6 +55,9 @@ export default {
     toProfile() {
       this.popoverVisible = false;
       this.$router.push({ path: "profile" });
+    },
+    toEarnList() {
+      this.$router.push({ path: "earnvideolist" });
     },
     showPopover(event, direction, coverTarget = false) {
       this.popoverTarget = event;

@@ -9,8 +9,15 @@ class MediaService {
     } = await ApiService.get(`${API_ENDPOINT}/list/`);
     return allMedia;
   }
-  async videoViewed({ userWalletAddress, mediaID, percentageWatched }) {
+  async videoViewed({ userWalletAddress, mediaID }) {
     const { data } = await ApiService.post(`${API_ENDPOINT}/view`, {
+      userWalletAddress,
+      mediaID
+    });
+    return data;
+  }
+  async countReward({ userWalletAddress, mediaID, percentageWatched }) {
+    const data = await Promise.resolve({
       userWalletAddress,
       mediaID,
       percentageWatched
