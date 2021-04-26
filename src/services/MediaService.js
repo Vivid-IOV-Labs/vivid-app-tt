@@ -9,10 +9,11 @@ class MediaService {
     } = await ApiService.get(`${API_ENDPOINT}/list/`);
     return allMedia;
   }
-  async videoViewed({ userWalletAddress, mediaID }) {
+  async videoViewed({ userWalletAddress, mediaID, percentageWatched }) {
     const { data } = await ApiService.post(`${API_ENDPOINT}/view`, {
       userWalletAddress,
-      mediaID
+      mediaID,
+      percentageWatched
     });
     return data;
   }

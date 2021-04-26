@@ -188,8 +188,7 @@ export default {
       isPopoverTTSuccess: false,
       isPopoverTTFailed: false,
       isPopoverTTProgress: false,
-      popoverTarget: null,
-      percentageWatched: 0
+      popoverTarget: null
     };
   },
   computed: {
@@ -385,14 +384,8 @@ export default {
     },
     countVideoViewed() {
       const { mediaID } = this.currentMedia;
-      debugger;
       const userWalletAddress = this.getUserWalletAddress;
-      const percentageWatched = this.percentageWatched;
-      MediaService.videoViewed({
-        mediaID,
-        userWalletAddress,
-        percentageWatched
-      });
+      MediaService.videoViewed({ mediaID, userWalletAddress });
     },
     async updateTip({ data }) {
       const { totalTips, mediaID, sender } = data;
@@ -436,39 +429,38 @@ export default {
       this.isPopoverClickTT = false;
     },
     recordVideoWatched() {
-      let duration = 0;
-      this.player.on("loadedmetadata", () => {
-        duration = this.player.duration;
-      });
-      let watched = new Set();
-      this.player.on("timeupdate", () => {
-        watched.add(Math.ceil(this.player.currentTime));
-      });
-      this.player.on("ended", () => {
-        const secondsWatched = Array.from(watched).length;
-        const secondsDuration = Math.ceil(duration);
-        if (secondsWatched == secondsDuration) {
-          console.log(" you wathced the all video");
-        } else {
-          const secondsToWatch = secondsDuration - secondsWatched;
-          const percentageToWatch = Math.round(
-            (secondsToWatch / secondsDuration) * 100
-          );
-          const percentageWatched = Math.round(
-            (secondsWatched / secondsDuration) * 100
-          );
-          this.percentageWatched = percentageWatched;
-          console.log("percentageToWatch", percentageToWatch);
-          console.log("percentageWatched", percentageWatched);
-        }
-      });
+      // let duration = 0;
+      // this.player.on("loadedmetadata", () => {
+      //   duration = this.player.duration;
+      // });
+      // let watched = new Set();
+      // this.player.on("timeupdate", () => {
+      //   watched.add(Math.ceil(this.player.currentTime));
+      // });
+      // this.player.on("ended", () => {
+      //   const secondsWatched = Array.from(watched).length;
+      //   const secondsDuration = Math.ceil(duration);
+      //   if (secondsWatched == secondsDuration) {
+      //     console.log(" you wathced the all video");
+      //   } else {
+      //     const secondsToWatch = secondsDuration - secondsWatched;
+      //     const percentageToWatch = Math.round(
+      //       (secondsToWatch / secondsDuration) * 100
+      //     );
+      //     const percentageWatched = Math.round(
+      //       (secondsWatched / secondsDuration) * 100
+      //     );
+      //     console.log("percentageToWatch", percentageToWatch);
+      //     console.log("percentageWatched", percentageWatched);
+      //   }
+      // });
     }
   },
   mounted() {
-    this.popoverTarget = this.$refs.tipbutton;
-    this.player = this.$refs.videoplayer.player;
     this.showTipPopUp();
     this.recordVideoWatched();
+    this.popoverTarget = this.$refs.tipbutton;
+    this.player = this.$refs.videoplayer.player;
     this.player.on("ready", this.attachHls);
     this.player.on("ended", this.countVideoViewed);
     this.player.on("enterfullscreen", () => {
@@ -480,13 +472,6 @@ export default {
     });
     this.player.on("exitfullscreen", () => (this.isFullScreen = false));
     webSocketService.socket.on("media-updated-tip", this.updateTip);
-  },
-  created() {
-    window.addEventListener("beforeunload", this.countVideoViewed);
-  },
-  beforeDestroy() {
-    this.countVideoViewed();
-    window.removeEventListener("beforeunload", this.countVideoViewed);
   }
 };
 </script>

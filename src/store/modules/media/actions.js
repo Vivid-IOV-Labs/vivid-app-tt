@@ -19,6 +19,13 @@ export default {
           return b.list.order - a.list.order;
         });
       commit("setHighlighted", highlightedSortedByOrder);
+
+      const earnSortedByOrder = all
+        .filter(f => f.earn)
+        .sort((a, b) => {
+          return b.list.order - a.list.order;
+        });
+      commit("setEarn", earnSortedByOrder);
     } catch (error) {
       devLog(error);
     }

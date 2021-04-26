@@ -10,6 +10,9 @@ export default {
   setHighlighted(state, highlighted) {
     state.highlighted = highlighted;
   },
+  setEarn(state, earn) {
+    state.earn = earn;
+  },
   add(state, item) {
     state.all = [item, ...state.all];
   },
