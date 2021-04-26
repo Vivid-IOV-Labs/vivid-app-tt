@@ -57,6 +57,7 @@ export default {
       this.$router.push({ path: "profile" });
     },
     toEarnList() {
+      this.trackLink("earn-page");
       this.$router.push({ path: "earnvideolist" });
     },
     showPopover(event, direction, coverTarget = false) {
