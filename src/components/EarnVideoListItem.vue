@@ -83,7 +83,7 @@ export default {
 </script>
 <style lang="scss">
 .rewards {
-  padding: 1rem;
+  padding: 1rem 0;
 }
 .medialist__item {
   position: relative;
@@ -116,7 +116,7 @@ export default {
   margin-bottom: 0.6rem;
   display: block;
   color: $white;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: bold;
 }
 </style>

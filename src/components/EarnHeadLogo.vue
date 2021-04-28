@@ -5,12 +5,17 @@
       src="../assets/img/logopeerkat.png"
       alt="Peerkat Logo"
     />
-    <v-ons-toolbar-button style="padding:0 0 0 0.2rem" @click="showPopover">
-      <strong>@PEERKATLIVE <span class="text-azure">EARN</span></strong>
-    </v-ons-toolbar-button>
+    <earn-head-menu-right></earn-head-menu-right>
   </div>
 </template>
-
+<script>
+import EarnHeadMenuRight from "@/components/EarnHeadMenuRight.vue";
+export default {
+  components: {
+    EarnHeadMenuRight
+  }
+};
+</script>
 <style lang="scss">
 .head_logo {
   display: flex;

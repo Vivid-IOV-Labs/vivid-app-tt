@@ -1,7 +1,9 @@
 <template>
   <div>
     <v-ons-toolbar-button style="padding:0 0 0 0.2rem" @click="showPopover">
-      <strong style="font-size:1.2rem">@PEERKATLIVE</strong>
+      <strong style="font-size:1.2rem"
+        >@PEERKATLIVE <span class="text-azure">EARN</span></strong
+      >
     </v-ons-toolbar-button>
     <v-ons-popover
       cancelable
