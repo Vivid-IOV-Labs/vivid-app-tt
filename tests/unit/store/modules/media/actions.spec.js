@@ -20,7 +20,8 @@ const mediaState = () => ({
 describe("Media Actions", () => {
   it("Loads media and populate state ", async () => {
     const context = {
-      commit: jest.fn()
+      commit: jest.fn(),
+      rootGetters: { "user/getWallet": "userWalletAddress" }
     };
     await actions.populateAll(context);
     expect(context.commit.mock.calls[0][0]).toEqual("setAll");
