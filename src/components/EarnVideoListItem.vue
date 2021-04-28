@@ -1,5 +1,40 @@
 <template>
   <div class="full-width medialist__item ">
+    <div v-if="media.rewards" class="rewards">
+      <div
+        v-if="
+          media.rewards.rewardVerifiedTxHash &&
+            media.rewards.rewardVerifiedTxHash
+        "
+      >
+        <span class="progress_description" style="color:#16dbdb"
+          ><base-icon name="dollar-sign"></base-icon> Your TT has been verified
+          from ThunderCore!
+        </span>
+      </div>
+      <div
+        v-if="
+          media.rewards.rewardSmartContractTxHash &&
+            !media.rewards.rewardVerifiedTxHash
+        "
+      >
+        <span class="progress_description" style="color:#16dbdb"
+          ><base-icon name="dollar-sign"></base-icon> Well done! Your TT is on
+          its way to your ThunderCore hub wallet!</span
+        >
+      </div>
+      <div
+        v-if="
+          !media.rewards.rewardSmartContractTxHash &&
+            !media.rewards.rewardVerifiedTxHash
+        "
+      >
+        <span class="progress_description">Keep watching to get TT</span>
+        <earn-progress-bar
+          :percentage="media.rewards.percentageWatched"
+        ></earn-progress-bar>
+      </div>
+    </div>
     <div class="medialist__item_picture-frame">
       <img
         class="medialist__item_poster"
@@ -17,9 +52,10 @@
 <script>
 import BaseIcon from "@/components/BaseIcon.vue";
 import env from "@/env.js";
+import EarnProgressBar from "@/components/EarnProgressBar.vue";
 
 export default {
-  name: "VideoList",
+  name: "EarnVideoList",
   props: {
     media: {
       type: Object,
@@ -27,7 +63,8 @@ export default {
     }
   },
   components: {
-    BaseIcon
+    BaseIcon,
+    EarnProgressBar
   },
   computed: {
     posterUrl() {
@@ -45,6 +82,9 @@ export default {
 };
 </script>
 <style lang="scss">
+.rewards {
+  padding: 1rem;
+}
 .medialist__item {
   position: relative;
   border-bottom: solid 2px $dark-grey;
@@ -71,5 +111,12 @@ export default {
 .medialist__item__title {
   font-weight: bold;
   padding: 0.2rem 0 0rem;
+}
+.progress_description {
+  margin-bottom: 0.6rem;
+  display: block;
+  color: $white;
+  font-size: 0.8rem;
+  font-weight: bold;
 }
 </style>

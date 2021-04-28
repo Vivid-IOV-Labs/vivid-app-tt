@@ -3,9 +3,6 @@
     <v-ons-toolbar-button @click="toEarnList">
       <base-icon class="btn__icon--primary" name="dollar-sign"></base-icon>
     </v-ons-toolbar-button>
-    <v-ons-toolbar-button @click="showPopover">
-      <base-icon class="btn__icon--primary" name="upload"></base-icon>
-    </v-ons-toolbar-button>
     <v-ons-popover
       cancelable
       :visible.sync="popoverVisible"
@@ -59,16 +56,6 @@ export default {
     toEarnList() {
       this.trackLink("earn-page");
       this.$router.push({ path: "earnvideolist" });
-    },
-    showPopover(event, direction, coverTarget = false) {
-      this.popoverTarget = event;
-      this.popoverDirection = direction;
-      this.coverTarget = coverTarget;
-      this.popoverVisible = true;
-      trackEvent({
-        category: "Video List View",
-        action: "click-menu"
-      });
     },
     trackLink(link) {
       trackEvent({

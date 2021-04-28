@@ -3,21 +3,24 @@ import ApiService from "./ApiService";
 const API_ENDPOINT = "/media";
 
 class MediaService {
-  async getAll() {
+  async getAll(userWalletAddress) {
     const {
       data: { allMedia }
-    } = await ApiService.get(`${API_ENDPOINT}/list/`);
+    } = await ApiService.get(
+      `${API_ENDPOINT}/list?userWalletAddress=${userWalletAddress}`
+    );
     return allMedia;
   }
-  async videoViewed({ userWalletAddress, mediaID }) {
-    const { data } = await ApiService.post(`${API_ENDPOINT}/view`, {
-      userWalletAddress,
-      mediaID
-    });
-    return data;
+  async getRewardList(userWalletAddress) {
+    const {
+      data: { rewardsList }
+    } = await ApiService.get(
+      `${API_ENDPOINT}/rewards/list?userWalletAddress=${userWalletAddress}`
+    );
+    return rewardsList;
   }
-  async countReward({ userWalletAddress, mediaID, percentageWatched }) {
-    const data = await Promise.resolve({
+  async videoViewed({ userWalletAddress, mediaID, percentageWatched }) {
+    const { data } = await ApiService.post(`${API_ENDPOINT}/view`, {
       userWalletAddress,
       mediaID,
       percentageWatched

@@ -2,9 +2,12 @@ import MediaService from "@/services/MediaService";
 import devLog from "@/util/devlog.js";
 
 export default {
-  async populateAll({ commit }) {
+  async populateAll(store) {
+    const { commit } = store;
     try {
-      const all = await MediaService.getAll();
+      const userWalletAddress = store.rootGetters["user/getWallet"];
+
+      const all = await MediaService.getAll(userWalletAddress);
 
       commit("setAll", all);
 
@@ -25,16 +28,15 @@ export default {
       commit("setHighlighted", highlightedSortedByOrder);
 
       /**Earn */
-      const earnLatestsSortedByTime = all
-        .filter(f => f.earn)
+      const earn = all.filter(f => f.earn);
+      const earnLatestsSortedByTime = earn
         .filter(f => !f.list || !f.list.highlighted)
         .sort((a, b) => {
           return b.createdAt - a.createdAt;
         });
       commit("setEarnLatests", earnLatestsSortedByTime);
 
-      const earnHighlightedSortedByOrder = all
-        .filter(f => f.earn)
+      const earnHighlightedSortedByOrder = earn
         .filter(f => f.list && f.list.highlighted)
         .sort((a, b) => {
           return b.list.order - a.list.order;

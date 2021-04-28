@@ -10,33 +10,19 @@
       <template v-slot:top>
         <div class="stream__controls stream__controls--top">
           <div class="flex">
-            <!-- <v-ons-button
-              class="btn btn--small btn--opacity-soft flex-center-xy"
-            >
-              <base-icon class="btn__icon" name="user"></base-icon>
-              <span class="ml-2">101</span>
-            </v-ons-button> -->
             <v-ons-button
               style="border:solid 2px #fff"
-              class="btn btn--small btn--opacity-soft flex-center-xy ml-2"
+              class="btn btn--small btn--round btn--opacity-soft flex-center-xy ml-2"
             >
               <base-icon
                 class="btn__icon"
-                :fill="false"
-                style="font-size:1.8rem"
-                name="thundercore"
+                style="font-size:1.4rem"
+                name="dollar-sign"
               ></base-icon>
-              <span id="total-tips" class="ml-2">{{ totalTips }}</span>
             </v-ons-button>
           </div>
 
           <div class="ml-auto flex">
-            <!-- <v-ons-button
-              @click="reportConfirm = true"
-              class="btn btn--square  btn--opacity-soft btn--small "
-            >
-              <base-icon class="btn__icon" name="flag"></base-icon>
-            </v-ons-button> -->
             <div class="flex-column ml-2">
               <v-ons-button
                 @click="endViewingVideo"
@@ -44,29 +30,6 @@
               >
                 <base-icon class="btn__icon" name="times"></base-icon>
               </v-ons-button>
-              <!-- <v-ons-button
-                @click="dropVideoMenu"
-                class="btn btn--small  btn--opacity-soft btn--square mb-2"
-              >
-                <base-icon class="btn__icon" name="menu-dots"></base-icon>
-              </v-ons-button>
-              <transition name="vide-menu">
-                <div
-                  v-show="isVideoMenuDropped"
-                  class="video__controls__menu flex-column"
-                >
-                  <a
-                    class="btn btn--square  btn--opacity-soft btn--small  mb-2"
-                    :href="currentMedia.shop.link"
-                    target="_blank"
-                  >
-                    <base-icon
-                      class="btn__icon"
-                      name="shopping-cart"
-                    ></base-icon>
-                  </a>
-                </div>
-              </transition> -->
             </div>
           </div>
         </div>
@@ -84,90 +47,28 @@
               {{ hashtags }}
             </p>
           </div>
-
-          <div class=" ml-auto flex-column ">
-            <div ref="tipbutton">
-              <v-ons-button
-                id="tip-streamer"
-                @click="tipStreamer"
-                :disabled="isTipping"
-                class="btn btn--round-large btn--opacity-dark mb-2"
-                style="font-size: 3.4rem; padding: 0.2rem 0 0 0.2rem; border:solid 2px #fff"
-              >
-                <base-icon
-                  class="btn__icon"
-                  :fill="false"
-                  name="thundercore"
-                ></base-icon>
-              </v-ons-button>
-            </div>
-          </div>
         </div>
       </template>
     </base-video>
-    <v-ons-popover
-      class="isPopoverClickTT"
-      :visible.sync="isPopoverClickTT"
-      :target="popoverTarget"
-    >
-      <p class="bold text-center">Click here to tip 1TT</p>
-    </v-ons-popover>
-    <v-ons-popover
-      cancelable
-      :visible.sync="isPopoverTTProgress"
-      :target="popoverTarget"
-    >
-      <div style="padding:1rem">
-        <div class="dot-flashing"></div>
-      </div>
-    </v-ons-popover>
-    <v-ons-popover
-      cancelable
-      :visible.sync="isPopoverTTSuccess"
-      :target="popoverTarget"
-    >
-      <p class="bold text-center">
-        Tip done! &#128512;
-      </p>
-    </v-ons-popover>
-    <v-ons-popover
-      cancelable
-      :visible.sync="isPopoverTTFailed"
-      :target="popoverTarget"
-    >
-      <p class="bold text-center">
-        Tipping failed &#128549;
-      </p>
-    </v-ons-popover>
+    <reward-earned-dialog v-model="isRewardEarned"></reward-earned-dialog>
   </v-ons-page>
 </template>
 <script>
 import BaseVideo from "@/components/BaseVideo.vue";
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters } from "vuex";
 import { trackEvent } from "@/util/analytics";
-import delay from "@/util/delay.js";
 import env from "@/env.js";
-import TipService from "@/services/TipService";
 import webSocketService from "@/util/webSocketService.js";
-import devLog from "@/util/devlog.js";
 import Hls from "hls.js";
 import MediaService from "@/services/MediaService";
-function bigNumberFormatter(numberToFormat) {
-  return Math.abs(numberToFormat) > 999999
-    ? Math.sign(numberToFormat) *
-        (Math.abs(numberToFormat) / 1000000).toFixed(1) +
-        "M"
-    : Math.abs(numberToFormat) > 999
-    ? Math.sign(numberToFormat) * (Math.abs(numberToFormat) / 1000).toFixed(1) +
-      "K"
-    : Math.sign(numberToFormat) * Math.abs(numberToFormat);
-}
+import RewardEarnedDialog from "@/components/dialogs/RewardEarnedDialog.vue";
 let watched = new Set();
 
 export default {
-  name: "ViewVideo",
+  name: "EarnViewVideo",
   components: {
-    BaseVideo
+    BaseVideo,
+    RewardEarnedDialog
   },
   data() {
     return {
@@ -185,11 +86,7 @@ export default {
       },
       isVideoMenuDropped: false,
       isFullScreen: false,
-      isTipping: false,
-      isPopoverClickTT: false,
-      isPopoverTTSuccess: false,
-      isPopoverTTFailed: false,
-      isPopoverTTProgress: false,
+      isRewardEarned: false,
       popoverTarget: null,
       mediaID: this.$route.params.mediaID,
       percentageWatched: 0
@@ -197,7 +94,7 @@ export default {
   },
   computed: {
     ...mapGetters("media", ["getById"]),
-    ...mapGetters("smartcontract", ["getTipContract", "getUserWalletAddress"]),
+    ...mapGetters("smartcontract", ["getUserWalletAddress"]),
     currentMedia() {
       return this.getById(this.mediaID);
     },
@@ -248,74 +145,20 @@ export default {
         mediaID: this.mediaID,
         poster: this.posterUrl
       };
-    },
-    totalTips: {
-      get() {
-        if (
-          this.currentMedia.statistics &&
-          this.currentMedia.statistics.total &&
-          this.currentMedia.statistics.total.tips
-        ) {
-          return bigNumberFormatter(this.currentMedia.statistics.total.tips);
-        } else {
-          return 0;
-        }
-      },
-      set(newVal) {
-        this.setTotalTip({ mediaID: this.mediaID, totalTips: newVal });
-      }
     }
   },
   methods: {
-    ...mapMutations("media", ["setTotalTip"]),
-    endViewingVideo() {
+    async endViewingVideo() {
       trackEvent({
-        category: "Video Play View",
+        category: "Earn Video Play View",
         action: "close-video",
         label: "MediaId:" + this.mediaID
       });
+      await this.countVideoViewed();
       this.$router.back();
     },
     dropVideoMenu() {
       this.isVideoMenuDropped = !this.isVideoMenuDropped;
-    },
-    async startTimer() {
-      await delay(120000);
-      this.isPopoverTTProgress = false;
-      this.isPopoverTTProgress = false;
-      if (!this.isFullScreen) {
-        this.isPopoverTTFailed = true;
-      }
-    },
-    async tipStreamer() {
-      this.isPopoverClickTT = false;
-      if (!this.isFullScreen) {
-        this.isTipping = true;
-        this.isPopoverTTProgress = true;
-      }
-      try {
-        const result = await this.getTipContract();
-        this.startTimer();
-        const { transactionHash } = await result.wait();
-        await TipService.verify({
-          transactionHash,
-          mediaID: this.mediaID
-        });
-        trackEvent({
-          category: "Video Play View",
-          action: "tip-video-started",
-          label: "MediaId:" + this.mediaID
-        });
-      } catch (err) {
-        this.isPopoverTTProgress = false;
-        if (!this.isFullScreen) {
-          this.isPopoverTTFailed = true;
-        }
-        this.isTipping = false;
-        await delay(3000);
-        this.isPopoverTTFailed = false;
-        devLog(err);
-      }
     },
     autoplay(video) {
       //clear all the listener on destroy?
@@ -331,13 +174,13 @@ export default {
         promise
           .catch(function() {
             trackEvent({
-              category: "Video Play View",
+              category: "Earn Video Play View",
               action: "autoplay-error"
             });
           })
           .then(function() {
             trackEvent({
-              category: "Video Play View",
+              category: "Earn Video Play View",
               action: "autoplay-success"
             });
           });
@@ -357,7 +200,7 @@ export default {
           });
         });
         trackEvent({
-          category: "Video Play View",
+          category: "Earn Video Play View",
           action: "hls-video-playing"
         });
       } else if (video.media.canPlayType("application/vnd.apple.mpegurl")) {
@@ -365,7 +208,7 @@ export default {
         video.media.addEventListener("loadedmetadata", () => {
           this.autoplay(video.media);
           trackEvent({
-            category: "Video Play View",
+            category: "Earn Video Play View",
             action: "hls-video-playing"
           });
         });
@@ -377,72 +220,21 @@ export default {
           video.media.playsinline = "true";
           this.autoplay(video.media);
           trackEvent({
-            category: "Video Play View",
+            category: "Earn Video Play View",
             action: "hls-video-playing"
           });
         });
       }
     },
-    countVideoViewed() {
+    async countVideoViewed() {
       const mediaID = this.mediaID;
-      const userWalletAddress = this.getUserWalletAddress;
-      MediaService.videoViewed({
-        mediaID,
-        userWalletAddress
-      });
-    },
-    countReward() {
-      const mediaID = this.mediaID;
-      debugger;
       const userWalletAddress = this.getUserWalletAddress;
       const percentageWatched = this.getPercentageVideoWatched();
-      console.log("percentageWatched", percentageWatched);
-      MediaService.countReward({
+      await MediaService.videoViewed({
         mediaID,
         userWalletAddress,
         percentageWatched
       });
-    },
-    async updateTip({ data }) {
-      const { totalTips, mediaID, sender } = data;
-
-      if (mediaID == this.mediaID) {
-        this.totalTips = totalTips;
-      }
-      if (
-        mediaID == this.mediaID &&
-        this.getUserWalletAddress == sender.walletAddress
-      ) {
-        this.isTipping = false;
-
-        this.isPopoverTTProgress = false;
-        if (!this.isFullScreen) {
-          this.isPopoverTTSuccess = true;
-        }
-        trackEvent({
-          category: "Video Play View",
-          action: "tip-video-verified",
-          label: "MediaId:" + this.mediaID
-        });
-        await delay(3000);
-        this.isPopoverTTSuccess = false;
-      }
-    },
-    async showTipPopUp() {
-      await delay(1200);
-      this.$nextTick(() => {
-        this.isPopoverClickTT = true;
-        const popOverMask = document.querySelector(
-          ".isPopoverClickTT .popover-mask"
-        );
-        popOverMask.style.display = "none";
-        const popOver = document.querySelector(".isPopoverClickTT .popover");
-        popOver.addEventListener("click", () => {
-          this.isPopoverClickTT = false;
-        });
-      });
-      await delay(10000);
-      this.isPopoverClickTT = false;
     },
     getPercentageVideoWatched() {
       const secondsWatched = Array.from(watched).length;
@@ -457,33 +249,28 @@ export default {
         watched.add(Math.ceil(this.player.currentTime));
       });
       this.player.on("ended", () => {
-        this.countReward();
+        this.countVideoViewed();
       });
+    },
+    rewardSent({ data }) {
+      const { mediaID } = data;
+      console.log("reward earned", mediaID);
+      this.isRewardEarned = true;
+      // {          mediaID:""
+      //     rewardSmartContractTxHash:""
+      //     percentageWatched: ""
+      //     userWalletAddress: ""}
     }
   },
   mounted() {
-    this.popoverTarget = this.$refs.tipbutton;
     this.player = this.$refs.videoplayer.player;
-    this.showTipPopUp();
     this.recordVideoWatched();
     this.player.on("ready", this.attachHls);
-    this.player.on("ended", this.countVideoViewed);
     this.player.on("enterfullscreen", () => {
       this.isFullScreen = true;
-      this.isPopoverClickTT = false;
-      this.isPopoverTTSuccess = false;
-      this.isPopoverTTFailed = false;
-      this.isPopoverTTProgress = false;
     });
     this.player.on("exitfullscreen", () => (this.isFullScreen = false));
-    webSocketService.socket.on("media-updated-tip", this.updateTip);
-  },
-  created() {
-    window.addEventListener("beforeunload", this.countReward);
-  },
-  beforeDestroy() {
-    this.countReward();
-    window.removeEventListener("beforeunload", this.countReward);
+    webSocketService.socket.on("media-reward-sent", this.rewardSent);
   }
 };
 </script>

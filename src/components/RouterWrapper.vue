@@ -37,6 +37,7 @@ export default {
         this.pageStack = [];
         this.pageStack.push(nextPage);
       } else {
+        this.pageStack = [];
         this.pageStack.push(nextPage);
       }
     }
@@ -47,6 +48,7 @@ export default {
   methods: {
     goBack() {
       this.$router.back();
+      debugger;
       // this.$router.push({
       //   name: this.$route.matched[this.$route.matched.length - 1].name
       // });

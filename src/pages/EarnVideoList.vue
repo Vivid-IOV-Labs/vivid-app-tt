@@ -2,32 +2,32 @@
   <v-ons-page class="viewlist">
     <v-ons-toolbar>
       <div>
-        <head-logo></head-logo>
+        <earn-head-logo></earn-head-logo>
       </div>
       <div class="right">
-        <v-ons-back-button>back</v-ons-back-button>
+        <v-ons-toolbar-button @click="pushBack">
+          <base-icon class="btn__icon--primary" name="angle-left"></base-icon>
+        </v-ons-toolbar-button>
       </div>
     </v-ons-toolbar>
     <div class="scroller viewlist__content">
       <div>
         <h2>Watch the whole video to get a reward</h2>
       </div>
-      <div v-if="getEarnHighlighted.length">
-        <div class="page__title__background">
-          <h3 class="page__title">Top Videos</h3>
-        </div>
-        <v-ons-list modifier="tappable">
-          <v-ons-list-item
-            v-for="media in getEarnHighlighted"
-            :key="media.mediaID"
-            @click="pushToVideo(media.mediaID)"
-          >
-            <video-list-item :media="media"></video-list-item>
-          </v-ons-list-item>
-        </v-ons-list>
-      </div>
       <div class="page__title__background">
-        <h3 class="page__title">Latest Videos</h3>
+        <h3 class="page__title">FEATURED EARN VIDEOS</h3>
+      </div>
+      <v-ons-list modifier="tappable">
+        <v-ons-list-item
+          v-for="media in getEarnHighlighted"
+          :key="media.mediaID"
+          @click="pushToVideo(media.mediaID)"
+        >
+          <earn-video-list-item :media="media"></earn-video-list-item>
+        </v-ons-list-item>
+      </v-ons-list>
+      <div class="page__title__background">
+        <h3 class="page__title">EARN VIDEOS</h3>
       </div>
       <v-ons-list modifier="tappable">
         <v-ons-list-item
@@ -35,7 +35,7 @@
           :key="media.mediaID"
           @click="pushToVideo(media.mediaID)"
         >
-          <video-list-item :media="media"></video-list-item>
+          <earn-video-list-item :media="media"></earn-video-list-item>
         </v-ons-list-item>
       </v-ons-list>
     </div>
@@ -43,25 +43,32 @@
 </template>
 
 <script>
-import HeadLogo from "@/components/HeadLogo.vue";
-import VideoListItem from "@/components/VideoListItem.vue";
-import { mapGetters } from "vuex";
+import EarnHeadLogo from "@/components/EarnHeadLogo.vue";
+import EarnVideoListItem from "@/components/EarnVideoListItem.vue";
+import { mapGetters, mapActions } from "vuex";
 import webSocketService from "@/util/webSocketService.js";
 import { trackEvent } from "@/util/analytics";
 
 export default {
   name: "VideoList",
   components: {
-    HeadLogo,
-    VideoListItem
+    EarnHeadLogo,
+    EarnVideoListItem
   },
   computed: {
     ...mapGetters("media", ["getEarnLatests", "getEarnHighlighted"])
   },
+  created() {
+    this.populateAll();
+  },
   methods: {
+    ...mapActions("media", ["populateAll", "add", "delete"]),
+    pushBack() {
+      this.$router.back();
+    },
     pushToVideo(mediaID) {
       trackEvent({
-        category: "Video List View",
+        category: "Earn Video List View",
         action: "select-video",
         label: "MediaId:" + this.mediaID
       });
@@ -83,10 +90,6 @@ export default {
     });
     webSocketService.socket.on("media-deleted", async ({ data }) => {
       await this.delete(data);
-    });
-    webSocketService.socket.on("media-updated-tip", async ({ data }) => {
-      const { totalTips, mediaID } = data;
-      this.setTotalTip({ mediaID, totalTips });
     });
   }
 };
