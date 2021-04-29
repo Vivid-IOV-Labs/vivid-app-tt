@@ -12,7 +12,7 @@
     </v-ons-toolbar>
     <div class="scroller viewlist__content">
       <div>
-        <h2>Watch the whole video to get a reward</h2>
+        <h3 class="page__title">EARN TT BY WATCHING THESE VIDEOS</h3>
       </div>
       <div class="page__title__background">
         <h3 class="page__title">FEATURED EARN VIDEOS</h3>

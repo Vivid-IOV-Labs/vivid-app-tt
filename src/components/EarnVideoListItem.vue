@@ -7,8 +7,8 @@
             media.rewards.rewardVerifiedTxHash
         "
       >
-        <span class="progress_description" style="color:#16dbdb">
-          Your TT has been verified from ThunderCore!
+        <span class="progress_description text-azure">
+          Completed! +1TT gained!
         </span>
       </div>
       <div
@@ -17,10 +17,9 @@
             !media.rewards.rewardVerifiedTxHash
         "
       >
-        <span class="progress_description" style="color:#16dbdb"
-          >Well done! Your TT is on its way to your ThunderCore hub
-          wallet!</span
-        >
+        <span class="progress_description text-azure">
+          Nice one! 1TT claimed!
+        </span>
       </div>
       <div
         v-if="
@@ -29,15 +28,19 @@
         "
       >
         <span class="progress_description">Keep watching to get TT</span>
-        <earn-progress-bar
-          :percentage="media.rewards.percentageWatched"
-        ></earn-progress-bar>
       </div>
+      <earn-progress-bar
+        :completed="media.rewards && !!media.rewards.rewardSmartContractTxHash"
+        :percentage="media.rewards.percentageWatched"
+      ></earn-progress-bar>
     </div>
     <div class="medialist__item_picture-frame">
       <div class="medialist__item_picture-frame_badge--reward flex-center-xy">
         <base-icon
-          :class="{ 'text-azure': hasRewarded }"
+          :class="{
+            'text-azure':
+              media.rewards && media.rewards.rewardSmartContractTxHash
+          }"
           name="dollar-sign"
         ></base-icon>
       </div>
@@ -82,9 +85,11 @@ export default {
         error: "/thumbnail.jpg",
         loading: "/thumbnail.jpg"
       };
-    },
-    hasRewarded() {
-      return this.media.rewards && this.media.rewards.rewardSmartContractTxHash;
+    }
+  },
+  methods: {
+    hasRewarded(media) {
+      return media.rewards && !!media.rewards.rewardSmartContractTxHash;
     }
   }
 };
@@ -134,7 +139,6 @@ export default {
 .progress_description {
   margin-bottom: 0.6rem;
   display: block;
-  color: $white;
   font-size: 0.9rem;
   font-weight: bold;
 }

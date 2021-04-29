@@ -1,11 +1,11 @@
 <template>
   <v-ons-dialog :visible="value" @update:visible="updateVisible">
     <header class="dialog__head">
-      <div class="dialog__head__title">Reward Earned!</div>
+      <div class="dialog__head__title">WELL DONE!</div>
     </header>
     <div class="content">
       <p>
-        Well done! Your TT is on its way to your ThunderCore hub wallet!
+        Your TT is on its way to your ThunderCore hub wallet!
       </p>
 
       <div class="flex mt-4 flex-center-xy">

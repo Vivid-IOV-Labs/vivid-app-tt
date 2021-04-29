@@ -1,7 +1,14 @@
 <template>
   <div>
     <div class="progress_wrapper">
-      <span class="progress_bar" :style="{ width: `${percentage}%` }"></span>
+      <span
+        :class="{
+          'progress_bar--azure': completed,
+          'progress_bar--white': !completed
+        }"
+        class="progress_bar"
+        :style="{ width: `${percentage}%` }"
+      ></span>
     </div>
   </div>
 </template>
@@ -11,12 +18,16 @@ export default {
   props: {
     percentage: {
       type: Number
+    },
+    completed: {
+      type: Boolean,
+      default: false
     }
   }
 };
 </script>
 
-<style>
+<style lang="scss">
 .progress_wrapper {
   height: 0.8rem;
   width: 100%;
@@ -33,6 +44,11 @@ export default {
   border-bottom-right-radius: 8px;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
-  background-color: #fff;
+}
+.progress_bar--white {
+  background-color: $white;
+}
+.progress_bar--azure {
+  background-color: $azure;
 }
 </style>
