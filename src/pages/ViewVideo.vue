@@ -40,9 +40,9 @@
             <div class="flex-column ml-2">
               <v-ons-button
                 @click="endViewingVideo"
-                class="btn btn--small btn--opacity-soft btn--square mb-2"
+                class="btn btn--back btn--opacity-soft btn--square mb-2"
               >
-                <base-icon class="btn__icon" name="times"></base-icon>
+                <base-icon class="btn__icon" name="angle-left"></base-icon>
               </v-ons-button>
               <!-- <v-ons-button
                 @click="dropVideoMenu"
