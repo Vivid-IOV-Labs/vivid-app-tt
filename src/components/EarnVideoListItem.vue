@@ -35,11 +35,11 @@
       </div>
     </div>
     <div class="medialist__item_picture-frame">
-      <div
-        v-if="media.rewards && media.rewards.rewardSmartContractTxHash"
-        class="medialist__item_picture-frame_badge--reward flex-center-xy"
-      >
-        <base-icon class="text-azure" name="dollar-sign"></base-icon>
+      <div class="medialist__item_picture-frame_badge--reward flex-center-xy">
+        <base-icon
+          :class="{ 'text-azure': hasRewarded }"
+          name="dollar-sign"
+        ></base-icon>
       </div>
       <img
         class="medialist__item_poster"
@@ -82,6 +82,9 @@ export default {
         error: "/thumbnail.jpg",
         loading: "/thumbnail.jpg"
       };
+    },
+    hasRewarded() {
+      return this.media.rewards && this.media.rewards.rewardSmartContractTxHash;
     }
   }
 };

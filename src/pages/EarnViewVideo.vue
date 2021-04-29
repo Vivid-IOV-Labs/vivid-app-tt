@@ -15,7 +15,8 @@
               class="btn btn--small btn--primary btn--round btn--opacity-soft flex-center-xy ml-2"
             >
               <base-icon
-                class="btn__icon text-azure"
+                class="btn__icon"
+                :class="{ 'text-azure': hasRewarded }"
                 style="font-size:1.4rem"
                 name="dollar-sign"
               ></base-icon>
@@ -26,9 +27,10 @@
             <div class="flex-column ml-2">
               <v-ons-button
                 @click="endViewingVideo"
-                class="btn btn--small btn--opacity-soft btn--square mb-2"
+                :disabled="isCountingView"
+                class="btn  btn--opacity-soft btn--square btn--back mb-2"
               >
-                <base-icon class="btn__icon" name="times"></base-icon>
+                <base-icon class="btn__icon" name="angle-left"></base-icon>
               </v-ons-button>
             </div>
           </div>
@@ -50,7 +52,7 @@
         </div>
       </template>
     </base-video>
-    <reward-earned-dialog v-model="isRewardEarned"></reward-earned-dialog>
+    <reward-earned-dialog v-model="isRewardEarnedDialog"></reward-earned-dialog>
   </v-ons-page>
 </template>
 <script>
@@ -87,9 +89,11 @@ export default {
       isVideoMenuDropped: false,
       isFullScreen: false,
       isRewardEarned: false,
+      isRewardEarnedDialog: false,
       popoverTarget: null,
       mediaID: this.$route.params.mediaID,
-      percentageWatched: 0
+      percentageWatched: 0,
+      isCountingView: false
     };
   },
   computed: {
@@ -145,6 +149,14 @@ export default {
         mediaID: this.mediaID,
         poster: this.posterUrl
       };
+    },
+    hasRewarded() {
+      return (
+        (this.currentMedia &&
+          this.currentMedia.rewards &&
+          this.currentMedia.rewards.rewardSmartContractTxHash) ||
+        this.isRewardEarned
+      );
     }
   },
   methods: {
@@ -227,14 +239,17 @@ export default {
       }
     },
     async countVideoViewed() {
+      this.isCountingView = true;
       const mediaID = this.mediaID;
       const userWalletAddress = this.getUserWalletAddress;
       const percentageWatched = this.getPercentageVideoWatched();
-      await MediaService.videoViewed({
-        mediaID,
-        userWalletAddress,
-        percentageWatched
-      });
+      if (percentageWatched && !this.hasRewarded)
+        await MediaService.videoViewed({
+          mediaID,
+          userWalletAddress,
+          percentageWatched
+        });
+      this.isCountingView = false;
     },
     getPercentageVideoWatched() {
       const secondsWatched = Array.from(watched).length;
@@ -242,9 +257,10 @@ export default {
       const percentageWatched = Math.round(
         (secondsWatched / secondsDuration) * 100
       );
-      return percentageWatched;
+      return percentageWatched; // >= 100 ? percentageWatched : 100;
     },
     recordVideoWatched() {
+      watched = new Set();
       this.player.on("timeupdate", () => {
         watched.add(Math.ceil(this.player.currentTime));
       });
@@ -253,18 +269,25 @@ export default {
       });
     },
     rewardSent({ data }) {
-      const { mediaID } = data;
-      console.log("reward earned", mediaID);
-      this.isRewardEarned = true;
-      // {          mediaID:""
-      //     rewardSmartContractTxHash:""
-      //     percentageWatched: ""
-      //     userWalletAddress: ""}
+      const { mediaID, userWalletAddress } = data;
+
+      if (
+        mediaID == this.mediaID &&
+        userWalletAddress == this.getUserWalletAddress
+      ) {
+        this.isRewardEarned = true;
+        this.isRewardEarnedDialog = true;
+      } else {
+        this.isRewardEarned = true;
+        this.isRewardEarnedDialog = true;
+      }
     }
   },
   mounted() {
     this.player = this.$refs.videoplayer.player;
-    this.recordVideoWatched();
+    if (!this.hasRewarded) {
+      this.recordVideoWatched();
+    }
     this.player.on("ready", this.attachHls);
     this.player.on("enterfullscreen", () => {
       this.isFullScreen = true;

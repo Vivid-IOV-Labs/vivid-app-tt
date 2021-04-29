@@ -41,7 +41,6 @@ button:disabled {
   background-color:$azure;
   color: $white;
 }
-
 .btn__icon--white{
   color: $white;
 }
@@ -87,7 +86,9 @@ button:disabled {
   color: $white;
   background: rgba(0, 0, 0, 0.8);
 }
-
+.btn--back{
+  font-size: 1.4rem;
+}
 .btn--link {
   display: inline;
   background: none;
@@ -302,6 +303,10 @@ button:disabled {
 .toolbar-button{
   color: $white;
 }
+.toolbar-button--material {
+  font-size: 1.4rem;
+}
+
 .back-button, .back-button__icon{
   color: $white;
   fill:$white;
