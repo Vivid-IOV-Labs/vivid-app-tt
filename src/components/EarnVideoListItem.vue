@@ -36,7 +36,7 @@
     </div>
     <div class="medialist__item_picture-frame">
       <div
-        v-if="media.rewards.rewardSmartContractTxHash"
+        v-if="media.rewards && media.rewards.rewardSmartContractTxHash"
         class="medialist__item_picture-frame_badge--reward flex-center-xy"
       >
         <base-icon class="text-azure" name="dollar-sign"></base-icon>
