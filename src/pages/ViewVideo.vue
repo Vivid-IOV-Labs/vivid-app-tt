@@ -384,7 +384,6 @@ export default {
     },
     countVideoViewed() {
       const { mediaID } = this.currentMedia;
-      debugger;
       const userWalletAddress = this.getUserWalletAddress;
       MediaService.videoViewed({
         mediaID,
