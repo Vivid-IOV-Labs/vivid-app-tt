@@ -115,7 +115,7 @@ export default {
   right: 0.6rem;
 }
 .medialist__item_poster {
-  object-fit: cover;
+  object-fit: contain;
   width: 100%;
   border-radius: 0.6rem;
 }
