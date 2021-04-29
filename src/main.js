@@ -81,7 +81,8 @@ Vue.use(VueLazyload, {
   preLoad: 1.3,
   error: errorimage,
   loading: errorimage,
-  attempt: 1
+  attempt: 1,
+  observer: true
 });
 
 Vue.config.productionTip = false;

@@ -277,9 +277,6 @@ export default {
       ) {
         this.isRewardEarned = true;
         this.isRewardEarnedDialog = true;
-      } else {
-        this.isRewardEarned = true;
-        this.isRewardEarnedDialog = true;
       }
     }
   },
