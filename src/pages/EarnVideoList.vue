@@ -26,18 +26,20 @@
           <earn-video-list-item :media="media"></earn-video-list-item>
         </v-ons-list-item>
       </v-ons-list>
-      <div class="page__title__background">
-        <h3 class="page__title">COMPLETED EARN VIDEOS</h3>
+      <div v-if="getEarnCompleted.length">
+        <div class="page__title__background">
+          <h3 class="page__title">COMPLETED EARN VIDEOS</h3>
+        </div>
+        <v-ons-list modifier="tappable">
+          <v-ons-list-item
+            v-for="media in getEarnCompleted"
+            :key="media.mediaID"
+            @click="pushToVideo(media.mediaID)"
+          >
+            <earn-video-list-item :media="media"></earn-video-list-item>
+          </v-ons-list-item>
+        </v-ons-list>
       </div>
-      <v-ons-list modifier="tappable">
-        <v-ons-list-item
-          v-for="media in getEarnCompleted"
-          :key="media.mediaID"
-          @click="pushToVideo(media.mediaID)"
-        >
-          <earn-video-list-item :media="media"></earn-video-list-item>
-        </v-ons-list-item>
-      </v-ons-list>
     </div>
   </v-ons-page>
 </template>
