@@ -13,8 +13,8 @@ export default {
   setEarnLatests(state, latests) {
     state.earnlatests = latests;
   },
-  setEarnHighlighted(state, highlighted) {
-    state.earnhighlighted = highlighted;
+  setEarnCompleted(state, completed) {
+    state.earncompleted = completed;
   },
   add(state, item) {
     state.all = [item, ...state.all];

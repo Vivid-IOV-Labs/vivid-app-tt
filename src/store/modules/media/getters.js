@@ -1,7 +1,7 @@
 export default {
   getAll: state => state.all,
   getHighlighted: state => state.highlighted,
-  getEarnHighlighted: state => state.earnhighlighted,
+  getEarnCompleted: state => state.earncompleted,
   getLatests: state => state.latests,
   getEarnLatests: state => state.earnlatests,
   getById: state => id => {

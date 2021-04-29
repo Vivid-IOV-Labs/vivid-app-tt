@@ -30,18 +30,18 @@ export default {
       /**Earn */
       const earn = all.filter(f => f.earn);
       const earnLatestsSortedByTime = earn
-        .filter(f => !f.list || !f.list.highlighted)
+        .filter(f => !f.rewards || !f.rewards.rewardSmartContractTxHash)
         .sort((a, b) => {
           return b.createdAt - a.createdAt;
         });
       commit("setEarnLatests", earnLatestsSortedByTime);
 
       const earnHighlightedSortedByOrder = earn
-        .filter(f => f.list && f.list.highlighted)
+        .filter(f => f.rewards && f.rewards.rewardSmartContractTxHash)
         .sort((a, b) => {
-          return b.list.order - a.list.order;
+          return b.createdAt - a.createdAt;
         });
-      commit("setEarnHighlighted", earnHighlightedSortedByOrder);
+      commit("setEarnCompleted", earnHighlightedSortedByOrder);
     } catch (error) {
       devLog(error);
     }

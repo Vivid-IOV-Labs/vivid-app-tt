@@ -39,7 +39,7 @@
         <base-icon
           :class="{
             'text-azure':
-              media.rewards && media.rewards.rewardSmartContractTxHash
+              media.rewards && !!media.rewards.rewardSmartContractTxHash
           }"
           name="dollar-sign"
         ></base-icon>

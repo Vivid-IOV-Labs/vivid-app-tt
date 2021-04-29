@@ -15,11 +15,11 @@
         <h3 class="page__title">EARN TT BY WATCHING THESE VIDEOS</h3>
       </div>
       <div class="page__title__background">
-        <h3 class="page__title">FEATURED EARN VIDEOS</h3>
+        <h3 class="page__title">EARN VIDEOS</h3>
       </div>
       <v-ons-list modifier="tappable">
         <v-ons-list-item
-          v-for="media in getEarnHighlighted"
+          v-for="media in getEarnLatests"
           :key="media.mediaID"
           @click="pushToVideo(media.mediaID)"
         >
@@ -27,11 +27,11 @@
         </v-ons-list-item>
       </v-ons-list>
       <div class="page__title__background">
-        <h3 class="page__title">EARN VIDEOS</h3>
+        <h3 class="page__title">COMPLETED EARN VIDEOS</h3>
       </div>
       <v-ons-list modifier="tappable">
         <v-ons-list-item
-          v-for="media in getEarnLatests"
+          v-for="media in getEarnCompleted"
           :key="media.mediaID"
           @click="pushToVideo(media.mediaID)"
         >
@@ -56,7 +56,7 @@ export default {
     EarnVideoListItem
   },
   computed: {
-    ...mapGetters("media", ["getEarnLatests", "getEarnHighlighted"])
+    ...mapGetters("media", ["getEarnLatests", "getEarnCompleted"])
   },
   created() {
     this.populateAll();

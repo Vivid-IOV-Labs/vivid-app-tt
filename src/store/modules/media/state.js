@@ -1,6 +1,6 @@
 const state = () => ({
   all: [],
-  earnhighlighted: [],
+  earncompleted: [],
   highlighted: [],
   latests: [],
   earnlatests: []
