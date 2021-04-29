@@ -12,10 +12,10 @@
           <div class="flex">
             <v-ons-button
               style="border:solid 2px #fff"
-              class="btn btn--small btn--round btn--opacity-soft flex-center-xy ml-2"
+              class="btn btn--small btn--primary btn--round btn--opacity-soft flex-center-xy ml-2"
             >
               <base-icon
-                class="btn__icon"
+                class="btn__icon text-azure"
                 style="font-size:1.4rem"
                 name="dollar-sign"
               ></base-icon>

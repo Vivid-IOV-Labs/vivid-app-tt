@@ -7,9 +7,8 @@
             media.rewards.rewardVerifiedTxHash
         "
       >
-        <span class="progress_description" style="color:#16dbdb"
-          ><base-icon name="dollar-sign"></base-icon> Your TT has been verified
-          from ThunderCore!
+        <span class="progress_description" style="color:#16dbdb">
+          Your TT has been verified from ThunderCore!
         </span>
       </div>
       <div
@@ -19,8 +18,8 @@
         "
       >
         <span class="progress_description" style="color:#16dbdb"
-          ><base-icon name="dollar-sign"></base-icon> Well done! Your TT is on
-          its way to your ThunderCore hub wallet!</span
+          >Well done! Your TT is on its way to your ThunderCore hub
+          wallet!</span
         >
       </div>
       <div
@@ -36,6 +35,12 @@
       </div>
     </div>
     <div class="medialist__item_picture-frame">
+      <div
+        v-if="media.rewards.rewardSmartContractTxHash"
+        class="medialist__item_picture-frame_badge--reward flex-center-xy"
+      >
+        <base-icon class="text-azure" name="dollar-sign"></base-icon>
+      </div>
       <img
         class="medialist__item_poster"
         v-lazy="imgObj"
@@ -91,13 +96,24 @@ export default {
   padding: 0.6rem 0rem 1.4rem;
 }
 .medialist__item_picture-frame {
+  position: relative;
   margin-bottom: 0.8rem;
   width: 100%;
+  max-height: 240px;
+}
+.medialist__item_picture-frame_badge--reward {
+  background: $black;
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  border: solid 2px $white;
+  border-radius: 50%;
+  top: 0.6rem;
+  right: 0.6rem;
 }
 .medialist__item_poster {
-  object-fit: contain;
+  object-fit: cover;
   width: 100%;
-  max-height: 220px;
   border-radius: 0.6rem;
 }
 .medialist__item__caption {

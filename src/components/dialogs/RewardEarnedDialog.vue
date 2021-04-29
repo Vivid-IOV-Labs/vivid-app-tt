@@ -5,7 +5,7 @@
     </header>
     <div class="content">
       <p>
-        Congratulations you earned 1TT by wathing this video!
+        Well done! Your TT is on its way to your ThunderCore hub wallet!
       </p>
 
       <div class="flex mt-4 flex-center-xy">
