@@ -15,7 +15,7 @@
               class="btn btn--small btn--primary btn--round btn--opacity-soft flex-center-xy ml-2"
             >
               <base-icon
-                v-if="!isCountingView"
+                v-if="!isCountingView && !hasRewarded"
                 class="btn__icon"
                 :class="{ 'text-azure': hasRewarded }"
                 style="font-size:1.4rem"
@@ -244,13 +244,12 @@ export default {
       this.isCountingView = true;
       const mediaID = this.mediaID;
       const userWalletAddress = this.getUserWalletAddress;
-      const percentageWatched = this.getPercentageVideoWatched();
-      if (percentageWatched)
-        await MediaService.videoViewed({
-          mediaID,
-          userWalletAddress,
-          percentageWatched
-        });
+      const percentageWatched = this.getPercentageVideoWatched() || 0;
+      await MediaService.videoViewed({
+        mediaID,
+        userWalletAddress,
+        percentageWatched
+      });
       this.isCountingView = false;
     },
     getPercentageVideoWatched() {
