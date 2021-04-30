@@ -8,7 +8,7 @@
         <head-menu></head-menu>
       </div>
     </v-ons-toolbar>
-    <div class="scroller viewlist__content">
+    <div class=" viewlist__content">
       <div v-if="getHighlighted.length">
         <div class="page__title__background">
           <h3 class="page__title">Top Videos</h3>
