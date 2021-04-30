@@ -243,7 +243,7 @@ export default {
       const mediaID = this.mediaID;
       const userWalletAddress = this.getUserWalletAddress;
       const percentageWatched = this.getPercentageVideoWatched();
-      if (percentageWatched && !this.hasRewarded)
+      if (percentageWatched)
         await MediaService.videoViewed({
           mediaID,
           userWalletAddress,
