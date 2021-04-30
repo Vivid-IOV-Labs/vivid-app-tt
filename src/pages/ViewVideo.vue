@@ -142,6 +142,7 @@
   </v-ons-page>
 </template>
 <script>
+let watched;
 import BaseVideo from "@/components/BaseVideo.vue";
 import { mapGetters, mapMutations } from "vuex";
 import { trackEvent } from "@/util/analytics";
@@ -382,12 +383,14 @@ export default {
         });
       }
     },
-    countVideoViewed() {
-      const { mediaID } = this.currentMedia;
+    async countVideoViewed() {
+      const mediaID = this.mediaID;
       const userWalletAddress = this.getUserWalletAddress;
-      MediaService.videoViewed({
+      const percentageWatched = this.getPercentageVideoWatched() || 0;
+      await MediaService.videoViewed({
         mediaID,
-        userWalletAddress
+        userWalletAddress,
+        percentageWatched
       });
     },
     async updateTip({ data }) {
@@ -415,6 +418,23 @@ export default {
         this.isPopoverTTSuccess = false;
       }
     },
+    getPercentageVideoWatched() {
+      const secondsWatched = Array.from(watched).length;
+      const secondsDuration = Math.ceil(this.player.duration);
+      const percentageWatched = Math.round(
+        (secondsWatched / secondsDuration) * 100
+      );
+      return percentageWatched; // >= 100 ? percentageWatched : 100;
+    },
+    recordVideoWatched() {
+      watched = new Set();
+      this.player.on("timeupdate", () => {
+        watched.add(Math.ceil(this.player.currentTime));
+      });
+      this.player.on("ended", () => {
+        this.countVideoViewed();
+      });
+    },
     async showTipPopUp() {
       await delay(1200);
       this.$nextTick(() => {
@@ -435,6 +455,7 @@ export default {
   mounted() {
     this.popoverTarget = this.$refs.tipbutton;
     this.player = this.$refs.videoplayer.player;
+    this.recordVideoWatched();
     this.showTipPopUp();
     this.player.on("ready", this.attachHls);
     this.player.on("ended", this.countVideoViewed);
