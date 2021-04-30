@@ -12,7 +12,12 @@
     </v-ons-toolbar>
     <div class=" viewlist__content">
       <div>
-        <h3 class="page__title">EARN TT BY WATCHING THESE VIDEOS</h3>
+        <h3 v-if="getEarnLatests.length > 0" class="page__title">
+          EARN TT BY WATCHING THESE VIDEOS
+        </h3>
+        <h3 v-if="getEarnLatests.length == 0" class="page__title">
+          YOU HAVE COMPLETED ALL THE VIDEOS, CHECK BACK HERE LATER FOR MORE
+        </h3>
       </div>
       <div v-if="getEarnLatests.length">
         <div class="page__title__background">
