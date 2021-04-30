@@ -1,10 +1,16 @@
 <template>
   <div>
-    <v-ons-toolbar-button @click="toEarnList">
+    <v-ons-toolbar-button id="earnlink" ref="earnlink" @click="toEarnList">
       <base-icon class="btn__icon--primary" name="dollar-sign"></base-icon>
     </v-ons-toolbar-button>
     <v-ons-popover
-      cancelable
+      class="earnPopOver"
+      :visible.sync="isPopoverEarn"
+      :target="earnPopOverTarget"
+    >
+      <p class="bold text-center">Get TT by watching Peerkat Earn videos</p>
+    </v-ons-popover>
+    <v-ons-popover
       :visible.sync="popoverVisible"
       :target="popoverTarget"
       direction="left"
@@ -37,12 +43,15 @@
 <script>
 import { trackEvent } from "@/util/analytics";
 import * as clipboard from "clipboard-polyfill/text";
+import delay from "@/util/delay.js";
 
 export default {
   name: "HeadMenu",
   data() {
     return {
+      isPopoverEarn: false,
       popoverVisible: false,
+      earnPopOverTarget: null,
       popoverTarget: null,
       popoverDirection: "up",
       coverTarget: false
@@ -101,7 +110,27 @@ export default {
     },
     copyMail() {
       this.copyTextValue("team@peerkat.live", "Email copied successfully!");
+    },
+    async showTipPopUp() {
+      this.earnPopOverTarget = this.$refs.earnlink;
+      await delay(1200);
+      this.$nextTick(() => {
+        this.isPopoverEarn = true;
+        const popOverMask = document.querySelector(
+          ".earnPopOver .popover-mask"
+        );
+        popOverMask.style.display = "none";
+        const popOver = document.querySelector(".earnPopOver .popover");
+        popOver.addEventListener("click", () => {
+          this.isPopoverEarn = false;
+        });
+      });
+      await delay(10000);
+      this.earnPop = false;
     }
+  },
+  async mounted() {
+    await this.showTipPopUp();
   }
 };
 </script>
