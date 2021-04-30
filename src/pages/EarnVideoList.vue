@@ -6,7 +6,7 @@
       </div>
       <div class="right">
         <v-ons-toolbar-button @click="pushBack">
-          <base-icon class="btn__icon--primary" name="angle-left"></base-icon>
+          <base-icon class="btn__icon--primary" name="chevron-left"></base-icon>
         </v-ons-toolbar-button>
       </div>
     </v-ons-toolbar>

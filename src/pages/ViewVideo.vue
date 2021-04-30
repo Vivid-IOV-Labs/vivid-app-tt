@@ -42,7 +42,7 @@
                 @click="endViewingVideo"
                 class="btn btn--back btn--opacity-soft btn--square mb-2"
               >
-                <base-icon class="btn__icon" name="angle-left"></base-icon>
+                <base-icon class="btn__icon" name="chevron-left"></base-icon>
               </v-ons-button>
               <!-- <v-ons-button
                 @click="dropVideoMenu"

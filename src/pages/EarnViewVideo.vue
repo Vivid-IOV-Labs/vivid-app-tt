@@ -30,7 +30,7 @@
                 :disabled="isCountingView"
                 class="btn  btn--opacity-soft btn--square btn--back mb-2"
               >
-                <base-icon class="btn__icon" name="angle-left"></base-icon>
+                <base-icon class="btn__icon" name="chevron-left"></base-icon>
               </v-ons-button>
             </div>
           </div>

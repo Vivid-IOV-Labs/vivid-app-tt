@@ -186,6 +186,9 @@ export default {
   .plyr--full-ui input[type="range"] {
     color: $azure;
   }
+  .plyr--full-ui input[type="range"]::-webkit-slider-thumb {
+    background-color: $azure;
+  }
   .plyr__control--overlaid {
     background-color: $azure;
   }
