@@ -136,6 +136,8 @@ export default {
     }
   },
   mounted() {
+    const viewlist = document.querySelector("viewlist");
+    document.body.style.height = viewlist.clientHeight + "px";
     webSocketService.socket.on("media-added", async ({ data }) => {
       await this.add(data);
     });
