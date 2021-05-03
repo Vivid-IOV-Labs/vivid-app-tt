@@ -117,8 +117,8 @@
       data() {
         return {
           checkOrientation: false,
-          screenOrientationType: window.screen &&  window.screen.orientation ? window.screen.orientation.type : null,
-          screenOrientationAngle:  window.screen &&  window.screen.orientation ? window.screen.orientation.angle : null,
+          //screenOrientationType: window.screen &&  window.screen.orientation ? window.screen.orientation.type : null,
+         // screenOrientationAngle:  window.screen &&  window.screen.orientation ? window.screen.orientation.angle : null,
           allowResponse: { message: null, isAllowed: null, feat: null },
           userMediaErrors: null,
           allDevices: [],
@@ -140,16 +140,16 @@
         }
       },
       mounted() {
-        window.addEventListener(
-          "orientationchange",
-          this.handleOrientationChange
-        );
+        // window.addEventListener(
+        //   "orientationchange",
+        //   this.handleOrientationChange
+        // );
       },
       methods: {
-        handleOrientationChange(event) {
-          this.screenOrientationType =  window.screen &&  window.screen.orientation ? window.screen.orientation.type : null;
-          this.screenOrientationAngle =  window.screen &&  window.screen.orientation ? window.screen.orientation.angle : null;
-        },
+        // handleOrientationChange(event) {
+        //   this.screenOrientationType =  window.screen &&  window.screen.orientation ? window.screen.orientation.type : null;
+        //   this.screenOrientationAngle =  window.screen &&  window.screen.orientation ? window.screen.orientation.angle : null;
+        // },
         goToHTTPS() {
           this.checkOrientation = false;
           location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
