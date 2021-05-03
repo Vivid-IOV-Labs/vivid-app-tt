@@ -27,6 +27,7 @@ export default {
         interests
       });
       commit("addUserInterests", interests);
+      commit("setInterestsSubmitted", true);
     } catch (error) {
       devLog(error);
     }

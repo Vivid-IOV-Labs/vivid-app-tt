@@ -8,7 +8,10 @@
       :visible.sync="isPopoverEarn"
       :target="earnPopOverTarget"
     >
-      <p class="bold text-center">Get TT by watching Peerkat Earn videos</p>
+      <p class="bold text-center">
+        Get TT by watching <br />
+        Peerkat Earn videos
+      </p>
     </v-ons-popover>
     <v-ons-popover
       :visible.sync="popoverVisible"
