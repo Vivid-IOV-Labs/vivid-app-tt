@@ -117,8 +117,8 @@
       data() {
         return {
           checkOrientation: false,
-          screenOrientationType: window.screen.orientation.type,
-          screenOrientationAngle: window.screen.orientation.angle,
+          screenOrientationType: window.screen &&  window.screen.orientation ? window.screen.orientation.type : null,
+          screenOrientationAngle:  window.screen &&  window.screen.orientation ? window.screen.orientation.angle : null,
           allowResponse: { message: null, isAllowed: null, feat: null },
           userMediaErrors: null,
           allDevices: [],
@@ -147,8 +147,8 @@
       },
       methods: {
         handleOrientationChange(event) {
-          this.screenOrientationType = window.screen.orientation.type;
-          this.screenOrientationAngle = window.screen.orientation.angle;
+          this.screenOrientationType =  window.screen &&  window.screen.orientation ? window.screen.orientation.type : null;
+          this.screenOrientationAngle =  window.screen &&  window.screen.orientation ? window.screen.orientation.angle : null;
         },
         goToHTTPS() {
           this.checkOrientation = false;
