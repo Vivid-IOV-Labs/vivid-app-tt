@@ -13,19 +13,25 @@
             <v-ons-button
               style="border:solid 2px #fff"
               class="btn btn--small btn--primary btn--round btn--opacity-soft flex-center-xy ml-2"
+              id="rewardicon"
             >
               <base-icon
-                v-if="hasRewarded || !isCountingView"
                 class="btn__icon"
                 :class="{ 'text-azure': hasRewarded }"
                 style="font-size:1.4rem"
                 name="dollar-sign"
               ></base-icon>
-              <div
-                v-if="!hasRewarded && isCountingView"
-                class="dot-flashing"
-              ></div>
             </v-ons-button>
+            <v-ons-popover
+              class="rewardPopOver"
+              :visible.sync="isPopoverReward"
+              direction="right"
+              target="#rewardicon"
+            >
+              <div style="padding:1rem">
+                <div class="dot-flashing"></div>
+              </div>
+            </v-ons-popover>
           </div>
 
           <div class="ml-auto flex">
@@ -95,7 +101,7 @@ export default {
       isFullScreen: false,
       isRewardEarned: false,
       isRewardEarnedDialog: false,
-      popoverTarget: null,
+      popoverVisible: false,
       mediaID: this.$route.params.mediaID,
       percentageWatched: 0,
       isCountingView: false
@@ -162,6 +168,9 @@ export default {
           this.currentMedia.rewards.rewardSmartContractTxHash) ||
         this.isRewardEarned
       );
+    },
+    isPopoverReward() {
+      return this.isCountingView && !this.hasRewarded;
     }
   },
   methods: {
