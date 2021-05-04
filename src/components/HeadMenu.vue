@@ -47,6 +47,7 @@
 import { trackEvent } from "@/util/analytics";
 import * as clipboard from "clipboard-polyfill/text";
 import delay from "@/util/delay.js";
+import { mapGetters } from "vuex";
 
 export default {
   name: "HeadMenu",
@@ -59,6 +60,17 @@ export default {
       popoverDirection: "up",
       coverTarget: false
     };
+  },
+  computed: {
+    ...mapGetters("media", ["getLatests", "getHighlighted"]),
+    ...mapGetters("user", ["getInterestsSubmitted"])
+  },
+  watch: {
+    getInterestsSubmitted(newValue) {
+      if (newValue) {
+        this.showTipPopUp();
+      }
+    }
   },
   methods: {
     toProfile() {
@@ -132,8 +144,10 @@ export default {
       this.earnPop = false;
     }
   },
-  async mounted() {
-    await this.showTipPopUp();
+  mounted() {
+    if (this.getInterestsSubmitted) {
+      this.showTipPopUp();
+    }
   }
 };
 </script>
