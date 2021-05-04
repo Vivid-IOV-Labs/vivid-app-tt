@@ -72,7 +72,7 @@
 <script>
 import BaseCheckButton from "@/components/BaseCheckButton.vue";
 import { createNamespacedHelpers } from "vuex";
-const { mapActions } = createNamespacedHelpers("user");
+const { mapActions, mapMutations } = createNamespacedHelpers("user");
 import { trackEvent } from "@/util/analytics";
 
 export default {
@@ -142,6 +142,7 @@ export default {
   },
   methods: {
     ...mapActions(["addUserInterests"]),
+    ...mapMutations(["setInterestsSubmitted"]),
     updateVisible(value) {
       this.$emit("input", value);
     },
@@ -153,7 +154,7 @@ export default {
           label: "pop_up_closed"
         });
       }
-
+      this.setInterestsSubmitted(true);
       this.$emit("input", false);
     },
     async sendFeedBack() {
