@@ -15,13 +15,16 @@
               class="btn btn--small btn--primary btn--round btn--opacity-soft flex-center-xy ml-2"
             >
               <base-icon
-                v-if="!isCountingView"
+                v-if="hasRewarded || !isCountingView"
                 class="btn__icon"
                 :class="{ 'text-azure': hasRewarded }"
                 style="font-size:1.4rem"
                 name="dollar-sign"
               ></base-icon>
-              <div v-if="isCountingView" class="dot-flashing"></div>
+              <div
+                v-if="!hasRewarded && isCountingView"
+                class="dot-flashing"
+              ></div>
             </v-ons-button>
           </div>
 
