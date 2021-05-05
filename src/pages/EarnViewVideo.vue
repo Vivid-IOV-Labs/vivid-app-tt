@@ -170,7 +170,11 @@ export default {
       );
     },
     isPopoverReward() {
-      return this.isCountingView && !this.hasRewarded;
+      return (
+        this.isCountingView &&
+        !this.hasRewarded &&
+        this.getPercentageVideoWatched() >= 80
+      );
     }
   },
   methods: {
@@ -256,7 +260,7 @@ export default {
       this.isCountingView = true;
       const mediaID = this.mediaID;
       const userWalletAddress = this.getUserWalletAddress;
-      const percentageWatched = this.getPercentageVideoWatched() || 0;
+      const percentageWatched = this.getPercentageVideoWatched();
       await MediaService.videoViewed({
         mediaID,
         userWalletAddress,
@@ -270,7 +274,7 @@ export default {
       const percentageWatched = Math.round(
         (secondsWatched / secondsDuration) * 100
       );
-      return percentageWatched; // >= 100 ? percentageWatched : 100;
+      return percentageWatched || 0;
     },
     recordVideoWatched() {
       watched = new Set();
