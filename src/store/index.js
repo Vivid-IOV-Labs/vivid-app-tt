@@ -5,6 +5,7 @@ import requests from "./modules/requests";
 import smartcontract from "./modules/smartcontract";
 import media from "./modules/media";
 import user from "./modules/user";
+import uistates from "./modules/uistates";
 
 Vue.use(Vuex);
 
@@ -15,7 +16,8 @@ export default new Vuex.Store({
     requests,
     smartcontract,
     media,
-    user
+    user,
+    uistates
   },
   strict: debug
 });

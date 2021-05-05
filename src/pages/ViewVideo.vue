@@ -144,7 +144,7 @@
 <script>
 let watched;
 import BaseVideo from "@/components/BaseVideo.vue";
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapState } from "vuex";
 import { trackEvent } from "@/util/analytics";
 import delay from "@/util/delay.js";
 import env from "@/env.js";
@@ -195,6 +195,7 @@ export default {
   computed: {
     ...mapGetters("media", ["getById"]),
     ...mapGetters("smartcontract", ["getTipContract", "getUserWalletAddress"]),
+    ...mapState("uistates", ["isTTPopOverVisited"]),
     mediaID() {
       return this.$route.params.mediaID;
     },
@@ -268,6 +269,7 @@ export default {
   },
   methods: {
     ...mapMutations("media", ["setTotalTip"]),
+    ...mapMutations("uistates", ["serTTPopOverVisited"]),
     endViewingVideo() {
       trackEvent({
         category: "Video Play View",
@@ -436,7 +438,9 @@ export default {
       });
     },
     async showTipPopUp() {
+      if (this.isTTPopOverVisited) return;
       await delay(1200);
+      this.serTTPopOverVisited();
       this.$nextTick(() => {
         this.isPopoverClickTT = true;
         const popOverMask = document.querySelector(

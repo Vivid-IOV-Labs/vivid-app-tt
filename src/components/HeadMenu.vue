@@ -47,7 +47,7 @@
 import { trackEvent } from "@/util/analytics";
 import * as clipboard from "clipboard-polyfill/text";
 import delay from "@/util/delay.js";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState, mapMutations } from "vuex";
 
 export default {
   name: "HeadMenu",
@@ -63,7 +63,8 @@ export default {
   },
   computed: {
     ...mapGetters("media", ["getLatests", "getHighlighted"]),
-    ...mapGetters("user", ["getInterestsSubmitted"])
+    ...mapGetters("user", ["getInterestsSubmitted"]),
+    ...mapState("uistates", ["isEarnPopOverVisited"])
   },
   watch: {
     getInterestsSubmitted(newValue) {
@@ -73,6 +74,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations("uistates", ["setEarnPopOverVisited"]),
     toProfile() {
       this.popoverVisible = false;
       this.$router.push({ path: "profile" });
@@ -127,8 +129,10 @@ export default {
       this.copyTextValue("team@peerkat.live", "Email copied successfully!");
     },
     async showTipPopUp() {
+      if (this.isEarnPopOverVisited) return;
       this.earnPopOverTarget = this.$refs.earnlink;
       await delay(1200);
+      this.setEarnPopOverVisited();
       this.$nextTick(() => {
         this.isPopoverEarn = true;
         const popOverMask = document.querySelector(
