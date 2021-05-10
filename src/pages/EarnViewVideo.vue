@@ -184,8 +184,11 @@ export default {
         action: "close-video",
         label: "MediaId:" + this.mediaID
       });
-      await this.countVideoViewed();
-      this.$router.back();
+      try {
+        await this.countVideoViewed();
+      } finally {
+        this.$router.back();
+      }
     },
     dropVideoMenu() {
       this.isVideoMenuDropped = !this.isVideoMenuDropped;
