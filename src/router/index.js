@@ -26,6 +26,8 @@ const EarnVideoList = () =>
 //   import(/* webpackChunkName: "SupplyStream" */ "@/pages/SupplyStream");
 
 const routes = [
+  { path: "*", component: Profile },
+
   { name: "root", path: "/", component: RootLoading },
   // { name: "root", path: "/", component: RootLogin },
   { name: "videolist", path: "/videolist", component: VideoList },
@@ -45,7 +47,6 @@ const routes = [
 
 const router = new VueRouter({
   mode: "history",
-  base: "/",
   routes
 });
 

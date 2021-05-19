@@ -43,7 +43,6 @@
           <v-ons-list-item
             v-for="media in getEarnCompleted"
             :key="media.mediaID"
-            @click="pushToVideo(media.mediaID)"
           >
             <earn-video-list-item :media="media"></earn-video-list-item>
           </v-ons-list-item>
@@ -58,7 +57,6 @@ import EarnHeadLogo from "@/components/EarnHeadLogo.vue";
 import EarnVideoListItem from "@/components/EarnVideoListItem.vue";
 import { mapGetters, mapActions } from "vuex";
 import webSocketService from "@/util/webSocketService.js";
-import { trackEvent } from "@/util/analytics";
 
 export default {
   name: "VideoList",
@@ -76,14 +74,6 @@ export default {
     ...mapActions("media", ["populateAll", "add", "delete"]),
     pushBack() {
       this.$router.back();
-    },
-    pushToVideo(mediaID) {
-      trackEvent({
-        category: "Earn Video List View",
-        action: "select-video",
-        label: "MediaId:" + this.mediaID
-      });
-      this.$router.push({ path: `earnviewvideo/${mediaID}` });
     }
   },
   watch: {

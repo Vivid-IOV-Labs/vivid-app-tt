@@ -26,6 +26,7 @@ button:disabled {
   font-weight: 550;
   border-radius: 1.3rem;
   text-align: center;
+  text-decoration: none;
   background-color: $dark-grey;
   line-height: 2;
   font-weight: 550;
@@ -34,8 +35,18 @@ button:disabled {
   border-color: transparent;
   user-select: none;
 }
+:checked + .switch__toggle {
+  box-shadow: inset 0 0 0 2px $azure;
+  box-shadow: inset 0 0 0 2px $azure;
+  background-color: $azure;
+  background-color: $azure;
+}
 .btn--primary{
   background-color:$azure;
+  color: $white;
+}
+.btn--secondary{
+  background-color:$violet;
   color: $white;
 }
 .btn__icon--white{

@@ -42,9 +42,9 @@ export default {
       }
     }
   },
-  created() {
-    this.$router && this.$router.push({ path: "/" });
-  },
+  // created() {
+  //   this.$router && this.$router.push({ path: "/" });
+  // },
   methods: {
     goBack() {
       this.$router.back();

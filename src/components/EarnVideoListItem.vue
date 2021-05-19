@@ -1,40 +1,52 @@
 <template>
   <div class="full-width medialist__item ">
     <div v-if="media.rewards" class="rewards">
-      <div
-        v-if="
-          media.rewards.rewardVerifiedTxHash &&
-            media.rewards.rewardVerifiedTxHash
-        "
-      >
-        <span class="progress_description text-azure">
-          Completed! +1TT gained!
-        </span>
+      <div class="flex p-2" style="align-items: baseline;">
+        <div
+          v-if="
+            media.rewards.rewardVerifiedTxHash &&
+              media.rewards.rewardVerifiedTxHash
+          "
+        >
+          <span class="progress_description text-azure">
+            Completed! +1TT gained!
+          </span>
+        </div>
+        <div
+          v-if="
+            media.rewards.rewardSmartContractTxHash &&
+              !media.rewards.rewardVerifiedTxHash
+          "
+        >
+          <span class="progress_description text-azure">
+            Nice one! 1TT claimed!
+          </span>
+        </div>
+        <div
+          v-if="
+            !media.rewards.rewardSmartContractTxHash &&
+              !media.rewards.rewardVerifiedTxHash
+          "
+        >
+          <span class="progress_description">Keep watching to get TT</span>
+        </div>
+        <a
+          href="https://www.vividiov.com/"
+          target="_blank"
+          class="btn btn--secondary ml-auto"
+          >Learn More</a
+        >
       </div>
-      <div
-        v-if="
-          media.rewards.rewardSmartContractTxHash &&
-            !media.rewards.rewardVerifiedTxHash
-        "
-      >
-        <span class="progress_description text-azure">
-          Nice one! 1TT claimed!
-        </span>
-      </div>
-      <div
-        v-if="
-          !media.rewards.rewardSmartContractTxHash &&
-            !media.rewards.rewardVerifiedTxHash
-        "
-      >
-        <span class="progress_description">Keep watching to get TT</span>
-      </div>
+
       <earn-progress-bar
         :completed="media.rewards && !!media.rewards.rewardSmartContractTxHash"
         :percentage="media.rewards.percentageWatched"
       ></earn-progress-bar>
     </div>
-    <div class="medialist__item_picture-frame">
+    <div
+      @click="pushToVideo(media.mediaID)"
+      class="medialist__item_picture-frame"
+    >
       <div class="medialist__item_picture-frame_badge--reward flex-center-xy">
         <base-icon
           :class="{
@@ -61,6 +73,7 @@
 import BaseIcon from "@/components/BaseIcon.vue";
 import env from "@/env.js";
 import EarnProgressBar from "@/components/EarnProgressBar.vue";
+import { trackEvent } from "@/util/analytics";
 
 export default {
   name: "EarnVideoList",
@@ -90,6 +103,14 @@ export default {
   methods: {
     hasRewarded(media) {
       return media.rewards && !!media.rewards.rewardSmartContractTxHash;
+    },
+    pushToVideo(mediaID) {
+      trackEvent({
+        category: "Earn Video List View",
+        action: "select-video",
+        label: "MediaId:" + this.mediaID
+      });
+      this.$router.push({ path: `earnviewvideo/${mediaID}` });
     }
   }
 };
