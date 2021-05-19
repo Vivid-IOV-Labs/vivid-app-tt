@@ -4,12 +4,15 @@ import devLog from "@/util/devlog.js";
 export default {
   async login({ commit }, userWalletAddress) {
     try {
-      const { interestsSubmitted, termsAgreed } = await UserService.login(
-        userWalletAddress
-      );
+      const {
+        interestsSubmitted,
+        termsAgreed,
+        twitterLinked
+      } = await UserService.login(userWalletAddress);
       commit("setWallet", userWalletAddress);
       commit("setInterestsSubmitted", interestsSubmitted);
       commit("setTermsAgreed", termsAgreed);
+      commit("setTwitterLinked", twitterLinked);
     } catch (error) {
       devLog(error);
     }

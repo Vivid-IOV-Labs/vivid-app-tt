@@ -1,9 +1,12 @@
-import RootLoading from "@/pages/RootLoading.vue";
+import RouterWrapper from "@/components/RouterWrapper.vue";
 import { shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
-
+jest.mock("@/util/analytics.js", () => {
+  return { trackPage: jest.fn() };
+});
 const localVue = createLocalVue();
 localVue.use(Vuex);
+
 const loginMock = jest.fn();
 const createSmartContractFactoryMock = jest.fn().mockResolvedValue();
 
@@ -15,7 +18,7 @@ const store = new Vuex.Store({
         createSmartContractFactory: createSmartContractFactoryMock
       },
       getters: {
-        getUserWalletAddress: () => "userWalletAddress"
+        getUserWalletAddress: () => ""
       }
     },
     user: {
@@ -24,20 +27,29 @@ const store = new Vuex.Store({
     }
   }
 });
-const wrapper = shallowMount(RootLoading, {
+const $route = {
+  path: "/",
+  matched: []
+};
+
+const wrapper = shallowMount(RouterWrapper, {
   store,
   localVue,
   stubs: {
-    "v-ons-page": true
+    "v-ons-navigator": true
+  },
+  mocks: {
+    $route
   }
 });
 
-describe("RootLoading", () => {
+describe("RouterWrapper", () => {
   it("Logins user", async () => {
     await wrapper.vm.$nextTick();
     expect(loginMock).toHaveBeenCalled();
   });
-  it("Inits SmartContract", () => {
+  it("Inits SmartContract", async () => {
+    await wrapper.vm.$nextTick();
     expect(createSmartContractFactoryMock).toHaveBeenCalled();
   });
 });

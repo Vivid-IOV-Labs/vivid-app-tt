@@ -3,7 +3,8 @@ const state = () => ({
   walletAddress: null,
   interests: [],
   interestsSubmitted: false,
-  termsAgreed: false
+  termsAgreed: false,
+  twitterLinked: false
 });
 
 export default state;

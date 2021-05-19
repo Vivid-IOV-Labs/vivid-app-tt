@@ -19,23 +19,10 @@
 
 <script>
 import delay from "@/util/delay.js";
-import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "RootLoading",
-  computed: {
-    ...mapGetters("smartcontract", ["getUserWalletAddress"])
-  },
-  methods: {
-    ...mapActions("user", ["login"]),
-    ...mapActions("smartcontract", ["createSmartContractFactory"])
-  },
   async mounted() {
-    await this.createSmartContractFactory();
-
-    if (this.getUserWalletAddress) {
-      await this.login(this.getUserWalletAddress);
-    }
     if (window.location.pathname === "/") {
       await delay(2000);
       this.$router.push({ path: "videolist" });

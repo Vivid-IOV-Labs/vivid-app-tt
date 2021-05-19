@@ -13,5 +13,8 @@ export default {
   },
   setTermsAgreed(state, accepted) {
     state.termsAgreed = accepted;
+  },
+  setTwitterLinked(state, twitterLinked) {
+    state.twitterLinked = twitterLinked;
   }
 };

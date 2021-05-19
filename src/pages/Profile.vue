@@ -11,17 +11,73 @@
       </div>
     </v-ons-toolbar>
     <div class="profile-page">
-      <div class="profile__avatar">
-        <img src="@/assets/img/logopeerkat.png" />
+      <div class="profile-page__main" v-if="isAuthenticated">
+        <div class="profile__avatar">
+          <img src="@/assets/img/logopeerkat.png" />
+        </div>
+        <v-ons-list class="profile__list">
+          <v-ons-list-item class="profile__list__item ">
+            <div class="text-center  center  flex-column flex-center-xy">
+              <strong>TT WALLET ADDRESS</strong>
+              <small>0x1a2b3456cd789 </small>
+            </div>
+          </v-ons-list-item>
+        </v-ons-list>
+        <div class="flex full-width mt-4">
+          <div class="column-left flex-column flex-center-xy">
+            <strong class="text-center text-small text-bold"
+              >PEERKAT EARN TOTAL</strong
+            >
+            <div class="flex mt-4">
+              <p>5 TT</p>
+              <div
+                class="btn ml-2 btn--round-large btn--opacity-dark mb-2"
+                style="font-size: 3.4rem; padding: 0.2rem 0 0 0.2rem; border:solid 2px #16dbdb;"
+              >
+                <base-icon
+                  class="btn__icon"
+                  style="stroke: #16dbdb;"
+                  :fill="false"
+                  name="thundercore"
+                ></base-icon>
+              </div>
+            </div>
+          </div>
+          <div class="column-right flex-column flex-center-xy ml-auto">
+            <strong class="text-center text-small text-bold"
+              >YOUR TT WALLET TOTAL</strong
+            >
+            <div class="flex mt-4">
+              <p>555 TT</p>
+              <div
+                class="btn ml-2 btn--round-large btn--opacity-dark mb-2"
+                style="font-size: 3.4rem; padding: 0.2rem 0 0 0.2rem; border:solid 2px #FFE81C;"
+              >
+                <base-icon
+                  class="btn__icon"
+                  style="stroke: #FFE81C;"
+                  :fill="false"
+                  name="thundercore"
+                ></base-icon>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <h3>Connect Twitter authentication for Peerkat</h3>
-      <div style="align-items: center;" class="flex">
+      <div class="profile-page__main" v-if="!isAuthenticated">
+        <div class="profile__avatar">
+          <img src="@/assets/img/logopeerkat.png" />
+        </div>
+        <h3 class="text-center">Connect Twitter authentication for Peerkat</h3>
+      </div>
+
+      <div style="align-items: center; flex:1" class="flex">
         <div class="mr-1">
           <p>Verify your Peerkat account with Twitter</p>
         </div>
         <v-ons-switch
+          :disabled="isAuthenticating"
           style="margin-left:1rem"
-          @change="twitterAuth"
           v-model="isAuthenticated"
         >
         </v-ons-switch>
@@ -34,8 +90,9 @@
 import { trackEvent } from "@/util/analytics";
 import HeadLogo from "@/components/HeadLogo.vue";
 import BaseIcon from "@/components/BaseIcon.vue";
-import { mapGetters } from "vuex";
 import TwitterAuthService from "@/services/TwitterAuthService";
+import { mapGetters } from "vuex";
+
 export default {
   name: "Profile",
   components: {
@@ -43,10 +100,25 @@ export default {
     BaseIcon
   },
   data() {
-    return { isAuthenticated: false };
+    return {
+      isAuthenticating: false
+    };
   },
   computed: {
-    ...mapGetters("smartcontract", ["getUserWalletAddress"])
+    ...mapGetters("smartcontract", ["getUserWalletAddress"]),
+    ...mapGetters("user", ["getTwitterLinked"]),
+    isAuthenticated: {
+      get() {
+        return this.getTwitterLinked;
+      },
+      set() {
+        if (this.getTwitterLinked) {
+          //await TwitterAuthService.logout(userWalletAddress);
+        } else {
+          this.loginTwitter();
+        }
+      }
+    }
   },
   methods: {
     trackLink(link) {
@@ -61,16 +133,9 @@ export default {
       this.$router.push({ path: "earnvideolist" });
     },
     async loginTwitter() {
+      this.isAuthenticating = true;
       const userWalletAddress = this.getUserWalletAddress;
       await TwitterAuthService.authenticate(userWalletAddress);
-    },
-    twitterAuth(event) {
-      console.log(event);
-      if (this.isAuthenticated) {
-        //await TwitterAuthService.logout(userWalletAddress);
-      } else {
-        this.loginTwitter();
-      }
     }
   }
 };
@@ -81,12 +146,38 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
+  padding: 1rem;
   flex-direction: column;
   background: $black;
+  .profile-page__main {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    align-items: center;
+    justify-content: center;
+    flex: 2;
+    padding-top: 1rem;
+  }
   .profile__avatar {
     display: flex;
     border-radius: 50%;
-    margin: 0 auto 3rem;
+    margin: 0 auto 2rem;
+  }
+  .profile__list {
+    background: $black;
+    width: 100%;
+    padding-top: 1rem;
+  }
+  .profile__list__item {
+    background: $black;
+    width: 100%;
+    color: $white;
+  }
+  .column-left {
+    padding: 1rem 1rem 0 0;
+  }
+  .column-right {
+    padding: 1rem 0 0 1rem;
   }
 }
 </style>

@@ -223,10 +223,13 @@ button:disabled {
 .text-center {
   text-align: center;
 }
+.text-small{
+  font-size: 0.8rem;
+}
 .text-azure {
   color:$azure;
 }
-.bold{
+.text-bold{
   font-weight: bold;
 }
 .full-width {

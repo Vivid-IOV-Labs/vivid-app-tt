@@ -53,6 +53,10 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 const store = new Vuex.Store({
   modules: {
+    uistates: {
+      namespaced: true,
+      isTTPopOverVisited: true
+    },
     smartcontract: {
       namespaced: true,
       state: smartContractState(),
