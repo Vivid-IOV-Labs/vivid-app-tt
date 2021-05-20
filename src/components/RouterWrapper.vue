@@ -38,10 +38,15 @@ export default {
     ...mapActions("user", ["login"]),
     ...mapActions("smartcontract", ["createSmartContractFactory"]),
     async onRouteChange(to) {
-      if (!this.getUserWalletAddress) {
-        await this.createSmartContractFactory();
-
-        await this.login(this.getUserWalletAddress);
+      try {
+        if (!this.getUserWalletAddress) {
+          await this.createSmartContractFactory();
+          if (this.getUserWalletAddress) {
+            await this.login(this.getUserWalletAddress);
+          }
+        }
+      } catch (error) {
+        return;
       }
 
       trackPage(to.path);

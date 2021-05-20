@@ -19,7 +19,7 @@
           <v-ons-list-item class="profile__list__item ">
             <div class="text-center  center  flex-column flex-center-xy">
               <strong>TT WALLET ADDRESS</strong>
-              <small>0x1a2b3456cd789 </small>
+              <small>{{ getUserWalletAddress }} </small>
             </div>
           </v-ons-list-item>
         </v-ons-list>
@@ -48,7 +48,7 @@
               >YOUR TT WALLET TOTAL</strong
             >
             <div class="flex mt-4">
-              <p>555 TT</p>
+              <p>{{ getBalance }} TT</p>
               <div
                 class="btn ml-2 btn--round-large btn--opacity-dark mb-2"
                 style="font-size: 3.4rem; padding: 0.2rem 0 0 0.2rem; border:solid 2px #FFE81C;"
@@ -105,7 +105,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("smartcontract", ["getUserWalletAddress"]),
+    ...mapGetters("smartcontract", ["getUserWalletAddress", "getBalance"]),
     ...mapGetters("user", ["getTwitterLinked"]),
     isAuthenticated: {
       get() {
