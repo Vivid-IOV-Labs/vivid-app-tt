@@ -12,7 +12,6 @@
 
 <script>
 import RootLoading from "@/pages/RootLoading.vue";
-import { mapGetters, mapActions } from "vuex";
 import { trackPage } from "../util/analytics";
 export default {
   name: "RouterWrapper",
@@ -21,9 +20,6 @@ export default {
       pageStack: [RootLoading]
     };
   },
-  computed: {
-    ...mapGetters("smartcontract", ["getUserWalletAddress"])
-  },
   watch: {
     $route: {
       handler: "onRouteChange",
@@ -31,28 +27,13 @@ export default {
       deep: true
     }
   },
-  // created() {
-  //   this.$router && this.$router.push({ path: "/" });
-  // },
   methods: {
-    ...mapActions("user", ["login"]),
-    ...mapActions("smartcontract", ["createSmartContractFactory"]),
     async onRouteChange(to) {
-      try {
-        if (!this.getUserWalletAddress) {
-          await this.createSmartContractFactory();
-          if (this.getUserWalletAddress) {
-            await this.login(this.getUserWalletAddress);
-          } else {
-            return;
-          }
-        }
-      } catch (error) {
-        return;
-      }
-
+      // console.log("routeWrapper", to);
       trackPage(to.path);
       const { 0: nextPage } = to.matched.map(m => m.components.default);
+      // console.log("routeWrapper nextPage", nextPage);
+
       if (nextPage) {
         const indexInPageStack = this.pageStack.findIndex(
           page => page.name == nextPage.name

@@ -11,6 +11,29 @@
       :cover-target="coverTarget"
     >
       <v-ons-list class="text-center p-2">
+        <v-ons-list-item class="text-center" modifier="tappable"
+          ><a class="menu__link" @click="toProfile('Privacy Policy')">
+            My Account
+          </a>
+        </v-ons-list-item>
+        <v-ons-list-item class="text-center" modifier="tappable"
+          ><a
+            class="menu__link"
+            href="https://www.vividiov.com/peerkat-terms"
+            @click="trackLink('User Terms')"
+          >
+            User Terms
+          </a>
+        </v-ons-list-item>
+        <v-ons-list-item class="text-center" modifier="tappable"
+          ><a
+            class="menu__link"
+            href="https://www.vividiov.com/privacy"
+            @click="trackLink('Privacy Policy')"
+          >
+            Privacy Policy
+          </a>
+        </v-ons-list-item>
         <v-ons-list-item class="text-center"
           ><span class="menu__link">
             <h6 class="mt-2 mb-2">
@@ -36,24 +59,6 @@
               <base-icon class="btn__icon--white" name="telegram"></base-icon>
             </v-ons-button>
           </span>
-        </v-ons-list-item>
-        <v-ons-list-item class="text-center" modifier="tappable"
-          ><a
-            class="menu__link"
-            href="https://www.vividiov.com/peerkat-terms"
-            @click="trackLink('User Terms')"
-          >
-            User Terms
-          </a>
-        </v-ons-list-item>
-        <v-ons-list-item class="text-center" modifier="tappable"
-          ><a
-            class="menu__link"
-            href="https://www.vividiov.com/privacy"
-            @click="trackLink('Privacy Policy')"
-          >
-            Privacy Policy
-          </a>
         </v-ons-list-item>
       </v-ons-list>
       <div class="text-center mt-4 p-1 ">
@@ -81,6 +86,10 @@ export default {
     toOnboarding() {
       this.popoverVisible = false;
       this.$router.push({ path: "onboarding" });
+    },
+    toProfile() {
+      this.popoverVisible = false;
+      this.$router.push({ path: "profile" });
     },
     showPopover(event, direction, coverTarget = false) {
       this.popoverTarget = event;

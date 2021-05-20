@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from "../store";
 Vue.use(VueRouter);
 
 const RootLoading = () =>
@@ -47,7 +48,25 @@ const routes = [
 
 const router = new VueRouter({
   mode: "history",
+  base: "/",
   routes
+});
+
+router.beforeEach(async (to, from, next) => {
+  if (store.getters["smartcontract/getUserWalletAddress"]) {
+    next();
+  } else {
+    await store.dispatch("smartcontract/createSmartContractFactory");
+    if (store.getters["smartcontract/getUserWalletAddress"]) {
+      await store.dispatch(
+        "user/login",
+        store.getters["smartcontract/getUserWalletAddress"]
+      );
+      next();
+    } else {
+      next(false);
+    }
+  }
 });
 
 export default router;

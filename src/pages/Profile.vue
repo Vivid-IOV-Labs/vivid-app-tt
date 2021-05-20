@@ -2,11 +2,22 @@
   <v-ons-page>
     <v-ons-toolbar>
       <div>
-        <head-logo></head-logo>
+        <div class="head_logo">
+          <img
+            class="head_logo__img"
+            src="../assets/img/logopeerkat.png"
+            alt="Peerkat Logo"
+          />
+        </div>
       </div>
       <div class="right">
-        <v-ons-toolbar-button @click="toEarnList">
-          <base-icon class="btn__icon--primary" name="chevron-left"></base-icon>
+        <v-ons-toolbar-button>
+          <router-link to="/videolist">
+            <base-icon
+              class="btn__icon--primary"
+              name="chevron-left"
+            ></base-icon
+          ></router-link>
         </v-ons-toolbar-button>
       </div>
     </v-ons-toolbar>
@@ -19,7 +30,9 @@
           <v-ons-list-item class="profile__list__item ">
             <div class="text-center  center  flex-column flex-center-xy">
               <strong>TT WALLET ADDRESS</strong>
-              <small>{{ getUserWalletAddress }} </small>
+              <small style="width:180px" class="truncate"
+                >{{ getUserWalletAddress.substring(0, 15) }}...
+              </small>
             </div>
           </v-ons-list-item>
         </v-ons-list>
@@ -59,7 +72,7 @@
                   name="thundercore"
                 ></base-icon>
               </div>
-              <p>{{ getBalance }} TT</p>
+              <p>{{ getBalance.substring(0, 5) }}... TT</p>
             </div>
           </div>
         </div>
@@ -88,7 +101,6 @@
 
 <script>
 import { trackEvent } from "@/util/analytics";
-import HeadLogo from "@/components/HeadLogo.vue";
 import BaseIcon from "@/components/BaseIcon.vue";
 import TwitterAuthService from "@/services/TwitterAuthService";
 import { mapGetters } from "vuex";
@@ -96,7 +108,6 @@ import { mapGetters } from "vuex";
 export default {
   name: "Profile",
   components: {
-    HeadLogo,
     BaseIcon
   },
   data() {
@@ -172,12 +183,18 @@ export default {
     background: $black;
     width: 100%;
     color: $white;
+    padding: 0;
   }
   .column-left {
     padding: 1rem 1rem 0 0;
   }
   .column-right {
     padding: 1rem 0 0 1rem;
+  }
+  .truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 </style>
