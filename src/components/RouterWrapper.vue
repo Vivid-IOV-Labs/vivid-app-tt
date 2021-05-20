@@ -43,6 +43,8 @@ export default {
           await this.createSmartContractFactory();
           if (this.getUserWalletAddress) {
             await this.login(this.getUserWalletAddress);
+          } else {
+            return;
           }
         }
       } catch (error) {

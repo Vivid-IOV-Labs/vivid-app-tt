@@ -28,8 +28,7 @@
             <strong class="text-center text-small text-bold"
               >PEERKAT EARN TOTAL</strong
             >
-            <div class="flex mt-4">
-              <p>5 TT</p>
+            <div class="flex flex-column flex-center-xy mt-4">
               <div
                 class="btn ml-2 btn--round-large btn--opacity-dark mb-2"
                 style="font-size: 3.4rem; padding: 0.2rem 0 0 0.2rem; border:solid 2px #16dbdb;"
@@ -41,14 +40,14 @@
                   name="thundercore"
                 ></base-icon>
               </div>
+              <p>5 TT</p>
             </div>
           </div>
           <div class="column-right flex-column flex-center-xy ml-auto">
             <strong class="text-center text-small text-bold"
               >YOUR TT WALLET TOTAL</strong
             >
-            <div class="flex mt-4">
-              <p>{{ getBalance }} TT</p>
+            <div class="flex flex-column flex-center-xy mt-4">
               <div
                 class="btn ml-2 btn--round-large btn--opacity-dark mb-2"
                 style="font-size: 3.4rem; padding: 0.2rem 0 0 0.2rem; border:solid 2px #FFE81C;"
@@ -60,6 +59,7 @@
                   name="thundercore"
                 ></base-icon>
               </div>
+              <p>{{ getBalance }} TT</p>
             </div>
           </div>
         </div>
