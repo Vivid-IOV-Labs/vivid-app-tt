@@ -1,10 +1,11 @@
 <template>
   <div class="full-width medialist__item ">
-    <div v-if="media.rewards" class="rewards">
+    <div class="rewards">
       <div class="flex p-2" style="align-items: baseline;">
         <div
           v-if="
-            media.rewards.rewardVerifiedTxHash &&
+            media.rewards &&
+              media.rewards.rewardVerifiedTxHash &&
               media.rewards.rewardVerifiedTxHash
           "
         >
@@ -14,7 +15,8 @@
         </div>
         <div
           v-if="
-            media.rewards.rewardSmartContractTxHash &&
+            media.rewards &&
+              media.rewards.rewardSmartContractTxHash &&
               !media.rewards.rewardVerifiedTxHash
           "
         >
@@ -24,7 +26,8 @@
         </div>
         <div
           v-if="
-            !media.rewards.rewardSmartContractTxHash &&
+            media.rewards &&
+              !media.rewards.rewardSmartContractTxHash &&
               !media.rewards.rewardVerifiedTxHash
           "
         >
@@ -37,11 +40,14 @@
           >Learn More</a
         >
       </div>
-
-      <earn-progress-bar
-        :completed="media.rewards && !!media.rewards.rewardSmartContractTxHash"
-        :percentage="media.rewards.percentageWatched"
-      ></earn-progress-bar>
+      <div v-if="media.rewards">
+        <earn-progress-bar
+          :completed="
+            media.rewards && !!media.rewards.rewardSmartContractTxHash
+          "
+          :percentage="media.rewards.percentageWatched"
+        ></earn-progress-bar>
+      </div>
     </div>
     <div
       @click="pushToVideo(media.mediaID)"

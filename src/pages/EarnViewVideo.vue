@@ -74,6 +74,7 @@ import env from "@/env.js";
 import webSocketService from "@/util/webSocketService.js";
 import Hls from "hls.js";
 import MediaService from "@/services/MediaService";
+import RewardService from "@/services/RewardService";
 import RewardEarnedDialog from "@/components/dialogs/RewardEarnedDialog.vue";
 let watched = new Set();
 
@@ -99,6 +100,7 @@ export default {
       },
       isVideoMenuDropped: false,
       isFullScreen: false,
+      isRewarding: false,
       isRewardEarned: false,
       isRewardEarnedDialog: false,
       popoverVisible: false,
@@ -171,7 +173,7 @@ export default {
     },
     isPopoverReward() {
       return (
-        this.isCountingView &&
+        this.isRewarding &&
         !this.hasRewarded &&
         this.getPercentageVideoWatched() >= 80
       );
@@ -185,7 +187,9 @@ export default {
         label: "MediaId:" + this.mediaID
       });
       try {
-        await this.countVideoViewed();
+        if (!this.hasRewarded) {
+          await this.sendReward();
+        }
       } finally {
         this.$router.back();
       }
@@ -259,15 +263,25 @@ export default {
         });
       }
     },
+    async sendReward() {
+      this.isRewarding = true;
+      const mediaID = this.mediaID;
+      const userWalletAddress = this.getUserWalletAddress;
+      const percentageWatched = this.getPercentageVideoWatched();
+      await RewardService.send({
+        mediaID,
+        userWalletAddress,
+        percentageWatched
+      });
+      this.isRewarding = false;
+    },
     async countVideoViewed() {
       this.isCountingView = true;
       const mediaID = this.mediaID;
       const userWalletAddress = this.getUserWalletAddress;
-      const percentageWatched = this.getPercentageVideoWatched();
       await MediaService.videoViewed({
         mediaID,
-        userWalletAddress,
-        percentageWatched
+        userWalletAddress
       });
       this.isCountingView = false;
     },
@@ -285,7 +299,7 @@ export default {
         watched.add(Math.ceil(this.player.currentTime));
       });
       this.player.on("ended", () => {
-        this.countVideoViewed();
+        this.sendReward();
       });
     },
     rewardSent({ data }) {
@@ -305,6 +319,9 @@ export default {
     if (!this.hasRewarded) {
       this.recordVideoWatched();
     }
+    this.player.on("ended", () => {
+      this.countVideoViewed();
+    });
     this.player.on("ready", this.attachHls);
     this.player.on("enterfullscreen", () => {
       this.isFullScreen = true;

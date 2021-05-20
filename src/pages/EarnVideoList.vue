@@ -25,11 +25,7 @@
           <h3 class="page__title">EARN VIDEOS</h3>
         </div>
         <v-ons-list modifier="tappable">
-          <v-ons-list-item
-            v-for="media in getEarnLatests"
-            :key="media.mediaID"
-            @click="pushToVideo(media.mediaID)"
-          >
+          <v-ons-list-item v-for="media in getEarnLatests" :key="media.mediaID">
             <earn-video-list-item :media="media"></earn-video-list-item>
           </v-ons-list-item>
         </v-ons-list>
