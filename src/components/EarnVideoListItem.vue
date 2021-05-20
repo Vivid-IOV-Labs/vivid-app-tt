@@ -34,7 +34,8 @@
           <span class="progress_description">Keep watching to get TT</span>
         </div>
         <a
-          href="https://www.vividiov.com/"
+          v-if="media.details.moreInfo"
+          :href="media.details.moreInfo"
           target="_blank"
           class="btn btn--secondary ml-auto"
           >Learn More</a
@@ -72,6 +73,7 @@
       {{ media.details.title }}
       <base-icon class="ml-auto" name="angle-right"></base-icon>
     </span>
+    <p v-if="media.details.subtitle">{{ media.details.subtitle }}</p>
   </div>
 </template>
 

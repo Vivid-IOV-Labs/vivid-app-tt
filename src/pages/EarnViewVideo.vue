@@ -59,6 +59,21 @@
             <p class="stream-detail__hashtag">
               {{ hashtags }}
             </p>
+            <p v-if="subtitle" class="stream-detail__hashtag">
+              {{ subtitle }}
+            </p>
+          </div>
+          <div v-if="moreInfo" class=" ml-auto flex-column ">
+            <div>
+              <a
+                :href="moreInfo"
+                target="_blank"
+                class="btn btn--round-large btn--opacity-dark mb-2"
+                style="border:solid 2px #fff; display:block"
+              >
+                <base-icon class="btn__icon" name="link"></base-icon>
+              </a>
+            </div>
           </div>
         </div>
       </template>
@@ -134,6 +149,28 @@ export default {
         this.currentMedia.details.title
       ) {
         return this.currentMedia.details.title;
+      } else {
+        return "";
+      }
+    },
+    subtitle() {
+      if (
+        this.currentMedia &&
+        this.currentMedia.details &&
+        this.currentMedia.details.subtitle
+      ) {
+        return this.currentMedia.details.subtitle;
+      } else {
+        return "";
+      }
+    },
+    moreInfo() {
+      if (
+        this.currentMedia &&
+        this.currentMedia.details &&
+        this.currentMedia.details.moreInfo
+      ) {
+        return this.currentMedia.details.moreInfo;
       } else {
         return "";
       }
