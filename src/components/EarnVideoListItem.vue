@@ -38,7 +38,7 @@
           :href="media.details.moreInfo"
           @click="trackLink(media.details.moreInfo)"
           target="_blank"
-          class="btn btn--secondary ml-auto"
+          class="btn btn--secondary btn--small ml-auto"
           >Learn More</a
         >
       </div>
