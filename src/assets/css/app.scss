@@ -297,6 +297,10 @@ button:disabled {
 }
 .stream-detail{
   text-shadow: 0px 1px 1px  rgba(255, 255, 255, 0.8); 
+  padding: 0.2rem 0.3rem 0.3rem 0;
+  overflow: auto;
+  margin-right: 1rem;
+  height: 120px;
   .stream-detail__title{
     color:$white;
     font-weight: bold;

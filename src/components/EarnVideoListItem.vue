@@ -73,7 +73,7 @@
       {{ media.details.title }}
       <base-icon class="ml-auto" name="angle-right"></base-icon>
     </span>
-    <p v-if="media.details.subtitle">{{ media.details.subtitle }}</p>
+    <!-- <p v-if="media.details.subtitle">{{ media.details.subtitle }}</p> -->
   </div>
 </template>
 

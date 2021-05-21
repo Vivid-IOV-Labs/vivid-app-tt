@@ -68,7 +68,7 @@
               <a
                 :href="moreInfo"
                 target="_blank"
-                class="btn btn--round-large btn--opacity-dark mb-2"
+                class="btn btn--round-large btn--opacity-dark mb-2 link-more"
                 style="border:solid 2px #fff; display:block"
               >
                 <base-icon class="btn__icon" name="link"></base-icon>
@@ -369,6 +369,9 @@ export default {
 };
 </script>
 <style lang="scss">
+.link-more {
+  background: $violet !important;
+}
 .vide-menu-enter-active,
 .vide-menu-leave-active {
   transition: all 0.5s;
