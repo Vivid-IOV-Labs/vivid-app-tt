@@ -68,6 +68,7 @@
               <a
                 :href="moreInfo"
                 target="_blank"
+                @click="trackLink(moreInfo)"
                 class="btn btn--round-large btn--opacity-dark mb-2 link-more"
                 style="border:solid 2px #fff; display:block"
               >
@@ -217,6 +218,13 @@ export default {
     }
   },
   methods: {
+    trackLink(link) {
+      trackEvent({
+        category: "Earn Video Play View",
+        action: "link",
+        label: link
+      });
+    },
     async endViewingVideo() {
       trackEvent({
         category: "Earn Video Play View",

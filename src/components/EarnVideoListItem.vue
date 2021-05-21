@@ -36,6 +36,7 @@
         <a
           v-if="media.details.moreInfo"
           :href="media.details.moreInfo"
+          @click="trackLink(media.details.moreInfo)"
           target="_blank"
           class="btn btn--secondary ml-auto"
           >Learn More</a
@@ -109,6 +110,13 @@ export default {
     }
   },
   methods: {
+    trackLink(link) {
+      trackEvent({
+        category: "Earn Video List View",
+        action: "link",
+        label: link
+      });
+    },
     hasRewarded(media) {
       return media.rewards && !!media.rewards.rewardSmartContractTxHash;
     },
