@@ -1,21 +1,38 @@
 import UserService from "@/services/UserService";
 import devLog from "@/util/devlog.js";
+import TwitterAuthService from "@/services/TwitterAuthService";
 
 export default {
   async login({ commit }, userWalletAddress) {
     try {
-      const {
-        interestsSubmitted,
-        termsAgreed,
-        twitterLinked
-      } = await UserService.login(userWalletAddress);
+      const { interestsSubmitted, termsAgreed } = await UserService.login(
+        userWalletAddress
+      );
       commit("setWallet", userWalletAddress);
       commit("setInterestsSubmitted", interestsSubmitted);
       commit("setTermsAgreed", termsAgreed);
-      commit("setTwitterLinked", twitterLinked);
+      const { user } = await UserService.profile(userWalletAddress);
+      commit("setUser", user);
     } catch (error) {
       devLog(error);
     }
+  },
+  async disconnectTwitter({ commit }, userWalletAddress) {
+    await TwitterAuthService.disconnect(userWalletAddress);
+    const user = {
+      twitterProfile: [],
+      createdAt: 1608756000009,
+      updatedAt: 1608756000009,
+      statistics: {
+        interestsSubmitted: true,
+        total: {
+          interests: 2
+        }
+      }
+    };
+    debugger;
+    // user.twitterProfile = [];
+    commit("setUser", user);
   },
   async setUser({ commit }, user) {
     await Promise.resolve(user);

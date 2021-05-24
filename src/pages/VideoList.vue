@@ -181,8 +181,4 @@ export default {
     border: none;
   }
 }
-.dialog-container {
-  background-color: lighten($color: $dark-grey, $amount: 15);
-  color: $white;
-}
 </style>

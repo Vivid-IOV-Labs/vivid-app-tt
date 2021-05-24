@@ -9,7 +9,7 @@
       </div>
     </header>
     <div class="scroller">
-      <div class=" content" v-show="!feedBackSent">
+      <div class=" dialog-content" v-show="!feedBackSent">
         <div class="page__title__background mb-2">
           <h3 class="page__title">What do you want to see most? <br /></h3>
         </div>
