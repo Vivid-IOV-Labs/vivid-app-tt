@@ -2,6 +2,11 @@
   <div class="full-width medialist__item ">
     <div class="rewards">
       <div class="flex p-2" style="align-items: baseline;">
+        <div v-if="!media.rewards">
+          <span class="progress_description ">
+            Start watching to get TT!
+          </span>
+        </div>
         <div
           v-if="
             media.rewards &&
@@ -42,12 +47,12 @@
           >Learn More</a
         >
       </div>
-      <div v-if="media.rewards">
+      <div>
         <earn-progress-bar
           :completed="
-            media.rewards && !!media.rewards.rewardSmartContractTxHash
+            media.rewards ? !!media.rewards.rewardSmartContractTxHash : false
           "
-          :percentage="media.rewards.percentageWatched"
+          :percentage="media.rewards ? media.rewards.percentageWatched : 0"
         ></earn-progress-bar>
       </div>
     </div>
@@ -174,7 +179,6 @@ export default {
   padding: 0.2rem 0 0rem;
 }
 .progress_description {
-  margin-bottom: 0.6rem;
   display: block;
   font-size: 0.9rem;
   font-weight: bold;
