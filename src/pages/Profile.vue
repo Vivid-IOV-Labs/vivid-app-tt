@@ -22,7 +22,7 @@
       </div>
     </v-ons-toolbar>
     <div class="profile-page">
-      <div class="profile-page__main" v-if="isAuthenticated">
+      <div class="profile-page__main" v-if="getTwitterLinked">
         <div class="profile__avatar">
           <img :src="getTwitterProfile.photos[0].value" />
         </div>
@@ -78,7 +78,7 @@
           </div>
         </div>
       </div>
-      <div class="profile-page__main" v-if="!isAuthenticated">
+      <div class="profile-page__main" v-if="!getTwitterLinked">
         <div class="profile__avatar">
           <img src="@/assets/img/logopeerkat.png" />
         </div>
@@ -86,7 +86,7 @@
       </div>
       <div style="align-items: center; flex:1" class="flex">
         <div class="mr-1">
-          <p class="text-center" v-if="!isAuthenticated">
+          <p class="text-center" v-if="!getTwitterLinked">
             Verify your Peerkat account with Twitter
           </p>
           <p class="text-center" v-else>
@@ -94,9 +94,10 @@
           </p>
         </div>
         <v-ons-switch
+          ref="switch"
           :disabled="isAuthenticating || isDisconnecting"
           style="margin-left:1rem"
-          v-model="isAuthenticated"
+          v-model="isChecked"
           @change="onChange"
         >
         </v-ons-switch>
@@ -104,7 +105,7 @@
     </div>
 
     <disconnect-twitter-dialog
-      :on-cancel="() => isAuthenticated == true"
+      :on-cancel="onCancel"
       :on-confirm="disconnectTwitterProfile"
       v-model="disconnectTwitterConfirm"
     ></disconnect-twitter-dialog>
@@ -128,25 +129,14 @@ export default {
   data() {
     return {
       isAuthenticating: false,
+      isChecked: false,
       isDisconnecting: false,
       disconnectTwitterConfirm: false
     };
   },
   computed: {
     ...mapGetters("smartcontract", ["getUserWalletAddress", "getBalance"]),
-    ...mapGetters("user", ["getTwitterLinked", "getTwitterProfile"]),
-    isAuthenticated: {
-      get() {
-        return this.getTwitterLinked;
-      },
-      set() {
-        if (this.getTwitterLinked) {
-          this.disconnectTwitterConfirm = true;
-        } else {
-          this.loginTwitter();
-        }
-      }
-    }
+    ...mapGetters("user", ["getTwitterLinked", "getTwitterProfile"])
   },
   methods: {
     ...mapActions("user", ["disconnectTwitter"]),
@@ -169,13 +159,24 @@ export default {
     async disconnectTwitterProfile() {
       this.isDisconnecting = true;
       const userWalletAddress = this.getUserWalletAddress;
-      debugger;
       await this.disconnectTwitter(userWalletAddress);
       this.isDisconnecting = false;
     },
+    onCancel() {
+      this.isChecked = this.getTwitterLinked;
+    },
     onChange(event) {
-      console.log(event);
+      if (event.isInteractive) {
+        if (this.getTwitterLinked) {
+          this.disconnectTwitterConfirm = true;
+        } else {
+          this.loginTwitter();
+        }
+      }
     }
+  },
+  mounted() {
+    this.isChecked = this.getTwitterLinked;
   }
 };
 </script>
@@ -198,10 +199,17 @@ export default {
     padding-top: 1rem;
   }
   .profile__avatar {
-    display: flex;
     border-radius: 50%;
-    margin: 0 auto 2rem;
-    border: solid 2px "azure";
+    margin: 1rem auto 0rem;
+    width: 70px;
+    overflow: hidden;
+    height: 70px;
+    border: solid 2px $azure;
+    img {
+      object-fit: contain;
+      width: 100%;
+      height: 100%;
+    }
   }
   .profile__list {
     background: $black;

@@ -30,8 +30,6 @@ export default {
         }
       }
     };
-    debugger;
-    // user.twitterProfile = [];
     commit("setUser", user);
   },
   async setUser({ commit }, user) {
