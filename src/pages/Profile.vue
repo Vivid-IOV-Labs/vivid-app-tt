@@ -79,7 +79,7 @@
         </div>
       </div>
       <div class="profile-page__main" v-if="!getTwitterLinked">
-        <div class="profile__avatar">
+        <div style="border:none" class="profile__avatar">
           <img src="@/assets/img/logopeerkat.png" />
         </div>
         <h3 class="text-center">Connect Twitter authentication for Peerkat</h3>
@@ -201,10 +201,10 @@ export default {
   .profile__avatar {
     border-radius: 50%;
     margin: 1rem auto 0rem;
-    width: 70px;
+    width: 66px;
     overflow: hidden;
-    height: 70px;
-    border: solid 2px $azure;
+    height: 66px;
+    border: solid 1px $azure;
     img {
       object-fit: contain;
       width: 100%;
