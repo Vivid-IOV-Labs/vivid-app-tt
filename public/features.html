@@ -49,6 +49,19 @@
     </div>
 
     <hr>
+    <h2>Check Orientation</h2>
+    <button class="btn btn-primary m-2" v-on:click="checkOrientation = !checkOrientation">Check Orientation</button>
+    <div v-if="checkOrientation">
+      <ul class="table table-responsive">
+        <li>Orientation type
+          <pre>{{screenOrientationType}}</pre>
+        </li>
+        <li>Orientation Angle
+          <pre>{{screenOrientationAngle}}</pre>
+        </li>
+      </ul>
+    </div>
+    <hr>
     <h2 style="margin-bottom: 0.2rem;">Check Permissions </h2>
     <i>Please click buttons below</i>
     <hr>
@@ -56,7 +69,6 @@
       <button class="btn btn-primary m-2" v-on:click="goToHTTPS">Force https</button>
       <button class="btn btn-primary m-2" v-on:click="getGeolocation">Get Location</button>
       <button class="btn btn-primary m-2" v-on:click="captureAndInjectCameraFeed">Get Camera &amp; Microphone</button>
-      <button class="btn btn-primary m-2" v-on:click="checkOrientation = !checkOrientation">Check Orientation</button>
       </div>
     <hr v-if="allowResponse.message">
     <h4 v-if="allowResponse.message">Get {{allowResponse.feat=== 'Camera' ? 'Camera &amp; Microphone' :
@@ -74,17 +86,6 @@
           {{ item.label }}
         </li>
       </ul>
-    </div>
-    <div v-if="checkOrientation">
-      <ul class="table table-responsive">
-        <li>Orientation type
-          <pre>{{screenOrientationType}}</pre>
-        </li>
-        <li>Orientation Angle
-          <pre>{{screenOrientationAngle}}</pre>
-        </li>
-      </ul>
-
     </div>
   </div>
   <script src="./modernizr.js"></script>
