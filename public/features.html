@@ -27,7 +27,7 @@
 </style>
 
 <body>
-  <div class="container" v-on:deviceorientation="handleOrientation" id="app">
+  <div class="container" id="app">
     <h1>Peerkat.live Features Test</h1>
     <h3>Must</h3>
     <ul>
@@ -50,7 +50,7 @@
 
     <hr>
     <h2>Check Orientation</h2>
-    <button class="btn btn-primary m-2" v-on:click="checkOrientation = !checkOrientation">Check Orientation</button>
+    <button class="btn btn-primary m-2" v-on:click="checkOrientationPermission">Check Orientation</button>
     <div v-if="checkOrientation">
       <ul class="table table-responsive">
         <li>Orientation type
@@ -136,28 +136,39 @@
             { text: 'localstorage', supported: Modernizr.localstorage },
             { text: 'datachannel', supported: Modernizr.datachannel },
             { text: 'devicemotion', supported: Modernizr.devicemotion },
-            { text: 'device ntation', supported: Modernizr.deviceorientation },
+            { text: 'device orientation', supported: Modernizr.deviceorientation },
             { text: 'facingMode', supported: testFacingMode() },
           ]
         }
-      },
-      mounted() {
-        window.addEventListener(
-          "orientationchange",
-          this.handleOrientationChange
-        );
       },
       methods: {
         handleOrientationChange(event) {
           this.screenOrientationType =  window.screen &&  window.screen.orientation ? window.screen.orientation.type : null;
           this.screenOrientationAngle =  window.screen &&  window.screen.orientation ? window.screen.orientation.angle : null;
         },
+        checkOrientationPermission(){
+          this.checkOrientation = true
+          if ( typeof( DeviceMotionEvent ) !== "undefined" && typeof( DeviceMotionEvent.requestPermission ) === "function" ) {
+            DeviceMotionEvent.requestPermission()
+                .then( response => {
+                if ( response == "granted" ) {
+                    window.addEventListener( "devicemotion", (e) => {
+                        console.log("devicemotion", e);
+                    })
+                    window.addEventListener('deviceorientation', (e) => {
+                        console.log("deviceorientation", e);
+                        this.handleOrientationChange(e)
+                    })
+                }
+            }).catch( console.error )
+          } else {
+            alert( "DeviceMotionEvent is not defined" );
+          }
+        },
         goToHTTPS() {
-          this.checkOrientation = false;
           location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
         },
         getGeolocation() {
-          this.checkOrientation = false;
 
           if (Modernizr.geolocation) {
             this.allowResponse.feat = "Location"
@@ -173,7 +184,6 @@
           }
         },
         captureAndInjectCameraFeed() {
-          this.checkOrientation = false;
 
           this.allowResponse.feat = "Camera"
           getDevices().then((devices) => {
