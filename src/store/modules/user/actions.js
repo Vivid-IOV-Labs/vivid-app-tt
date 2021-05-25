@@ -11,25 +11,14 @@ export default {
       commit("setWallet", userWalletAddress);
       commit("setInterestsSubmitted", interestsSubmitted);
       commit("setTermsAgreed", termsAgreed);
-      const { user } = await UserService.profile(userWalletAddress);
+      const user = await UserService.profile(userWalletAddress);
       commit("setUser", user);
     } catch (error) {
       devLog(error);
     }
   },
   async disconnectTwitter({ commit }, userWalletAddress) {
-    await TwitterAuthService.disconnect(userWalletAddress);
-    const user = {
-      twitterProfile: [],
-      createdAt: 1608756000009,
-      updatedAt: 1608756000009,
-      statistics: {
-        interestsSubmitted: true,
-        total: {
-          interests: 2
-        }
-      }
-    };
+    const { user } = await TwitterAuthService.disconnect(userWalletAddress);
     commit("setUser", user);
   },
   async setUser({ commit }, user) {
