@@ -143,26 +143,26 @@
       },
       methods: {
         handleOrientationChange(event) {
+          console.log("event", event);
+          console.log("screen", window.screen);
           this.screenOrientationType =  window.screen &&  window.screen.orientation ? window.screen.orientation.type : null;
           this.screenOrientationAngle =  window.screen &&  window.screen.orientation ? window.screen.orientation.angle : null;
         },
         checkOrientationPermission(){
           this.checkOrientation = true
+
           if ( typeof( DeviceMotionEvent ) !== "undefined" && typeof( DeviceMotionEvent.requestPermission ) === "function" ) {
             DeviceMotionEvent.requestPermission()
                 .then( response => {
                 if ( response == "granted" ) {
-                    window.addEventListener( "devicemotion", (e) => {
-                        console.log("devicemotion", e);
-                    })
-                    window.addEventListener('deviceorientation', (e) => {
-                        console.log("deviceorientation", e);
-                        this.handleOrientationChange(e)
-                    })
+
+                  window.addEventListener("deviceorientation", this.handleOrientationChange, true);
+
                 }
             }).catch( console.error )
           } else {
-            alert( "DeviceMotionEvent is not defined" );
+            window.addEventListener("deviceorientation", this.handleOrientationChange, true);
+
           }
         },
         goToHTTPS() {
