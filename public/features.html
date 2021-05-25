@@ -53,11 +53,20 @@
     <button class="btn btn-primary m-2" v-on:click="checkOrientationPermission">Check Orientation</button>
     <div v-if="checkOrientation">
       <ul class="table table-responsive">
-        <li>Orientation type
+        <li v-if="screenOrientationType">Orientation type
           <pre>{{screenOrientationType}}</pre>
         </li>
-        <li>Orientation Angle
+        <li v-if="screenOrientationAngle">Orientation Angle
           <pre>{{screenOrientationAngle}}</pre>
+        </li>
+        <li v-if="orientationAlpha">Orientation Alpha z-axis
+          <pre>{{orientationAlpha}}</pre>
+        </li>
+        <li v-if="orientationBeta">Orientation Beta x-axis
+          <pre>{{orientationBeta}}</pre>
+        </li>
+        <li v-if="orientationGamma">Orientation Gamma y-axis
+          <pre>{{orientationGamma}}</pre>
         </li>
       </ul>
     </div>
@@ -119,8 +128,11 @@
       data() {
         return {
           checkOrientation: false,
-          screenOrientationType: window.screen &&  window.screen.orientation ? window.screen.orientation.type : null,
-          screenOrientationAngle:  window.screen &&  window.screen.orientation ? window.screen.orientation.angle : null,
+          orientationAlpha: null,
+          orientationBeta:  null,
+          orientationGamma: null,
+          screenOrientationType: null,
+          screenOrientationAngle: null,
           allowResponse: { message: null, isAllowed: null, feat: null },
           userMediaErrors: null,
           allDevices: [],
@@ -143,8 +155,9 @@
       },
       methods: {
         handleOrientationChange(event) {
-          console.log("event", event);
-          console.log("screen", window.screen);
+          this.orientationAlpha = event.alpha;
+          this.orientationBeta = event.beta;
+          this.orientationGamma = event.gamma;
           this.screenOrientationType =  window.screen &&  window.screen.orientation ? window.screen.orientation.type : null;
           this.screenOrientationAngle =  window.screen &&  window.screen.orientation ? window.screen.orientation.angle : null;
         },
@@ -162,7 +175,6 @@
             }).catch( console.error )
           } else {
             window.addEventListener("deviceorientation", this.handleOrientationChange, true);
-
           }
         },
         goToHTTPS() {
