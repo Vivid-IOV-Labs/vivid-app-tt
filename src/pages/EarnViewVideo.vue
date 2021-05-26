@@ -246,6 +246,8 @@ export default {
           } else {
             this.$router.push({ path: "/earnvideolist" });
           }
+        } else {
+          this.$router.push({ path: "/earnvideolist" });
         }
       } catch (err) {
         this.$router.push({ path: "/earnvideolist" });
