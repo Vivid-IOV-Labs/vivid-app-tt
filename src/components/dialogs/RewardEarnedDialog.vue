@@ -23,6 +23,10 @@ export default {
     value: {
       type: Boolean,
       default: false
+    },
+    onClose: {
+      type: Function,
+      default: () => {}
     }
   },
   methods: {
@@ -31,6 +35,7 @@ export default {
     },
     close() {
       this.$emit("input", false);
+      this.onClose();
     }
   }
 };

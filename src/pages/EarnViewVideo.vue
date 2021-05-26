@@ -79,7 +79,10 @@
         </div>
       </template>
     </base-video>
-    <reward-earned-dialog v-model="isRewardEarnedDialog"></reward-earned-dialog>
+    <reward-earned-dialog
+      :on-close="pushUserBack"
+      v-model="isRewardEarnedDialog"
+    ></reward-earned-dialog>
   </v-ons-page>
 </template>
 <script>
@@ -90,7 +93,6 @@ import env from "@/env.js";
 import webSocketService from "@/util/webSocketService.js";
 import Hls from "hls.js";
 import MediaService from "@/services/MediaService";
-import RewardService from "@/services/RewardService";
 import RewardEarnedDialog from "@/components/dialogs/RewardEarnedDialog.vue";
 let watched = new Set();
 
@@ -116,13 +118,13 @@ export default {
       },
       isVideoMenuDropped: false,
       isFullScreen: false,
-      isRewarding: false,
       isRewardEarned: false,
       isRewardEarnedDialog: false,
       popoverVisible: false,
       mediaID: this.$route.params.mediaID,
       percentageWatched: 0,
-      isCountingView: false
+      isCountingView: false,
+      goBack: false
     };
   },
   computed: {
@@ -211,7 +213,7 @@ export default {
     },
     isPopoverReward() {
       return (
-        this.isRewarding &&
+        this.isCountingView &&
         !this.hasRewarded &&
         this.getPercentageVideoWatched() >= 80
       );
@@ -221,9 +223,14 @@ export default {
     trackLink(link) {
       trackEvent({
         category: "Earn Video Play View",
-        action: "link",
+        action: "link_more_info",
         label: link
       });
+    },
+    pushUserBack() {
+      if (this.goBack) {
+        this.$router.push({ path: "/earnvideolist" });
+      }
     },
     async endViewingVideo() {
       trackEvent({
@@ -233,10 +240,14 @@ export default {
       });
       try {
         if (!this.hasRewarded) {
-          await this.sendReward();
+          await this.countVideoViewed();
         }
       } finally {
-        this.$router.back();
+        if (!this.hasRewarded && this.getPercentageVideoWatched() >= 80) {
+          this.goBack = true;
+        } else {
+          this.$router.push({ path: "/earnvideolist" });
+        }
       }
     },
     dropVideoMenu() {
@@ -308,27 +319,20 @@ export default {
         });
       }
     },
-    async sendReward() {
-      this.isRewarding = true;
-      const mediaID = this.mediaID;
-      const userWalletAddress = this.getUserWalletAddress;
-      const percentageWatched = this.getPercentageVideoWatched();
-      await RewardService.send({
-        mediaID,
-        userWalletAddress,
-        percentageWatched
-      });
-      this.isRewarding = false;
-    },
     async countVideoViewed() {
-      this.isCountingView = true;
-      const mediaID = this.mediaID;
-      const userWalletAddress = this.getUserWalletAddress;
-      await MediaService.videoViewed({
-        mediaID,
-        userWalletAddress
-      });
-      this.isCountingView = false;
+      try {
+        this.isCountingView = true;
+        const mediaID = this.mediaID;
+        const userWalletAddress = this.getUserWalletAddress;
+        const percentageWatched = this.getPercentageVideoWatched();
+        await MediaService.videoViewed({
+          mediaID,
+          userWalletAddress,
+          percentageWatched
+        });
+      } finally {
+        this.isCountingView = false;
+      }
     },
     getPercentageVideoWatched() {
       const secondsWatched = Array.from(watched).length;
@@ -344,7 +348,7 @@ export default {
         watched.add(Math.ceil(this.player.currentTime));
       });
       this.player.on("ended", () => {
-        this.sendReward();
+        this.countVideoViewed();
       });
     },
     rewardSent({ data }) {
@@ -356,6 +360,11 @@ export default {
       ) {
         this.isRewardEarned = true;
         this.isRewardEarnedDialog = true;
+        trackEvent({
+          category: "Earn Video Play View",
+          action: "reward-sent",
+          label: "MediaId:" + this.mediaID
+        });
       }
     }
   },
@@ -363,10 +372,11 @@ export default {
     this.player = this.$refs.videoplayer.player;
     if (!this.hasRewarded) {
       this.recordVideoWatched();
+    } else {
+      this.player.on("ended", () => {
+        this.countVideoViewed();
+      });
     }
-    this.player.on("ended", () => {
-      this.countVideoViewed();
-    });
     this.player.on("ready", this.attachHls);
     this.player.on("enterfullscreen", () => {
       this.isFullScreen = true;
