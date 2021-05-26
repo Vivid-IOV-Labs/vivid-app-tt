@@ -52,7 +52,9 @@
           :completed="
             media.rewards ? !!media.rewards.rewardSmartContractTxHash : false
           "
-          :percentage="media.rewards ? media.rewards.percentageWatched : 0"
+          :percentage="
+            media.viewsProgress ? media.viewsProgress.percentageWatched : 0
+          "
         ></earn-progress-bar>
       </div>
     </div>
