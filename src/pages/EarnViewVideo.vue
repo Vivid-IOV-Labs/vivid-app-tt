@@ -241,13 +241,14 @@ export default {
       try {
         if (!this.hasRewarded) {
           await this.countVideoViewed();
+          if (this.getPercentageVideoWatched() >= 80) {
+            this.goBack = true;
+          } else {
+            this.$router.push({ path: "/earnvideolist" });
+          }
         }
-      } finally {
-        if (!this.hasRewarded && this.getPercentageVideoWatched() >= 80) {
-          this.goBack = true;
-        } else {
-          this.$router.push({ path: "/earnvideolist" });
-        }
+      } catch (err) {
+        this.$router.push({ path: "/earnvideolist" });
       }
     },
     dropVideoMenu() {
