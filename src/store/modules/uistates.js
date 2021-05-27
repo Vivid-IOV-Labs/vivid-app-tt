@@ -16,7 +16,7 @@ export default {
         //console.log(state.taskQueue.findIndex(t => t.name == name));
         commit("setTaskQueue", { name, loading });
       } else {
-        await delay(1000);
+        await delay(800);
         commit("setTaskQueue", { name, loading });
       }
     }
