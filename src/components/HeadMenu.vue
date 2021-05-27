@@ -8,7 +8,7 @@
       :visible.sync="isPopoverEarn"
       :target="earnPopOverTarget"
     >
-      <p class="bold text-center">
+      <p class="text-bold text-center">
         Get TT by watching <br />
         Peerkat Earn videos
       </p>

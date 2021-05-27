@@ -110,7 +110,7 @@
       :visible.sync="isPopoverClickTT"
       :target="popoverTarget"
     >
-      <p class="bold text-center">Click here to tip 1TT</p>
+      <p class="text-bold text-center">Click here to tip 1TT</p>
     </v-ons-popover>
     <v-ons-popover
       cancelable
@@ -126,7 +126,7 @@
       :visible.sync="isPopoverTTSuccess"
       :target="popoverTarget"
     >
-      <p class="bold text-center">
+      <p class="text-bold text-center">
         Tip done! &#128512;
       </p>
     </v-ons-popover>
@@ -135,7 +135,7 @@
       :visible.sync="isPopoverTTFailed"
       :target="popoverTarget"
     >
-      <p class="bold text-center">
+      <p class="text-bold text-center">
         Tipping failed &#128549;
       </p>
     </v-ons-popover>
