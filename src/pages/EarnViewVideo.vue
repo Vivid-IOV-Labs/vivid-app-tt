@@ -223,7 +223,7 @@ export default {
     trackLink(link) {
       trackEvent({
         category: "Earn Video Play View",
-        action: "link_more_info",
+        action: "link-more-info",
         label: link
       });
     },
