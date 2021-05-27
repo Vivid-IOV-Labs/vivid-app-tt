@@ -69,7 +69,7 @@ export default {
   methods: {
     ...mapActions("media", ["populateAll", "add", "delete"]),
     pushBack() {
-      this.$router.back();
+      this.$router.push({ path: "/videolist" });
     }
   },
   watch: {
