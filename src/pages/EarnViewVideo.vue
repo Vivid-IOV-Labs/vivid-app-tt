@@ -87,7 +87,7 @@
 </template>
 <script>
 import BaseVideo from "@/components/BaseVideo.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import { trackEvent } from "@/util/analytics";
 import env from "@/env.js";
 import webSocketService from "@/util/webSocketService.js";
@@ -220,6 +220,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions("uistates", ["setTaskQueue"]),
     trackLink(link) {
       trackEvent({
         category: "Earn Video Play View",
@@ -240,6 +241,7 @@ export default {
       });
       try {
         if (!this.hasRewarded) {
+          this.setTaskQueue({ name: "rewardVideo", loading: true });
           await this.countVideoViewed();
           if (this.getPercentageVideoWatched() >= 80) {
             this.goBack = true;
@@ -251,6 +253,8 @@ export default {
         }
       } catch (err) {
         this.$router.push({ path: "/earnvideolist" });
+      } finally {
+        this.setTaskQueue({ name: "rewardVideo", loading: false });
       }
     },
     dropVideoMenu() {

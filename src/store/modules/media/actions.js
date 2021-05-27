@@ -3,10 +3,14 @@ import devLog from "@/util/devlog.js";
 
 export default {
   async populateAll(store) {
-    const { commit } = store;
+    const { commit, dispatch } = store;
     try {
       const userWalletAddress = store.rootGetters["user/getWallet"];
-
+      dispatch(
+        "uistates/setTaskQueue",
+        { name: "loadingMedia", loading: true },
+        { root: true }
+      );
       const all = await MediaService.getAll(userWalletAddress);
 
       commit("setAll", all);
@@ -42,6 +46,11 @@ export default {
           return b.createdAt - a.createdAt;
         });
       commit("setEarnCompleted", earnHighlightedSortedByOrder);
+      dispatch(
+        "uistates/setTaskQueue",
+        { name: "loadingMedia", loading: false },
+        { root: true }
+      );
     } catch (error) {
       devLog(error);
     }

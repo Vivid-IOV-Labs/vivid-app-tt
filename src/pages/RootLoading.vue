@@ -2,7 +2,7 @@
   <v-ons-page>
     <div class="logo-page">
       <div class="logo-page__main">
-        <img class="logo-page__img" src="@/assets/img/logopeerkat.svg" />
+        <img class="logo-page__img" src="@/assets/img/welcomepeerkat.png" />
         <h4 class="logo-page__subtitle">
           Watch the latest videos &amp; tip the creator with TT
         </h4>
@@ -16,20 +16,6 @@
     </div>
   </v-ons-page>
 </template>
-
-<script>
-import delay from "@/util/delay.js";
-
-export default {
-  name: "RootLoading",
-  async mounted() {
-    if (window.location.pathname === "/") {
-      await delay(2000);
-      this.$router.push({ path: "videolist" });
-    }
-  }
-};
-</script>
 <style lang="scss">
 .logo-page {
   display: flex;
@@ -68,8 +54,9 @@ export default {
     margin: 0.6rem 0 0.4rem;
     padding: 0 1.4rem 0.3rem;
   }
-  .logo-page .logo-page__img {
-    width: 60%;
-  }
+}
+.logo-page .logo-page__img {
+  width: 60%;
+  max-width: 200px;
 }
 </style>

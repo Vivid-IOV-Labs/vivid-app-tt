@@ -1,5 +1,6 @@
 <template>
   <div>
+    <IsLoading />
     <BaseIconSprite />
     <RouterWrapper />
   </div>
@@ -30,10 +31,12 @@ body {
 <script>
 import BaseIconSprite from "@/components/BaseIconSprite.vue";
 import RouterWrapper from "@/components/RouterWrapper.vue";
+import IsLoading from "@/components/IsLoading.vue";
 export default {
   name: "main_page",
   components: {
     BaseIconSprite,
+    IsLoading,
     RouterWrapper
   }
 };
