@@ -74,7 +74,6 @@ Vue.component(VOnsAlertDialogButton.name, VOnsAlertDialogButton);
 
 import BaseIcon from "@/components/BaseIcon";
 Vue.component("BaseIcon", BaseIcon);
-//THIS IS TO IMPORT THE 'VUEX' STORE TO BE USED IN THE VUE APP.
 import store from "./store";
 import router from "./router";
 import App from "./App.vue";

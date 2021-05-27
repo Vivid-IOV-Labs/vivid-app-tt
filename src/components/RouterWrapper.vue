@@ -59,6 +59,13 @@ export default {
       //   name: this.$route.matched[this.$route.matched.length - 1].name
       // });
     }
+  },
+  mounted() {
+    const onResize = new ResizeObserver(function(entries) {
+      const { height } = entries[0].contentRect;
+      document.body.style.height = height + "px";
+    });
+    onResize.observe(document.querySelector("ons-navigator"));
   }
 };
 </script>

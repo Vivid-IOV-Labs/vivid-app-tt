@@ -50,7 +50,6 @@ import delay from "@/util/delay.js";
 import { mapGetters, mapState, mapMutations } from "vuex";
 
 export default {
-  name: "HeadMenu",
   data() {
     return {
       isPopoverEarn: false,
