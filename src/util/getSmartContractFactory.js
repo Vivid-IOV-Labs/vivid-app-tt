@@ -1,7 +1,11 @@
 import {
-  address as smartContractAddress,
-  ABI as smartContractABI
+  address as tippingContractAddress,
+  ABI as tippingContractABI
 } from "@/util/constants/tippingContract";
+import {
+  address as testNetTippingContractAddress,
+  ABI as testNetTippingContractABI
+} from "@/util/constants/testNetTippingContract";
 import { ethers } from "ethers";
 import devLog from "@/util/devlog.js";
 
@@ -53,10 +57,22 @@ const getSignerBalance = async (provider, signerAddress) => {
   }
 };
 
-const getSmartContractWithSigner = async (smartContractProvider, signer) => {
+const getTippingContractWithSigner = async (smartContractProvider, signer) => {
   const tippingContract = await new ethers.Contract(
-    smartContractAddress,
-    smartContractABI,
+    tippingContractAddress,
+    tippingContractABI,
+    smartContractProvider
+  );
+  return await tippingContract.connect(signer);
+};
+
+const getTestNetTippingContractWithSigner = async (
+  smartContractProvider,
+  signer
+) => {
+  const tippingContract = await new ethers.Contract(
+    testNetTippingContractAddress,
+    testNetTippingContractABI,
     smartContractProvider
   );
   return await tippingContract.connect(signer);
@@ -89,10 +105,13 @@ const createGetSmartContract = async () => {
   const signer = getSigner(provider);
   const signerAddress = await getSignerAddress(provider, signer);
   const signerBalance = await getSignerBalance(provider, signerAddress);
-  const smartContractWithSigner = await getSmartContractWithSigner(
-    provider,
-    signer
-  );
+  const { chainId } = network;
+  const isTippingContract = chainId == 108;
+
+  const smartContractWithSigner = isTippingContract
+    ? await getTippingContractWithSigner(provider, signer)
+    : await getTestNetTippingContractWithSigner(provider, signer);
+
   const tipContract = createTippingContratc(smartContractWithSigner);
   return {
     provider,
