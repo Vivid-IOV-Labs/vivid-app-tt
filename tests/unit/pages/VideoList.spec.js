@@ -40,6 +40,12 @@ describe("VideoList", () => {
   beforeEach(() => {
     store = new Vuex.Store({
       modules: {
+        uistates: {
+          namespaced: true,
+          actions: {
+            setTaskQueue: jest.fn()
+          }
+        },
         user: {
           namespaced: true,
           getters: userGetters
@@ -81,6 +87,12 @@ describe("VideoList", () => {
   it("should open terms dialog if user didn't agree yet and send interests", () => {
     const storeUserNoTermsAndInterests = new Vuex.Store({
       modules: {
+        uistates: {
+          namespaced: true,
+          actions: {
+            setTaskQueue: jest.fn()
+          }
+        },
         user: {
           namespaced: true,
           getters: {
@@ -121,6 +133,12 @@ describe("VideoList", () => {
   it("should open interests dialog if user agreed terms but didn't send interests", () => {
     const storeUserTermsNoInterests = new Vuex.Store({
       modules: {
+        uistates: {
+          namespaced: true,
+          actions: {
+            setTaskQueue: jest.fn()
+          }
+        },
         user: {
           namespaced: true,
           getters: {
@@ -161,6 +179,12 @@ describe("VideoList", () => {
   it("should not open any dialogs if user agreed terms and sent interests", () => {
     const storeUserTermsNoInterests = new Vuex.Store({
       modules: {
+        uistates: {
+          namespaced: true,
+          actions: {
+            setTaskQueue: jest.fn()
+          }
+        },
         user: {
           namespaced: true,
           getters: {
