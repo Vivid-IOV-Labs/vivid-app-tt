@@ -7,13 +7,14 @@ export default {
     const { commit, dispatch } = store;
     try {
       const userWalletAddress = store.rootGetters["user/getWallet"];
-      dispatch(
-        "uistates/setTaskQueue",
-        { name: "loadingMedia", loading: true },
-        { root: true }
-      );
+      //run dispatch if exist for fixing unit test
+      dispatch &&
+        dispatch(
+          "uistates/setTaskQueue",
+          { name: "loadingMedia", loading: true },
+          { root: true }
+        );
       const all = await MediaService.getAll(userWalletAddress);
-      // await delay(4000);
 
       commit("setAll", all);
 
@@ -51,11 +52,12 @@ export default {
     } catch (error) {
       devLog(error);
     } finally {
-      dispatch(
-        "uistates/setTaskQueue",
-        { name: "loadingMedia", loading: false },
-        { root: true }
-      );
+      dispatch &&
+        dispatch(
+          "uistates/setTaskQueue",
+          { name: "loadingMedia", loading: false },
+          { root: true }
+        );
     }
   },
   add({ commit }, newVideo) {
