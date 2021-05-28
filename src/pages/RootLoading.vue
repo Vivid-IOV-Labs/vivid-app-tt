@@ -3,6 +3,11 @@
     <div class="logo-page">
       <div class="logo-page__main">
         <img class="logo-page__img" src="@/assets/img/welcomepeerkat.png" />
+        <img
+          style="display:none"
+          class="logo-page__img"
+          src="@/assets/img/thumbnail.jpg"
+        />
         <h4 class="logo-page__subtitle">
           Watch the latest videos &amp; tip the creator with TT
         </h4>
