@@ -13,10 +13,9 @@ export default {
   actions: {
     async setTaskQueue({ commit }, { name, loading }) {
       if (loading) {
-        //console.log(state.taskQueue.findIndex(t => t.name == name));
         commit("setTaskQueue", { name, loading });
       } else {
-        await delay(800);
+        await delay(600);
         commit("setTaskQueue", { name, loading });
       }
     }

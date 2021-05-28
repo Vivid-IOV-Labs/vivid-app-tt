@@ -1,5 +1,6 @@
 import MediaService from "@/services/MediaService";
 import devLog from "@/util/devlog.js";
+// import delay from "@/util/delay.js";
 
 export default {
   async populateAll(store) {
@@ -12,6 +13,7 @@ export default {
         { root: true }
       );
       const all = await MediaService.getAll(userWalletAddress);
+      // await delay(4000);
 
       commit("setAll", all);
 
@@ -46,13 +48,14 @@ export default {
           return b.createdAt - a.createdAt;
         });
       commit("setEarnCompleted", earnHighlightedSortedByOrder);
+    } catch (error) {
+      devLog(error);
+    } finally {
       dispatch(
         "uistates/setTaskQueue",
         { name: "loadingMedia", loading: false },
         { root: true }
       );
-    } catch (error) {
-      devLog(error);
     }
   },
   add({ commit }, newVideo) {
