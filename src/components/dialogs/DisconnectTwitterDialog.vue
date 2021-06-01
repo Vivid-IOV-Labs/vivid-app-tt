@@ -1,11 +1,12 @@
 <template>
   <v-ons-dialog :visible="value" @update:visible="updateVisible">
     <header class="dialog__head">
-      <div class="dialog__head__title">Disconnet Twitter Profile</div>
+      <div class="dialog__head__title">Disconnect Twitter</div>
     </header>
     <div class="content">
       <p>
-        Are you sure to remove twitter's details?
+        Are you sure that you would like to disconnect your Twitter account from
+        Peerkat?
       </p>
 
       <div class="flex mt-4 flex-center-xy">

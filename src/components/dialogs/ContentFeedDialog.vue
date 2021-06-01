@@ -1,7 +1,7 @@
 <template>
   <v-ons-dialog cancelable :visible="value" @update:visible="updateVisible">
     <header class="dialog__head">
-      <div class="dialog__head__title">Please help with feedback</div>
+      <div class="dialog__head__title">Feedback</div>
       <div class="right">
         <v-ons-button class="btn_close" @click="close">
           <base-icon class="btn__icon--white" name="times"></base-icon>

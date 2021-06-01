@@ -21,7 +21,7 @@ if (!(window.avatar || window.hubId) && process.env.NODE_ENV === "production") {
 import { trackInit } from "@/util/analytics";
 trackInit();
 
-import "onsenui/css/onsenui-core.min.css";
+// import "onsenui/css/onsenui-core.min.css";
 import "onsenui/css/onsen-css-components.min.css";
 
 import Vue from "vue";

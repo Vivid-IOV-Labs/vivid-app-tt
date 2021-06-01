@@ -69,6 +69,7 @@ export default {
   padding: 0.6rem 1rem;
 }
 .medialist__item__title {
+  font-family: "Prompt", sans-serif;
   font-weight: bold;
   padding: 0.2rem 0 0rem;
 }

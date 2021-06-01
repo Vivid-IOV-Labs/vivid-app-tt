@@ -36,7 +36,7 @@
               !media.rewards.rewardVerifiedTxHash
           "
         >
-          <span class="progress_description">Keep watching to get TT</span>
+          <span class="progress_description">keep watching…</span>
         </div>
         <a
           v-if="media.details.moreInfo"
@@ -177,10 +177,12 @@ export default {
   padding: 0.6rem 1rem;
 }
 .medialist__item__title {
+  font-family: "Prompt", sans-serif;
   font-weight: bold;
   padding: 0.2rem 0 0rem;
 }
 .progress_description {
+  font-family: "Prompt", sans-serif;
   display: block;
   font-size: 0.9rem;
   font-weight: bold;

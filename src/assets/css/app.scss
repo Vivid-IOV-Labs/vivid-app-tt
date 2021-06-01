@@ -360,6 +360,7 @@ button:disabled {
   min-height: unset;
   padding: 0.4rem 0.6rem;
   max-width: 100%;
+  font-family: 'Prompt', sans-serif;
 }
 .dialog {
   height: auto;
@@ -521,6 +522,7 @@ button:disabled {
 }
 
 .dialog__head__title{
+  font-family: 'Prompt', sans-serif;
   font-size: 1.2rem;
   font-weight: bold;
 }

@@ -10,7 +10,7 @@
         </v-ons-toolbar-button>
       </div>
     </v-ons-toolbar>
-    <div class=" viewlist__content">
+    <div class=" viewlist__content scroller">
       <div>
         <h3 v-if="getEarnLatests.length > 0" class="page__title">
           EARN TT BY WATCHING THESE VIDEOS

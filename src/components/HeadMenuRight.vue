@@ -12,7 +12,11 @@
     >
       <v-ons-list class="text-center p-2">
         <v-ons-list-item class="text-center" modifier="tappable"
-          ><a class="menu__link" @click="toProfile('Privacy Policy')">
+          ><a
+            class="menu__link"
+            href="#"
+            @click.prevent="toProfile('Privacy Policy')"
+          >
             My Account
           </a>
         </v-ons-list-item>
@@ -40,12 +44,7 @@
               Search for us at @PeerkatLive <br />
               on Twitter and Telegram!
             </h6>
-            <p>
-              <small class="mt-2 mb-4">
-                <i>Copy the handle by clicking on the buttons below:</i>
-              </small>
-            </p>
-
+            <hr class="hr-space" />
             <v-ons-button
               @click="copyTwitterLink"
               class="btn--large  btn--primary"
@@ -178,6 +177,7 @@ export default {
   display: block;
   width: 100%;
   height: 100%;
+  font-weight: bolder;
 }
 .menu__link:last,
 .menu__link:first {
