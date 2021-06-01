@@ -36,7 +36,7 @@
               !media.rewards.rewardVerifiedTxHash
           "
         >
-          <span class="progress_description">keep watching…</span>
+          <span class="progress_description">Keep watching...</span>
         </div>
         <a
           v-if="media.details.moreInfo"
