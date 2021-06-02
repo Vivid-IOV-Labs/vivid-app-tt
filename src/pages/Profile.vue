@@ -138,8 +138,7 @@ export default {
       isAuthenticating: false,
       isChecked: false,
       isDisconnecting: false,
-      disconnectTwitterConfirm: false,
-      isTwitterAlreadyInUse: false
+      disconnectTwitterConfirm: false
     };
   },
   computed: {
@@ -148,7 +147,10 @@ export default {
       "getTwitterLinked",
       "getTwitterProfile",
       "getRewardsEarned"
-    ])
+    ]),
+    isTwitterAlreadyInUse() {
+      return this.$route.params.status === "failed";
+    }
   },
   methods: {
     ...mapActions("user", ["disconnectTwitter"]),

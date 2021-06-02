@@ -25,7 +25,7 @@ const routes = [
     path: "/earnviewvideo/:mediaID",
     component: EarnViewVideo
   },
-  { name: "profile", path: "/profile", component: Profile }
+  { name: "profile", path: "/profile/:status", component: Profile }
 ];
 
 const router = new VueRouter({
