@@ -54,7 +54,7 @@
                   name="thundercore"
                 ></base-icon>
               </div>
-              <p>5 TT</p>
+              <p>{{ getRewardsEarned }} TT</p>
             </div>
           </div>
           <div class="column-right flex-column flex-center-xy ml-auto">
@@ -109,13 +109,19 @@
       :on-confirm="disconnectTwitterProfile"
       v-model="disconnectTwitterConfirm"
     ></disconnect-twitter-dialog>
+    <twitter-already-in-use-dialog
+      v-model="isTwitterAlreadyInUse"
+    ></twitter-already-in-use-dialog>
   </v-ons-page>
 </template>
 
 <script>
 import { trackEvent } from "@/util/analytics";
 import BaseIcon from "@/components/BaseIcon.vue";
+
 import DisconnectTwitterDialog from "@/components/dialogs/DisconnectTwitterDialog.vue";
+import TwitterAlreadyInUseDialog from "@/components/dialogs/TwitterAlreadyInUseDialog.vue";
+import webSocketService from "@/util/webSocketService.js";
 
 import TwitterAuthService from "@/services/TwitterAuthService";
 import { mapGetters, mapActions } from "vuex";
@@ -124,19 +130,25 @@ export default {
   name: "Profile",
   components: {
     BaseIcon,
-    DisconnectTwitterDialog
+    DisconnectTwitterDialog,
+    TwitterAlreadyInUseDialog
   },
   data() {
     return {
       isAuthenticating: false,
       isChecked: false,
       isDisconnecting: false,
-      disconnectTwitterConfirm: false
+      disconnectTwitterConfirm: false,
+      isTwitterAlreadyInUse: false
     };
   },
   computed: {
     ...mapGetters("smartcontract", ["getUserWalletAddress", "getBalance"]),
-    ...mapGetters("user", ["getTwitterLinked", "getTwitterProfile"])
+    ...mapGetters("user", [
+      "getTwitterLinked",
+      "getTwitterProfile",
+      "getRewardsEarned"
+    ])
   },
   methods: {
     ...mapActions("user", ["disconnectTwitter"]),
@@ -177,6 +189,9 @@ export default {
   },
   mounted() {
     this.isChecked = this.getTwitterLinked;
+    webSocketService.socket.on("twitter-profile-already-exists", () => {
+      this.isTwitterAlreadyInUse = false;
+    });
   }
 };
 </script>

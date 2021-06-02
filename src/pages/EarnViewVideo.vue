@@ -242,7 +242,11 @@ export default {
       try {
         if (!this.hasRewarded) {
           this.setTaskQueue({ name: "rewardVideo", loading: true });
-          await this.countVideoViewed();
+          const { success } = await this.countVideoViewed();
+          if (!success) {
+            this.$router.push({ path: "/earnvideolist" });
+            return;
+          }
           if (this.getPercentageVideoWatched() >= 80) {
             this.goBack = true;
           } else {
