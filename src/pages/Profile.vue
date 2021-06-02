@@ -138,7 +138,8 @@ export default {
       isAuthenticating: false,
       isChecked: false,
       isDisconnecting: false,
-      disconnectTwitterConfirm: false
+      disconnectTwitterConfirm: false,
+      isTwitterAlreadyInUse: false
     };
   },
   computed: {
@@ -147,10 +148,7 @@ export default {
       "getTwitterLinked",
       "getTwitterProfile",
       "getRewardsEarned"
-    ]),
-    isTwitterAlreadyInUse() {
-      return this.$route.params.status === "failed";
-    }
+    ])
   },
   methods: {
     ...mapActions("user", ["disconnectTwitter"]),
@@ -191,9 +189,9 @@ export default {
   },
   mounted() {
     this.isChecked = this.getTwitterLinked;
-    webSocketService.socket.on("twitter-profile-already-exists", () => {
-      this.isTwitterAlreadyInUse = false;
-    });
+    if (this.$route.params.status === "failed") {
+      this.isTwitterAlreadyInUse = true;
+    }
   }
 };
 </script>
