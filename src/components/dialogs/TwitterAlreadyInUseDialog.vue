@@ -1,11 +1,11 @@
 <template>
   <v-ons-dialog :visible="value" @update:visible="updateVisible">
     <header class="dialog__head">
-      <div class="dialog__head__title">WELL DONE!</div>
+      <div class="dialog__head__title">Invalid Connection!</div>
     </header>
     <div class="content">
       <p>
-        Your TT is on its way to your ThunderCore hub wallet!
+        Twitter profile has already been linked to Peerkat App
       </p>
 
       <div class="flex mt-4 flex-center-xy">
@@ -35,7 +35,6 @@ export default {
     },
     close() {
       this.$emit("input", false);
-      this.onClose();
     }
   }
 };
