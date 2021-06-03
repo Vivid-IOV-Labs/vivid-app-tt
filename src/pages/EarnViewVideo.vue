@@ -19,7 +19,7 @@
                 class="btn__icon"
                 :class="{ 'text-azure': hasRewarded }"
                 style="font-size:1.4rem"
-                name="dollar-sign"
+                name="reward"
               ></base-icon>
             </v-ons-button>
             <v-ons-popover

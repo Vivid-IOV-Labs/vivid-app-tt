@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-ons-toolbar-button id="earnlink" ref="earnlink" @click="toEarnList">
-      <base-icon class="btn__icon--primary" name="dollar-sign"></base-icon>
+      <base-icon class="btn__icon--primary" name="reward"></base-icon>
     </v-ons-toolbar-button>
     <v-ons-popover
       class="earnPopOver"

@@ -68,7 +68,7 @@
             'text-azure':
               media.rewards && !!media.rewards.rewardSmartContractTxHash
           }"
-          name="dollar-sign"
+          name="reward"
         ></base-icon>
       </div>
       <img
