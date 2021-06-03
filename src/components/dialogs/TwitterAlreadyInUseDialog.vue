@@ -5,7 +5,7 @@
     </header>
     <div class="content">
       <p>
-        Twitter profile has already been linked to Peerkat App
+        Twitter account has already been connected to Peerkat
       </p>
 
       <div class="flex mt-4 flex-center-xy">
