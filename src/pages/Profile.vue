@@ -121,7 +121,6 @@ import BaseIcon from "@/components/BaseIcon.vue";
 
 import DisconnectTwitterDialog from "@/components/dialogs/DisconnectTwitterDialog.vue";
 import TwitterAlreadyInUseDialog from "@/components/dialogs/TwitterAlreadyInUseDialog.vue";
-import webSocketService from "@/util/webSocketService.js";
 
 import TwitterAuthService from "@/services/TwitterAuthService";
 import { mapGetters, mapActions } from "vuex";
