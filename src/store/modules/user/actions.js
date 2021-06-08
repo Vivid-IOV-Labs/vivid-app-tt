@@ -11,6 +11,12 @@ export default {
       commit("setWallet", userWalletAddress);
       commit("setInterestsSubmitted", interestsSubmitted);
       commit("setTermsAgreed", termsAgreed);
+    } catch (error) {
+      devLog(error);
+    }
+  },
+  async profile({ commit }, userWalletAddress) {
+    try {
       const user = await UserService.profile(userWalletAddress);
       commit("setUser", user);
     } catch (error) {

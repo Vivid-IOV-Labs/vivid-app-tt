@@ -150,7 +150,7 @@ export default {
     ])
   },
   methods: {
-    ...mapActions("user", ["disconnectTwitter"]),
+    ...mapActions("user", ["disconnectTwitter", "profile"]),
     trackLink(link) {
       trackEvent({
         category: "Profile View",
@@ -185,6 +185,10 @@ export default {
         }
       }
     }
+  },
+  async created() {
+    const userWalletAddress = this.getUserWalletAddress;
+    await this.profile(userWalletAddress);
   },
   mounted() {
     this.isChecked = this.getTwitterLinked;
