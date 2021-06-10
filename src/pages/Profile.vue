@@ -189,9 +189,9 @@ export default {
   async created() {
     const userWalletAddress = this.getUserWalletAddress;
     await this.profile(userWalletAddress);
+    this.isChecked = this.getTwitterLinked;
   },
   mounted() {
-    this.isChecked = this.getTwitterLinked;
     if (this.$route.params.status === "failed") {
       this.isTwitterAlreadyInUse = true;
     }
