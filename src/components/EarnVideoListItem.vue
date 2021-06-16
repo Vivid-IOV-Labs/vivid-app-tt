@@ -41,7 +41,7 @@
         <a
           v-if="media.details.moreInfo"
           :href="media.details.moreInfo"
-          @click="trackLink(media.details.moreInfo)"
+          @click="trackLink(media.details.moreInfo, media.mediaID)"
           target="_blank"
           class="btn btn--secondary btn--small ml-auto"
           >Learn More</a
@@ -117,7 +117,12 @@ export default {
     }
   },
   methods: {
-    trackLink(link) {
+    trackLink(link, mediaID) {
+      trackEvent({
+        category: "Earn Video List View",
+        action: "link-more-info",
+        label: mediaID
+      });
       trackEvent({
         category: "Earn Video List View",
         action: "link-more-info",

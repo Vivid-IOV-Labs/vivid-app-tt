@@ -334,13 +334,15 @@ export default {
           .catch(function() {
             trackEvent({
               category: "Video Play View",
-              action: "autoplay-error"
+              action: "autoplay-error",
+              label: "MediaId:" + this.mediaID
             });
           })
           .then(function() {
             trackEvent({
               category: "Video Play View",
-              action: "autoplay-success"
+              action: "autoplay-success",
+              label: "MediaId:" + this.mediaID
             });
           });
       }
@@ -360,7 +362,8 @@ export default {
         });
         trackEvent({
           category: "Video Play View",
-          action: "hls-video-playing"
+          action: "hls-video-playing",
+          label: "MediaId:" + this.mediaID
         });
       } else if (video.media.canPlayType("application/vnd.apple.mpegurl")) {
         video.media.src = this.hlsUrl;
@@ -368,7 +371,8 @@ export default {
           this.autoplay(video.media);
           trackEvent({
             category: "Video Play View",
-            action: "hls-video-playing"
+            action: "hls-video-playing",
+            label: "MediaId:" + this.mediaID
           });
         });
       } else {
@@ -380,7 +384,8 @@ export default {
           this.autoplay(video.media);
           trackEvent({
             category: "Video Play View",
-            action: "hls-video-playing"
+            action: "mp4-video-playing",
+            label: "MediaId:" + this.mediaID
           });
         });
       }

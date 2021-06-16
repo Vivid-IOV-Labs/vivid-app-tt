@@ -68,7 +68,7 @@
               <a
                 :href="moreInfo"
                 target="_blank"
-                @click="trackLink(moreInfo)"
+                @click="trackLink(moreInfo, mediaID)"
                 class="btn btn--round-large btn--opacity-dark mb-2 link-more"
                 style="border:solid 2px #fff; display:block"
               >
@@ -221,11 +221,16 @@ export default {
   },
   methods: {
     ...mapActions("uistates", ["setTaskQueue"]),
-    trackLink(link) {
+    trackLink(link, mediaID) {
       trackEvent({
         category: "Earn Video Play View",
         action: "link-more-info",
         label: link
+      });
+      trackEvent({
+        category: "Earn Video Play View",
+        action: "link-more-info",
+        label: mediaID
       });
     },
     pushUserBack() {
@@ -279,13 +284,15 @@ export default {
           .catch(function() {
             trackEvent({
               category: "Earn Video Play View",
-              action: "autoplay-error"
+              action: "autoplay-error",
+              label: "MediaId:" + this.mediaID
             });
           })
           .then(function() {
             trackEvent({
               category: "Earn Video Play View",
-              action: "autoplay-success"
+              action: "autoplay-success",
+              label: "MediaId:" + this.mediaID
             });
           });
       }
@@ -305,7 +312,8 @@ export default {
         });
         trackEvent({
           category: "Earn Video Play View",
-          action: "hls-video-playing"
+          action: "hls-video-playing",
+          label: "MediaId:" + this.mediaID
         });
       } else if (video.media.canPlayType("application/vnd.apple.mpegurl")) {
         video.media.src = this.hlsUrl;
@@ -313,7 +321,8 @@ export default {
           this.autoplay(video.media);
           trackEvent({
             category: "Earn Video Play View",
-            action: "hls-video-playing"
+            action: "hls-video-playing",
+            label: "MediaId:" + this.mediaID
           });
         });
       } else {
@@ -325,7 +334,8 @@ export default {
           this.autoplay(video.media);
           trackEvent({
             category: "Earn Video Play View",
-            action: "hls-video-playing"
+            action: "mp4-video-playing",
+            label: "MediaId:" + this.mediaID
           });
         });
       }
