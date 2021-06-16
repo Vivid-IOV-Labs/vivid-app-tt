@@ -142,7 +142,6 @@ const templateDemoJoin = () => `
 
 const allPins = {};
 export default {
-  name: "requestStream",
   components: {
     RequestDialog,
     JoinDialog,

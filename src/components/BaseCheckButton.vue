@@ -15,7 +15,6 @@
 
 <script>
 export default {
-  name: "BaseCheckButton",
   props: {
     text: {
       type: String,

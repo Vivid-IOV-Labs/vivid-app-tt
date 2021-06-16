@@ -19,7 +19,6 @@ import BaseIcon from "@/components/BaseIcon.vue";
 import env from "@/env.js";
 
 export default {
-  name: "VideoList",
   props: {
     media: {
       type: Object,

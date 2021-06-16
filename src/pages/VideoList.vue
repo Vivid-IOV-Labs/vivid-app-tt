@@ -52,7 +52,6 @@ import webSocketService from "@/util/webSocketService.js";
 import { trackEvent } from "@/util/analytics";
 
 export default {
-  name: "VideoList",
   components: {
     HeadMenu,
     HeadLogo,

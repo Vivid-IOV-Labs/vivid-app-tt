@@ -93,7 +93,6 @@ const { mapGetters, mapMutations } = createNamespacedHelpers("requests");
 import GeoSearchBar from "@/components/GeoSearchBar.vue";
 
 export default {
-  name: "RequestDialog",
   components: {
     GeoSearchBar
   },

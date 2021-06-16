@@ -30,7 +30,6 @@ const { mapActions } = createNamespacedHelpers("user");
 import { trackEvent } from "@/util/analytics";
 
 export default {
-  name: "TermsAgreeDialog",
   props: {
     value: {
       type: Boolean,

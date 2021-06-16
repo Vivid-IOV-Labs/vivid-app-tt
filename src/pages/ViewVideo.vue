@@ -331,14 +331,14 @@ export default {
       var promise = video.play();
       if (promise !== undefined) {
         promise
-          .catch(function() {
+          .catch(() => {
             trackEvent({
               category: "Video Play View",
               action: "autoplay-error",
               label: "MediaId:" + this.mediaID
             });
           })
-          .then(function() {
+          .then(() => {
             trackEvent({
               category: "Video Play View",
               action: "autoplay-success",

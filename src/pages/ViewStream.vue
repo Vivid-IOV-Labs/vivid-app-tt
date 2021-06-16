@@ -161,7 +161,6 @@ const mediaConstraints = {
   audio: false
 };
 export default {
-  name: "viewStream",
   components: {
     BaseVideo
   },

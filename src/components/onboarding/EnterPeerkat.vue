@@ -11,7 +11,6 @@
 
 <script>
 export default {
-  name: "EnterPeerkat",
   props: {
     endOnBoarding: {
       type: Function,

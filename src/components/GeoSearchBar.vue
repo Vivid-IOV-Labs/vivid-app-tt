@@ -47,7 +47,6 @@ const myProvider = new OpenStreetMapProvider({
   }
 });
 export default {
-  name: "GeoSearchBar",
   props: {
     id: {
       type: String,

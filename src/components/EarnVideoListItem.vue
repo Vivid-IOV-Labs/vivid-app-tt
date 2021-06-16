@@ -92,7 +92,6 @@ import EarnProgressBar from "@/components/EarnProgressBar.vue";
 import { trackEvent } from "@/util/analytics";
 
 export default {
-  name: "EarnVideoList",
   props: {
     media: {
       type: Object,

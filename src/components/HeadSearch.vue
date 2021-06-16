@@ -13,7 +13,6 @@
 import GeoSearchBar from "@/components/GeoSearchBar.vue";
 
 export default {
-  name: "HeadSearch",
   components: {
     GeoSearchBar
   },

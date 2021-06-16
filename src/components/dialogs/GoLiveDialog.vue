@@ -91,7 +91,6 @@ import GeoSearchBar from "@/components/GeoSearchBar.vue";
 import createOpenLocationCode from "@/util/createOpenLocationCode.js";
 
 export default {
-  name: "GoLiveDialog",
   components: {
     GeoSearchBar
   },

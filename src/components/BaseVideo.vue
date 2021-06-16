@@ -29,7 +29,6 @@ const totalSecondsToHMS = totalSecs => {
 };
 
 export default {
-  name: "BaseVideo",
   components: {
     BaseIcon
   },

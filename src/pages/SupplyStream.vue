@@ -89,7 +89,6 @@ stream.getVideoTracks();
 
 */
 export default {
-  name: "supplyStream",
   components: {
     BaseVideo
   },

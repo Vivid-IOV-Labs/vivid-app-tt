@@ -76,7 +76,6 @@ const { mapActions, mapMutations } = createNamespacedHelpers("user");
 import { trackEvent } from "@/util/analytics";
 
 export default {
-  name: "ContentFeedDialog",
   components: {
     BaseCheckButton
   },

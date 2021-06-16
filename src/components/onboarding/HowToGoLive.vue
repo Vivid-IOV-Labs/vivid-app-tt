@@ -32,9 +32,3 @@
     </v-ons-list>
   </div>
 </template>
-
-<script>
-export default {
-  name: "HowToGoLive"
-};
-</script>

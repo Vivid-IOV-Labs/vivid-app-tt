@@ -97,7 +97,6 @@ import RewardEarnedDialog from "@/components/dialogs/RewardEarnedDialog.vue";
 let watched = new Set();
 
 export default {
-  name: "EarnViewVideo",
   components: {
     BaseVideo,
     RewardEarnedDialog
@@ -281,14 +280,14 @@ export default {
       var promise = video.play();
       if (promise !== undefined) {
         promise
-          .catch(function() {
+          .catch(() => {
             trackEvent({
               category: "Earn Video Play View",
               action: "autoplay-error",
               label: "MediaId:" + this.mediaID
             });
           })
-          .then(function() {
+          .then(() => {
             trackEvent({
               category: "Earn Video Play View",
               action: "autoplay-success",

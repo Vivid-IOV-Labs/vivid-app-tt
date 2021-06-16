@@ -72,7 +72,6 @@ const getPosition = options => {
 import devLog from "@/util/devlog.js";
 
 export default {
-  name: "OnBoarding",
   components: { HeadLogo, HowToRequest, HowToGoLive, HowToSee, EnterPeerkat },
   data() {
     return {

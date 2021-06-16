@@ -107,11 +107,10 @@ const createGetSmartContract = async () => {
   const signerBalance = await getSignerBalance(provider, signerAddress);
   const { chainId } = network;
   const isTippingContract = chainId == 108;
-
   const smartContractWithSigner = isTippingContract
     ? await getTippingContractWithSigner(provider, signer)
     : await getTestNetTippingContractWithSigner(provider, signer);
-
+  console.log(smartContractWithSigner);
   const tipContract = createTippingContratc(smartContractWithSigner);
   return {
     provider,

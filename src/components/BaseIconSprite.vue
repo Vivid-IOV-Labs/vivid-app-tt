@@ -27,7 +27,6 @@ const symbols = svgContext
     })
   : [];
 export default {
-  name: "BaseIconSprite",
   svgSprite: symbols.join("\n")
 };
 </script>

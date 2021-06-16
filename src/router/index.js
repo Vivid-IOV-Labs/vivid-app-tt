@@ -16,7 +16,7 @@ const EarnVideoList = () =>
 
 const routes = [
   { path: "*", component: VideoList },
-  { name: "videolist", path: "/", component: VideoList },
+  { name: "home", path: "/", component: VideoList },
   { name: "videolist", path: "/videolist", component: VideoList },
   { name: "viewvideo", path: "/viewvideo/:mediaID", component: ViewVideo },
   { name: "earnvideolist", path: "/earnvideolist", component: EarnVideoList },
@@ -37,6 +37,7 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
   if (store.getters["smartcontract/getUserWalletAddress"]) {
     next();
+    return;
   } else {
     await store.dispatch("smartcontract/createSmartContractFactory");
     if (store.getters["smartcontract/getUserWalletAddress"]) {
@@ -45,8 +46,10 @@ router.beforeEach(async (to, from, next) => {
         store.getters["smartcontract/getUserWalletAddress"]
       );
       next();
+      return;
     } else {
       next(false);
+      return;
     }
   }
 });

@@ -31,9 +31,3 @@
     </v-ons-list>
   </div>
 </template>
-
-<script>
-export default {
-  name: "HowToSee"
-};
-</script>

@@ -6,12 +6,12 @@ export default {
     const {
       signerAddress,
       signerBalance,
-      smartContractWithSigner,
+      // smartContractWithSigner,
       tipContract
     } = await getSmartContractFactory();
     commit("setSigner", { address: signerAddress, balance: signerBalance });
     trackUser(signerAddress);
-    commit("setSmartContract", smartContractWithSigner);
+    // commit("setSmartContract", smartContractWithSigner);
     commit("setTipContract", tipContract);
   }
 };

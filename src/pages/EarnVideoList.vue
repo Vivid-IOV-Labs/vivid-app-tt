@@ -55,7 +55,6 @@ import { mapGetters, mapActions } from "vuex";
 import webSocketService from "@/util/webSocketService.js";
 
 export default {
-  name: "VideoList",
   components: {
     EarnHeadLogo,
     EarnVideoListItem

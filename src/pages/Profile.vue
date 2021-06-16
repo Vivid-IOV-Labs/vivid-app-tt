@@ -126,7 +126,6 @@ import TwitterAuthService from "@/services/TwitterAuthService";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
-  name: "Profile",
   components: {
     BaseIcon,
     DisconnectTwitterDialog,

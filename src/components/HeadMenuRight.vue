@@ -72,7 +72,6 @@ import { trackEvent } from "@/util/analytics";
 import * as clipboard from "clipboard-polyfill/text";
 
 export default {
-  name: "HeadMenu",
   data() {
     return {
       popoverVisible: false,

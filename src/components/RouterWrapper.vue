@@ -14,7 +14,6 @@
 import RootLoading from "@/pages/RootLoading.vue";
 import { trackPage } from "../util/analytics";
 export default {
-  name: "RouterWrapper",
   data() {
     return {
       pageStack: [RootLoading]

@@ -11,7 +11,6 @@
 <script>
 import HeadMenuRight from "@/components/HeadMenuRight.vue";
 export default {
-  name: "HeadLogo",
   components: {
     HeadMenuRight
   }

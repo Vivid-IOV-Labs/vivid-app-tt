@@ -45,7 +45,6 @@
 
 <script>
 export default {
-  name: "JoinDialog",
   props: {
     value: {
       type: Boolean,

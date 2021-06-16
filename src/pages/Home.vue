@@ -26,7 +26,6 @@ import HeadLogo from "@/components/HeadLogo.vue";
 import HeadSearch from "@/components/HeadSearch.vue";
 
 export default {
-  name: "home",
   components: {
     RequestStream,
     HeadMenu,
