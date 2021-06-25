@@ -233,6 +233,7 @@ export default {
       });
     },
     pushUserBack() {
+      this.isRewardEarned = true;
       if (this.goBack) {
         this.$router.push({ path: "/earnvideolist" });
       }
@@ -244,25 +245,21 @@ export default {
         label: "MediaId:" + this.mediaID
       });
       try {
-        if (!this.hasRewarded) {
-          this.setTaskQueue({ name: "rewardVideo", loading: true });
-          const { success } = await this.countVideoViewed();
-          if (!success) {
-            this.$router.push({ path: "/earnvideolist" });
-            return;
-          }
-          if (this.getPercentageVideoWatched() >= 80) {
-            this.goBack = true;
-          } else {
-            this.$router.push({ path: "/earnvideolist" });
-          }
-        } else {
-          this.$router.push({ path: "/earnvideolist" });
-        }
+        this.setTaskQueue({ name: "rewardVideo", loading: true });
+        await this.countVideoViewed();
       } catch (err) {
         this.$router.push({ path: "/earnvideolist" });
       } finally {
         this.setTaskQueue({ name: "rewardVideo", loading: false });
+      }
+      if (!this.hasRewarded) {
+        if (this.getPercentageVideoWatched() >= 80) {
+          this.goBack = true;
+        } else {
+          this.$router.push({ path: "/earnvideolist" });
+        }
+      } else {
+        this.$router.push({ path: "/earnvideolist" });
       }
     },
     dropVideoMenu() {
@@ -377,7 +374,6 @@ export default {
         mediaID == this.mediaID &&
         userWalletAddress == this.getUserWalletAddress
       ) {
-        this.isRewardEarned = true;
         this.isRewardEarnedDialog = true;
         trackEvent({
           category: "Earn Video Play View",

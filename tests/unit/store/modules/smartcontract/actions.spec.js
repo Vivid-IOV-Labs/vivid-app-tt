@@ -28,9 +28,7 @@ describe("SmartContract Actions", () => {
       address: "signerAddress",
       balance: "signerBalance"
     });
-    expect(context.commit.mock.calls[1][0]).toEqual("setSmartContract");
-    expect(context.commit.mock.calls[1][1]).toEqual("smartContractWithSigner");
-    expect(context.commit.mock.calls[2][0]).toEqual("setTipContract");
-    expect(context.commit.mock.calls[2][1]).toEqual("tipContract");
+    expect(context.commit.mock.calls[1][0]).toEqual("setTipContract");
+    expect(context.commit.mock.calls[1][1]).toEqual("tipContract");
   });
 });
