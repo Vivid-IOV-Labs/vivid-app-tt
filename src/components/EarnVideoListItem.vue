@@ -78,7 +78,7 @@
       />
     </div>
     <span class="medialist__item__title">
-      {{ media.details.title }}
+      {{ media.details.title }} <span class="text-bold text-azure">#ad </span>
       <base-icon class="ml-auto" name="angle-right"></base-icon>
     </span>
     <!-- <p v-if="media.details.subtitle">{{ media.details.subtitle }}</p> -->

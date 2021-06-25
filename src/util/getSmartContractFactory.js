@@ -110,7 +110,6 @@ const createGetSmartContract = async () => {
   const smartContractWithSigner = isTippingContract
     ? await getTippingContractWithSigner(provider, signer)
     : await getTestNetTippingContractWithSigner(provider, signer);
-  console.log(smartContractWithSigner);
   const tipContract = createTippingContratc(smartContractWithSigner);
   return {
     provider,

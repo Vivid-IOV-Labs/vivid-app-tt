@@ -10,9 +10,9 @@
       <template v-slot:top>
         <div class="stream__controls stream__controls--top">
           <div class="flex">
-            <v-ons-button
+            <div
               style="border:solid 2px #fff"
-              class="btn btn--small btn--primary btn--round btn--opacity-soft flex-center-xy ml-2"
+              class="btn--fake btn--small btn--primary btn--round btn--opacity-soft flex-center-xy ml-2"
               id="rewardicon"
             >
               <base-icon
@@ -21,7 +21,7 @@
                 style="font-size:1.4rem"
                 name="reward"
               ></base-icon>
-            </v-ons-button>
+            </div>
             <v-ons-popover
               class="rewardPopOver"
               :visible.sync="isPopoverReward"
@@ -373,7 +373,6 @@ export default {
     },
     rewardSent({ data }) {
       const { mediaID, userWalletAddress } = data;
-
       if (
         mediaID == this.mediaID &&
         userWalletAddress == this.getUserWalletAddress

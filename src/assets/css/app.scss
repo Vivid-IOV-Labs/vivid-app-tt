@@ -87,7 +87,7 @@ button:disabled {
   color: $white;
   background: rgba(0, 0, 0, 0.4);
 }
-.btn--opacity-soft:hover {
+.btn--opacity-soft:not(.btn--fake):hover {
   background: $azure;
 }
 .btn--opacity-dark {
@@ -125,15 +125,6 @@ button:disabled {
 .btn--golive {
   color: $red;
 }
-.btn--fake.btn--join {
-  border-color:  $green;
-}
-.btn--fake.btn--request {
-  border-color:  $azure;
-}
-.btn--fake.btn--golive {
-  border-color:  $red;
-}
 .btn-tip {
   display: block;
   height: 3.4rem;
@@ -145,12 +136,6 @@ button:disabled {
 }
 .btn--full-width {
   width: 100%;
-}
-.btn--fake {
-  background: $white;
-  border-width: 2px;
-  border-style: solid;
-  padding: 1rem 2rem;
 }
 .btn_close {
   float: right;
