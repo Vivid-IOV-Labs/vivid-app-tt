@@ -38,14 +38,10 @@
         >
           <span class="progress_description">Keep watching...</span>
         </div>
-        <a
-          v-if="media.details.moreInfo"
-          :href="media.details.moreInfo"
-          @click="trackLink(media.details.moreInfo, media.mediaID)"
-          target="_blank"
-          class="btn btn--secondary btn--small ml-auto"
-          >Learn More</a
-        >
+        <div v-if="media.balanceAvailable" class=" ml-auto">
+          <strong>Balance</strong>
+          {{ bigNumberFormatter(media.balanceAvailable) }}
+        </div>
       </div>
       <div>
         <earn-progress-bar
@@ -77,11 +73,21 @@
         :alt="media.details.title"
       />
     </div>
-    <span class="medialist__item__title">
-      {{ media.details.title }} <span class="text-bold text-azure">#ad </span>
-      <base-icon class="ml-auto" name="angle-right"></base-icon>
-    </span>
-    <!-- <p v-if="media.details.subtitle">{{ media.details.subtitle }}</p> -->
+
+    <div class="">
+      <div class="medialist__item__title mb-4">
+        {{ media.details.title }} <span class="text-bold text-azure">#ad </span>
+        <base-icon class="ml-auto" name="angle-right"></base-icon>
+      </div>
+      <a
+        v-if="media.details.moreInfo"
+        :href="media.details.moreInfo"
+        @click="trackLink(media.details.moreInfo, media.mediaID)"
+        target="_blank"
+        class="btn btn--secondary mt-4"
+        >Learn More</a
+      >
+    </div>
   </div>
 </template>
 
@@ -90,7 +96,16 @@ import BaseIcon from "@/components/BaseIcon.vue";
 import env from "@/env.js";
 import EarnProgressBar from "@/components/EarnProgressBar.vue";
 import { trackEvent } from "@/util/analytics";
-
+// function bigNumberFormatter(numberToFormat) {
+//   return Math.abs(numberToFormat) > 999999
+//     ? Math.sign(numberToFormat) *
+//         (Math.abs(numberToFormat) / 1000000).toFixed(1) +
+//         "M"
+//     : Math.abs(numberToFormat) > 999
+//     ? Math.sign(numberToFormat) * (Math.abs(numberToFormat) / 1000).toFixed(1) +
+//       "K"
+//     : Math.sign(numberToFormat) * Math.abs(numberToFormat);
+// }
 export default {
   props: {
     media: {
@@ -107,6 +122,9 @@ export default {
       const url = `${env.media_storage}/${this.media.mediaID}.png`;
       return url;
     },
+    balanceAvailable() {
+      return this.media.balanceAvailable || 0;
+    },
     imgObj() {
       return {
         src: this.posterUrl,
@@ -116,6 +134,17 @@ export default {
     }
   },
   methods: {
+    bigNumberFormatter(numberToFormat) {
+      return Math.abs(numberToFormat) > 999999
+        ? Math.sign(numberToFormat) *
+            (Math.abs(numberToFormat) / 1000000).toFixed(1) +
+            "M"
+        : Math.abs(numberToFormat) > 999
+        ? Math.sign(numberToFormat) *
+            (Math.abs(numberToFormat) / 1000).toFixed(1) +
+          "K"
+        : Math.sign(numberToFormat) * Math.abs(numberToFormat);
+    },
     trackLink(link, mediaID) {
       trackEvent({
         category: "Earn Video List View",
@@ -155,7 +184,7 @@ export default {
   position: relative;
   margin-bottom: 0.8rem;
   width: 100%;
-  max-height: 240px;
+  // max-height: 240px;
 }
 .medialist__item_picture-frame_badge--reward {
   background: $black;
