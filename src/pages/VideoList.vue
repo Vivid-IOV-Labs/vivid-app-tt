@@ -66,7 +66,13 @@ export default {
     };
   },
   created() {
-    this.populateAll();
+    const params = {
+      sortBy: "list.order",
+      order: "desc",
+      page: 1,
+      pageSize: 10
+    };
+    this.populateAll(params);
   },
   computed: {
     ...mapGetters("media", ["getLatests", "getHighlighted"]),

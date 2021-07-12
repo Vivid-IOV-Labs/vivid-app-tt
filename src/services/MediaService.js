@@ -1,14 +1,19 @@
 import ApiService from "./ApiService";
 
 const API_ENDPOINT = "/media";
-
+function serialized(params) {
+  return Object.keys(params)
+    .map(key => {
+      return encodeURIComponent(key) + "=" + encodeURIComponent(params[key]);
+    })
+    .join("&");
+}
 class MediaService {
-  async getAll(userWalletAddress) {
+  async getAll(params) {
+    serialized(params);
     const {
       data: { allMedia }
-    } = await ApiService.get(
-      `${API_ENDPOINT}/list?userWalletAddress=${userWalletAddress}`
-    );
+    } = await ApiService.get(`${API_ENDPOINT}/list?${serialized(params)}`);
     return allMedia;
   }
   async getRewardList(userWalletAddress) {

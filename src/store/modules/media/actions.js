@@ -3,7 +3,7 @@ import devLog from "@/util/devlog.js";
 // import delay from "@/util/delay.js";
 
 export default {
-  async populateAll(store) {
+  async populateAll(store, options) {
     const { commit, dispatch } = store;
     try {
       const userWalletAddress = store.rootGetters["user/getWallet"];
@@ -14,7 +14,8 @@ export default {
           { name: "loadingMedia", loading: true },
           { root: true }
         );
-      const all = await MediaService.getAll(userWalletAddress);
+      const params = { ...options, userWalletAddress };
+      const all = await MediaService.getAll(params);
 
       commit("setAll", all);
 

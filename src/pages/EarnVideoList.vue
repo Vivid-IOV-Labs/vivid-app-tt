@@ -63,7 +63,14 @@ export default {
     ...mapGetters("media", ["getEarnLatests", "getEarnCompleted"])
   },
   created() {
-    this.populateAll();
+    const params = {
+      earn: true,
+      sortBy: "list.order",
+      order: "desc",
+      page: 1,
+      pageSize: 5
+    };
+    this.populateAll(params);
   },
   methods: {
     ...mapActions("media", ["populateAll", "add", "delete"]),
