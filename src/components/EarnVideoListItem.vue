@@ -4,7 +4,11 @@
       <div class="flex p-2" style="align-items: baseline;">
         <div v-if="!media.rewards">
           <span class="progress_description ">
-            Start watching to get TT!
+            Start watching to get TT! <br />
+            <span v-if="media.balanceAvailable && media.balanceTotal"
+              >{{ balancePercentage }}% of available TT for this promotion
+              claimed so far!</span
+            >
           </span>
         </div>
         <div
@@ -36,11 +40,14 @@
               !media.rewards.rewardVerifiedTxHash
           "
         >
-          <span class="progress_description">Keep watching...</span>
-        </div>
-        <div v-if="media.balanceAvailable" class=" ml-auto">
-          <strong>Balance</strong>
-          {{ bigNumberFormatter(media.balanceAvailable) }}
+          <span class="progress_description"
+            >Keep watching...
+            <br />
+            <span v-if="media.balanceAvailable && media.balanceTotal"
+              >{{ balancePercentage }}% of available TT for this promotion
+              claimed so far!</span
+            >
+          </span>
         </div>
       </div>
       <div>
@@ -96,16 +103,6 @@ import BaseIcon from "@/components/BaseIcon.vue";
 import env from "@/env.js";
 import EarnProgressBar from "@/components/EarnProgressBar.vue";
 import { trackEvent } from "@/util/analytics";
-// function bigNumberFormatter(numberToFormat) {
-//   return Math.abs(numberToFormat) > 999999
-//     ? Math.sign(numberToFormat) *
-//         (Math.abs(numberToFormat) / 1000000).toFixed(1) +
-//         "M"
-//     : Math.abs(numberToFormat) > 999
-//     ? Math.sign(numberToFormat) * (Math.abs(numberToFormat) / 1000).toFixed(1) +
-//       "K"
-//     : Math.sign(numberToFormat) * Math.abs(numberToFormat);
-// }
 export default {
   props: {
     media: {
@@ -131,20 +128,19 @@ export default {
         error: "/thumbnail.jpg",
         loading: "/thumbnail.jpg"
       };
+    },
+    balancePercentage() {
+      if (this.media.balanceAvailable && this.media.balanceTotal) {
+        return (
+          (this.media.balanceAvailable / this.media.balanceTotal).toFixed(2) *
+          100
+        );
+      } else {
+        return 0;
+      }
     }
   },
   methods: {
-    bigNumberFormatter(numberToFormat) {
-      return Math.abs(numberToFormat) > 999999
-        ? Math.sign(numberToFormat) *
-            (Math.abs(numberToFormat) / 1000000).toFixed(1) +
-            "M"
-        : Math.abs(numberToFormat) > 999
-        ? Math.sign(numberToFormat) *
-            (Math.abs(numberToFormat) / 1000).toFixed(1) +
-          "K"
-        : Math.sign(numberToFormat) * Math.abs(numberToFormat);
-    },
     trackLink(link, mediaID) {
       trackEvent({
         category: "Earn Video List View",
