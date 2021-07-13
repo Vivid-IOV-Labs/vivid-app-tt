@@ -3,7 +3,10 @@ const state = () => ({
   earncompleted: [],
   highlighted: [],
   latests: [],
-  earnlatests: []
+  earnlatests: [],
+  crypto: [],
+  gaming: [],
+  others: []
 });
 
 export default state;

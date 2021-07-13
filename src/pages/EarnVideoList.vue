@@ -63,17 +63,10 @@ export default {
     ...mapGetters("media", ["getEarnLatests", "getEarnCompleted"])
   },
   created() {
-    const params = {
-      earn: true,
-      sortBy: "list.order",
-      order: "desc",
-      page: 1,
-      pageSize: 5
-    };
-    this.populateAll(params);
+    this.populateEarn();
   },
   methods: {
-    ...mapActions("media", ["populateAll", "add", "delete"]),
+    ...mapActions("media", ["populateEarn", "add", "delete"]),
     pushBack() {
       this.$router.push({ path: "/videolist" });
     }

@@ -132,9 +132,9 @@ export default {
     balancePercentage() {
       if (this.media.balanceAvailable && this.media.balanceTotal) {
         return (
-          (this.media.balanceAvailable / this.media.balanceTotal).toFixed(2) *
-          100
-        );
+          100 -
+          (this.media.balanceAvailable / this.media.balanceTotal) * 100
+        ).toFixed(1);
       } else {
         return 0;
       }
