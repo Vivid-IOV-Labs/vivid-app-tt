@@ -13,28 +13,75 @@
         <div class="page__title__background">
           <h3 class="page__title">Top Videos</h3>
         </div>
-        <v-ons-list modifier="tappable">
-          <v-ons-list-item
+        <div class="horizontal-scroller">
+          <div
             v-for="media in getHighlighted"
             :key="media.mediaID"
             @click="pushToVideo(media.mediaID)"
+            class="horizontal-scroller__item"
           >
             <video-list-item :media="media"></video-list-item>
-          </v-ons-list-item>
-        </v-ons-list>
+          </div>
+        </div>
       </div>
-      <div class="page__title__background">
-        <h3 class="page__title">Latest Videos</h3>
+
+      <div v-if="getLatests.length">
+        <div class="page__title__background">
+          <h3 class="page__title">Latest Videos</h3>
+        </div>
+        <div class="horizontal-scroller">
+          <video-list-item
+            v-for="media in getLatests"
+            :key="media.mediaID"
+            @click="pushToVideo(media.mediaID)"
+            class="horizontal-scroller__item"
+            :media="media"
+          ></video-list-item>
+        </div>
       </div>
-      <v-ons-list modifier="tappable">
-        <v-ons-list-item
-          v-for="media in getLatests"
-          :key="media.mediaID"
-          @click="pushToVideo(media.mediaID)"
-        >
-          <video-list-item :media="media"></video-list-item>
-        </v-ons-list-item>
-      </v-ons-list>
+      <div v-if="getCryptos.length">
+        <div class="page__title__background">
+          <h3 class="page__title">Crypto</h3>
+        </div>
+        <div class="horizontal-scroller">
+          <video-list-item
+            v-for="media in getCryptos"
+            :key="media.mediaID"
+            @click="pushToVideo(media.mediaID)"
+            class="horizontal-scroller__item"
+            :media="media"
+          ></video-list-item>
+        </div>
+      </div>
+      <div v-if="getGamings.length">
+        <div class="page__title__background">
+          <h3 class="page__title">Gaming</h3>
+        </div>
+        <div class="horizontal-scroller">
+          <video-list-item
+            v-for="media in getGamings"
+            :key="media.mediaID"
+            @click="pushToVideo(media.mediaID)"
+            class="horizontal-scroller__item"
+            :media="media"
+          ></video-list-item>
+        </div>
+      </div>
+      <div v-if="getOthers.length">
+        <div class="page__title__background">
+          <h3 class="page__title">Others</h3>
+        </div>
+        <div class="horizontal-scroller scroller">
+          <div
+            v-for="media in getOthers"
+            :key="media.mediaID"
+            @click="pushToVideo(media.mediaID)"
+            class="horizontal-scroller__item"
+          >
+            <video-list-item :media="media"></video-list-item>
+          </div>
+        </div>
+      </div>
     </div>
     <content-feed-dialog v-model="isContentFeedDialog"></content-feed-dialog>
     <terms-agree-dialog v-model="isTermsAgreeDialog"></terms-agree-dialog>
@@ -69,7 +116,13 @@ export default {
     this.populateAll();
   },
   computed: {
-    ...mapGetters("media", ["getLatests", "getHighlighted"]),
+    ...mapGetters("media", [
+      "getLatests",
+      "getHighlighted",
+      "getCryptos",
+      "getGamings",
+      "getOthers"
+    ]),
     ...mapGetters("user", ["getInterestsSubmitted", "getTermsAgreed"])
   },
   methods: {
@@ -179,5 +232,13 @@ export default {
     background-image: none;
     border: none;
   }
+}
+.horizontal-scroller {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(360px, 1fr));
+  grid-gap: 0 2rem;
+  padding: 0.6rem 0.4rem;
+  padding-right: 0;
+  overflow: scroll;
 }
 </style>

@@ -189,7 +189,8 @@ export default {
       isPopoverTTSuccess: false,
       isPopoverTTFailed: false,
       isPopoverTTProgress: false,
-      popoverTarget: null
+      popoverTarget: null,
+      currentMedia: null
     };
   },
   computed: {
@@ -198,9 +199,6 @@ export default {
     ...mapState("uistates", ["isTTPopOverVisited"]),
     mediaID() {
       return this.$route.params.mediaID;
-    },
-    currentMedia() {
-      return this.getById(this.mediaID);
     },
     videoUrl() {
       const url = `${env.media_server}/${this.mediaID}.mp4`;
@@ -253,6 +251,7 @@ export default {
     totalTips: {
       get() {
         if (
+          this.currentMedia &&
           this.currentMedia.statistics &&
           this.currentMedia.statistics.total &&
           this.currentMedia.statistics.total.tips
@@ -401,10 +400,12 @@ export default {
       });
     },
     async updateTip({ data }) {
-      const { totalTips, mediaID, sender } = data;
+      const { mediaID, sender } = data;
 
       if (mediaID == this.mediaID) {
-        this.totalTips = totalTips;
+        //this.totalTips = totalTips;
+        const data = await MediaService.find(this.mediaID);
+        this.currentMedia = data;
       }
       if (
         mediaID == this.mediaID &&
@@ -461,7 +462,9 @@ export default {
       this.isPopoverClickTT = false;
     }
   },
-  mounted() {
+  async mounted() {
+    const data = await MediaService.find(this.mediaID);
+    this.currentMedia = data;
     this.popoverTarget = this.$refs.tipbutton;
     this.player = this.$refs.videoplayer.player;
     this.recordVideoWatched();

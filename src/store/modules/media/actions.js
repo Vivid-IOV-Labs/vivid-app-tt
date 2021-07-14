@@ -20,6 +20,7 @@ export default {
       //     return b.createdAt - a.createdAt;
       // });
       const latestsSortedByTimeParams = {
+        earn: false,
         sortBy: "createdAt",
         order: "desc",
         page: 1,
@@ -37,26 +38,47 @@ export default {
       //     return b.list.order - a.list.order;
       //   });
       const highlightedSortedByOrderParams = {
+        earn: false,
         sortBy: "list.order",
         order: "desc",
         page: 1,
         pageSize: 3,
-        highlighted: true
+        "list.highlighted": true
       };
       const highlightedSortedByOrder = await MediaService.getAll(
         highlightedSortedByOrderParams
       );
       commit("setHighlighted", highlightedSortedByOrder);
-
       const cryptoParams = {
-        sortBy: "list.order",
+        earn: false,
+        sortBy: "createdAt",
         order: "desc",
         page: 1,
         pageSize: 3,
-        categories: "crypto,gamig"
+        categories: "['crypto']"
       };
-      const crypto = await MediaService.getAll(cryptoParams);
-      commit("setHighlighted", crypto);
+      const cryptos = await MediaService.getAll(cryptoParams);
+      commit("setCryptos", cryptos);
+      const gamingParams = {
+        earn: false,
+        sortBy: "createdAt",
+        order: "desc",
+        page: 1,
+        pageSize: 3,
+        categories: "['gaming']"
+      };
+      const gamings = await MediaService.getAll(gamingParams);
+      commit("setGamings", gamings);
+      const otherParams = {
+        earn: false,
+        sortBy: "createdAt",
+        order: "desc",
+        page: 1,
+        pageSize: 3,
+        categories: "['other']"
+      };
+      const others = await MediaService.getAll(otherParams);
+      commit("setOthers", others);
     } catch (error) {
       devLog(error);
     } finally {

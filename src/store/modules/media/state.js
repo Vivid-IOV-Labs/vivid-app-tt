@@ -4,8 +4,8 @@ const state = () => ({
   highlighted: [],
   latests: [],
   earnlatests: [],
-  crypto: [],
-  gaming: [],
+  cryptos: [],
+  gamings: [],
   others: []
 });
 

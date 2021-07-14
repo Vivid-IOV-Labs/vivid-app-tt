@@ -16,6 +16,12 @@ class MediaService {
     } = await ApiService.get(`${API_ENDPOINT}/list?${serialized(params)}`);
     return allMedia;
   }
+  async find(mediaID) {
+    const {
+      data: { media }
+    } = await ApiService.get(`${API_ENDPOINT}?mediaID=${mediaID}`);
+    return media;
+  }
   async getRewardList(userWalletAddress) {
     const {
       data: { rewardsList }

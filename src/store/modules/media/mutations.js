@@ -16,6 +16,15 @@ export default {
   setEarnCompleted(state, completed) {
     state.earncompleted = completed;
   },
+  setCryptos(state, cryptos) {
+    state.cryptos = cryptos;
+  },
+  setGamings(state, gamings) {
+    state.gamings = gamings;
+  },
+  setOthers(state, others) {
+    state.others = others;
+  },
   add(state, item) {
     state.all = [item, ...state.all];
   },
