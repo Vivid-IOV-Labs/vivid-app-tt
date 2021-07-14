@@ -193,16 +193,9 @@ export default {
     }
   },
   add({ commit }, newVideo) {
-    if (newVideo.list && newVideo.list.highlighted) {
-      commit("addHighlighted", newVideo);
-    } else {
-      commit("addLatest", newVideo);
-    }
     commit("add", newVideo);
   },
   delete({ commit }, video) {
-    commit("deleteHighlighted", video);
-    commit("deleteLatest", video);
     commit("delete", video);
   }
 };

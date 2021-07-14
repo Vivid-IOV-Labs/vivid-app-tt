@@ -30,13 +30,14 @@
           <h3 class="page__title">Latest Videos</h3>
         </div>
         <div class="horizontal-scroller">
-          <video-list-item
+          <div
             v-for="media in getLatests"
             :key="media.mediaID"
             @click="pushToVideo(media.mediaID)"
             class="horizontal-scroller__item"
-            :media="media"
-          ></video-list-item>
+          >
+            <video-list-item :media="media"></video-list-item>
+          </div>
         </div>
       </div>
       <div v-if="getCryptos.length">
@@ -58,13 +59,14 @@
           <h3 class="page__title">Gaming</h3>
         </div>
         <div class="horizontal-scroller">
-          <video-list-item
+          <div
             v-for="media in getGamings"
             :key="media.mediaID"
             @click="pushToVideo(media.mediaID)"
             class="horizontal-scroller__item"
-            :media="media"
-          ></video-list-item>
+          >
+            <video-list-item :media="media"></video-list-item>
+          </div>
         </div>
       </div>
       <div v-if="getOthers.length">

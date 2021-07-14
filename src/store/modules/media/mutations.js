@@ -26,45 +26,47 @@ export default {
     state.others = others;
   },
   add(state, item) {
-    state.all = [item, ...state.all];
-  },
-  addLatest(state, item) {
-    state.latests = [item, ...state.latests];
-  },
-  addHighlighted(state, newMedia) {
-    const findPosition = (arr, el) => {
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i].list.order > el.list.order) {
-          return i;
-        }
+    if (item.list && item.list.highlighted) {
+      state.highlighted = [item, ...state.highlighted];
+    } else {
+      state.latests = [item, ...state.latests];
+    }
+    if (item.categories) {
+      if (item.categories.includes("crypto")) {
+        state.cryptos = [item, ...state.cryptos];
       }
-      return arr.length;
-    };
-    const insert = (arr, item, index) => {
-      if (index >= arr.length) {
-        return [...arr, item];
-      } else {
-        return arr.reduce((s, a, i) => {
-          i === index ? s.push(item, a) : s.push(a);
-          return s;
-        }, []);
+      if (item.categories.includes("gaming")) {
+        state.gamings = [item, ...state.gamings];
       }
-    };
-
-    const position = findPosition(state.highlighted, newMedia);
-    const newHighlighted = insert(state.highlighted, newMedia, position);
-    state.highlighted = newHighlighted;
+      if (item.categories.includes("other")) {
+        state.others = [item, ...state.others];
+      }
+    }
   },
-  delete(state, { mediaID }) {
-    state.all = state.all.filter(media => media.mediaID !== mediaID);
-  },
-  deleteLatest(state, { mediaID }) {
-    state.latests = state.latests.filter(media => media.mediaID !== mediaID);
-  },
-  deleteHighlighted(state, { mediaID }) {
-    state.highlighted = state.highlighted.filter(
-      media => media.mediaID !== mediaID
-    );
+  delete(state, item) {
+    const { mediaID } = item;
+    if (item.list && item.list.highlighted) {
+      state.highlighted = state.highlighted.filter(
+        media => media.mediaID !== mediaID
+      );
+    } else {
+      state.latests = state.latests.filter(media => media.mediaID !== mediaID);
+    }
+    if (item.categories) {
+      if (item.categories.includes("crypto")) {
+        state.cryptos = state.cryptos.filter(
+          media => media.mediaID !== mediaID
+        );
+      }
+      if (item.categories.includes("gaming")) {
+        state.gamings = state.gamings.filter(
+          media => media.mediaID !== mediaID
+        );
+      }
+      if (item.categories.includes("other")) {
+        state.others = state.others.filter(media => media.mediaID !== mediaID);
+      }
+    }
   },
   setTotalTip(state, { mediaID, totalTips }) {
     const mediaIndex = state.all.findIndex(media => media.mediaID === mediaID);
