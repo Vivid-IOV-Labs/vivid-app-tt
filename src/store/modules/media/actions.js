@@ -13,50 +13,29 @@ export default {
           { name: "loadingMedia", loading: true },
           { root: true }
         );
-      // const latestsSortedByTime = all
-      //   .filter(f => !f.earn)
-      //   .filter(f => !f.list || !f.list.highlighted)
-      //   .sort((a, b) => {
-      //     return b.createdAt - a.createdAt;
-      // });
-      const latestsSortedByTimeParams = {
-        sortBy: "createdAt",
-        order: "desc",
-        page: 1,
-        pageSize: 3
+      const allParams = {
+        earn: false
       };
-      const latestsSortedByTime = await MediaService.getAll(
-        latestsSortedByTimeParams
-      );
+      const all = await MediaService.getAll(allParams);
+      commit("setAll", all);
+
+      const latestsSortedByTime = all
+        .filter(f => !f.earn)
+        .filter(f => !f.list || !f.list.highlighted)
+        .sort((a, b) => {
+          return b.createdAt - a.createdAt;
+        });
+
       commit("setLatests", latestsSortedByTime);
 
-      // const highlightedSortedByOrder = all
-      //   .filter(f => !f.earn)
-      //   .filter(f => f.list && f.list.highlighted)
-      //   .sort((a, b) => {
-      //     return b.list.order - a.list.order;
-      //   });
-      const highlightedSortedByOrderParams = {
-        sortBy: "list.order",
-        order: "desc",
-        page: 1,
-        pageSize: 3,
-        highlighted: true
-      };
-      const highlightedSortedByOrder = await MediaService.getAll(
-        highlightedSortedByOrderParams
-      );
-      commit("setHighlighted", highlightedSortedByOrder);
+      const highlightedSortedByOrder = all
+        .filter(f => !f.earn)
+        .filter(f => f.list && f.list.highlighted)
+        .sort((a, b) => {
+          return b.list.order - a.list.order;
+        });
 
-      const cryptoParams = {
-        sortBy: "list.order",
-        order: "desc",
-        page: 1,
-        pageSize: 3,
-        categories: "crypto,gamig"
-      };
-      const crypto = await MediaService.getAll(cryptoParams);
-      commit("setHighlighted", crypto);
+      commit("setHighlighted", highlightedSortedByOrder);
     } catch (error) {
       devLog(error);
     } finally {
