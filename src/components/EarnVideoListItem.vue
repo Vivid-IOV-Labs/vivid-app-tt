@@ -5,9 +5,9 @@
         <div v-if="!media.rewards">
           <span class="progress_description ">
             Start watching to get TT! <br />
-            <span v-if="media.balanceAvailable && media.balanceTotal"
-              >{{ balancePercentage }}% of available TT for this promotion
-              claimed so far!</span
+            <small v-if="media.balanceAvailable && media.balanceTotal"
+              >{{ balancePercentage }}% of available TT for this promotion has
+              been claimed</small
             >
           </span>
         </div>
@@ -43,9 +43,9 @@
           <span class="progress_description"
             >Keep watching...
             <br />
-            <span v-if="media.balanceAvailable && media.balanceTotal"
-              >{{ balancePercentage }}% of available TT for this promotion
-              claimed so far!</span
+            <small v-if="media.balanceAvailable && media.balanceTotal"
+              >{{ balancePercentage }}% of available TT for this promotion has
+              been claimed</small
             >
           </span>
         </div>
