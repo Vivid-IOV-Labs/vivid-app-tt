@@ -1,5 +1,5 @@
 <template>
-  <div class="full-width medialist__item ">
+  <div @click="pushToVideo" class="full-width medialist__item ">
     <div class="medialist__item_picture-frame">
       <img
         class="medialist__item_poster"
@@ -17,6 +17,7 @@
 <script>
 import BaseIcon from "@/components/BaseIcon.vue";
 import env from "@/env.js";
+import { trackEvent } from "@/util/analytics";
 
 export default {
   props: {
@@ -39,6 +40,16 @@ export default {
         error: "/thumbnail.jpg",
         loading: "/thumbnail.jpg"
       };
+    }
+  },
+  methods: {
+    pushToVideo() {
+      trackEvent({
+        category: "Video List View",
+        action: "select-video",
+        label: "MediaId:" + this.media.mediaID
+      });
+      this.$router.push({ path: `viewvideo/${this.media.mediaID}` });
     }
   }
 };

@@ -13,75 +13,33 @@
         <div class="page__title__background">
           <h3 class="page__title">Top Videos</h3>
         </div>
-        <div class="horizontal-scroller">
-          <div
-            v-for="media in getHighlighted"
-            :key="media.mediaID"
-            @click="pushToVideo(media.mediaID)"
-            class="horizontal-scroller__item"
-          >
-            <video-list-item :media="media"></video-list-item>
-          </div>
-        </div>
+        <media-slider :medias="getHighlighted"></media-slider>
       </div>
 
       <div v-if="getLatests.length">
         <div class="page__title__background">
           <h3 class="page__title">Latest Videos</h3>
         </div>
-        <div class="horizontal-scroller">
-          <div
-            v-for="media in getLatests"
-            :key="media.mediaID"
-            @click="pushToVideo(media.mediaID)"
-            class="horizontal-scroller__item"
-          >
-            <video-list-item :media="media"></video-list-item>
-          </div>
-        </div>
+        <media-slider :medias="getLatests"></media-slider>
       </div>
       <div v-if="getCryptos.length">
         <div class="page__title__background">
           <h3 class="page__title">Crypto</h3>
         </div>
-        <div class="horizontal-scroller">
-          <video-list-item
-            v-for="media in getCryptos"
-            :key="media.mediaID"
-            @click="pushToVideo(media.mediaID)"
-            class="horizontal-scroller__item"
-            :media="media"
-          ></video-list-item>
-        </div>
+        <media-slider :medias="getCryptos"></media-slider>
       </div>
       <div v-if="getGamings.length">
         <div class="page__title__background">
           <h3 class="page__title">Gaming</h3>
         </div>
-        <div class="horizontal-scroller">
-          <div
-            v-for="media in getGamings"
-            :key="media.mediaID"
-            @click="pushToVideo(media.mediaID)"
-            class="horizontal-scroller__item"
-          >
-            <video-list-item :media="media"></video-list-item>
-          </div>
-        </div>
+        <media-slider :medias="getGamings"></media-slider>
       </div>
       <div v-if="getOthers.length">
         <div class="page__title__background">
           <h3 class="page__title">Others</h3>
         </div>
         <div class="horizontal-scroller scroller">
-          <div
-            v-for="media in getOthers"
-            :key="media.mediaID"
-            @click="pushToVideo(media.mediaID)"
-            class="horizontal-scroller__item"
-          >
-            <video-list-item :media="media"></video-list-item>
-          </div>
+          <media-slider :medias="getOthers"></media-slider>
         </div>
       </div>
     </div>
@@ -93,7 +51,7 @@
 <script>
 import HeadMenu from "@/components/HeadMenu.vue";
 import HeadLogo from "@/components/HeadLogo.vue";
-import VideoListItem from "@/components/VideoListItem.vue";
+import MediaSlider from "@/components/MediaSlider.vue";
 import ContentFeedDialog from "@/components/dialogs/ContentFeedDialog.vue";
 import TermsAgreeDialog from "@/components/dialogs/TermsAgreeDialog.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
@@ -104,9 +62,9 @@ export default {
   components: {
     HeadMenu,
     HeadLogo,
-    VideoListItem,
     ContentFeedDialog,
-    TermsAgreeDialog
+    TermsAgreeDialog,
+    MediaSlider
   },
   data() {
     return {
@@ -130,14 +88,6 @@ export default {
   methods: {
     ...mapActions("media", ["populateAll", "add", "delete"]),
     ...mapMutations("media", ["setTotalTip", "addHighlighted"]),
-    pushToVideo(mediaID) {
-      trackEvent({
-        category: "Video List View",
-        action: "select-video",
-        label: "MediaId:" + this.mediaID
-      });
-      this.$router.push({ path: `viewvideo/${mediaID}` });
-    },
     showContentFeedDialog() {
       this.isContentFeedDialog = true;
     },
@@ -234,13 +184,5 @@ export default {
     background-image: none;
     border: none;
   }
-}
-.horizontal-scroller {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(360px, 1fr));
-  grid-gap: 0 2rem;
-  padding: 0.6rem 0.4rem;
-  padding-right: 0;
-  overflow: scroll;
 }
 </style>
