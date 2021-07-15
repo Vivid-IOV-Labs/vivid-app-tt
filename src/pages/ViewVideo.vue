@@ -462,9 +462,11 @@ export default {
       this.isPopoverClickTT = false;
     }
   },
-  async mounted() {
+  async created() {
     const data = await MediaService.find(this.mediaID);
     this.currentMedia = data;
+  },
+  mounted() {
     this.popoverTarget = this.$refs.tipbutton;
     this.player = this.$refs.videoplayer.player;
     this.recordVideoWatched();
