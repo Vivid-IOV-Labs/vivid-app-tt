@@ -50,16 +50,6 @@
           </span>
         </div>
       </div>
-      <div>
-        <earn-progress-bar
-          :completed="
-            media.rewards ? !!media.rewards.rewardSmartContractTxHash : false
-          "
-          :percentage="
-            media.viewsProgress ? media.viewsProgress.percentageWatched : 0
-          "
-        ></earn-progress-bar>
-      </div>
     </div>
     <div
       @click="pushToVideo(media.mediaID)"
@@ -80,9 +70,18 @@
         :alt="media.details.title"
       />
     </div>
-
-    <div class="">
-      <div class="medialist__item__title mb-4">
+    <div>
+      <earn-progress-bar
+        :completed="
+          media.rewards ? !!media.rewards.rewardSmartContractTxHash : false
+        "
+        :percentage="
+          media.viewsProgress ? media.viewsProgress.percentageWatched : 0
+        "
+      ></earn-progress-bar>
+    </div>
+    <div class="mt-2">
+      <div class="medialist__item__title mb-2">
         {{ media.details.title }} <span class="text-bold text-azure">#ad </span>
         <base-icon class="ml-auto" name="angle-right"></base-icon>
       </div>
