@@ -134,64 +134,6 @@ export default {
         );
     }
   },
-  async populateCategory(store, options) {
-    const { commit, dispatch } = store;
-    try {
-      const userWalletAddress = store.rootGetters["user/getWallet"];
-      //run dispatch if exist for fixing unit test
-      dispatch &&
-        dispatch(
-          "uistates/setTaskQueue",
-          { name: "loadingMedia", loading: true },
-          { root: true }
-        );
-      const params = { ...options, userWalletAddress };
-      const all = await MediaService.getAll(params);
-
-      commit("setAll", all);
-
-      const latestsSortedByTime = all
-        .filter(f => !f.earn)
-        .filter(f => !f.list || !f.list.highlighted)
-        .sort((a, b) => {
-          return b.createdAt - a.createdAt;
-        });
-      commit("setLatests", latestsSortedByTime);
-
-      const highlightedSortedByOrder = all
-        .filter(f => !f.earn)
-        .filter(f => f.list && f.list.highlighted)
-        .sort((a, b) => {
-          return b.list.order - a.list.order;
-        });
-      commit("setHighlighted", highlightedSortedByOrder);
-
-      /**Earn */
-      const earn = all.filter(f => f.earn);
-      const earnLatestsSortedByTime = earn
-        .filter(f => !f.rewards || !f.rewards.rewardSmartContractTxHash)
-        .sort((a, b) => {
-          return b.createdAt - a.createdAt;
-        });
-      commit("setEarnLatests", earnLatestsSortedByTime);
-
-      const earnHighlightedSortedByOrder = earn
-        .filter(f => f.rewards && f.rewards.rewardSmartContractTxHash)
-        .sort((a, b) => {
-          return b.createdAt - a.createdAt;
-        });
-      commit("setEarnCompleted", earnHighlightedSortedByOrder);
-    } catch (error) {
-      devLog(error);
-    } finally {
-      dispatch &&
-        dispatch(
-          "uistates/setTaskQueue",
-          { name: "loadingMedia", loading: false },
-          { root: true }
-        );
-    }
-  },
   add({ commit }, newVideo) {
     commit("add", newVideo);
   },
