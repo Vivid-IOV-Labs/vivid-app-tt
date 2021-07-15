@@ -462,11 +462,7 @@ export default {
       this.isPopoverClickTT = false;
     }
   },
-  async created() {
-    const data = await MediaService.find(this.mediaID);
-    this.currentMedia = data;
-  },
-  mounted() {
+  async mounted() {
     this.popoverTarget = this.$refs.tipbutton;
     this.player = this.$refs.videoplayer.player;
     this.recordVideoWatched();
@@ -482,6 +478,8 @@ export default {
     });
     this.player.on("exitfullscreen", () => (this.isFullScreen = false));
     webSocketService.socket.on("media-updated-tip", this.updateTip);
+    const data = await MediaService.find(this.mediaID);
+    this.currentMedia = data;
   }
 };
 </script>
