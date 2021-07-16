@@ -13,33 +13,48 @@
         <div class="page__title__background">
           <h3 class="page__title">Top Videos</h3>
         </div>
-        <media-slider :medias="getHighlighted"></media-slider>
+        <media-slider
+          @intersect="populateMoreHighlighteds()"
+          :medias="getHighlighted"
+        ></media-slider>
       </div>
 
       <div v-if="getLatests.length">
         <div class="page__title__background">
           <h3 class="page__title">Latest Videos</h3>
         </div>
-        <media-slider :medias="getLatests"></media-slider>
+        <media-slider
+          @intersect="populateMoreLatests()"
+          :medias="getLatests"
+        ></media-slider>
       </div>
       <div v-if="getCryptos.length">
         <div class="page__title__background">
           <h3 class="page__title">Crypto</h3>
         </div>
-        <media-slider :medias="getCryptos"></media-slider>
+        <media-slider
+          @intersect="fetchMore('crypto')"
+          :medias="getCryptos"
+        ></media-slider>
       </div>
       <div v-if="getGamings.length">
         <div class="page__title__background">
           <h3 class="page__title">Gaming</h3>
         </div>
-        <media-slider :medias="getGamings"></media-slider>
+        <media-slider
+          @intersect="fetchMore('gaming')"
+          :medias="getGamings"
+        ></media-slider>
       </div>
       <div v-if="getOthers.length">
         <div class="page__title__background">
           <h3 class="page__title">Others</h3>
         </div>
         <div class="horizontal-scroller scroller">
-          <media-slider :medias="getOthers"></media-slider>
+          <media-slider
+            @intersect="fetchMore('other')"
+            :medias="getOthers"
+          ></media-slider>
         </div>
       </div>
     </div>
@@ -86,7 +101,14 @@ export default {
     ...mapGetters("user", ["getInterestsSubmitted", "getTermsAgreed"])
   },
   methods: {
-    ...mapActions("media", ["populateAll", "add", "delete"]),
+    ...mapActions("media", [
+      "populateAll",
+      "add",
+      "delete",
+      "populateMore",
+      "populateMoreHighlighteds",
+      "populateMoreLatests"
+    ]),
     ...mapMutations("media", ["setTotalTip", "addHighlighted"]),
     showContentFeedDialog() {
       this.isContentFeedDialog = true;
@@ -128,6 +150,10 @@ export default {
         action: "copy-social",
         label: "twitter"
       });
+    },
+    async fetchMore(category) {
+      console.log("fetching more ", category);
+      await this.populateMore(category);
     }
   },
   watch: {

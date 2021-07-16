@@ -1,13 +1,20 @@
 <template>
-  <div ref="horizontal-scroller" class="horizontal-scroller">
+  <div ref="slidercontainer" class="horizontal-scroll-container">
     <div
-      v-for="media in medias"
-      :key="media.mediaID"
-      class="horizontal-scroller__item"
+      ref="slider"
+      :style="{
+        gridTemplateColumns: `repeat(${medias.length}, minmax(360px, 1fr))`
+      }"
+      class="horizontal-scroller"
     >
-      <video-list-item :media="media"></video-list-item>
+      <div
+        v-for="media in medias"
+        :key="media.mediaID"
+        class="horizontal-scroller__item"
+      >
+        <video-list-item :media="media"></video-list-item>
+      </div>
     </div>
-    <div ref="sentinel" class="sentinel"></div>
   </div>
 </template>
 
@@ -37,14 +44,35 @@ export default {
   },
   methods: {
     onElementObserved(entries) {
-      entries.forEach(event => {
-        console.log(event);
-        // do something ...
+      entries.forEach(entry => {
+        // const classes = {
+        //   leftScrim: "horizontal-scroll-container__left-scrim",
+        //   rightScrim: "horizontal-scroll-container__right-scrim"
+        // };
+        //const { firstChild } = this.$refs.slider;
+        // const scrimClass =
+        //   entry.target === firstChild ? classes.leftScrim : classes.rightScrim;
+        // if (entry.intersectionRatio != 1) {
+        //   if (!this.$refs.slidercontainer.classList.contains(scrimClass)) {
+        //     this.$refs.slidercontainer.classList.add(scrimClass);
+        //   }
+        // } else {
+        //   this.$refs.slidercontainer.classList.remove(scrimClass);
+        // }
+        if (entry.isIntersecting) {
+          console.log("intersected");
+          this.$emit("intersect");
+        }
       });
     }
   },
   mounted() {
-    this.observer.observe(this.$refs.sentinel);
+    if (this.medias.length > 2) {
+      this.$nextTick(() => {
+        const { lastChild } = this.$refs.slider;
+        this.observer.observe(lastChild);
+      });
+    }
   },
   beforeDestroy() {
     this.observer.disconnect();
@@ -52,12 +80,40 @@ export default {
 };
 </script>
 <style lang="scss">
-.horizontal-scroller {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(360px, 1fr));
-  grid-gap: 0 2rem;
-  padding: 0.6rem 0.4rem;
-  padding-right: 0;
-  overflow: scroll;
+.horizontal-scroll-container {
+  width: 100%;
+  position: relative;
+
+  &__left-scrim {
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 10%;
+      height: 100%;
+      background: linear-gradient(to right, #666, transparent);
+    }
+  }
+
+  &__right-scrim {
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 10%;
+      height: 100%;
+      background: linear-gradient(to left, #666, transparent);
+    }
+  }
+  .horizontal-scroller {
+    display: grid;
+    grid-gap: 0 2rem;
+    padding-right: 0;
+    overflow-y: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 </style>

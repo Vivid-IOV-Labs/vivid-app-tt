@@ -7,14 +7,8 @@ export default {
   setLatests(state, latests) {
     state.latests = latests;
   },
-  setHighlighted(state, highlighted) {
+  setHighlighteds(state, highlighted) {
     state.highlighted = highlighted;
-  },
-  setEarnLatests(state, latests) {
-    state.earnlatests = latests;
-  },
-  setEarnCompleted(state, completed) {
-    state.earncompleted = completed;
   },
   setCryptos(state, cryptos) {
     state.cryptos = cryptos;
@@ -23,7 +17,28 @@ export default {
     state.gamings = gamings;
   },
   setOthers(state, others) {
-    state.others = others;
+    state.others = [...state.others, ...others];
+  },
+  addLatests(state, latests) {
+    state.latests = [...state.latests, ...latests];
+  },
+  addHighlighteds(state, highlighted) {
+    state.highlighted = [...state.highlighted, ...highlighted];
+  },
+  addCryptos(state, cryptos) {
+    state.cryptos = [...state.cryptos, ...cryptos];
+  },
+  addGamings(state, gamings) {
+    state.gamings = [...state.gamings, ...gamings];
+  },
+  addOthers(state, others) {
+    state.others = [...state.others, ...others];
+  },
+  setEarnLatests(state, latests) {
+    state.earnlatests = latests;
+  },
+  setEarnCompleted(state, completed) {
+    state.earncompleted = completed;
   },
   add(state, item) {
     if (item.list && item.list.highlighted) {

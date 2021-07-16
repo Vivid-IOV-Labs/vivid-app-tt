@@ -5,7 +5,12 @@
         <div v-if="!media.rewards">
           <span class="progress_description ">
             Start watching to get TT! <br />
-            <small v-if="media.balanceAvailable && media.balanceTotal"
+            <small
+              v-if="
+                media.balanceAvailable &&
+                  media.balanceTotal &&
+                  !(balancePercentage == 0 || balancePercentage == 100)
+              "
               >{{ balancePercentage }}% of available TT for this promotion has
               been claimed</small
             >
@@ -43,7 +48,12 @@
           <span class="progress_description"
             >Keep watching...
             <br />
-            <small v-if="media.balanceAvailable && media.balanceTotal"
+            <small
+              v-if="
+                media.balanceAvailable &&
+                  media.balanceTotal &&
+                  !(balancePercentage == 0 || balancePercentage == 100)
+              "
               >{{ balancePercentage }}% of available TT for this promotion has
               been claimed</small
             >
@@ -133,7 +143,7 @@ export default {
         return (
           100 -
           (this.media.balanceAvailable / this.media.balanceTotal) * 100
-        ).toFixed(1);
+        ).toFixed(0);
       } else {
         return 0;
       }

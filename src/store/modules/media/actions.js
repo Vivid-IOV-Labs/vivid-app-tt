@@ -1,7 +1,17 @@
 import MediaService from "@/services/MediaService";
 import devLog from "@/util/devlog.js";
 // import delay from "@/util/delay.js";
+function capitalize(s) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
 
+const currentPages = {
+  latest: 0,
+  highlighted: 0,
+  gaming: 0,
+  crypto: 0,
+  other: 0
+};
 export default {
   async populateAll(store) {
     const { commit, dispatch } = store;
@@ -23,8 +33,9 @@ export default {
         earn: false,
         sortBy: "createdAt",
         order: "desc",
-        page: 1,
-        pageSize: 3
+        page: currentPages.latest + 1,
+        pageSize: 3,
+        "list.highlighted": false
       };
       const latestsSortedByTime = await MediaService.getAll(
         latestsSortedByTimeParams
@@ -41,19 +52,20 @@ export default {
         earn: false,
         sortBy: "list.order",
         order: "desc",
-        page: 1,
+        page: currentPages.highlighted + 1,
         pageSize: 3,
         "list.highlighted": true
       };
       const highlightedSortedByOrder = await MediaService.getAll(
         highlightedSortedByOrderParams
       );
-      commit("setHighlighted", highlightedSortedByOrder);
+      commit("setHighlighteds", highlightedSortedByOrder);
+
       const cryptoParams = {
         earn: false,
         sortBy: "createdAt",
         order: "desc",
-        page: 1,
+        page: currentPages.crypto + 1,
         pageSize: 3,
         categories: "['crypto']"
       };
@@ -63,7 +75,7 @@ export default {
         earn: false,
         sortBy: "createdAt",
         order: "desc",
-        page: 1,
+        page: currentPages.gaming + 1,
         pageSize: 3,
         categories: "['gaming']"
       };
@@ -73,7 +85,7 @@ export default {
         earn: false,
         sortBy: "createdAt",
         order: "desc",
-        page: 1,
+        page: currentPages.other + 1,
         pageSize: 3,
         categories: "['other']"
       };
@@ -89,6 +101,42 @@ export default {
           { root: true }
         );
     }
+  },
+  async populateMoreHighlighteds({ commit }) {
+    const gamingParams = {
+      earn: false,
+      sortBy: "createdAt",
+      order: "desc",
+      page: currentPages.highlighted + 1,
+      pageSize: 3,
+      "list.highlighted": true
+    };
+    const newitems = await MediaService.getAll(gamingParams);
+    commit(`addHighlighteds`, newitems);
+  },
+  async populateMoreLatests({ commit }) {
+    const gamingParams = {
+      earn: false,
+      sortBy: "createdAt",
+      order: "desc",
+      page: currentPages.latest + 1,
+      pageSize: 3,
+      "list.highlighted": false
+    };
+    const newitems = await MediaService.getAll(gamingParams);
+    commit(`addLatests`, newitems);
+  },
+  async populateMore({ commit }, category) {
+    const gamingParams = {
+      earn: false,
+      sortBy: "createdAt",
+      order: "desc",
+      page: currentPages[category] + 1,
+      pageSize: 3,
+      categories: JSON.stringify([category])
+    };
+    const newitems = await MediaService.getAll(gamingParams);
+    commit(`add${capitalize(category)}s`, newitems);
   },
   async populateEarn(store) {
     const { commit, dispatch } = store;

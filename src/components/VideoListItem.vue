@@ -9,13 +9,13 @@
     </div>
     <span class="medialist__item__title">
       {{ media.details.title }}
-      <base-icon class="ml-auto" name="angle-right"></base-icon>
+      <!-- <base-icon class="ml-auto" name="angle-right"></base-icon> -->
     </span>
   </div>
 </template>
 
 <script>
-import BaseIcon from "@/components/BaseIcon.vue";
+// import BaseIcon from "@/components/BaseIcon.vue";
 import env from "@/env.js";
 import { trackEvent } from "@/util/analytics";
 
@@ -27,7 +27,7 @@ export default {
     }
   },
   components: {
-    BaseIcon
+    // BaseIcon
   },
   computed: {
     posterUrl() {
@@ -81,6 +81,7 @@ export default {
 .medialist__item__title {
   font-family: "Prompt", sans-serif;
   font-weight: bold;
+  font-size: 0.925rem;
   padding: 0.2rem 0 0rem;
 }
 </style>
