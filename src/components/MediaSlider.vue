@@ -45,6 +45,7 @@ export default {
   methods: {
     onElementObserved(entries) {
       entries.forEach(entry => {
+        //https://codepen.io/aartyparty/pen/bGVzKjM?editors=1011
         // const classes = {
         //   leftScrim: "horizontal-scroll-container__left-scrim",
         //   rightScrim: "horizontal-scroll-container__right-scrim"
@@ -62,16 +63,23 @@ export default {
         if (entry.isIntersecting) {
           console.log("intersected");
           this.$emit("intersect");
+          this.observer.disconnect();
         }
       });
     }
   },
-  mounted() {
-    if (this.medias.length > 2) {
-      this.$nextTick(() => {
-        const { lastChild } = this.$refs.slider;
-        this.observer.observe(lastChild);
-      });
+  watch: {
+    medias: {
+      immediate: true,
+      handler(newVal) {
+        console.log("watch", newVal);
+        if (newVal.length > 2) {
+          this.$nextTick(() => {
+            const { lastChild } = this.$refs.slider;
+            this.observer.observe(lastChild);
+          });
+        }
+      }
     }
   },
   beforeDestroy() {

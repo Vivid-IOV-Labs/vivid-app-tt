@@ -33,7 +33,7 @@ export default {
         earn: false,
         sortBy: "createdAt",
         order: "desc",
-        page: currentPages.latest + 1,
+        page: ++currentPages.latest,
         pageSize: 3,
         "list.highlighted": false
       };
@@ -67,7 +67,7 @@ export default {
         order: "desc",
         page: currentPages.crypto + 1,
         pageSize: 3,
-        categories: "['crypto']"
+        categories: JSON.stringify(["crypto"])
       };
       const cryptos = await MediaService.getAll(cryptoParams);
       commit("setCryptos", cryptos);
@@ -77,7 +77,7 @@ export default {
         order: "desc",
         page: currentPages.gaming + 1,
         pageSize: 3,
-        categories: "['gaming']"
+        categories: JSON.stringify(["gaming"])
       };
       const gamings = await MediaService.getAll(gamingParams);
       commit("setGamings", gamings);
@@ -87,7 +87,7 @@ export default {
         order: "desc",
         page: currentPages.other + 1,
         pageSize: 3,
-        categories: "['other']"
+        categories: JSON.stringify(["other"])
       };
       const others = await MediaService.getAll(otherParams);
       commit("setOthers", others);
@@ -119,7 +119,7 @@ export default {
       earn: false,
       sortBy: "createdAt",
       order: "desc",
-      page: currentPages.latest + 1,
+      page: ++currentPages.latest,
       pageSize: 3,
       "list.highlighted": false
     };
