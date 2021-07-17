@@ -3,7 +3,7 @@
     <div
       ref="slider"
       :style="{
-        gridTemplateColumns: `1.6rem repeat(${medias.length}, minmax(360px, 1fr)) 1.6rem`
+        gridTemplateColumns: `1px repeat(${medias.length}, minmax(360px, 1fr)) 1px`
       }"
       class="horizontal-scroller"
     >
@@ -61,8 +61,8 @@ export default {
         }
         const scrimClass =
           entry.target === rightsentinel
-            ? classes.leftScrim
-            : classes.rightScrim;
+            ? classes.rightScrim
+            : classes.leftScrim;
         if (entry.intersectionRatio != 1) {
           if (!this.$refs.slidercontainer.classList.contains(scrimClass)) {
             this.$refs.slidercontainer.classList.add(scrimClass);
