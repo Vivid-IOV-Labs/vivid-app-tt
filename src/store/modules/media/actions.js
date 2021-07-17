@@ -5,13 +5,36 @@ function capitalize(s) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-const currentPages = {
-  latest: 0,
-  highlighted: 0,
-  gaming: 0,
-  crypto: 0,
-  other: 0
+const contextApi = {
+  latest: {
+    currentPage: 0,
+    totalItems: 0
+  },
+  highlighted: {
+    currentPage: 0,
+    totalItems: 0
+  },
+  gaming: {
+    currentPage: 0,
+    totalItems: 0
+  },
+  crypto: {
+    currentPage: 0,
+    totalItems: 0
+  },
+  other: {
+    currentPage: 0,
+    totalItems: 0
+  },
+  earn: {
+    currentPage: 0,
+    totalItems: 0
+  }
 };
+function nextPage(category) {
+  contextApi[category].currentPage = contextApi[category].currentPage + 1;
+  return contextApi[category].currentPage;
+}
 export default {
   async populateAll(store) {
     const { commit, dispatch } = store;
@@ -23,40 +46,28 @@ export default {
           { name: "loadingMedia", loading: true },
           { root: true }
         );
-      // const latestsSortedByTime = all
-      //   .filter(f => !f.earn)
-      //   .filter(f => !f.list || !f.list.highlighted)
-      //   .sort((a, b) => {
-      //     return b.createdAt - a.createdAt;
-      // });
       const latestsSortedByTimeParams = {
         earn: false,
         sortBy: "createdAt",
         order: "desc",
-        page: ++currentPages.latest,
+        page: nextPage("latest"),
         pageSize: 3,
         "list.highlighted": false
       };
-      const latestsSortedByTime = await MediaService.getAll(
+      const { media: latestsSortedByTime } = await MediaService.getAll(
         latestsSortedByTimeParams
       );
       commit("setLatests", latestsSortedByTime);
 
-      // const highlightedSortedByOrder = all
-      //   .filter(f => !f.earn)
-      //   .filter(f => f.list && f.list.highlighted)
-      //   .sort((a, b) => {
-      //     return b.list.order - a.list.order;
-      //   });
       const highlightedSortedByOrderParams = {
         earn: false,
         sortBy: "list.order",
         order: "desc",
-        page: currentPages.highlighted + 1,
+        page: nextPage("highlighted"),
         pageSize: 3,
         "list.highlighted": true
       };
-      const highlightedSortedByOrder = await MediaService.getAll(
+      const { media: highlightedSortedByOrder } = await MediaService.getAll(
         highlightedSortedByOrderParams
       );
       commit("setHighlighteds", highlightedSortedByOrder);
@@ -65,31 +76,31 @@ export default {
         earn: false,
         sortBy: "createdAt",
         order: "desc",
-        page: currentPages.crypto + 1,
+        page: nextPage("crypto"),
         pageSize: 3,
         categories: JSON.stringify(["crypto"])
       };
-      const cryptos = await MediaService.getAll(cryptoParams);
+      const { media: cryptos } = await MediaService.getAll(cryptoParams);
       commit("setCryptos", cryptos);
       const gamingParams = {
         earn: false,
         sortBy: "createdAt",
         order: "desc",
-        page: currentPages.gaming + 1,
+        page: nextPage("gaming"),
         pageSize: 3,
         categories: JSON.stringify(["gaming"])
       };
-      const gamings = await MediaService.getAll(gamingParams);
+      const { media: gamings } = await MediaService.getAll(gamingParams);
       commit("setGamings", gamings);
       const otherParams = {
         earn: false,
         sortBy: "createdAt",
         order: "desc",
-        page: currentPages.other + 1,
+        page: nextPage("other"),
         pageSize: 3,
         categories: JSON.stringify(["other"])
       };
-      const others = await MediaService.getAll(otherParams);
+      const { media: others } = await MediaService.getAll(otherParams);
       commit("setOthers", others);
     } catch (error) {
       devLog(error);
@@ -107,36 +118,36 @@ export default {
       earn: false,
       sortBy: "createdAt",
       order: "desc",
-      page: currentPages.highlighted + 1,
+      page: nextPage("highlighted"),
       pageSize: 3,
       "list.highlighted": true
     };
-    const newitems = await MediaService.getAll(gamingParams);
-    commit(`addHighlighteds`, newitems);
+    const { media } = await MediaService.getAll(gamingParams);
+    commit(`addHighlighteds`, media);
   },
   async populateMoreLatests({ commit }) {
     const gamingParams = {
       earn: false,
       sortBy: "createdAt",
       order: "desc",
-      page: ++currentPages.latest,
+      page: nextPage("latest"),
       pageSize: 3,
       "list.highlighted": false
     };
-    const newitems = await MediaService.getAll(gamingParams);
-    commit(`addLatests`, newitems);
+    const { media } = await MediaService.getAll(gamingParams);
+    commit(`addLatests`, media);
   },
   async populateMore({ commit }, category) {
-    const gamingParams = {
+    const params = {
       earn: false,
       sortBy: "createdAt",
       order: "desc",
-      page: currentPages[category] + 1,
+      page: nextPage(`${category}`),
       pageSize: 3,
       categories: JSON.stringify([category])
     };
-    const newitems = await MediaService.getAll(gamingParams);
-    commit(`add${capitalize(category)}s`, newitems);
+    const { media } = await MediaService.getAll(params);
+    commit(`add${capitalize(category)}s`, media);
   },
   async populateEarn(store) {
     const { commit, dispatch } = store;
@@ -153,11 +164,11 @@ export default {
         earn: true,
         sortBy: "createdAt",
         order: "desc",
-        page: 1,
+        page: nextPage("earn"),
         pageSize: 3,
         userWalletAddress
       };
-      const earn = await MediaService.getAll(earnParams);
+      const { media: earn } = await MediaService.getAll(earnParams);
       const earnLatestsSortedByTime = earn
         .filter(f => !f.rewards || !f.rewards.rewardSmartContractTxHash)
         .sort((a, b) => {

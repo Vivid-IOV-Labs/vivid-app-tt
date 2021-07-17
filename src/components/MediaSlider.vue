@@ -3,7 +3,7 @@
     <div
       ref="slider"
       :style="{
-        gridTemplateColumns: `repeat(${medias.length}, minmax(360px, 1fr))`
+        gridTemplateColumns: `repeat(${medias.length}, minmax(360px, 1fr)) 20px`
       }"
       class="horizontal-scroller"
     >
@@ -14,6 +14,7 @@
       >
         <video-list-item :media="media"></video-list-item>
       </div>
+      <div ref="rightsentinel" class="sentinel"></div>
     </div>
   </div>
 </template>
@@ -68,18 +69,12 @@ export default {
       });
     }
   },
-  watch: {
-    medias: {
-      immediate: true,
-      handler(newVal) {
-        console.log("watch", newVal);
-        if (newVal.length > 2) {
-          this.$nextTick(() => {
-            const { lastChild } = this.$refs.slider;
-            this.observer.observe(lastChild);
-          });
-        }
-      }
+  mounted() {
+    if (this.medias.length > 2) {
+      this.$nextTick(() => {
+        const rightsentinel = this.$refs.rightsentinel;
+        this.observer.observe(rightsentinel);
+      });
     }
   },
   beforeDestroy() {

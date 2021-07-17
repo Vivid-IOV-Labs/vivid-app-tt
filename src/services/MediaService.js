@@ -12,9 +12,9 @@ class MediaService {
   async getAll(params) {
     serialized(params);
     const {
-      data: { allMedia }
+      data: { allMedia, totalMedia }
     } = await ApiService.get(`${API_ENDPOINT}/list?${serialized(params)}`);
-    return allMedia;
+    return { media: allMedia, total: totalMedia };
   }
   async find(mediaID) {
     const {
