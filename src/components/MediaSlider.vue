@@ -3,10 +3,11 @@
     <div
       ref="slider"
       :style="{
-        gridTemplateColumns: `repeat(${medias.length}, minmax(360px, 1fr)) 20px`
+        gridTemplateColumns: `1.6rem repeat(${medias.length}, minmax(360px, 1fr)) 1.6rem`
       }"
       class="horizontal-scroller"
     >
+      <div ref="leftsentinel" class="sentinel"></div>
       <div
         v-for="media in medias"
         :key="media.mediaID"
@@ -47,24 +48,27 @@ export default {
     onElementObserved(entries) {
       entries.forEach(entry => {
         //https://codepen.io/aartyparty/pen/bGVzKjM?editors=1011
-        // const classes = {
-        //   leftScrim: "horizontal-scroll-container__left-scrim",
-        //   rightScrim: "horizontal-scroll-container__right-scrim"
-        // };
-        //const { firstChild } = this.$refs.slider;
-        // const scrimClass =
-        //   entry.target === firstChild ? classes.leftScrim : classes.rightScrim;
-        // if (entry.intersectionRatio != 1) {
-        //   if (!this.$refs.slidercontainer.classList.contains(scrimClass)) {
-        //     this.$refs.slidercontainer.classList.add(scrimClass);
-        //   }
-        // } else {
-        //   this.$refs.slidercontainer.classList.remove(scrimClass);
-        // }
-        if (entry.isIntersecting) {
-          console.log("intersected");
-          this.$emit("intersect");
-          this.observer.disconnect();
+        const classes = {
+          leftScrim: "horizontal-scroll-container__left-scrim",
+          rightScrim: "horizontal-scroll-container__right-scrim"
+        };
+        const rightsentinel = this.$refs.rightsentinel;
+        if (entry.target === rightsentinel) {
+          if (entry.isIntersecting) {
+            console.log("intersected");
+            this.$emit("intersect");
+          }
+        }
+        const scrimClass =
+          entry.target === rightsentinel
+            ? classes.leftScrim
+            : classes.rightScrim;
+        if (entry.intersectionRatio != 1) {
+          if (!this.$refs.slidercontainer.classList.contains(scrimClass)) {
+            this.$refs.slidercontainer.classList.add(scrimClass);
+          }
+        } else {
+          this.$refs.slidercontainer.classList.remove(scrimClass);
         }
       });
     }
@@ -74,6 +78,8 @@ export default {
       this.$nextTick(() => {
         const rightsentinel = this.$refs.rightsentinel;
         this.observer.observe(rightsentinel);
+        const leftsentinel = this.$refs.leftsentinel;
+        this.observer.observe(leftsentinel);
       });
     }
   },
@@ -95,7 +101,7 @@ export default {
       left: 0;
       width: 10%;
       height: 100%;
-      background: linear-gradient(to right, #666, transparent);
+      background: linear-gradient(to right, #111, transparent);
     }
   }
 
@@ -107,7 +113,7 @@ export default {
       right: 0;
       width: 10%;
       height: 100%;
-      background: linear-gradient(to left, #666, transparent);
+      background: linear-gradient(to left, #111, transparent);
     }
   }
   .horizontal-scroller {
