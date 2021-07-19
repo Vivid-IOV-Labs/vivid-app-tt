@@ -37,6 +37,13 @@ function nextPage(category) {
 }
 export default {
   async populateAll(store) {
+    contextApi.latest.currentPage = 0;
+    contextApi.highlighted.currentPage = 0;
+    contextApi.gaming.currentPage = 0;
+    contextApi.crypto.currentPage = 0;
+    contextApi.latest.currentPage = 0;
+    contextApi.other.currentPage = 0;
+
     const { commit, dispatch } = store;
     try {
       //run dispatch if exist for fixing unit test
@@ -163,6 +170,7 @@ export default {
     commit(`add${capitalize(category)}s`, media);
   },
   async populateEarn(store) {
+    contextApi.earn.currentPage = 0;
     const { commit, dispatch } = store;
     try {
       const userWalletAddress = store.rootGetters["user/getWallet"];
