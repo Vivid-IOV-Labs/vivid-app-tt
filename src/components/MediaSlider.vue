@@ -52,10 +52,6 @@ export default {
   methods: {
     onElementObserved(entries) {
       entries.forEach(entry => {
-        const classes = {
-          leftScrim: "horizontal-scroll-container__left-scrim",
-          rightScrim: "horizontal-scroll-container__right-scrim"
-        };
         const rightsentinel = this.$refs.rightsentinel;
         if (entry.target === rightsentinel) {
           if (entry.isIntersecting) {
@@ -63,17 +59,21 @@ export default {
             this.$emit("intersect");
           }
         }
-        const scrimClass =
-          entry.target === rightsentinel
-            ? classes.rightScrim
-            : classes.leftScrim;
-        if (entry.intersectionRatio != 1) {
-          if (!this.$refs.slidercontainer.classList.contains(scrimClass)) {
-            this.$refs.slidercontainer.classList.add(scrimClass);
-          }
-        } else {
-          this.$refs.slidercontainer.classList.remove(scrimClass);
-        }
+        // const classes = {
+        //   leftScrim: "horizontal-scroll-container__left-scrim",
+        //   rightScrim: "horizontal-scroll-container__right-scrim"
+        // };
+        // const scrimClass =
+        //   entry.target === rightsentinel
+        //     ? classes.rightScrim
+        //     : classes.leftScrim;
+        // if (entry.intersectionRatio != 1) {
+        //   if (!this.$refs.slidercontainer.classList.contains(scrimClass)) {
+        //     this.$refs.slidercontainer.classList.add(scrimClass);
+        //   }
+        // } else {
+        //   this.$refs.slidercontainer.classList.remove(scrimClass);
+        // }
       });
     }
   },
