@@ -15,7 +15,7 @@ export default {
       if (loading) {
         commit("setTaskQueue", { name, loading });
       } else {
-        await delay(600);
+        await delay(1200);
         commit("setTaskQueue", { name, loading });
       }
     }

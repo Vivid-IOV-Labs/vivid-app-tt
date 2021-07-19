@@ -6,12 +6,12 @@ const apiService = axios.create({
 });
 const startLoading = () =>
   store.dispatch("uistates/setTaskQueue", {
-    name: "loadingMedia",
+    name: "globalLoader",
     loading: true
   });
 const stopLoading = () =>
   store.dispatch("uistates/setTaskQueue", {
-    name: "loadingMedia",
+    name: "globalLoader",
     loading: false
   });
 const isHandlerEnabled = (config = { handlerEnabled: true }) => {
