@@ -173,12 +173,13 @@ export default {
           { name: "loadingMedia", loading: true },
           { root: true }
         );
+      /*TODO vertial scrolling pagination*/
       const earnParams = {
         earn: true,
         sortBy: "createdAt",
         order: "desc",
-        page: nextPage("earn"),
-        pageSize: 3,
+        page: 1,
+        pageSize: 4,
         userWalletAddress
       };
       const { media: earn } = await MediaService.getAll(earnParams);

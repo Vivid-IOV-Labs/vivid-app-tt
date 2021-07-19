@@ -38,7 +38,7 @@ export default {
     state.latests = [...state.latests, ...latests];
   },
   addHighlighteds(state, highlighted) {
-    state.highlighted = [...state.highlighted, ...highlighted];
+    state.highlighteds = [...state.highlighteds, ...highlighted];
   },
   addCryptos(state, cryptos) {
     state.cryptos = [...state.cryptos, ...cryptos];
