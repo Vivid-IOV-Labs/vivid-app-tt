@@ -7,17 +7,32 @@ export default {
   setLatests(state, latests) {
     state.latests = latests;
   },
+  setTotalLatests(state, total) {
+    state.totalLatests = total;
+  },
   setHighlighteds(state, highlighted) {
-    state.highlighted = highlighted;
+    state.highlighteds = highlighted;
+  },
+  setTotalHighlighteds(state, total) {
+    state.totalHighlighteds = total;
   },
   setCryptos(state, cryptos) {
     state.cryptos = cryptos;
   },
+  setTotalCryptos(state, total) {
+    state.totalCryptos = total;
+  },
   setGamings(state, gamings) {
     state.gamings = gamings;
   },
+  setTotalGamings(state, total) {
+    state.totalGamings = total;
+  },
   setOthers(state, others) {
     state.others = [...state.others, ...others];
+  },
+  setTotalOthers(state, total) {
+    state.totalOthers = total;
   },
   addLatests(state, latests) {
     state.latests = [...state.latests, ...latests];

@@ -54,10 +54,12 @@ export default {
         pageSize: 3,
         "list.highlighted": false
       };
-      const { media: latestsSortedByTime } = await MediaService.getAll(
-        latestsSortedByTimeParams
-      );
+      const {
+        media: latestsSortedByTime,
+        total: totalLatests
+      } = await MediaService.getAll(latestsSortedByTimeParams);
       commit("setLatests", latestsSortedByTime);
+      commit("setTotalLatests", totalLatests);
 
       const highlightedSortedByOrderParams = {
         earn: false,
@@ -67,10 +69,12 @@ export default {
         pageSize: 3,
         "list.highlighted": true
       };
-      const { media: highlightedSortedByOrder } = await MediaService.getAll(
-        highlightedSortedByOrderParams
-      );
+      const {
+        media: highlightedSortedByOrder,
+        total: totalHighlighted
+      } = await MediaService.getAll(highlightedSortedByOrderParams);
       commit("setHighlighteds", highlightedSortedByOrder);
+      commit("setTotalHighlighteds", totalHighlighted);
 
       const cryptoParams = {
         earn: false,
@@ -80,8 +84,11 @@ export default {
         pageSize: 3,
         categories: JSON.stringify(["crypto"])
       };
-      const { media: cryptos } = await MediaService.getAll(cryptoParams);
+      const { media: cryptos, total: totalCryptos } = await MediaService.getAll(
+        cryptoParams
+      );
       commit("setCryptos", cryptos);
+      commit("setTotalCryptos", totalCryptos);
       const gamingParams = {
         earn: false,
         sortBy: "createdAt",
@@ -90,8 +97,11 @@ export default {
         pageSize: 3,
         categories: JSON.stringify(["gaming"])
       };
-      const { media: gamings } = await MediaService.getAll(gamingParams);
+      const { media: gamings, total: totalGamings } = await MediaService.getAll(
+        gamingParams
+      );
       commit("setGamings", gamings);
+      commit("setTotalGamings", totalGamings);
       const otherParams = {
         earn: false,
         sortBy: "createdAt",
@@ -100,8 +110,11 @@ export default {
         pageSize: 3,
         categories: JSON.stringify(["other"])
       };
-      const { media: others } = await MediaService.getAll(otherParams);
+      const { media: others, total: totalOthers } = await MediaService.getAll(
+        otherParams
+      );
       commit("setOthers", others);
+      commit("setTotalOthers", totalOthers);
     } catch (error) {
       devLog(error);
     } finally {

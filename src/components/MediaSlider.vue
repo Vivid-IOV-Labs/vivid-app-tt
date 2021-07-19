@@ -33,6 +33,10 @@ export default {
     medias: {
       type: Array,
       required: true
+    },
+    total: {
+      type: Number,
+      required: true
     }
   },
   components: {
@@ -74,7 +78,7 @@ export default {
     }
   },
   mounted() {
-    if (this.medias.length > 2) {
+    if (this.medias.length < this.total) {
       this.$nextTick(() => {
         const rightsentinel = this.$refs.rightsentinel;
         this.observer.observe(rightsentinel);

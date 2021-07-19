@@ -9,13 +9,14 @@
       </div>
     </v-ons-toolbar>
     <div class=" viewlist__content scroller">
-      <div v-if="getHighlighted.length">
+      <div v-if="getHighlighteds.length">
         <div class="page__title__background">
           <h3 class="page__title">Top Videos</h3>
         </div>
         <media-slider
           @intersect="populateMoreHighlighteds()"
-          :medias="getHighlighted"
+          :medias="getHighlighteds"
+          :total="getTotalHighlighteds"
         ></media-slider>
       </div>
 
@@ -26,6 +27,7 @@
         <media-slider
           @intersect="populateMoreLatests()"
           :medias="getLatests"
+          :total="getTotalLatests"
         ></media-slider>
       </div>
       <div v-if="getCryptos.length">
@@ -35,6 +37,7 @@
         <media-slider
           @intersect="fetchMore('crypto')"
           :medias="getCryptos"
+          :total="getTotalCryptos"
         ></media-slider>
       </div>
       <div v-if="getGamings.length">
@@ -44,6 +47,7 @@
         <media-slider
           @intersect="fetchMore('gaming')"
           :medias="getGamings"
+          :total="getTotalGamings"
         ></media-slider>
       </div>
       <div v-if="getOthers.length">
@@ -54,6 +58,7 @@
           <media-slider
             @intersect="fetchMore('other')"
             :medias="getOthers"
+            :total="getTotalOthers"
           ></media-slider>
         </div>
       </div>
@@ -93,10 +98,15 @@ export default {
   computed: {
     ...mapGetters("media", [
       "getLatests",
-      "getHighlighted",
+      "getHighlighteds",
       "getCryptos",
       "getGamings",
-      "getOthers"
+      "getOthers",
+      "getTotalLatests",
+      "getTotalHighlighteds",
+      "getTotalCryptos",
+      "getTotalGamings",
+      "getTotalOthers"
     ]),
     ...mapGetters("user", ["getInterestsSubmitted", "getTermsAgreed"])
   },
