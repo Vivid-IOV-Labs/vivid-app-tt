@@ -87,7 +87,7 @@ export default {
   padding: 0.2rem 0 0rem;
 }
 .medialist__item__descwrapper {
-  height: 2rem;
+  height: 3rem;
   overflow: auto;
 }
 </style>
