@@ -35,16 +35,8 @@ export default {
     contextApi.crypto.currentPage = 0;
     contextApi.other.currentPage = 0;
 
-    const { commit, dispatch } = store;
+    const { commit } = store;
     try {
-      //run dispatch if exist for fixing unit test
-      dispatch &&
-        dispatch(
-          "uistates/setTaskQueue",
-          { name: "loadingMedia", loading: true },
-          { root: true }
-        );
-
       const highlightedSortedByOrderParams = {
         earn: false,
         sortBy: "list.order",
@@ -101,13 +93,6 @@ export default {
       commit("setTotalOthers", totalOthers);
     } catch (error) {
       devLog(error);
-    } finally {
-      dispatch &&
-        dispatch(
-          "uistates/setTaskQueue",
-          { name: "loadingMedia", loading: false },
-          { root: true }
-        );
     }
   },
   async populateMoreHighlighteds({ commit }) {
@@ -136,16 +121,9 @@ export default {
   },
   async populateEarn(store) {
     contextApi.earn.currentPage = 0;
-    const { commit, dispatch } = store;
+    const { commit } = store;
     try {
       const userWalletAddress = store.rootGetters["user/getWallet"];
-      //run dispatch if exist for fixing unit test
-      dispatch &&
-        dispatch(
-          "uistates/setTaskQueue",
-          { name: "loadingMedia", loading: true },
-          { root: true }
-        );
       /*TODO vertial scrolling pagination*/
       const earnParams = {
         earn: true,
@@ -171,13 +149,6 @@ export default {
       commit("setEarnCompleted", earnHighlightedSortedByOrder);
     } catch (error) {
       devLog(error);
-    } finally {
-      dispatch &&
-        dispatch(
-          "uistates/setTaskQueue",
-          { name: "loadingMedia", loading: false },
-          { root: true }
-        );
     }
   },
   add({ commit }, newVideo) {

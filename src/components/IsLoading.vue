@@ -26,7 +26,7 @@ export default {
           if (this.isLoading) {
             this.isStillLoading = true;
           }
-        }, 1200);
+        }, 800);
       } else {
         this.isStillLoading = false;
       }
