@@ -23,7 +23,7 @@ export default {
     state.totalGamings = total;
   },
   setOthers(state, others) {
-    state.others = [...state.others, ...others];
+    state.others = others;
   },
   setTotalOthers(state, total) {
     state.totalOthers = total;
