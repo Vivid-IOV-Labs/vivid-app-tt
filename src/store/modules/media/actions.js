@@ -1,15 +1,8 @@
 import MediaService from "@/services/MediaService";
 import devLog from "@/util/devlog.js";
-// import delay from "@/util/delay.js";
-function capitalize(s) {
-  return s.charAt(0).toUpperCase() + s.slice(1);
-}
+import capitalize from "@/util/capitalize.js";
 
 const contextApi = {
-  latest: {
-    currentPage: 0,
-    totalItems: 0
-  },
   highlighted: {
     currentPage: 0,
     totalItems: 0
@@ -37,11 +30,9 @@ function nextPage(category) {
 }
 export default {
   async populateAll(store) {
-    contextApi.latest.currentPage = 0;
     contextApi.highlighted.currentPage = 0;
     contextApi.gaming.currentPage = 0;
     contextApi.crypto.currentPage = 0;
-    contextApi.latest.currentPage = 0;
     contextApi.other.currentPage = 0;
 
     const { commit, dispatch } = store;
@@ -53,20 +44,6 @@ export default {
           { name: "loadingMedia", loading: true },
           { root: true }
         );
-      const latestsSortedByTimeParams = {
-        earn: false,
-        sortBy: "createdAt",
-        order: "desc",
-        page: nextPage("latest"),
-        pageSize: 3,
-        "list.highlighted": false
-      };
-      const {
-        media: latestsSortedByTime,
-        total: totalLatests
-      } = await MediaService.getAll(latestsSortedByTimeParams);
-      commit("setLatests", latestsSortedByTime);
-      commit("setTotalLatests", totalLatests);
 
       const highlightedSortedByOrderParams = {
         earn: false,
@@ -144,18 +121,6 @@ export default {
     };
     const { media } = await MediaService.getAll(gamingParams);
     commit(`addHighlighteds`, media);
-  },
-  async populateMoreLatests({ commit }) {
-    const gamingParams = {
-      earn: false,
-      sortBy: "createdAt",
-      order: "desc",
-      page: nextPage("latest"),
-      pageSize: 3,
-      "list.highlighted": false
-    };
-    const { media } = await MediaService.getAll(gamingParams);
-    commit(`addLatests`, media);
   },
   async populateMore({ commit }, category) {
     const params = {

@@ -3,8 +3,6 @@ const state = () => ({
   earncompleted: [],
   highlighteds: [],
   totalHighlighteds: 0,
-  latests: [],
-  totalLatests: 0,
   earnlatests: [],
   cryptos: [],
   totalCryptos: 0,

@@ -45,13 +45,13 @@ export default {
   created() {
     this.observer = new IntersectionObserver(this.onElementObserved, {
       root: this.$el,
-      threshold: 1.0
+      threshold: 0.5,
+      rootMargin: "0px 20px"
     });
   },
   methods: {
     onElementObserved(entries) {
       entries.forEach(entry => {
-        //https://codepen.io/aartyparty/pen/bGVzKjM?editors=1011
         const classes = {
           leftScrim: "horizontal-scroll-container__left-scrim",
           rightScrim: "horizontal-scroll-container__right-scrim"
@@ -77,8 +77,22 @@ export default {
       });
     }
   },
+  // computed: {
+  //   isAllFetched() {
+  //     return this.medias.length < this.total;
+  //   }
+  // },
+  // watch: {
+  //   medias: {
+  //     handler(medias) {
+  //       if (medias.length < this.total) {
+  //         this.observer.disconnect();
+  //       }
+  //     }
+  //   }
+  // },
   mounted() {
-    if (this.medias.length < this.total) {
+    if (this.medias.length > 1) {
       this.$nextTick(() => {
         const rightsentinel = this.$refs.rightsentinel;
         this.observer.observe(rightsentinel);

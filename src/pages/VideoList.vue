@@ -14,20 +14,9 @@
           <h3 class="page__title">Top Videos</h3>
         </div>
         <media-slider
-          @intersect="populateMoreHighlighteds()"
+          @intersect="fetchMoreHighlighteds()"
           :medias="getHighlighteds"
           :total="getTotalHighlighteds"
-        ></media-slider>
-      </div>
-
-      <div v-if="getLatests.length">
-        <div class="page__title__background">
-          <h3 class="page__title">Latest Videos</h3>
-        </div>
-        <media-slider
-          @intersect="populateMoreLatests()"
-          :medias="getLatests"
-          :total="getTotalLatests"
         ></media-slider>
       </div>
       <div v-if="getCryptos.length">
@@ -77,6 +66,7 @@ import TermsAgreeDialog from "@/components/dialogs/TermsAgreeDialog.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import webSocketService from "@/util/webSocketService.js";
 import { trackEvent } from "@/util/analytics";
+import capitalize from "@/util/capitalize.js";
 
 export default {
   components: {
@@ -97,12 +87,10 @@ export default {
   },
   computed: {
     ...mapGetters("media", [
-      "getLatests",
       "getHighlighteds",
       "getCryptos",
       "getGamings",
       "getOthers",
-      "getTotalLatests",
       "getTotalHighlighteds",
       "getTotalCryptos",
       "getTotalGamings",
@@ -116,8 +104,7 @@ export default {
       "add",
       "delete",
       "populateMore",
-      "populateMoreHighlighteds",
-      "populateMoreLatests"
+      "populateMoreHighlighteds"
     ]),
     ...mapMutations("media", ["setTotalTip", "addHighlighted"]),
     showContentFeedDialog() {
@@ -162,8 +149,25 @@ export default {
       });
     },
     async fetchMore(category) {
-      console.log("fetching more ", category);
-      await this.populateMore(category);
+      const capitaledCategory = capitalize(category);
+      const getKeyTotal = `getTotal${capitaledCategory}s`;
+      const getKeyFetched = `get${capitaledCategory}s`;
+      const getFetched = this[getKeyFetched];
+      const getTotal = this[getKeyTotal];
+      if (getFetched.length < getTotal) {
+        console.log("fetching more ", category);
+
+        await this.populateMore(category);
+      } else {
+        return;
+      }
+    },
+    async fetchMoreHighlighteds() {
+      if (this.getHighlighteds.length < this.getTotalHighlighteds) {
+        await this.populateMoreHighlighteds();
+      } else {
+        return;
+      }
     }
   },
   watch: {

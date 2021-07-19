@@ -4,12 +4,6 @@ export default {
   setAll(state, all) {
     state.all = all;
   },
-  setLatests(state, latests) {
-    state.latests = latests;
-  },
-  setTotalLatests(state, total) {
-    state.totalLatests = total;
-  },
   setHighlighteds(state, highlighted) {
     state.highlighteds = highlighted;
   },
@@ -34,9 +28,6 @@ export default {
   setTotalOthers(state, total) {
     state.totalOthers = total;
   },
-  addLatests(state, latests) {
-    state.latests = [...state.latests, ...latests];
-  },
   addHighlighteds(state, highlighted) {
     state.highlighteds = [...state.highlighteds, ...highlighted];
   },
@@ -49,17 +40,12 @@ export default {
   addOthers(state, others) {
     state.others = [...state.others, ...others];
   },
-  setEarnLatests(state, latests) {
-    state.earnlatests = latests;
-  },
   setEarnCompleted(state, completed) {
     state.earncompleted = completed;
   },
   add(state, item) {
     if (item.list && item.list.highlighted) {
       state.highlighted = [item, ...state.highlighted];
-    } else {
-      state.latests = [item, ...state.latests];
     }
     if (item.categories) {
       if (item.categories.includes("crypto")) {
@@ -79,8 +65,6 @@ export default {
       state.highlighted = state.highlighted.filter(
         media => media.mediaID !== mediaID
       );
-    } else {
-      state.latests = state.latests.filter(media => media.mediaID !== mediaID);
     }
     if (item.categories) {
       if (item.categories.includes("crypto")) {
