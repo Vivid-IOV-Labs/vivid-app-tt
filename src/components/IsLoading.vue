@@ -20,7 +20,6 @@ export default {
   },
   watch: {
     isLoading(newValue) {
-      console.log(newValue);
       if (newValue) {
         const checkIfStillLoading = setTimeout(() => {
           clearTimeout(checkIfStillLoading);

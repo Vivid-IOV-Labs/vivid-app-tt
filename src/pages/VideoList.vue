@@ -155,8 +155,6 @@ export default {
       const getFetched = this[getKeyFetched];
       const getTotal = this[getKeyTotal];
       if (getFetched.length < getTotal) {
-        console.log("fetching more ", category);
-
         await this.populateMore(category);
       } else {
         return;

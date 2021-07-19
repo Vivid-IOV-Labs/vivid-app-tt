@@ -55,7 +55,6 @@ export default {
         const rightsentinel = this.$refs.rightsentinel;
         if (entry.target === rightsentinel) {
           if (entry.isIntersecting) {
-            console.log("intersected");
             this.$emit("intersect");
           }
         }
