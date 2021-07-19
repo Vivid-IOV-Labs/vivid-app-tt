@@ -65,7 +65,7 @@ export default {
   width: 100%;
 }
 .medialist__item_poster {
-  object-fit: contain;
+  object-fit: cover;
   width: 100%;
   max-height: 220px;
   border-radius: 0.6rem;

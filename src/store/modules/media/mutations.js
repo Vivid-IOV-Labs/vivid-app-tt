@@ -40,6 +40,9 @@ export default {
   addOthers(state, others) {
     state.others = [...state.others, ...others];
   },
+  setEarnLatests(state, latests) {
+    state.earnlatests = latests;
+  },
   setEarnCompleted(state, completed) {
     state.earncompleted = completed;
   },
