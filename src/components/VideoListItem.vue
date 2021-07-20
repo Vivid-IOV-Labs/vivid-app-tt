@@ -60,6 +60,7 @@ export default {
 .medialist__item {
   position: relative;
   padding: 0.6rem 0rem 0.8rem;
+  max-width: 380px;
 }
 .medialist__item_picture-frame {
   margin-bottom: 0.8rem;
@@ -86,7 +87,8 @@ export default {
   padding: 0.2rem 0 0rem;
 }
 .medialist__item__descwrapper {
-  height: 3rem;
+  height: 2.6rem;
+  padding: 0.2rem 0 0.4rem;
   overflow: auto;
 }
 </style>
