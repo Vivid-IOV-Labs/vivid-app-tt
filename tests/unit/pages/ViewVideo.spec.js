@@ -203,12 +203,12 @@ describe("ViewVideo", () => {
   //   expect(wrapper.vm.isPopoverTTSuccess).toBeTruthy();
   //   expect(trackEvent).toHaveBeenCalled();
   // });
-  it("On tipStreamer hide popup", async () => {
-    await wrapper.get("#tip-streamer").vm.$emit("click");
-    expect(wrapper.vm.isPopoverClickTT).toBeFalsy();
-    expect(wrapper.vm.isPopoverTTProgress).toBeTruthy();
-    expect(wrapper.vm.isTipping).toBeTruthy();
-  });
+  // it("On tipStreamer hide popup", async () => {
+  //   await wrapper.get("#tip-streamer").vm.$emit("click");
+  //   expect(wrapper.vm.isPopoverClickTT).toBeFalsy();
+  //   expect(wrapper.vm.isPopoverTTProgress).toBeTruthy();
+  //   expect(wrapper.vm.isTipping).toBeTruthy();
+  // });
   // it("should not update tip if mediaID is different", async () => {
   //   const response = {
   //     data: {

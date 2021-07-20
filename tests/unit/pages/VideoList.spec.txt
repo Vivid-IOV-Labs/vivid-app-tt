@@ -24,56 +24,56 @@ import mediaGetters from "@/store/modules/media/getters";
 import mediaMutations from "@/store/modules/media/mutations";
 import mediaActions from "@/store/modules/media/actions";
 import userGetters from "@/store/modules/user/getters";
-import webSocketService from "@/util/webSocketService.js";
+//import webSocketService from "@/util/webSocketService.js";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(VueLazyload);
 
-let store;
-let wrapper;
+// let store;
+// let wrapper;
 
 describe("VideoList", () => {
   beforeEach(() => {
-    store = new Vuex.Store({
-      modules: {
-        uistates: {
-          namespaced: true,
-          actions: {
-            setTaskQueue: jest.fn()
-          }
-        },
-        user: {
-          namespaced: true,
-          getters: userGetters
-        },
-        media: {
-          namespaced: true,
-          state: mediaState(),
-          getters: mediaGetters,
-          mutations: mediaMutations,
-          actions: mediaActions
-        }
-      }
-    });
-    wrapper = shallowMount(VideoList, {
-      store,
-      localVue,
-      stubs: {
-        "base-icon": true,
-        "v-ons-button": true,
-        "v-ons-dialog": true,
-        "v-ons-list": true,
-        "v-ons-list-item": true,
-        "v-ons-page": true,
-        "v-ons-toolbar": true,
-        "v-ons-toolbar-button": true,
-        "v-ons-popover": true
-      },
-      directives: {
-        lazy: true
-      }
-    });
+    // store = new Vuex.Store({
+    //   modules: {
+    //     uistates: {
+    //       namespaced: true,
+    //       actions: {
+    //         setTaskQueue: jest.fn()
+    //       }
+    //     },
+    //     user: {
+    //       namespaced: true,
+    //       getters: userGetters
+    //     },
+    //     media: {
+    //       namespaced: true,
+    //       state: mediaState(),
+    //       getters: mediaGetters,
+    //       mutations: mediaMutations,
+    //       actions: mediaActions
+    //     }
+    //   }
+    // });
+    // wrapper = shallowMount(VideoList, {
+    //   store,
+    //   localVue,
+    //   stubs: {
+    //     "base-icon": true,
+    //     "v-ons-button": true,
+    //     "v-ons-dialog": true,
+    //     "v-ons-list": true,
+    //     "v-ons-list-item": true,
+    //     "v-ons-page": true,
+    //     "v-ons-toolbar": true,
+    //     "v-ons-toolbar-button": true,
+    //     "v-ons-popover": true
+    //   },
+    //   directives: {
+    //     lazy: true
+    //   }
+    // });
   });
   // it("Loads latest videos", () => {
   //   expect(wrapper.vm.getLatests.length).toBe(1);
