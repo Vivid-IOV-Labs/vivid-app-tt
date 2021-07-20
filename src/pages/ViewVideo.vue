@@ -295,7 +295,9 @@ export default {
         this.isPopoverTTProgress = true;
       }
       try {
-        const result = await this.getTipContract();
+        const result = await this.getTipContract(
+          this.media.publisher.walletAddress
+        );
         this.startTimer();
         const { transactionHash } = await result.wait();
         await TipService.verify({
