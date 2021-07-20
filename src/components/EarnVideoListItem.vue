@@ -1,7 +1,7 @@
 <template>
   <div class="full-width medialist__item ">
     <div class="rewards">
-      <div class="flex p-2" style="align-items: baseline;">
+      <div class="flex" style="align-items: baseline;">
         <div v-if="!media.rewards">
           <span class="progress_description ">
             Start watching to get TT! <br />
@@ -9,7 +9,7 @@
               v-if="
                 media.balanceAvailable &&
                   media.balanceTotal &&
-                  !(balancePercentage == 0 || balancePercentage == 100)
+                  !(balancePercentage == 0.0 || balancePercentage == 100.0)
               "
               >{{ balancePercentage }}% of available TT for this promotion has
               been claimed</small
@@ -52,7 +52,7 @@
               v-if="
                 media.balanceAvailable &&
                   media.balanceTotal &&
-                  !(balancePercentage == 0 || balancePercentage == 100)
+                  !(balancePercentage == 0.0 || balancePercentage == 100.0)
               "
               >{{ balancePercentage }}% of available TT for this promotion has
               been claimed</small
@@ -141,9 +141,8 @@ export default {
     balancePercentage() {
       if (this.media.balanceAvailable && this.media.balanceTotal) {
         return (
-          100 -
-          (this.media.balanceAvailable / this.media.balanceTotal) * 100
-        ).toFixed(0);
+          100 - (this.media.balanceAvailable / this.media.balanceTotal) * 100
+        );
       } else {
         return 0;
       }
@@ -178,7 +177,7 @@ export default {
 </script>
 <style lang="scss">
 .rewards {
-  padding: 1rem 0;
+  padding: 1rem 0 0.4rem;
 }
 .medialist__item {
   position: relative;
