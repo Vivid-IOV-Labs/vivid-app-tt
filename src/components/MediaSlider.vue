@@ -3,7 +3,7 @@
     <div
       ref="slider"
       :style="{
-        gridTemplateColumns: `1px repeat(${medias.length}, minmax(360px, 1fr)) 1px`
+        gridTemplateColumns: `1px repeat(${medias.length}, minmax(280px, 360px)) 1px`
       }"
       class="horizontal-scroller"
     >
@@ -135,7 +135,7 @@ export default {
   }
   .horizontal-scroller {
     display: grid;
-    grid-gap: 0 2rem;
+    grid-gap: 0 1rem;
     padding-right: 0;
     overflow-y: hidden;
     overflow-x: auto;
