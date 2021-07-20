@@ -59,6 +59,7 @@ export default {
 <style lang="scss">
 .medialist__item {
   position: relative;
+  padding: 0.6rem 0rem 0.8rem;
 }
 .medialist__item_picture-frame {
   margin-bottom: 0.8rem;
