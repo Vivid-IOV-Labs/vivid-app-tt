@@ -179,11 +179,7 @@ export default {
 .rewards {
   padding: 1rem 0 0.4rem;
 }
-.medialist__item {
-  position: relative;
-  border-bottom: solid 2px $dark-grey;
-  padding: 0.6rem 0rem 1.4rem;
-}
+
 .medialist__item_picture-frame {
   position: relative;
   margin-bottom: 0.8rem;
