@@ -112,6 +112,12 @@ import BaseIcon from "@/components/BaseIcon.vue";
 import env from "@/env.js";
 import EarnProgressBar from "@/components/EarnProgressBar.vue";
 import { trackEvent } from "@/util/analytics";
+const truncate = (str, max = 10) => {
+  const array = str.trim().split(" ");
+  const ellipsis = array.length > max ? "..." : "";
+
+  return array.slice(0, max).join(" ") + ellipsis;
+};
 export default {
   props: {
     media: {
@@ -147,6 +153,9 @@ export default {
       } else {
         return 0;
       }
+    },
+    title() {
+      return truncate(this.media.details.title, 6);
     }
   },
   methods: {

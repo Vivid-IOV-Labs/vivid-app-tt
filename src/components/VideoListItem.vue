@@ -9,7 +9,7 @@
     </div>
     <div class="medialist__item__descwrapper">
       <span class="medialist__item__title">
-        {{ media.details.title }}
+        {{ title }}
         <!-- <base-icon class="ml-auto" name="angle-right"></base-icon> -->
       </span>
     </div>
@@ -20,7 +20,12 @@
 // import BaseIcon from "@/components/BaseIcon.vue";
 import env from "@/env.js";
 import { trackEvent } from "@/util/analytics";
+const truncate = (str, max = 10) => {
+  const array = str.trim().split(" ");
+  const ellipsis = array.length > max ? "..." : "";
 
+  return array.slice(0, max).join(" ") + ellipsis;
+};
 export default {
   props: {
     media: {
@@ -42,6 +47,9 @@ export default {
         error: "/thumbnail.jpg",
         loading: "/thumbnail.jpg"
       };
+    },
+    title() {
+      return truncate(this.media.details.title, 6);
     }
   },
   methods: {

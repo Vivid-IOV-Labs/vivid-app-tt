@@ -130,7 +130,7 @@ export default {
         sortBy: "createdAt",
         order: "desc",
         page: 1,
-        pageSize: 4,
+        pageSize: 10,
         userWalletAddress
       };
       const { media: earn } = await MediaService.getAll(earnParams);
