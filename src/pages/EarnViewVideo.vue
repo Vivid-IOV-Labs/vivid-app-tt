@@ -229,7 +229,7 @@ export default {
       trackEvent({
         category: "Earn Video Play View",
         action: "link-more-info",
-        label: mediaID
+        label: "MediaID:" + mediaID
       });
     },
     pushUserBack() {

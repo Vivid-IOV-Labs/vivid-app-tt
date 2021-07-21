@@ -154,7 +154,7 @@ export default {
       trackEvent({
         category: "Earn Video List View",
         action: "link-more-info",
-        label: mediaID
+        label: "MediaID:" + mediaID
       });
       trackEvent({
         category: "Earn Video List View",

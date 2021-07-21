@@ -85,6 +85,7 @@ export default {
   font-weight: bold;
   font-size: 0.925rem;
   padding: 0.2rem 0 0rem;
+  text-overflow: ellipsis;
 }
 .medialist__item__descwrapper {
   height: 3rem;
