@@ -88,7 +88,7 @@
 <script>
 import BaseVideo from "@/components/BaseVideo.vue";
 import { mapGetters, mapActions } from "vuex";
-import { trackEvent } from "@/util/analytics";
+im{ trackEvent } from "@/util/analytics";
 import env from "@/env.js";
 import webSocketService from "@/util/webSocketService.js";
 import Hls from "hls.js";
@@ -221,13 +221,13 @@ export default {
 
     trackLink(link, mediaID) {
       !this.hasRewarded &&
-        this.trackEvent({
+        trackEvent({
           category: "Earn Video Play View",
           action: "link-more-info",
           label: link
         });
       !this.hasRewarded &&
-        this.trackEvent({
+        trackEvent({
           category: "Earn Video Play View",
           action: "link-more-info",
           label: "MediaID:" + mediaID
@@ -241,7 +241,7 @@ export default {
     },
     async endViewingVideo() {
       !this.hasRewarded &&
-        this.trackEvent({
+        trackEvent({
           category: "Earn Video Play View",
           action: "close-video",
           label: "MediaId:" + this.mediaID
@@ -284,7 +284,7 @@ export default {
         promise
           .catch(() => {
             !this.hasRewarded &&
-              this.trackEvent({
+              trackEvent({
                 category: "Earn Video Play View",
                 action: "autoplay-error",
                 label: "MediaId:" + this.mediaID
@@ -292,7 +292,7 @@ export default {
           })
           .then(() => {
             !this.hasRewarded &&
-              this.trackEvent({
+              trackEvent({
                 category: "Earn Video Play View",
                 action: "autoplay-success",
                 label: "MediaId:" + this.mediaID
@@ -314,7 +314,7 @@ export default {
           });
         });
         !this.hasRewarded &&
-          this.trackEvent({
+          trackEvent({
             category: "Earn Video Play View",
             action: "hls-video-playing",
             label: "MediaId:" + this.mediaID
@@ -324,7 +324,7 @@ export default {
         video.media.addEventListener("loadedmetadata", () => {
           this.autoplay(video.media);
           !this.hasRewarded &&
-            this.trackEvent({
+            trackEvent({
               category: "Earn Video Play View",
               action: "hls-video-playing",
               label: "MediaId:" + this.mediaID
@@ -336,8 +336,7 @@ export default {
           video.media.muted = "muted";
           video.media.autoplay = "autoplay";
           video.media.playsinline = "true";
-          this.autoplay(video.media);
-          trackEvent({
+          this.autoplay(video.med          trackEvent({
             category: "Earn Video Play View",
             action: "mp4-video-playing",
             label: "MediaId:" + this.mediaID
@@ -383,7 +382,7 @@ export default {
         mediaID == this.mediaID &&
         userWalletAddress == this.getUserWalletAddress
       ) {
-        this.isRewardEarnedDialog = true;
+        this.isRewardEarnedDialog = 
         trackEvent({
           category: "Earn Video Play View",
           action: "reward-sent",
