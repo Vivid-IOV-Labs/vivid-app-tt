@@ -88,7 +88,7 @@
 <script>
 import BaseVideo from "@/components/BaseVideo.vue";
 import { mapGetters, mapActions } from "vuex";
-im{ trackEvent } from "@/util/analytics";
+import { trackEvent } from "@/util/analytics";
 import env from "@/env.js";
 import webSocketService from "@/util/webSocketService.js";
 import Hls from "hls.js";
