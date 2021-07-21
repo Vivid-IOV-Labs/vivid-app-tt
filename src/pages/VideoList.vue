@@ -41,7 +41,7 @@
       </div>
       <div v-if="getOthers.length">
         <div class="page__title__background">
-          <h3 class="page__title">Others</h3>
+          <h3 class="page__title">Other</h3>
         </div>
         <div class="horizontal-scroller scroller">
           <media-slider
