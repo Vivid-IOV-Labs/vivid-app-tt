@@ -242,6 +242,7 @@ export default {
 }
 .hr-border {
   border: none;
+  padding: 0.8rem 0 0.4rem;
   border-bottom: solid 0.2rem $dark-grey;
 }
 </style>
