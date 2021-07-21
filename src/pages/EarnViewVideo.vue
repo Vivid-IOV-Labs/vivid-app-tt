@@ -127,11 +127,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("media", ["getById"]),
+    ...mapGetters("media", ["getCurrentMedia"]),
     ...mapGetters("smartcontract", ["getUserWalletAddress"]),
-    currentMedia() {
-      return this.getById(this.mediaID);
-    },
     videoUrl() {
       const url = `${env.media_server}/${this.mediaID}.mp4`;
       return url;
@@ -146,45 +143,45 @@ export default {
     },
     title() {
       if (
-        this.currentMedia &&
-        this.currentMedia.details &&
-        this.currentMedia.details.title
+        this.getCurrentMedia &&
+        this.getCurrentMedia.details &&
+        this.getCurrentMedia.details.title
       ) {
-        return this.currentMedia.details.title;
+        return this.getCurrentMedia.details.title;
       } else {
         return "";
       }
     },
     subtitle() {
       if (
-        this.currentMedia &&
-        this.currentMedia.details &&
-        this.currentMedia.details.subtitle
+        this.getCurrentMedia &&
+        this.getCurrentMedia.details &&
+        this.getCurrentMedia.details.subtitle
       ) {
-        return this.currentMedia.details.subtitle;
+        return this.getCurrentMedia.details.subtitle;
       } else {
         return "";
       }
     },
     moreInfo() {
       if (
-        this.currentMedia &&
-        this.currentMedia.details &&
-        this.currentMedia.details.moreInfo
+        this.getCurrentMedia &&
+        this.getCurrentMedia.details &&
+        this.getCurrentMedia.details.moreInfo
       ) {
-        return this.currentMedia.details.moreInfo;
+        return this.getCurrentMedia.details.moreInfo;
       } else {
         return "";
       }
     },
     hashtags() {
       if (
-        this.currentMedia &&
-        this.currentMedia.details &&
-        this.currentMedia.details.twitter &&
-        this.currentMedia.details.twitter.hashtags
+        this.getCurrentMedia &&
+        this.getCurrentMedia.details &&
+        this.getCurrentMedia.details.twitter &&
+        this.getCurrentMedia.details.twitter.hashtags
       ) {
-        return this.currentMedia.details.twitter.hashtags
+        return this.getCurrentMedia.details.twitter.hashtags
           .reduce((acc, tag) => {
             acc += ` #${tag},`;
             return acc;
@@ -204,9 +201,9 @@ export default {
     },
     hasRewarded() {
       return (
-        (this.currentMedia &&
-          this.currentMedia.rewards &&
-          this.currentMedia.rewards.rewardSmartContractTxHash) ||
+        (this.getCurrentMedia &&
+          this.getCurrentMedia.rewards &&
+          this.getCurrentMedia.rewards.rewardSmartContractTxHash) ||
         this.isRewardEarned
       );
     },
@@ -220,6 +217,7 @@ export default {
   },
   methods: {
     ...mapActions("uistates", ["setTaskQueue"]),
+    ...mapActions("media", ["populateCurrentMedia"]),
     trackLink(link, mediaID) {
       trackEvent({
         category: "Earn Video Play View",
@@ -383,7 +381,7 @@ export default {
       }
     }
   },
-  mounted() {
+  async mounted() {
     this.player = this.$refs.videoplayer.player;
     if (!this.hasRewarded) {
       this.recordVideoWatched();
@@ -398,6 +396,7 @@ export default {
     });
     this.player.on("exitfullscreen", () => (this.isFullScreen = false));
     webSocketService.socket.on("media-reward-sent", this.rewardSent);
+    await this.populateCurrentMedia(this.mediaID);
   }
 };
 </script>
