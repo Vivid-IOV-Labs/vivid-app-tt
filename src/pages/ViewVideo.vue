@@ -57,7 +57,7 @@
                 >
                   <a
                     class="btn btn--square  btn--opacity-soft btn--small  mb-2"
-                    :href="currentMedia.shop.link"
+                    :href="getCurrentMedia.shop.link"
                     target="_blank"
                   >
                     <base-icon
@@ -144,7 +144,7 @@
 <script>
 let watched;
 import BaseVideo from "@/components/BaseVideo.vue";
-import { mapGetters, mapMutations, mapState } from "vuex";
+import { mapGetters, mapMutations, mapState, mapActions } from "vuex";
 import { trackEvent } from "@/util/analytics";
 import delay from "@/util/delay.js";
 import env from "@/env.js";
@@ -189,12 +189,11 @@ export default {
       isPopoverTTSuccess: false,
       isPopoverTTFailed: false,
       isPopoverTTProgress: false,
-      popoverTarget: null,
-      currentMedia: null
+      popoverTarget: null
     };
   },
   computed: {
-    ...mapGetters("media", ["getById"]),
+    ...mapGetters("media", ["getCurrentMedia"]),
     ...mapGetters("smartcontract", ["getTipContract", "getUserWalletAddress"]),
     ...mapState("uistates", ["isTTPopOverVisited"]),
     mediaID() {
@@ -214,23 +213,23 @@ export default {
     },
     title() {
       if (
-        this.currentMedia &&
-        this.currentMedia.details &&
-        this.currentMedia.details.title
+        this.getCurrentMedia &&
+        this.getCurrentMedia.details &&
+        this.getCurrentMedia.details.title
       ) {
-        return this.currentMedia.details.title;
+        return this.getCurrentMedia.details.title;
       } else {
         return "";
       }
     },
     hashtags() {
       if (
-        this.currentMedia &&
-        this.currentMedia.details &&
-        this.currentMedia.details.twitter &&
-        this.currentMedia.details.twitter.hashtags
+        this.getCurrentMedia &&
+        this.getCurrentMedia.details &&
+        this.getCurrentMedia.details.twitter &&
+        this.getCurrentMedia.details.twitter.hashtags
       ) {
-        return this.currentMedia.details.twitter.hashtags
+        return this.getCurrentMedia.details.twitter.hashtags
           .reduce((acc, tag) => {
             acc += ` #${tag},`;
             return acc;
@@ -251,22 +250,25 @@ export default {
     totalTips: {
       get() {
         if (
-          this.currentMedia &&
-          this.currentMedia.statistics &&
-          this.currentMedia.statistics.total &&
-          this.currentMedia.statistics.total.tips
+          this.getCurrentMedia &&
+          this.getCurrentMedia.statistics &&
+          this.getCurrentMedia.statistics.total &&
+          this.getCurrentMedia.statistics.total.tips
         ) {
-          return bigNumberFormatter(this.currentMedia.statistics.total.tips);
+          return bigNumberFormatter(this.getCurrentMedia.statistics.total.tips);
         } else {
           return 0;
         }
       },
       set(newVal) {
-        this.setTotalTip({ mediaID: this.mediaID, totalTips: newVal });
+        this.setTotalTip({
+          totalTips: newVal
+        });
       }
     }
   },
   methods: {
+    ...mapActions("media", ["populateCurrentMedia"]),
     ...mapMutations("media", ["setTotalTip"]),
     ...mapMutations("uistates", ["serTTPopOverVisited"]),
     endViewingVideo() {
@@ -296,7 +298,7 @@ export default {
       }
       try {
         const result = await this.getTipContract(
-          this.currentMedia.publisher.walletAddress
+          this.getCurrentMedia.publisher.walletAddress
         );
         this.startTimer();
         const { transactionHash } = await result.wait();
@@ -402,12 +404,10 @@ export default {
       });
     },
     async updateTip({ data }) {
-      const { mediaID, sender } = data;
+      const { mediaID, sender, totalTips } = data;
 
       if (mediaID == this.mediaID) {
-        //this.totalTips = totalTips;
-        const data = await MediaService.find(this.mediaID);
-        this.currentMedia = data;
+        this.totalTips = totalTips;
       }
       if (
         mediaID == this.mediaID &&
@@ -480,8 +480,7 @@ export default {
     });
     this.player.on("exitfullscreen", () => (this.isFullScreen = false));
     webSocketService.socket.on("media-updated-tip", this.updateTip);
-    const data = await MediaService.find(this.mediaID);
-    this.currentMedia = data;
+    await this.populateCurrentMedia(this.mediaID);
   }
 };
 </script>

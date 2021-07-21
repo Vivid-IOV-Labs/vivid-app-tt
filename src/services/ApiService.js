@@ -4,14 +4,15 @@ import store from "../store/index";
 const apiService = axios.create({
   baseURL: env.web_service_url
 });
+const idTask = Date.now();
 const startLoading = () =>
   store.dispatch("uistates/setTaskQueue", {
-    name: "globalLoader",
+    name: "globalLoader" + idTask,
     loading: true
   });
 const stopLoading = () =>
   store.dispatch("uistates/setTaskQueue", {
-    name: "globalLoader",
+    name: "globalLoader" + idTask,
     loading: false
   });
 const isHandlerEnabled = (config = { handlerEnabled: true }) => {

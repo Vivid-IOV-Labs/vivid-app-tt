@@ -9,7 +9,8 @@ const state = () => ({
   gamings: [],
   totalGamings: 0,
   others: [],
-  totalOthers: 0
+  totalOthers: 0,
+  currentMedia: null
 });
 
 export default state;

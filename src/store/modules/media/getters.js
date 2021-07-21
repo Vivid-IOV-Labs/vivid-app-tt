@@ -12,7 +12,5 @@ export default {
   getTotalGamings: state => state.totalGamings,
   getOthers: state => state.others,
   getTotalOthers: state => state.totalOthers,
-  getById: state => id => {
-    return state.all.find(media => media.mediaID === id);
-  }
+  getCurrentMedia: state => state.currentMedia
 };

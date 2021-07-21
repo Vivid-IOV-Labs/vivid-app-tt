@@ -46,6 +46,9 @@ export default {
   setEarnCompleted(state, completed) {
     state.earncompleted = completed;
   },
+  setCurrentMedia(state, currentMedia) {
+    state.currentMedia = currentMedia;
+  },
   add(state, item) {
     if (item.list && item.list.highlighted) {
       state.highlighted = [item, ...state.highlighted];
@@ -85,24 +88,13 @@ export default {
       }
     }
   },
-  setTotalTip(state, { mediaID, totalTips }) {
-    const mediaIndex = state.all.findIndex(media => media.mediaID === mediaID);
+  setTotalTip(state, { totalTips }) {
     if (
-      state.all[mediaIndex] &&
-      state.all[mediaIndex].statistics &&
-      state.all[mediaIndex].statistics.total
+      state.currentMedia &&
+      state.currentMedia.statistics &&
+      state.currentMedia.statistics.total
     ) {
-      Vue.set(state.all[mediaIndex].statistics.total, "tips", totalTips);
-    }
-  },
-  setVideoViewed(state, { mediaID, views }) {
-    const mediaIndex = state.all.findIndex(media => media.mediaID === mediaID);
-    if (
-      state.all[mediaIndex] &&
-      state.all[mediaIndex].statistics &&
-      state.all[mediaIndex].statistics.total
-    ) {
-      Vue.set(state.all[mediaIndex].statistics.total, "views", views);
+      Vue.set(state.currentMedia.statistics.total, "tips", totalTips);
     }
   }
 };
