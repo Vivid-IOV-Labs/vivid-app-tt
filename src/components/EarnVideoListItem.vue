@@ -113,6 +113,7 @@
         >Learn More</a
       >
     </div>
+    <hr class="hr-border" />
   </div>
 </template>
 
@@ -238,5 +239,9 @@ export default {
   display: block;
   font-size: 0.9rem;
   font-weight: bold;
+}
+.hr-border {
+  border: none;
+  border-bottom: solid 0.2rem $dark-grey;
 }
 </style>
