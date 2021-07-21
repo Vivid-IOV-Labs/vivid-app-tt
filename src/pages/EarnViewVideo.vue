@@ -252,21 +252,20 @@ export default {
         if (!success) {
           this.$router.push({ path: "/earnvideolist" });
         }
-
       } catch (err) {
         this.$router.push({ path: "/earnvideolist" });
       } finally {
         this.setTaskQueue({ name: "rewardVideo", loading: false });
       }
       if (!this.hasRewarded) {
-          if (this.getPercentageVideoWatched() >= 80) {
-            this.goBack = true;
-          } else {
-            this.$router.push({ path: "/earnvideolist" });
-          }
+        if (this.getPercentageVideoWatched() >= 80) {
+          this.goBack = true;
         } else {
           this.$router.push({ path: "/earnvideolist" });
         }
+      } else {
+        this.$router.push({ path: "/earnvideolist" });
+      }
     },
     dropVideoMenu() {
       this.isVideoMenuDropped = !this.isVideoMenuDropped;
@@ -337,7 +336,8 @@ export default {
           video.media.muted = "muted";
           video.media.autoplay = "autoplay";
           video.media.playsinline = "true";
-          this.autoplay(video.med          trackEvent({
+          this.autoplay(video.media);
+          trackEvent({
             category: "Earn Video Play View",
             action: "mp4-video-playing",
             label: "MediaId:" + this.mediaID
@@ -383,8 +383,7 @@ export default {
         mediaID == this.mediaID &&
         userWalletAddress == this.getUserWalletAddress
       ) {
-        this.isRewardEarnedDialog = 
-        trackEvent({
+        this.isRewardEarnedDialog = trackEvent({
           category: "Earn Video Play View",
           action: "reward-sent",
           label: "MediaId:" + this.mediaID
