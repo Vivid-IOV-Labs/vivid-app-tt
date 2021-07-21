@@ -296,7 +296,7 @@ export default {
       }
       try {
         const result = await this.getTipContract(
-          this.media.publisher.walletAddress
+          this.currentMedia.publisher.walletAddress
         );
         this.startTimer();
         const { transactionHash } = await result.wait();

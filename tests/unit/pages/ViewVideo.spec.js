@@ -3,7 +3,7 @@ import { shallowMount, createLocalVue } from "@vue/test-utils";
 import ViewVideo from "@/pages/ViewVideo.vue";
 import Vuex from "vuex";
 import mediaDb from "../../db/media";
-import mockWebSocketService from "@/util/webSocketService.js";
+// import mockWebSocketService from "@/util/webSocketService.js";
 import { trackEvent } from "@/util/analytics.js";
 import mediaGetters from "../../../src/store/modules/media/getters";
 import mediaMutations from "../../../src/store/modules/media/mutations";
@@ -84,7 +84,7 @@ const smartContractState = () => ({
   signer: {
     address: "userWalletAddress"
   },
-  smartContract: jest.fn().mockResolvedValue({
+  tipContract: jest.fn().mockResolvedValue({
     wait: jest.fn().mockResolvedValue({ transactionHash: "#transactionHash" })
   })
 });
@@ -203,12 +203,12 @@ describe("ViewVideo", () => {
   //   expect(wrapper.vm.isPopoverTTSuccess).toBeTruthy();
   //   expect(trackEvent).toHaveBeenCalled();
   // });
-  // it("On tipStreamer hide popup", async () => {
-  //   await wrapper.get("#tip-streamer").vm.$emit("click");
-  //   expect(wrapper.vm.isPopoverClickTT).toBeFalsy();
-  //   expect(wrapper.vm.isPopoverTTProgress).toBeTruthy();
-  //   expect(wrapper.vm.isTipping).toBeTruthy();
-  // });
+  it("On tipStreamer hide popup", async () => {
+    await wrapper.get("#tip-streamer").vm.$emit("click");
+    expect(wrapper.vm.isPopoverClickTT).toBeFalsy();
+    expect(wrapper.vm.isPopoverTTProgress).toBeTruthy();
+    expect(wrapper.vm.isTipping).toBeTruthy();
+  });
   // it("should not update tip if mediaID is different", async () => {
   //   const response = {
   //     data: {

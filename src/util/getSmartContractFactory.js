@@ -80,7 +80,6 @@ const getTestNetTippingContractWithSigner = async (
 
 const createTippingContratc = (
   contractWithSigner,
-  //addressToTip = "0x8DDF7bA89B9b99a7dAd755b975718BdDE9Fd7c0E",
   { gasLimit, gasPrice, nonce, value } = {
     gasLimit: 250000,
     gasPrice: 9000000000,
@@ -95,9 +94,8 @@ const createTippingContratc = (
     nonce,
     value: parsedValue
   };
-  return async addressToTip => {
-    console.log(addressToTip);
-    await contractWithSigner.tip(addressToTip, options);
+  return async function tipContract(address) {
+    return await contractWithSigner.tip(address, options);
   };
 };
 
@@ -126,6 +124,3 @@ const createGetSmartContract = async () => {
 };
 
 export default createGetSmartContract;
-// export default (async () => {
-//   return await createGetSmartContract();
-// })();
