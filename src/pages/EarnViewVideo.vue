@@ -248,20 +248,19 @@ export default {
         if (!success) {
           this.$router.push({ path: "/earnvideolist" });
         }
+        if (!this.hasRewarded) {
+          if (this.getPercentageVideoWatched() >= 80) {
+            this.goBack = true;
+          } else {
+            this.$router.push({ path: "/earnvideolist" });
+          }
+        } else {
+          this.$router.push({ path: "/earnvideolist" });
+        }
       } catch (err) {
         this.$router.push({ path: "/earnvideolist" });
       } finally {
         this.setTaskQueue({ name: "rewardVideo", loading: false });
-      }
-
-      if (!this.hasRewarded) {
-        if (this.getPercentageVideoWatched() >= 80) {
-          this.goBack = true;
-        } else {
-          this.$router.push({ path: "/earnvideolist" });
-        }
-      } else {
-        this.$router.push({ path: "/earnvideolist" });
       }
     },
     dropVideoMenu() {
