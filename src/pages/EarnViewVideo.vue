@@ -244,12 +244,16 @@ export default {
       });
       try {
         this.setTaskQueue({ name: "rewardVideo", loading: true });
-        await this.countVideoViewed();
+        const { success } = await this.countVideoViewed();
+        if (!success) {
+          this.$router.push({ path: "/earnvideolist" });
+        }
       } catch (err) {
         this.$router.push({ path: "/earnvideolist" });
       } finally {
         this.setTaskQueue({ name: "rewardVideo", loading: false });
       }
+
       if (!this.hasRewarded) {
         if (this.getPercentageVideoWatched() >= 80) {
           this.goBack = true;
