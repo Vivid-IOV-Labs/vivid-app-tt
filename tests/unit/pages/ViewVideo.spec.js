@@ -6,7 +6,9 @@ import mediaDb from "../../db/media";
 // import mockWebSocketService from "@/util/webSocketService.js";
 import { trackEvent } from "@/util/analytics.js";
 import mediaGetters from "../../../src/store/modules/media/getters";
+import mediaState from "../../../src/store/modules/media/state";
 import mediaMutations from "../../../src/store/modules/media/mutations";
+import mediaActions from "../../../src/store/modules/media/actions";
 import smartcontractGetters from "../../../src/store/modules/smartcontract/getters";
 import Plyr from "plyr";
 
@@ -67,19 +69,7 @@ jest.mock("@/services/MediaService.js", () => {
     })
   };
 });
-const mediaState = () => ({
-  all: mediaDb,
-  latests: mediaDb
-    .filter(f => !f.list || !f.list.highlighted)
-    .sort((a, b) => {
-      return b.createdAt - a.createdAt;
-    }),
-  highlighted: mediaDb
-    .filter(f => f.list && f.list.highlighted)
-    .sort((a, b) => {
-      return b.list.order - a.list.order;
-    })
-});
+
 const smartContractState = () => ({
   signer: {
     address: "userWalletAddress"
@@ -105,6 +95,7 @@ const store = new Vuex.Store({
       namespaced: true,
       state: mediaState(),
       getters: mediaGetters,
+      actions: mediaActions,
       mutations: mediaMutations
     }
   }
