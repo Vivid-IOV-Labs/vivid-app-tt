@@ -2,18 +2,17 @@
   <div class="full-width medialist__item ">
     <div class="rewards">
       <div class="flex" style="align-items: baseline;">
-        <div
-          v-if="
-            !media.rewards &&
-              !(
-                media.viewsProgress &&
-                media.viewsProgress.percentageWatched > 80 &&
-                balancePercentage == 0
-              )
-          "
-        >
+        <div v-if="!media.rewards && media.balanceAvailable != 0">
           <span class="progress_description ">
-            Start watching to get TT! <br />
+            <span
+              v-if="media.balanceAvailable == 0 && media.viewsProgress == 0"
+            >
+              Start watching ...</span
+            >
+            <span v-else>
+              Start watching to get TT!
+            </span>
+            <br />
             <small
               v-if="
                 media.balanceAvailable &&
@@ -54,8 +53,8 @@
               !media.rewards.rewardVerifiedTxHash
           "
         >
-          <span class="progress_description"
-            >Keep watching...
+          <span class="progress_description">
+            Keep watching...
             <br />
             <small
               v-if="
