@@ -43,7 +43,7 @@
           "
         >
           <span class="progress_description text-azure">
-            Nice one! 1TT claimed!
+            Nice one! 1TT is now available to claim!
           </span>
         </div>
         <div
@@ -54,7 +54,12 @@
           "
         >
           <span class="progress_description">
-            Keep watching...
+            <span
+              v-if="media.balanceAvailable == 0 && media.viewsProgress == 100"
+            >
+              Thanks for watching</span
+            >
+            <span v-else>Keep watching... </span>
             <br />
             <small
               v-if="
