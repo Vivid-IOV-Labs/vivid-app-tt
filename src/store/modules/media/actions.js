@@ -151,8 +151,8 @@ export default {
       devLog(error);
     }
   },
-  async populateCurrentMedia({ commit }, mediaID) {
-    const media = await MediaService.find(mediaID);
+  async populateCurrentMedia({ commit }, params) {
+    const media = await MediaService.find(params);
     commit("setCurrentMedia", media);
   },
   add({ commit }, newVideo) {

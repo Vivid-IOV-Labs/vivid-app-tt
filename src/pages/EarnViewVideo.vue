@@ -6,6 +6,7 @@
       :media_id="mediaID"
       :source="sourceMedia"
       :options="videoOptions"
+      parent-page="Earn Video Play View"
     >
       <template v-slot:top>
         <div class="stream__controls stream__controls--top">
@@ -406,7 +407,11 @@ export default {
     });
     this.player.on("exitfullscreen", () => (this.isFullScreen = false));
     webSocketService.socket.on("media-reward-sent", this.rewardSent);
-    await this.populateCurrentMedia(this.mediaID);
+    const params = {
+      mediaID: this.mediaID,
+      userWalletAddress: this.getUserWalletAddress
+    };
+    await this.populateCurrentMedia(params);
   }
 };
 </script>

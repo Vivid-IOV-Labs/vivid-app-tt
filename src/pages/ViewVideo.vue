@@ -6,6 +6,7 @@
       :media_id="mediaID"
       :source="sourceMedia"
       :options="videoOptions"
+      parent-page="Video Play View"
     >
       <template v-slot:top>
         <div class="stream__controls stream__controls--top">
@@ -480,7 +481,7 @@ export default {
     });
     this.player.on("exitfullscreen", () => (this.isFullScreen = false));
     webSocketService.socket.on("media-updated-tip", this.updateTip);
-    await this.populateCurrentMedia(this.mediaID);
+    await this.populateCurrentMedia({ mediaID: this.mediaID });
   }
 };
 </script>
