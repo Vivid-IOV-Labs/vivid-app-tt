@@ -26,7 +26,7 @@
             href="https://www.vividiov.com/peerkat-terms"
             @click="trackLink('User Terms')"
           >
-            User Terms
+            Privacy Notice
           </a>
         </v-ons-list-item>
         <v-ons-list-item class="text-center" modifier="tappable"
