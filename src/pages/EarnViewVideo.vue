@@ -18,7 +18,7 @@
             >
               <base-icon
                 class="btn__icon"
-                :class="{ 'text-azure': hasRewarded }"
+                :class="{ 'text-azure': hasRewarded || isRewardEarned }"
                 style="font-size:1.4rem"
                 name="reward"
               ></base-icon>
@@ -202,11 +202,10 @@ export default {
     },
     hasRewarded() {
       return (
-        (this.getCurrentMedia &&
-          this.getCurrentMedia.rewards &&
-          this.getCurrentMedia.rewards[0] &&
-          this.getCurrentMedia.rewards[0].rewardSmartContractTxHash) ||
-        this.isRewardEarned
+        this.getCurrentMedia &&
+        this.getCurrentMedia.rewards &&
+        this.getCurrentMedia.rewards[0] &&
+        this.getCurrentMedia.rewards[0].rewardSmartContractTxHash
       );
     },
     isPopoverReward() {
@@ -262,8 +261,10 @@ export default {
       if (!this.hasRewarded) {
         if (this.getPercentageVideoWatched() >= 80) {
           this.goBack = true;
+          return;
         } else {
           this.$router.push({ path: "/earnvideolist" });
+          return;
         }
       } else {
         this.$router.push({ path: "/earnvideolist" });
