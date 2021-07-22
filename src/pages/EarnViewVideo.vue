@@ -204,7 +204,7 @@ export default {
       return (
         (this.getCurrentMedia &&
           this.getCurrentMedia.rewards &&
-          this.getCurrentMedia.rewards.rewardSmartContractTxHash) ||
+          this.getCurrentMedia.rewards[0].rewardSmartContractTxHash) ||
         this.isRewardEarned
       );
     },
