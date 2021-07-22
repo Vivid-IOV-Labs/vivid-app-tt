@@ -231,7 +231,7 @@ export default {
         trackEvent({
           category: "Earn Video Play View",
           action: "link-more-info",
-          label: "MediaID:" + mediaID
+          label: "MediaId:" + mediaID
         });
     },
     pushUserBack() {
