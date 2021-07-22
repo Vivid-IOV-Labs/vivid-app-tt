@@ -47,7 +47,7 @@
           "
         >
           <span class="progress_description text-azure">
-            Nice one! Your TT is now available to be claimed in Quest”
+            Nice one! Your TT is now available to be claimed in Quest
           </span>
         </div>
         <div

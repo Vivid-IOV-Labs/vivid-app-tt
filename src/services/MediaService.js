@@ -31,12 +31,12 @@ class MediaService {
     return rewardsList;
   }
   async videoViewed({ userWalletAddress, mediaID, percentageWatched }) {
-    const { data } = await ApiService.post(`${API_ENDPOINT}/view`, {
+    const { data, success } = await ApiService.post(`${API_ENDPOINT}/view`, {
       userWalletAddress,
       mediaID,
       percentageWatched
     });
-    return data;
+    return { data, success };
   }
 }
 

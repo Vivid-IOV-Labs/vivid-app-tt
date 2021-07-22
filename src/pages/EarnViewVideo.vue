@@ -257,6 +257,7 @@ export default {
         this.$router.push({ path: "/earnvideolist" });
       } finally {
         this.setTaskQueue({ name: "rewardVideo", loading: false });
+        this.isCountingView = false;
       }
       if (!this.hasRewarded) {
         if (this.getPercentageVideoWatched() >= 80) {
@@ -349,19 +350,15 @@ export default {
       }
     },
     async countVideoViewed() {
-      try {
-        this.isCountingView = true;
-        const mediaID = this.mediaID;
-        const userWalletAddress = this.getUserWalletAddress;
-        const percentageWatched = this.getPercentageVideoWatched();
-        await MediaService.videoViewed({
-          mediaID,
-          userWalletAddress,
-          percentageWatched
-        });
-      } finally {
-        this.isCountingView = false;
-      }
+      this.isCountingView = true;
+      const mediaID = this.mediaID;
+      const userWalletAddress = this.getUserWalletAddress;
+      const percentageWatched = this.getPercentageVideoWatched();
+      return await MediaService.videoViewed({
+        mediaID,
+        userWalletAddress,
+        percentageWatched
+      });
     },
     getPercentageVideoWatched() {
       const secondsWatched = Array.from(watched).length;
