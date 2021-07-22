@@ -164,11 +164,19 @@ export default {
     async loginTwitter() {
       this.isAuthenticating = true;
       const userWalletAddress = this.getUserWalletAddress;
+      trackEvent({
+        category: "Profile View",
+        action: "connect-twitter-account"
+      });
       await TwitterAuthService.authenticate(userWalletAddress);
     },
     async disconnectTwitterProfile() {
       this.isDisconnecting = true;
       const userWalletAddress = this.getUserWalletAddress;
+      trackEvent({
+        category: "Profile View",
+        action: "disconnect-twitter-account"
+      });
       await this.disconnectTwitter(userWalletAddress);
       this.isDisconnecting = false;
     },
@@ -193,6 +201,10 @@ export default {
   mounted() {
     if (this.$route.params.status === "failed") {
       this.isTwitterAlreadyInUse = true;
+      trackEvent({
+        category: "Profile View",
+        action: "twitter-linked-already"
+      });
     }
   }
 };
