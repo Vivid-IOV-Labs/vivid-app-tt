@@ -199,7 +199,7 @@ export default {
       trackEvent({
         category: "Earn Video List View",
         action: "select-video",
-        label: "MediaId:" + this.mediaID
+        label: "MediaId:" + mediaID
       });
       this.$router.push({ path: `earnviewvideo/${mediaID}` });
     }
