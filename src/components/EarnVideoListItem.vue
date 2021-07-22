@@ -5,7 +5,11 @@
         <div v-if="!media.rewards && media.balanceAvailable != 0">
           <span class="progress_description ">
             <span
-              v-if="media.balanceAvailable == 0 && media.viewsProgress == 0"
+              v-if="
+                media.balanceAvailable == 0 &&
+                  (!media.viewsProgress ||
+                    media.viewsProgress.percentageWatched == 0)
+              "
             >
               Start watching ...</span
             >
@@ -55,7 +59,10 @@
         >
           <span class="progress_description">
             <span
-              v-if="media.balanceAvailable == 0 && media.viewsProgress == 100"
+              v-if="
+                media.balanceAvailable == 0 &&
+                  media.viewsProgress.percentageWatched == 100
+              "
             >
               Thanks for watching</span
             >
