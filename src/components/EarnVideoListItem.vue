@@ -2,7 +2,7 @@
   <div class="full-width medialist__item ">
     <div class="rewards">
       <div class="flex" style="align-items: baseline;">
-        <div v-if="!media.rewards && media.balanceAvailable != 0">
+        <div v-if="!media.rewards">
           <span class="progress_description ">
             <span
               v-if="
