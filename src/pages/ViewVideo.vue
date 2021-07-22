@@ -128,7 +128,7 @@
       :target="popoverTarget"
     >
       <p class="text-bold text-center">
-        Tip done! &#128512;
+        1TT tip sent. Thanks! &#128512;
       </p>
     </v-ons-popover>
     <v-ons-popover

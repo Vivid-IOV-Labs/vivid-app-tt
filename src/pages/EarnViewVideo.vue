@@ -385,7 +385,8 @@ export default {
         mediaID == this.mediaID &&
         userWalletAddress == this.getUserWalletAddress
       ) {
-        this.isRewardEarnedDialog = trackEvent({
+        this.isRewardEarnedDialog = true;
+        trackEvent({
           category: "Earn Video Play View",
           action: "reward-sent",
           label: "MediaId:" + this.mediaID

@@ -47,7 +47,7 @@
           "
         >
           <span class="progress_description text-azure">
-            Nice one! 1TT is now available to claim!
+            Nice one! Your TT is now available to be claimed in Quest”
           </span>
         </div>
         <div
@@ -120,7 +120,7 @@
         :href="media.details.moreInfo"
         @click="trackLink(media.details.moreInfo, media.mediaID)"
         target="_blank"
-        class="btn btn--secondary mt-4"
+        class="btn btn--small btn--secondary mt-4"
         >Learn More</a
       >
     </div>
