@@ -372,6 +372,10 @@ export default {
       const percentageWatched = Math.round(
         (secondsWatched / secondsDuration) * 100
       );
+      console.log("watched", watched);
+      console.log("secondsWatched", secondsWatched);
+      console.log("secondsDuration", secondsDuration);
+      console.log("percentageWatched", percentageWatched);
       return percentageWatched || 0;
     },
     recordVideoWatched() {
@@ -379,6 +383,7 @@ export default {
       this.player.on("timeupdate", () => {
         watched.add(Math.ceil(this.player.currentTime));
       });
+      console.log("watched", watched);
       this.player.on("ended", () => {
         this.countVideoViewed();
       });

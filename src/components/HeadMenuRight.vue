@@ -11,7 +11,7 @@
       :cover-target="coverTarget"
     >
       <v-ons-list class="text-center p-2">
-        <v-ons-list-item class="text-center" modifier="tappable"
+        <!-- <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"
             href="#"
@@ -19,7 +19,7 @@
           >
             My Account
           </a>
-        </v-ons-list-item>
+        </v-ons-list-item> -->
         <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"
