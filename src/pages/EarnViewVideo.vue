@@ -386,12 +386,12 @@ export default {
         mediaID == this.mediaID &&
         userWalletAddress == this.getUserWalletAddress
       ) {
-        this.isRewardEarnedDialog = true;
         trackEvent({
           category: "Earn Video Play View",
           action: "reward-sent",
           label: "MediaId:" + this.mediaID
         });
+        this.isRewardEarnedDialog = true;
       }
     }
   },

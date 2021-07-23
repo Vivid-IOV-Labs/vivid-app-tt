@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import env from "@/env";
+import devLog from "@/util/devlog.js";
 
 export const trackInit = () => {
   mixpanel.init(env.mixpanel_id, {
@@ -11,8 +12,8 @@ export const trackInit = () => {
 };
 
 export const trackUser = walletAddress => {
-  ga("send", "&uid", walletAddress);
   mixpanel.identify(walletAddress);
+  ga("send", "&uid", walletAddress);
   trackEvent({
     category: "Loading View",
     action: "login-user",
@@ -21,11 +22,17 @@ export const trackUser = walletAddress => {
 };
 
 export const trackPage = path => {
-  ga("send", "pageview", path);
   mixpanel.track(`Page view: ${path}`);
+  ga("send", "pageview", path);
 };
 
 export const trackEvent = ({ category, action, label }) => {
-  ga("send", "event", category, action, label);
-  mixpanel.track(`${category}`, { action, label });
+  try {
+    mixpanel.track(`${category}`, { action, label });
+    ga("send", "event", category, action, label);
+
+    devLog(category, action, label);
+  } catch (error) {
+    devLog(error);
+  }
 };
