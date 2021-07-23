@@ -252,9 +252,11 @@ export default {
         const { success } = await this.countVideoViewed();
         if (!success) {
           this.$router.push({ path: "/earnvideolist" });
+          return;
         }
       } catch (err) {
         this.$router.push({ path: "/earnvideolist" });
+        return;
       } finally {
         this.setTaskQueue({ name: "rewardVideo", loading: false });
       }
@@ -268,6 +270,7 @@ export default {
         }
       } else {
         this.$router.push({ path: "/earnvideolist" });
+        return;
       }
     },
     dropVideoMenu() {

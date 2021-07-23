@@ -30,8 +30,6 @@ export const trackEvent = ({ category, action, label }) => {
   try {
     mixpanel.track(`${category}`, { action, label });
     ga("send", "event", category, action, label);
-
-    devLog(category, action, label);
   } catch (error) {
     devLog(error);
   }
