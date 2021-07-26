@@ -158,7 +158,27 @@ export default {
   add({ commit }, newVideo) {
     commit("add", newVideo);
   },
-  delete({ commit }, video) {
-    commit("delete", video);
+  delete(store, item) {
+    const { commit, state } = store;
+
+    [
+      "earncompleted",
+      "highlighteds",
+      "earnlatests",
+      "cryptos",
+      "gamings",
+      "others"
+    ].forEach(category => {
+      const index = state[category].findIndex(
+        media => media.mediaID == item.mediaID
+      );
+      if (index > -1) {
+        commit(`delete${capitalize(category)}`, item);
+        const total =
+          store.rootGetters[`media/getTotal${capitalize(category)}`];
+        const newTotal = total - 1;
+        commit(`setTotal${capitalize(category)}`, newTotal);
+      }
+    });
   }
 };

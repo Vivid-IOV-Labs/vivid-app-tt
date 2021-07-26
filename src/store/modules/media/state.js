@@ -1,5 +1,4 @@
 const state = () => ({
-  all: [],
   earncompleted: [],
   highlighteds: [],
   totalHighlighteds: 0,
