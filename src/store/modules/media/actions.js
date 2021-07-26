@@ -98,7 +98,7 @@ export default {
   async populateMoreHighlighteds({ commit }) {
     const gamingParams = {
       earn: false,
-      sortBy: "createdAt",
+      sortBy: "list.order",
       order: "desc",
       page: nextPage("highlighted"),
       pageSize: 3,
