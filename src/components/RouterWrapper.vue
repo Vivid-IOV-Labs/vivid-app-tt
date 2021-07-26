@@ -28,11 +28,8 @@ export default {
   },
   methods: {
     async onRouteChange(to) {
-      // console.log("routeWrapper", to);
       trackPage(to.path);
       const { 0: nextPage } = to.matched.map(m => m.components.default);
-      // console.log("routeWrapper nextPage", nextPage);
-
       if (nextPage) {
         const indexInPageStack = this.pageStack.findIndex(
           page => page.name == nextPage.name

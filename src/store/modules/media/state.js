@@ -1,12 +1,16 @@
 const state = () => ({
   all: [],
   earncompleted: [],
-  highlighted: [],
-  latests: [],
+  highlighteds: [],
+  totalHighlighteds: 0,
   earnlatests: [],
-  crypto: [],
-  gaming: [],
-  others: []
+  cryptos: [],
+  totalCryptos: 0,
+  gamings: [],
+  totalGamings: 0,
+  others: [],
+  totalOthers: 0,
+  currentMedia: null
 });
 
 export default state;

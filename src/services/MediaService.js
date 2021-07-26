@@ -10,11 +10,17 @@ function serialized(params) {
 }
 class MediaService {
   async getAll(params) {
-    serialized(params);
     const {
-      data: { allMedia }
+      data: { allMedia, totalMedia }
     } = await ApiService.get(`${API_ENDPOINT}/list?${serialized(params)}`);
-    return allMedia;
+    return { media: allMedia, total: totalMedia };
+  }
+  async find(params) {
+    const url = `${API_ENDPOINT}?${serialized(params)}`;
+    const {
+      data: { media }
+    } = await ApiService.get(url);
+    return media;
   }
   async getRewardList(userWalletAddress) {
     const {
@@ -25,12 +31,12 @@ class MediaService {
     return rewardsList;
   }
   async videoViewed({ userWalletAddress, mediaID, percentageWatched }) {
-    const { data } = await ApiService.post(`${API_ENDPOINT}/view`, {
+    const { data, success } = await ApiService.post(`${API_ENDPOINT}/view`, {
       userWalletAddress,
       mediaID,
       percentageWatched
     });
-    return data;
+    return { data, success };
   }
 }
 

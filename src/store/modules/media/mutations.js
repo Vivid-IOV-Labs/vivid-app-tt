@@ -4,11 +4,41 @@ export default {
   setAll(state, all) {
     state.all = all;
   },
-  setLatests(state, latests) {
-    state.latests = latests;
+  setHighlighteds(state, highlighted) {
+    state.highlighteds = highlighted;
   },
-  setHighlighted(state, highlighted) {
-    state.highlighted = highlighted;
+  setTotalHighlighteds(state, total) {
+    state.totalHighlighteds = total;
+  },
+  setCryptos(state, cryptos) {
+    state.cryptos = cryptos;
+  },
+  setTotalCryptos(state, total) {
+    state.totalCryptos = total;
+  },
+  setGamings(state, gamings) {
+    state.gamings = gamings;
+  },
+  setTotalGamings(state, total) {
+    state.totalGamings = total;
+  },
+  setOthers(state, others) {
+    state.others = others;
+  },
+  setTotalOthers(state, total) {
+    state.totalOthers = total;
+  },
+  addHighlighteds(state, highlighted) {
+    state.highlighteds = [...state.highlighteds, ...highlighted];
+  },
+  addCryptos(state, cryptos) {
+    state.cryptos = [...state.cryptos, ...cryptos];
+  },
+  addGamings(state, gamings) {
+    state.gamings = [...state.gamings, ...gamings];
+  },
+  addOthers(state, others) {
+    state.others = [...state.others, ...others];
   },
   setEarnLatests(state, latests) {
     state.earnlatests = latests;
@@ -16,65 +46,55 @@ export default {
   setEarnCompleted(state, completed) {
     state.earncompleted = completed;
   },
+  setCurrentMedia(state, currentMedia) {
+    state.currentMedia = currentMedia;
+  },
   add(state, item) {
-    state.all = [item, ...state.all];
-  },
-  addLatest(state, item) {
-    state.latests = [item, ...state.latests];
-  },
-  addHighlighted(state, newMedia) {
-    const findPosition = (arr, el) => {
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i].list.order > el.list.order) {
-          return i;
-        }
+    if (item.list && item.list.highlighted) {
+      state.highlighted = [item, ...state.highlighted];
+    }
+    if (item.categories) {
+      if (item.categories.includes("crypto")) {
+        state.cryptos = [item, ...state.cryptos];
       }
-      return arr.length;
-    };
-    const insert = (arr, item, index) => {
-      if (index >= arr.length) {
-        return [...arr, item];
-      } else {
-        return arr.reduce((s, a, i) => {
-          i === index ? s.push(item, a) : s.push(a);
-          return s;
-        }, []);
+      if (item.categories.includes("gaming")) {
+        state.gamings = [item, ...state.gamings];
       }
-    };
-
-    const position = findPosition(state.highlighted, newMedia);
-    const newHighlighted = insert(state.highlighted, newMedia, position);
-    state.highlighted = newHighlighted;
-  },
-  delete(state, { mediaID }) {
-    state.all = state.all.filter(media => media.mediaID !== mediaID);
-  },
-  deleteLatest(state, { mediaID }) {
-    state.latests = state.latests.filter(media => media.mediaID !== mediaID);
-  },
-  deleteHighlighted(state, { mediaID }) {
-    state.highlighted = state.highlighted.filter(
-      media => media.mediaID !== mediaID
-    );
-  },
-  setTotalTip(state, { mediaID, totalTips }) {
-    const mediaIndex = state.all.findIndex(media => media.mediaID === mediaID);
-    if (
-      state.all[mediaIndex] &&
-      state.all[mediaIndex].statistics &&
-      state.all[mediaIndex].statistics.total
-    ) {
-      Vue.set(state.all[mediaIndex].statistics.total, "tips", totalTips);
+      if (item.categories.includes("other")) {
+        state.others = [item, ...state.others];
+      }
     }
   },
-  setVideoViewed(state, { mediaID, views }) {
-    const mediaIndex = state.all.findIndex(media => media.mediaID === mediaID);
+  delete(state, item) {
+    const { mediaID } = item;
+    if (item.list && item.list.highlighted) {
+      state.highlighted = state.highlighted.filter(
+        media => media.mediaID !== mediaID
+      );
+    }
+    if (item.categories) {
+      if (item.categories.includes("crypto")) {
+        state.cryptos = state.cryptos.filter(
+          media => media.mediaID !== mediaID
+        );
+      }
+      if (item.categories.includes("gaming")) {
+        state.gamings = state.gamings.filter(
+          media => media.mediaID !== mediaID
+        );
+      }
+      if (item.categories.includes("other")) {
+        state.others = state.others.filter(media => media.mediaID !== mediaID);
+      }
+    }
+  },
+  setTotalTip(state, { totalTips }) {
     if (
-      state.all[mediaIndex] &&
-      state.all[mediaIndex].statistics &&
-      state.all[mediaIndex].statistics.total
+      state.currentMedia &&
+      state.currentMedia.statistics &&
+      state.currentMedia.statistics.total
     ) {
-      Vue.set(state.all[mediaIndex].statistics.total, "views", views);
+      Vue.set(state.currentMedia.statistics.total, "tips", totalTips);
     }
   }
 };

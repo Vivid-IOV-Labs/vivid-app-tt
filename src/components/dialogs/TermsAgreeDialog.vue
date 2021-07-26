@@ -1,23 +1,52 @@
 <template>
   <v-ons-dialog :visible="value" @update:visible="updateVisible">
     <header class="dialog__head">
-      <div class="dialog__head__title">Terms and conditions</div>
+      <div class="dialog__head__title">Terms of Use and Privacy Notice</div>
     </header>
     <div class="content">
-      <p>
-        Please
-        <a
-          href="https://www.vividiov.com/peerkat-terms"
-          target="_blank"
-          class="btn--link btn--primary"
-          >click here</a
-        >
-        to our read terms and conditions.
-      </p>
-
+      <ul style="padding: 0; margin:0; list-style: none;">
+        <li style="margin:1rem 0 1.2rem 0">
+          <label class="left flex">
+            <v-ons-checkbox
+              style="margin-right: 0.8rem;"
+              v-model="termsAccepted"
+            ></v-ons-checkbox>
+            <span>
+              I confirm that I have read, consent and agree to
+              <a
+                href="https://www.vividiov.com/peerkat-terms/"
+                target="_blank"
+                class="text-bold text-azure"
+                >Terms of Use</a
+              >.
+            </span>
+          </label>
+        </li>
+        <li>
+          <label class="left flex">
+            <v-ons-checkbox
+              style="margin-right: 0.8rem;"
+              v-model="privacyAccepted"
+            ></v-ons-checkbox>
+            <span>
+              I confirm that I have read, consent and agree to
+              <a
+                href="https://www.vividiov.com/privacy/"
+                target="_blank"
+                class="text-bold text-azure"
+                >Privacy Notice</a
+              >.
+            </span>
+          </label>
+        </li>
+      </ul>
       <div class="flex mt-4 flex-center-xy">
-        <v-ons-button @click="sendAcceptedTerms" class="btn btn--large mb-4 ">
-          Agree Terms
+        <v-ons-button
+          :disabled="!(termsAccepted && privacyAccepted)"
+          @click="sendAcceptedTerms"
+          class="btn btn--large mb-4 "
+        >
+          Continue
         </v-ons-button>
       </div>
     </div>
@@ -35,6 +64,12 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  data: function() {
+    return {
+      termsAccepted: false,
+      privacyAccepted: false
+    };
   },
   methods: {
     ...mapActions(["acceptTerms"]),

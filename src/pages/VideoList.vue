@@ -9,32 +9,48 @@
       </div>
     </v-ons-toolbar>
     <div class=" viewlist__content scroller">
-      <div v-if="getHighlighted.length">
+      <div v-if="getHighlighteds.length">
         <div class="page__title__background">
           <h3 class="page__title">Top Videos</h3>
         </div>
-        <v-ons-list modifier="tappable">
-          <v-ons-list-item
-            v-for="media in getHighlighted"
-            :key="media.mediaID"
-            @click="pushToVideo(media.mediaID)"
-          >
-            <video-list-item :media="media"></video-list-item>
-          </v-ons-list-item>
-        </v-ons-list>
+        <media-slider
+          @intersect="fetchMoreHighlighteds()"
+          :medias="getHighlighteds"
+          :total="getTotalHighlighteds"
+        ></media-slider>
       </div>
-      <div class="page__title__background">
-        <h3 class="page__title">Latest Videos</h3>
+      <div v-if="getCryptos.length">
+        <div class="page__title__background">
+          <h3 class="page__title">Crypto</h3>
+        </div>
+        <media-slider
+          @intersect="fetchMore('crypto')"
+          :medias="getCryptos"
+          :total="getTotalCryptos"
+        ></media-slider>
       </div>
-      <v-ons-list modifier="tappable">
-        <v-ons-list-item
-          v-for="media in getLatests"
-          :key="media.mediaID"
-          @click="pushToVideo(media.mediaID)"
-        >
-          <video-list-item :media="media"></video-list-item>
-        </v-ons-list-item>
-      </v-ons-list>
+      <div v-if="getGamings.length">
+        <div class="page__title__background">
+          <h3 class="page__title">Gaming</h3>
+        </div>
+        <media-slider
+          @intersect="fetchMore('gaming')"
+          :medias="getGamings"
+          :total="getTotalGamings"
+        ></media-slider>
+      </div>
+      <div v-if="getOthers.length">
+        <div class="page__title__background">
+          <h3 class="page__title">Other</h3>
+        </div>
+        <div class="horizontal-scroller scroller">
+          <media-slider
+            @intersect="fetchMore('other')"
+            :medias="getOthers"
+            :total="getTotalOthers"
+          ></media-slider>
+        </div>
+      </div>
     </div>
     <content-feed-dialog v-model="isContentFeedDialog"></content-feed-dialog>
     <terms-agree-dialog v-model="isTermsAgreeDialog"></terms-agree-dialog>
@@ -44,20 +60,21 @@
 <script>
 import HeadMenu from "@/components/HeadMenu.vue";
 import HeadLogo from "@/components/HeadLogo.vue";
-import VideoListItem from "@/components/VideoListItem.vue";
+import MediaSlider from "@/components/MediaSlider.vue";
 import ContentFeedDialog from "@/components/dialogs/ContentFeedDialog.vue";
 import TermsAgreeDialog from "@/components/dialogs/TermsAgreeDialog.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import webSocketService from "@/util/webSocketService.js";
 import { trackEvent } from "@/util/analytics";
+import capitalize from "@/util/capitalize.js";
 
 export default {
   components: {
     HeadMenu,
     HeadLogo,
-    VideoListItem,
     ContentFeedDialog,
-    TermsAgreeDialog
+    TermsAgreeDialog,
+    MediaSlider
   },
   data() {
     return {
@@ -69,20 +86,27 @@ export default {
     this.populateAll();
   },
   computed: {
-    ...mapGetters("media", ["getLatests", "getHighlighted"]),
+    ...mapGetters("media", [
+      "getHighlighteds",
+      "getCryptos",
+      "getGamings",
+      "getOthers",
+      "getTotalHighlighteds",
+      "getTotalCryptos",
+      "getTotalGamings",
+      "getTotalOthers"
+    ]),
     ...mapGetters("user", ["getInterestsSubmitted", "getTermsAgreed"])
   },
   methods: {
-    ...mapActions("media", ["populateAll", "add", "delete"]),
+    ...mapActions("media", [
+      "populateAll",
+      "add",
+      "delete",
+      "populateMore",
+      "populateMoreHighlighteds"
+    ]),
     ...mapMutations("media", ["setTotalTip", "addHighlighted"]),
-    pushToVideo(mediaID) {
-      trackEvent({
-        category: "Video List View",
-        action: "select-video",
-        label: "MediaId:" + this.mediaID
-      });
-      this.$router.push({ path: `viewvideo/${mediaID}` });
-    },
     showContentFeedDialog() {
       this.isContentFeedDialog = true;
     },
@@ -123,6 +147,25 @@ export default {
         action: "copy-social",
         label: "twitter"
       });
+    },
+    async fetchMore(category) {
+      const capitaledCategory = capitalize(category);
+      const getKeyTotal = `getTotal${capitaledCategory}s`;
+      const getKeyFetched = `get${capitaledCategory}s`;
+      const getFetched = this[getKeyFetched];
+      const getTotal = this[getKeyTotal];
+      if (getFetched.length < getTotal) {
+        await this.populateMore(category);
+      } else {
+        return;
+      }
+    },
+    async fetchMoreHighlighteds() {
+      if (this.getHighlighteds.length < this.getTotalHighlighteds) {
+        await this.populateMoreHighlighteds();
+      } else {
+        return;
+      }
     }
   },
   watch: {

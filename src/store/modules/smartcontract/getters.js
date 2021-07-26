@@ -4,6 +4,7 @@ export default {
   getSigner: state => state.signer,
   getBalance: state => state.signer.balance,
   getUserWalletAddress: state => state.signer.address,
-  getSmartContract: state => state.smartContract,
-  getTipContract: state => state.smartContract
+  getSmartContract: state => addressToTip => state.smartContract(addressToTip),
+  getTipContract: state => async addressToTip =>
+    await state.tipContract(addressToTip)
 };

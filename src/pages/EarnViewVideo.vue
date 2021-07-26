@@ -6,6 +6,7 @@
       :media_id="mediaID"
       :source="sourceMedia"
       :options="videoOptions"
+      parent-page="Earn Video Play View"
     >
       <template v-slot:top>
         <div class="stream__controls stream__controls--top">
@@ -17,7 +18,7 @@
             >
               <base-icon
                 class="btn__icon"
-                :class="{ 'text-azure': hasRewarded }"
+                :class="{ 'text-azure': hasRewarded || isRewardEarned }"
                 style="font-size:1.4rem"
                 name="reward"
               ></base-icon>
@@ -127,11 +128,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("media", ["getById"]),
+    ...mapGetters("media", ["getCurrentMedia"]),
     ...mapGetters("smartcontract", ["getUserWalletAddress"]),
-    currentMedia() {
-      return this.getById(this.mediaID);
-    },
     videoUrl() {
       const url = `${env.media_server}/${this.mediaID}.mp4`;
       return url;
@@ -146,45 +144,45 @@ export default {
     },
     title() {
       if (
-        this.currentMedia &&
-        this.currentMedia.details &&
-        this.currentMedia.details.title
+        this.getCurrentMedia &&
+        this.getCurrentMedia.details &&
+        this.getCurrentMedia.details.title
       ) {
-        return this.currentMedia.details.title;
+        return this.getCurrentMedia.details.title;
       } else {
         return "";
       }
     },
     subtitle() {
       if (
-        this.currentMedia &&
-        this.currentMedia.details &&
-        this.currentMedia.details.subtitle
+        this.getCurrentMedia &&
+        this.getCurrentMedia.details &&
+        this.getCurrentMedia.details.subtitle
       ) {
-        return this.currentMedia.details.subtitle;
+        return this.getCurrentMedia.details.subtitle;
       } else {
         return "";
       }
     },
     moreInfo() {
       if (
-        this.currentMedia &&
-        this.currentMedia.details &&
-        this.currentMedia.details.moreInfo
+        this.getCurrentMedia &&
+        this.getCurrentMedia.details &&
+        this.getCurrentMedia.details.moreInfo
       ) {
-        return this.currentMedia.details.moreInfo;
+        return this.getCurrentMedia.details.moreInfo;
       } else {
         return "";
       }
     },
     hashtags() {
       if (
-        this.currentMedia &&
-        this.currentMedia.details &&
-        this.currentMedia.details.twitter &&
-        this.currentMedia.details.twitter.hashtags
+        this.getCurrentMedia &&
+        this.getCurrentMedia.details &&
+        this.getCurrentMedia.details.twitter &&
+        this.getCurrentMedia.details.twitter.hashtags
       ) {
-        return this.currentMedia.details.twitter.hashtags
+        return this.getCurrentMedia.details.twitter.hashtags
           .reduce((acc, tag) => {
             acc += ` #${tag},`;
             return acc;
@@ -204,10 +202,10 @@ export default {
     },
     hasRewarded() {
       return (
-        (this.currentMedia &&
-          this.currentMedia.rewards &&
-          this.currentMedia.rewards.rewardSmartContractTxHash) ||
-        this.isRewardEarned
+        this.getCurrentMedia &&
+        this.getCurrentMedia.rewards &&
+        this.getCurrentMedia.rewards[0] &&
+        this.getCurrentMedia.rewards[0].rewardSmartContractTxHash
       );
     },
     isPopoverReward() {
@@ -220,17 +218,21 @@ export default {
   },
   methods: {
     ...mapActions("uistates", ["setTaskQueue"]),
+    ...mapActions("media", ["populateCurrentMedia"]),
+
     trackLink(link, mediaID) {
-      trackEvent({
-        category: "Earn Video Play View",
-        action: "link-more-info",
-        label: link
-      });
-      trackEvent({
-        category: "Earn Video Play View",
-        action: "link-more-info",
-        label: mediaID
-      });
+      !this.hasRewarded &&
+        trackEvent({
+          category: "Earn Video Play View",
+          action: "link-more-info",
+          label: link
+        });
+      !this.hasRewarded &&
+        trackEvent({
+          category: "Earn Video Play View",
+          action: "link-more-info",
+          label: "MediaId:" + mediaID
+        });
     },
     pushUserBack() {
       this.isRewardEarned = true;
@@ -239,27 +241,36 @@ export default {
       }
     },
     async endViewingVideo() {
-      trackEvent({
-        category: "Earn Video Play View",
-        action: "close-video",
-        label: "MediaId:" + this.mediaID
-      });
+      !this.hasRewarded &&
+        trackEvent({
+          category: "Earn Video Play View",
+          action: "close-video",
+          label: "MediaId:" + this.mediaID
+        });
       try {
         this.setTaskQueue({ name: "rewardVideo", loading: true });
-        await this.countVideoViewed();
+        const { success } = await this.countVideoViewed();
+        if (!success) {
+          this.$router.push({ path: "/earnvideolist" });
+          return;
+        }
       } catch (err) {
         this.$router.push({ path: "/earnvideolist" });
+        return;
       } finally {
         this.setTaskQueue({ name: "rewardVideo", loading: false });
       }
       if (!this.hasRewarded) {
         if (this.getPercentageVideoWatched() >= 80) {
           this.goBack = true;
+          return;
         } else {
           this.$router.push({ path: "/earnvideolist" });
+          return;
         }
       } else {
         this.$router.push({ path: "/earnvideolist" });
+        return;
       }
     },
     dropVideoMenu() {
@@ -278,18 +289,20 @@ export default {
       if (promise !== undefined) {
         promise
           .catch(() => {
-            trackEvent({
-              category: "Earn Video Play View",
-              action: "autoplay-error",
-              label: "MediaId:" + this.mediaID
-            });
+            !this.hasRewarded &&
+              trackEvent({
+                category: "Earn Video Play View",
+                action: "autoplay-error",
+                label: "MediaId:" + this.mediaID
+              });
           })
           .then(() => {
-            trackEvent({
-              category: "Earn Video Play View",
-              action: "autoplay-success",
-              label: "MediaId:" + this.mediaID
-            });
+            !this.hasRewarded &&
+              trackEvent({
+                category: "Earn Video Play View",
+                action: "autoplay-success",
+                label: "MediaId:" + this.mediaID
+              });
           });
       }
     },
@@ -306,20 +319,22 @@ export default {
             this.autoplay(video.media);
           });
         });
-        trackEvent({
-          category: "Earn Video Play View",
-          action: "hls-video-playing",
-          label: "MediaId:" + this.mediaID
-        });
-      } else if (video.media.canPlayType("application/vnd.apple.mpegurl")) {
-        video.media.src = this.hlsUrl;
-        video.media.addEventListener("loadedmetadata", () => {
-          this.autoplay(video.media);
+        !this.hasRewarded &&
           trackEvent({
             category: "Earn Video Play View",
             action: "hls-video-playing",
             label: "MediaId:" + this.mediaID
           });
+      } else if (video.media.canPlayType("application/vnd.apple.mpegurl")) {
+        video.media.src = this.hlsUrl;
+        video.media.addEventListener("loadedmetadata", () => {
+          this.autoplay(video.media);
+          !this.hasRewarded &&
+            trackEvent({
+              category: "Earn Video Play View",
+              action: "hls-video-playing",
+              label: "MediaId:" + this.mediaID
+            });
         });
       } else {
         video.media.src = this.videoUrl;
@@ -337,12 +352,12 @@ export default {
       }
     },
     async countVideoViewed() {
+      this.isCountingView = true;
+      const mediaID = this.mediaID;
+      const userWalletAddress = this.getUserWalletAddress;
+      const percentageWatched = this.getPercentageVideoWatched();
       try {
-        this.isCountingView = true;
-        const mediaID = this.mediaID;
-        const userWalletAddress = this.getUserWalletAddress;
-        const percentageWatched = this.getPercentageVideoWatched();
-        await MediaService.videoViewed({
+        return await MediaService.videoViewed({
           mediaID,
           userWalletAddress,
           percentageWatched
@@ -374,16 +389,16 @@ export default {
         mediaID == this.mediaID &&
         userWalletAddress == this.getUserWalletAddress
       ) {
-        this.isRewardEarnedDialog = true;
         trackEvent({
           category: "Earn Video Play View",
           action: "reward-sent",
           label: "MediaId:" + this.mediaID
         });
+        this.isRewardEarnedDialog = true;
       }
     }
   },
-  mounted() {
+  async mounted() {
     this.player = this.$refs.videoplayer.player;
     if (!this.hasRewarded) {
       this.recordVideoWatched();
@@ -398,6 +413,11 @@ export default {
     });
     this.player.on("exitfullscreen", () => (this.isFullScreen = false));
     webSocketService.socket.on("media-reward-sent", this.rewardSent);
+    const params = {
+      mediaID: this.mediaID,
+      userWalletAddress: this.getUserWalletAddress
+    };
+    await this.populateCurrentMedia(params);
   }
 };
 </script>

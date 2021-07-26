@@ -6,6 +6,6 @@ export default {
     state.smartContract = smartContract;
   },
   setTipContract(state, tipContract) {
-    state.smartContract = tipContract;
+    state.tipContract = tipContract;
   }
 };

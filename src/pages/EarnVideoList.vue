@@ -15,9 +15,13 @@
         <h3 v-if="getEarnLatests.length > 0" class="page__title">
           EARN TT BY WATCHING THESE VIDEOS
         </h3>
-        <h3 v-if="getEarnLatests.length == 0" class="page__title">
-          AWESOME! YOU HAVE COMPLETED THE PEERKAT EARN VIDEOS - CHECK BACK SOON
-          FOR NEW EARN VIDEOS
+        <h3
+          style="text-transform: uppercase;"
+          v-if="getEarnLatests.length == 0"
+          class="page__title"
+        >
+          You are up to date! Please check back later for new Peerkat Earn
+          videos
         </h3>
       </div>
       <div v-if="getEarnLatests.length">

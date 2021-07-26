@@ -44,6 +44,10 @@ export default {
       default() {
         return {};
       }
+    },
+    parentPage: {
+      type: String,
+      default: ""
     }
   },
   data() {
@@ -95,21 +99,21 @@ export default {
 
     this.player.on("play", () => {
       trackEvent({
-        category: "Video Play View",
+        category: this.parentPage,
         action: "play-video",
         label: "MediaId:" + this.source.mediaID
       });
     });
     this.player.on("pause", () => {
       trackEvent({
-        category: "Video Play View",
+        category: this.parentPage,
         action: "pause-video",
         label: "MediaId:" + this.source.mediaID
       });
     });
     this.player.on("ended", () => {
       trackEvent({
-        category: "Video Play View",
+        category: this.parentPage,
         action: "finished-video",
         label: "MediaId:" + this.source.mediaID
       });

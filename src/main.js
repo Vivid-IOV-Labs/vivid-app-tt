@@ -32,6 +32,8 @@ import VOnsDialog from "vue-onsenui/esm/components/VOnsDialog";
 // import VOnsAlertDialog from "vue-onsenui/esm/components/VOnsAlertDialog";
 // import VOnsAlertDialogButton from "vue-onsenui/esm/components/VOnsAlertDialogButton";
 
+import VOnsCheckbox from "vue-onsenui/esm/components/VOnsCheckbox";
+
 import VueLazyload from "vue-lazyload";
 
 Vue.use(VueLazyload);
@@ -53,6 +55,7 @@ Vue.component(VOnsListItem.name, VOnsListItem);
 Vue.component(VOnsPopover.name, VOnsPopover);
 Vue.component(VOnsToast.name, VOnsToast);
 Vue.component(VOnsDialog.name, VOnsDialog);
+Vue.component(VOnsCheckbox.name, VOnsCheckbox);
 // Vue.component(VOnsAlertDialog.name, VOnsAlertDialog);
 // Vue.component(VOnsAlertDialogButton.name, VOnsAlertDialogButton);
 

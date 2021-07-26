@@ -11,7 +11,7 @@
       :cover-target="coverTarget"
     >
       <v-ons-list class="text-center p-2">
-        <v-ons-list-item class="text-center" modifier="tappable"
+        <!-- <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"
             href="#"
@@ -19,14 +19,14 @@
           >
             My Account
           </a>
-        </v-ons-list-item>
+        </v-ons-list-item> -->
         <v-ons-list-item class="text-center" modifier="tappable"
           ><a
             class="menu__link"
             href="https://www.vividiov.com/peerkat-terms"
             @click="trackLink('User Terms')"
           >
-            User Terms
+            Terms of Use
           </a>
         </v-ons-list-item>
         <v-ons-list-item class="text-center" modifier="tappable"
@@ -35,7 +35,7 @@
             href="https://www.vividiov.com/privacy"
             @click="trackLink('Privacy Policy')"
           >
-            Privacy Policy
+            Privacy Notice
           </a>
         </v-ons-list-item>
         <v-ons-list-item class="text-center"

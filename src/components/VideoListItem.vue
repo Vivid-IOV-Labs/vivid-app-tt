@@ -1,5 +1,5 @@
 <template>
-  <div class="full-width medialist__item ">
+  <div @click="pushToVideo" class="full-width medialist__item ">
     <div class="medialist__item_picture-frame">
       <img
         class="medialist__item_poster"
@@ -7,17 +7,25 @@
         :alt="media.details.title"
       />
     </div>
-    <span class="medialist__item__title">
-      {{ media.details.title }}
-      <base-icon class="ml-auto" name="angle-right"></base-icon>
-    </span>
+    <div class="medialist__item__descwrapper">
+      <span class="medialist__item__title">
+        {{ title }}
+        <!-- <base-icon class="ml-auto" name="angle-right"></base-icon> -->
+      </span>
+    </div>
   </div>
 </template>
 
 <script>
-import BaseIcon from "@/components/BaseIcon.vue";
+// import BaseIcon from "@/components/BaseIcon.vue";
 import env from "@/env.js";
+import { trackEvent } from "@/util/analytics";
+const truncate = (str, max = 10) => {
+  const array = str.trim().split(" ");
+  const ellipsis = array.length > max ? "..." : "";
 
+  return array.slice(0, max).join(" ") + ellipsis;
+};
 export default {
   props: {
     media: {
@@ -26,7 +34,7 @@ export default {
     }
   },
   components: {
-    BaseIcon
+    // BaseIcon
   },
   computed: {
     posterUrl() {
@@ -39,6 +47,19 @@ export default {
         error: "/thumbnail.jpg",
         loading: "/thumbnail.jpg"
       };
+    },
+    title() {
+      return truncate(this.media.details.title, 6);
+    }
+  },
+  methods: {
+    pushToVideo() {
+      trackEvent({
+        category: "Video List View",
+        action: "select-video",
+        label: "MediaId:" + this.media.mediaID
+      });
+      this.$router.push({ path: `viewvideo/${this.media.mediaID}` });
     }
   }
 };
@@ -46,15 +67,15 @@ export default {
 <style lang="scss">
 .medialist__item {
   position: relative;
-  border-bottom: solid 2px $dark-grey;
-  padding: 0.6rem 0rem 1.4rem;
+  padding: 0.6rem 0rem 0.8rem;
+  max-width: 380px;
 }
 .medialist__item_picture-frame {
   margin-bottom: 0.8rem;
   width: 100%;
 }
 .medialist__item_poster {
-  object-fit: contain;
+  object-fit: cover;
   width: 100%;
   max-height: 220px;
   border-radius: 0.6rem;
@@ -70,6 +91,15 @@ export default {
 .medialist__item__title {
   font-family: "Prompt", sans-serif;
   font-weight: bold;
+  font-size: 0.925rem;
   padding: 0.2rem 0 0rem;
+  text-overflow: ellipsis;
+}
+.medialist__item__descwrapper {
+  height: 3rem;
+  padding: 0.2rem 0 0.4rem;
+  max-lines: 2;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 </style>
