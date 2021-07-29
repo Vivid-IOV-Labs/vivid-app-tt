@@ -4,7 +4,7 @@ export default {
   //getInterestsSubmitted: state => state.interestsSubmitted,
   getInterestsSubmitted: () => true, //disabled interessubmittd
   getTermsAgreed: state => state.termsAgreed,
-  // getTermsAgreed: () => false,
+  //getTermsAgreed: () => false,
   getTwitterLinked: state => state.user && state.user.twitterProfile.length > 0,
   getRewardsEarned: state =>
     state.user &&
