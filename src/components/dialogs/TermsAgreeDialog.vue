@@ -8,8 +8,7 @@
         We have made a number of updates including the new Peerkat Earn feature.
         <br />
         Therefore we have also updated our Terms of Use and Privacy Notice,
-        please check them over before continuing to Peerkat. <br />
-        Before continuing to Peerkat. Thanks!
+        please check them over before continuing to Peerkat. Thanks!
       </p>
       <ul style="padding: 0; margin:0; list-style: none;">
         <li style="margin:1rem 0 1.2rem 0">
