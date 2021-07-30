@@ -5,7 +5,7 @@
     </header>
     <div class="content">
       <p>
-        Your TT is on its way to your ThunderCore hub wallet!
+        Your TT is on its way to your ThunderCore hub wallet - claim it in Quest
       </p>
 
       <div class="flex mt-4 flex-center-xy">

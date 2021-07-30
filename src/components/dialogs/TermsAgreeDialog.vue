@@ -1,15 +1,15 @@
 <template>
   <v-ons-dialog :visible="value" @update:visible="updateVisible">
     <header class="dialog__head">
-      <div class="dialog__head__title">Terms of Use and Privacy Notice</div>
+      <div class="dialog__head__title">Welcome to Peerkat!</div>
     </header>
-    <div class="content">
+    <div class="content scroller">
       <p>
-        <strong>Welcome to Peerkat! </strong> <br />
         We have made a number of updates including the new Peerkat Earn feature.
         <br />
         Therefore we have also updated our Terms of Use and Privacy Notice,
-        please check them over before continuing to Peerkat.
+        please check them over before continuing to Peerkat. <br />
+        Before continuing to Peerkat. Thanks!
       </p>
       <ul style="padding: 0; margin:0; list-style: none;">
         <li style="margin:1rem 0 1.2rem 0">
