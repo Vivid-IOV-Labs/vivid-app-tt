@@ -1,59 +1,47 @@
 import MediaService from "@/services/MediaService";
 import devLog from "@/util/devlog.js";
 import capitalize from "@/util/capitalize.js";
-// function resetPaginationParams() {
-//   return {
-//     highlighted: {
-//       currentPage: 1,
-//       totalItems: 0
-//     },
-//     gaming: {
-//       currentPage: 1,
-//       totalItems: 0
-//     },
-//     crypto: {
-//       currentPage: 1,
-//       totalItems: 0
-//     },
-//     other: {
-//       currentPage: 1,
-//       totalItems: 0
-//     },
-//     earn: {
-//       currentPage: 1,
-//       totalItems: 0
-//     }
-//   };
-// }
-const contextApi = {
-  highlighted: {
-    currentPage: 1,
-    totalItems: 0
-  },
-  gaming: {
-    currentPage: 1,
-    totalItems: 0
-  },
-  crypto: {
-    currentPage: 1,
-    totalItems: 0
-  },
-  other: {
-    currentPage: 1,
-    totalItems: 0
-  },
-  earn: {
-    currentPage: 1,
-    totalItems: 0
-  }
-};
+function resetPaginationParams() {
+  return {
+    highlighted: {
+      currentPage: 1,
+      totalItems: 0
+    },
+    gaming: {
+      currentPage: 1,
+      totalItems: 0
+    },
+    crypto: {
+      currentPage: 1,
+      totalItems: 0
+    },
+    other: {
+      currentPage: 1,
+      totalItems: 0
+    },
+    earn: {
+      currentPage: 1,
+      totalItems: 0
+    }
+  };
+}
+let paginationParams = resetPaginationParams();
+
 function nextPage(category) {
-  contextApi[category].currentPage = contextApi[category].currentPage + 1;
-  return contextApi[category].currentPage;
+  paginationParams[category].currentPage =
+    paginationParams[category].currentPage + 1;
+  return paginationParams[category].currentPage;
+}
+
+async function populateCategory(category, commit) {
+  const { media, total } = await MediaService.populateCategory(category);
+  commit(`set${capitalize(category)}s`, media);
+  commit(`setTotal${capitalize(category)}s`, total);
 }
 
 export default {
   async populateAll({ commit }) {
+    paginationParams = resetPaginationParams();
     try {
       const {
         media: highlightedSortedByOrder,
@@ -62,25 +50,9 @@ export default {
       commit("setHighlighteds", highlightedSortedByOrder);
       commit("setTotalHighlighteds", totalHighlighted);
 
-      const {
-        media: cryptos,
-        total: totalCryptos
-      } = await MediaService.populateCategory("crypto");
-      commit("setCryptos", cryptos);
-      commit("setTotalCryptos", totalCryptos);
-
-      const {
-        media: gamings,
-        total: totalGamings
-      } = await MediaService.populateCategory("gaming");
-      commit("setGamings", gamings);
-      commit("setTotalGamings", totalGamings);
-      const {
-        media: others,
-        total: totalOthers
-      } = await MediaService.populateCategory("other");
-      commit("setOthers", others);
-      commit("setTotalOthers", totalOthers);
+      await populateCategory("crypto", commit);
+      await populateCategory("gaming", commit);
+      await populateCategory("other", commit);
     } catch (error) {
       devLog(error);
     }
@@ -149,7 +121,6 @@ export default {
   },
   delete(store, item) {
     const { commit, state } = store;
-
     [
       "earncompleted",
       "highlighteds",
