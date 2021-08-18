@@ -51,52 +51,34 @@ function nextPage(category) {
   contextApi[category].currentPage = contextApi[category].currentPage + 1;
   return contextApi[category].currentPage;
 }
-async function populateHighlighteds() {
-  const params = {
-    earn: false,
-    sortBy: "list.order",
-    order: "desc",
-    page: 1,
-    pageSize: 3,
-    "list.highlighted": true
-  };
-  return await MediaService.getAll(params);
-}
-async function populateCategory(category) {
-  const params = {
-    earn: false,
-    sortBy: "createdAt",
-    order: "desc",
-    page: 1,
-    pageSize: 3,
-    categories: JSON.stringify([category])
-  };
-  return await MediaService.getAll(params);
-}
+
 export default {
   async populateAll({ commit }) {
     try {
       const {
         media: highlightedSortedByOrder,
         total: totalHighlighted
-      } = await populateHighlighteds();
+      } = await MediaService.populateHighlighteds();
       commit("setHighlighteds", highlightedSortedByOrder);
       commit("setTotalHighlighteds", totalHighlighted);
 
-      const { media: cryptos, total: totalCryptos } = await populateCategory(
-        "crypto"
-      );
+      const {
+        media: cryptos,
+        total: totalCryptos
+      } = await MediaService.populateCategory("crypto");
       commit("setCryptos", cryptos);
       commit("setTotalCryptos", totalCryptos);
 
-      const { media: gamings, total: totalGamings } = await populateCategory(
-        "gaming"
-      );
+      const {
+        media: gamings,
+        total: totalGamings
+      } = await MediaService.populateCategory("gaming");
       commit("setGamings", gamings);
       commit("setTotalGamings", totalGamings);
-      const { media: others, total: totalOthers } = await populateCategory(
-        "other"
-      );
+      const {
+        media: others,
+        total: totalOthers
+      } = await MediaService.populateCategory("other");
       commit("setOthers", others);
       commit("setTotalOthers", totalOthers);
     } catch (error) {

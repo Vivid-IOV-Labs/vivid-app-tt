@@ -38,6 +38,28 @@ class MediaService {
     });
     return { data, success };
   }
+  async populateHighlighteds() {
+    const params = {
+      earn: false,
+      sortBy: "list.order",
+      order: "desc",
+      page: 1,
+      pageSize: 3,
+      "list.highlighted": true
+    };
+    return await this.getAll(params);
+  }
+  async populateCategory(category) {
+    const params = {
+      earn: false,
+      sortBy: "createdAt",
+      order: "desc",
+      page: 1,
+      pageSize: 3,
+      categories: JSON.stringify([category])
+    };
+    return await this.getAll(params);
+  }
 }
 
 export default new MediaService();
