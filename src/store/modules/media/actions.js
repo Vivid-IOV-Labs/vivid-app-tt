@@ -1,6 +1,7 @@
 import MediaService from "@/services/MediaService";
 import devLog from "@/util/devlog.js";
 import capitalize from "@/util/capitalize.js";
+
 function resetPaginationParams() {
   return {
     highlighted: {
@@ -25,6 +26,7 @@ function resetPaginationParams() {
     }
   };
 }
+
 let paginationParams = resetPaginationParams();
 
 function nextPage(category) {
