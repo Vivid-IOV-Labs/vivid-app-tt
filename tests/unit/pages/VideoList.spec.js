@@ -1,6 +1,6 @@
 import mockEmitter from "../../emitter";
 import mockMedia from "../../db/media";
-import mediaState from "../../../src/store/modules/media/state";
+import mediaState from "../store/modules/media/state";
 
 jest.mock("@/util/webSocketService.js", () => {
   const socket = mockEmitter;
@@ -30,57 +30,63 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(VueLazyload);
 
-// let store;
-// let wrapper;
+let store;
+let wrapper;
 
 describe("VideoList", () => {
   beforeEach(() => {
-    // store = new Vuex.Store({
-    //   modules: {
-    //     uistates: {
-    //       namespaced: true,
-    //       actions: {
-    //         setTaskQueue: jest.fn()
-    //       }
-    //     },
-    //     user: {
-    //       namespaced: true,
-    //       getters: userGetters
-    //     },
-    //     media: {
-    //       namespaced: true,
-    //       state: mediaState(),
-    //       getters: mediaGetters,
-    //       mutations: mediaMutations,
-    //       actions: mediaActions
-    //     }
-    //   }
-    // });
-    // wrapper = shallowMount(VideoList, {
-    //   store,
-    //   localVue,
-    //   stubs: {
-    //     "base-icon": true,
-    //     "v-ons-button": true,
-    //     "v-ons-dialog": true,
-    //     "v-ons-list": true,
-    //     "v-ons-list-item": true,
-    //     "v-ons-page": true,
-    //     "v-ons-toolbar": true,
-    //     "v-ons-toolbar-button": true,
-    //     "v-ons-popover": true
-    //   },
-    //   directives: {
-    //     lazy: true
-    //   }
-    // });
+    store = new Vuex.Store({
+      modules: {
+        uistates: {
+          namespaced: true,
+          actions: {
+            setTaskQueue: jest.fn()
+          }
+        },
+        user: {
+          namespaced: true,
+          getters: userGetters
+        },
+        media: {
+          namespaced: true,
+          state: mediaState(),
+          getters: mediaGetters,
+          mutations: mediaMutations,
+          actions: mediaActions
+        }
+      }
+    });
+    wrapper = shallowMount(VideoList, {
+      store,
+      localVue,
+      stubs: {
+        "base-icon": true,
+        "v-ons-button": true,
+        "v-ons-dialog": true,
+        "v-ons-list": true,
+        "v-ons-list-item": true,
+        "v-ons-page": true,
+        "v-ons-toolbar": true,
+        "v-ons-toolbar-button": true,
+        "v-ons-popover": true
+      },
+      directives: {
+        lazy: true
+      }
+    });
   });
-  // it("Loads latest videos", () => {
-  //   expect(wrapper.vm.getLatests.length).toBe(1);
-  // });
-  // it("should load highlighted videos", () => {
-  //   expect(wrapper.vm.getHighlighted.length).toBe(2);
-  // });
+  it("Loads highlighteds videos", () => {
+    expect(wrapper.vm.getHighlighteds.length).toBe(2);
+  });
+  it("Loads cryptos videos", () => {
+    expect(wrapper.vm.getCryptos.length).toBe(3);
+  });
+  it("Loads gamings videos", () => {
+    expect(wrapper.vm.getGamings.length).toBe(2);
+  });
+  it("Loads others videos", () => {
+    expect(wrapper.vm.getOthers.length).toBe(3);
+  });
   it("should open terms dialog if user didn't agree yet and send interests", () => {
     const storeUserNoTermsAndInterests = new Vuex.Store({
       modules: {
