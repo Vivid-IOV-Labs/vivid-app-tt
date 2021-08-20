@@ -182,7 +182,7 @@ export default {
       await this.add(data);
     });
     webSocketService.socket.on("media-deleted", async ({ data }) => {
-      await this.delete(data);
+      await this.delete(data[0]);
     });
     webSocketService.socket.on("media-updated-tip", async ({ data }) => {
       const { totalTips, mediaID } = data;
