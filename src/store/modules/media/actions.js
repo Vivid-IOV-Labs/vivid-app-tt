@@ -85,31 +85,20 @@ export default {
   },
   async populateEarn(store) {
     const { commit } = store;
+    const userWalletAddress = store.rootGetters["user/getWallet"];
     try {
-      const userWalletAddress = store.rootGetters["user/getWallet"];
-      /*TODO vertial scrolling pagination*/
-      const earnParams = {
-        earn: true,
-        sortBy: "createdAt",
-        order: "desc",
-        page: 1,
-        pageSize: 10,
-        userWalletAddress
-      };
-      const { media: earn } = await MediaService.getAll(earnParams);
-      const earnLatestsSortedByTime = earn
-        .filter(f => !f.rewards || !f.rewards.rewardSmartContractTxHash)
-        .sort((a, b) => {
-          return b.createdAt - a.createdAt;
-        });
-      commit("setEarnLatests", earnLatestsSortedByTime);
-
-      const earnHighlightedSortedByOrder = earn
-        .filter(f => f.rewards && f.rewards.rewardSmartContractTxHash)
-        .sort((a, b) => {
-          return b.createdAt - a.createdAt;
-        });
-      commit("setEarnCompleted", earnHighlightedSortedByOrder);
+      const {
+        media: earnLatests,
+        total: totalEarnLatests
+      } = await MediaService.populateEarnLatests(userWalletAddress);
+      commit("setEarnLatests", earnLatests);
+      commit("setTotalEarnLatests", totalEarnLatests);
+      const {
+        media: earnCompleted,
+        total: totalEarnCompleted
+      } = await MediaService.populateEarnCompleted(userWalletAddress);
+      commit("setEarnCompleted", earnCompleted);
+      commit("setTotalEarnCompleted", totalEarnCompleted);
     } catch (error) {
       devLog(error);
     }

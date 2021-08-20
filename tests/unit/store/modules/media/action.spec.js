@@ -3,7 +3,9 @@ jest.mock("@/services/MediaService.js", () => {
   return {
     getAll: jest.fn().mockResolvedValue({ total: 0, media: [] }),
     populateCategory: jest.fn().mockResolvedValue({ total: 0, media: [] }),
-    populateHighlighteds: jest.fn().mockResolvedValue({ total: 0, media: [] })
+    populateHighlighteds: jest.fn().mockResolvedValue({ total: 0, media: [] }),
+    populateEarnLatests: jest.fn().mockResolvedValue({ total: 0, media: [] }),
+    populateEarnCompleted: jest.fn().mockResolvedValue({ total: 0, media: [] })
   };
 });
 
@@ -29,6 +31,8 @@ describe("Media Actions", () => {
     };
     await actions.populateEarn(context);
     expect(context.commit.mock.calls[0][0]).toEqual("setEarnLatests");
-    expect(context.commit.mock.calls[1][0]).toEqual("setEarnCompleted");
+    expect(context.commit.mock.calls[1][0]).toEqual("setTotalEarnLatests");
+    expect(context.commit.mock.calls[2][0]).toEqual("setEarnCompleted");
+    expect(context.commit.mock.calls[3][0]).toEqual("setTotalEarnCompleted");
   });
 });

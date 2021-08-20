@@ -1,8 +1,10 @@
 const state = () => ({
-  earncompleted: [],
+  earnCompleted: [],
+  totalEarnCompleted: [],
+  earnLatests: [],
+  totalEarnLatests: [],
   highlighteds: [],
   totalHighlighteds: 0,
-  earnlatests: [],
   cryptos: [],
   totalCryptos: 0,
   gamings: [],

@@ -75,10 +75,16 @@ export default {
     );
   },
   setEarnLatests(state, latests) {
-    state.earnlatests = latests;
+    state.earnLatests = latests;
+  },
+  setTotalEarnLatests(state, total) {
+    state.totalEarnLatests = total;
   },
   setEarnCompleted(state, completed) {
-    state.earncompleted = completed;
+    state.earnCompleted = completed;
+  },
+  setTotalEarnCompleted(state, total) {
+    state.totalEarnCompleted = total;
   },
   setCurrentMedia(state, currentMedia) {
     state.currentMedia = currentMedia;

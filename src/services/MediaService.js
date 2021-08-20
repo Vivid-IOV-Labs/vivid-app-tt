@@ -49,6 +49,30 @@ class MediaService {
     };
     return await this.getAll(params);
   }
+  async populateEarnLatests(userWalletAddress) {
+    const params = {
+      earn: true,
+      sortBy: "createdAt",
+      order: "desc",
+      page: 1,
+      pageSize: 10,
+      userWalletAddress,
+      rewarded: false
+    };
+    return await this.getAll(params);
+  }
+  async populateEarnCompleted(userWalletAddress) {
+    const params = {
+      earn: true,
+      sortBy: "createdAt",
+      order: "desc",
+      page: 1,
+      pageSize: 3,
+      userWalletAddress,
+      rewarded: true
+    };
+    return await this.getAll(params);
+  }
   async populateCategory(category) {
     const params = {
       earn: false,

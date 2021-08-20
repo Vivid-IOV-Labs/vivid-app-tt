@@ -1,11 +1,16 @@
 export default {
   getAll: state => state.all,
-  getHighlighteds: state => state.highlighteds,
-  getTotalHighlighteds: state => state.totalHighlighteds,
-  getEarnCompleted: state => state.earncompleted,
+
+  getEarnCompleted: state => state.earnCompleted,
+  getTotalEarnCompleted: state => state.totalEarnCompleted,
+  getEarnLatests: state => state.earnLatests,
+  getTotalEarnLatests: state => state.totalEarnLatests,
   getLatests: state => state.latests,
   getTotalLatests: state => state.totalLatests,
-  getEarnLatests: state => state.earnlatests,
+
+  getHighlighteds: state => state.highlighteds,
+  getTotalHighlighteds: state => state.totalHighlighteds,
+
   getCryptos: state => state.cryptos,
   getTotalCryptos: state => state.totalCryptos,
   getGamings: state => state.gamings,
