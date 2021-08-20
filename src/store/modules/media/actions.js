@@ -144,17 +144,11 @@ export default {
       removeFrom.push("earnCompleted");
     }
     const { commit } = store;
-    console.log("removeFrom", removeFrom);
     removeFrom.forEach(category => {
-      console.log("category", category);
-
       commit(`delete${capitalize(category)}`, item);
-      console.log(`delete${capitalize(category)}`);
-
       const total = store.rootGetters[`media/getTotal${capitalize(category)}`];
       const newTotal = total - 1;
       commit(`setTotal${capitalize(category)}`, newTotal);
-      console.log(`delete${capitalize(category)}`);
     });
   }
 };
