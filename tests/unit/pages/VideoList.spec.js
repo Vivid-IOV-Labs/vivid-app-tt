@@ -227,44 +227,46 @@ describe("VideoList", () => {
   });
   it("should delete media from the list", async () => {
     const response = {
-      data: {
-        mediaCategories: [
-          {
-            id: "60e829483ef4050017f2c535",
-            name: "other"
-          }
-        ],
-        createdAt: 1626442822848,
-        updatedAt: 1626442822848,
-        type: "video",
-        live: true,
-        earn: false,
-        balanceTotal: 100,
-        balanceAvailable: 100,
-        mediaID: "6886498e1eebed311db295eaef84b7c6",
-        publisher: {
-          walletAddress: "0x8DDF7bA89B9b99a7dAd755b975718BdDE9Fd7c0E"
-        },
-        shop: {},
-        list: {
-          highlighted: false,
-          order: 0
-        },
-        statistics: {
-          total: {
-            views: 0,
-            viewers: 0,
-            reportFlags: 0,
-            tips: 0
-          }
-        },
-        details: {
-          title: "JAM#5: Adam on building gFam Live",
-          twitter: {
-            hashtags: ["WebMonetization", "GrantfortheWeb", "JustAMeme"]
+      data: [
+        {
+          mediaCategories: [
+            {
+              id: "60e829483ef4050017f2c535",
+              name: "other"
+            }
+          ],
+          createdAt: 1626442822848,
+          updatedAt: 1626442822848,
+          type: "video",
+          live: true,
+          earn: false,
+          balanceTotal: 100,
+          balanceAvailable: 100,
+          mediaID: "6886498e1eebed311db295eaef84b7c6",
+          publisher: {
+            walletAddress: "0x8DDF7bA89B9b99a7dAd755b975718BdDE9Fd7c0E"
+          },
+          shop: {},
+          list: {
+            highlighted: false,
+            order: 0
+          },
+          statistics: {
+            total: {
+              views: 0,
+              viewers: 0,
+              reportFlags: 0,
+              tips: 0
+            }
+          },
+          details: {
+            title: "JAM#5: Adam on building gFam Live",
+            twitter: {
+              hashtags: ["WebMonetization", "GrantfortheWeb", "JustAMeme"]
+            }
           }
         }
-      }
+      ]
     };
     webSocketService.socket.emit("media-deleted", response);
     expect(wrapper.vm.getOthers.length).toBe(2);

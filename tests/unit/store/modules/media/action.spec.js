@@ -1,5 +1,4 @@
 import actions from "@/store/modules/media/actions";
-import mockEmitter from "../../emitter";
 
 jest.mock("@/services/MediaService.js", () => {
   return {
@@ -10,15 +9,6 @@ jest.mock("@/services/MediaService.js", () => {
     populateEarnCompleted: jest.fn().mockResolvedValue({ total: 0, media: [] })
   };
 });
-jest.mock("@/util/webSocketService.js", () => {
-  const socket = mockEmitter;
-  const webSocketService = {
-    socket
-  };
-  return webSocketService;
-});
-import webSocketService from "@/util/webSocketService.js";
-
 describe("Media Actions", () => {
   it("should populates Peerkat Watch", async () => {
     const context = {
