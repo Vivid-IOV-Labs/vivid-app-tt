@@ -11,11 +11,11 @@ export default {
     isLoading: state => state.taskQueue.some(task => task.loading)
   },
   actions: {
-    async setTaskQueue({ commit }, { name, loading }) {
+    async setTaskQueue({ commit }, { name, loading, delayEnd = 1200 }) {
       if (loading) {
         commit("setTaskQueue", { name, loading });
       } else {
-        await delay(1400);
+        await delay(delayEnd);
         commit("setTaskQueue", { name, loading });
       }
     }

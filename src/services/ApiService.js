@@ -1,26 +1,15 @@
 import axios from "axios";
 import env from "@/env.js";
-import store from "../store/index";
+// import { startLoading, stopLoading } from "../util/loader";
 const apiService = axios.create({
   baseURL: env.web_service_url
 });
-const idTask = Date.now();
-const startLoading = () =>
-  store.dispatch("uistates/setTaskQueue", {
-    name: "globalLoader" + idTask,
-    loading: true
-  });
-const stopLoading = () =>
-  store.dispatch("uistates/setTaskQueue", {
-    name: "globalLoader" + idTask,
-    loading: false
-  });
 const isHandlerEnabled = (config = { handlerEnabled: true }) => {
   return config.handlerEnabled && !config.handlerEnabled ? false : true;
 };
 
 const errorHandler = error => {
-  stopLoading();
+  // stopLoading("globalLoader");
   if (isHandlerEnabled(error.config)) {
     // Handle errors
   }
@@ -28,7 +17,7 @@ const errorHandler = error => {
 };
 
 const successHandler = response => {
-  stopLoading();
+  // stopLoading("globalLoader");
   if (isHandlerEnabled(response.config)) {
     // Handle responses
   }
@@ -38,11 +27,11 @@ const successHandler = response => {
 
 apiService.interceptors.request.use(
   config => {
-    startLoading();
+    // startLoading("globalLoader");
     return config;
   },
   error => {
-    stopLoading();
+    // stopLoading("globalLoader");
     return Promise.reject(error);
   }
 );

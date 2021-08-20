@@ -1,6 +1,7 @@
 import MediaService from "@/services/MediaService";
 import devLog from "@/util/devlog.js";
 import capitalize from "@/util/capitalize.js";
+import { startLoading, stopLoading } from "@/util/loader";
 
 function resetPaginationParams() {
   return {
@@ -62,6 +63,7 @@ function getCategories(media) {
 export default {
   async populateAll({ commit }) {
     paginationParams = resetPaginationParams();
+    startLoading("populateAll");
     try {
       const {
         media: highlightedSortedByOrder,
@@ -75,6 +77,8 @@ export default {
       await populateCategory("other", commit);
     } catch (error) {
       devLog(error);
+    } finally {
+      stopLoading("populateAll");
     }
   },
   async populateMoreHighlighteds({ commit }) {
@@ -119,6 +123,8 @@ export default {
       commit("setTotalEarnCompleted", totalEarnCompleted);
     } catch (error) {
       devLog(error);
+    } finally {
+      stopLoading("populateAll");
     }
   },
   async populateCurrentMedia({ commit }, params) {
