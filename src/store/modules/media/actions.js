@@ -41,6 +41,24 @@ async function populateCategory(category, commit) {
   commit(`setTotal${capitalize(category)}s`, total);
 }
 
+function isHighlighted(media) {
+  return media.list && media.list.highlighted;
+}
+
+function isEarnLatests(media) {
+  return (
+    media.earn && (!media.rewards || !media.rewards.rewardSmartContractTxHash)
+  );
+}
+
+function isEarnCompleted(media) {
+  return media.earn && media.rewards && media.rewards.rewardSmartContractTxHash;
+}
+
+function getCategories(media) {
+  return media.mediaCategories.map(cat => `${cat.name}s`);
+}
+
 export default {
   async populateAll({ commit }) {
     paginationParams = resetPaginationParams();
@@ -111,25 +129,26 @@ export default {
     commit("add", newVideo);
   },
   delete(store, item) {
-    const { commit, state } = store;
-    [
-      "earncompleted",
-      "highlighteds",
-      "earnlatests",
-      "cryptos",
-      "gamings",
-      "others"
-    ].forEach(category => {
-      const index = state[category].findIndex(
-        media => media.mediaID == item.mediaID
-      );
-      if (index > -1) {
-        commit(`delete${capitalize(category)}`, item);
-        const total =
-          store.rootGetters[`media/getTotal${capitalize(category)}`];
-        const newTotal = total - 1;
-        commit(`setTotal${capitalize(category)}`, newTotal);
-      }
+    const removeFrom = getCategories(item);
+    if (isHighlighted(item)) {
+      removeFrom.push("highlighteds");
+    } else if (isEarnCompleted(item)) {
+      removeFrom.push("earnLatests");
+    } else if (isEarnLatests(item)) {
+      removeFrom.push("earnCompleted");
+    }
+    const { commit } = store;
+    console.log("removeFrom", removeFrom);
+    removeFrom.forEach(category => {
+      console.log("category", category);
+
+      commit(`delete${capitalize(category)}`, item);
+      console.log(`delete${capitalize(category)}`);
+
+      const total = store.rootGetters[`media/getTotal${capitalize(category)}`];
+      const newTotal = total - 1;
+      commit(`setTotal${capitalize(category)}`, newTotal);
+      console.log(`delete${capitalize(category)}`);
     });
   }
 };

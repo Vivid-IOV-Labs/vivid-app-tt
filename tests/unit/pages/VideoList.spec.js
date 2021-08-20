@@ -24,7 +24,7 @@ import mediaGetters from "@/store/modules/media/getters";
 import mediaMutations from "@/store/modules/media/mutations";
 import mediaActions from "@/store/modules/media/actions";
 import userGetters from "@/store/modules/user/getters";
-//import webSocketService from "@/util/webSocketService.js";
+import webSocketService from "@/util/webSocketService.js";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -225,46 +225,50 @@ describe("VideoList", () => {
     expect(wrapperUserNoTermsAndInterests.vm.isTermsAgreeDialog).toBeFalsy();
     expect(wrapperUserNoTermsAndInterests.vm.isContentFeedDialog).toBeFalsy();
   });
-  // it("should delete media from the list", async () => {
-  //   const response = {
-  //     data: {
-  //       _id: {
-  //         $oid: "5fda12118caaa33468ef054e"
-  //       },
-  //       type: "video",
-  //       live: false,
-  //       publisher: {
-  //         walletAddress: "19236501263508hfdsg871"
-  //       },
-  //       mediaID: "451299675670168564816463",
-  //       shop: {
-  //         link: "https://www.example.com"
-  //       },
-  //       statistics: {
-  //         total: {
-  //           viewers: 0,
-  //           reportFlags: 0,
-  //           tips: 5
-  //         }
-  //       },
-  //       details: {
-  //         title: "Crypto Market Update",
-  //         twitter: {
-  //           hashtags: ["crypto", "market", "2021"]
-  //         }
-  //       },
-  //       code: "L8Z0YK0L9Y72S21WVOJ4",
-  //       createdAt: 1608126993949,
-  //       updatedAt: 1608126993949,
-  //       list: {
-  //         highlighted: false,
-  //         order: 5
-  //       }
-  //     }
-  //   };
-  //   webSocketService.socket.emit("media-deleted", response);
-  //   expect(wrapper.vm.getLatests.length).toBe(0);
-  // });
+  it("should delete media from the list", async () => {
+    const response = {
+      data: {
+        mediaCategories: [
+          {
+            id: "60e829483ef4050017f2c535",
+            name: "other"
+          }
+        ],
+        createdAt: 1626442822848,
+        updatedAt: 1626442822848,
+        type: "video",
+        live: true,
+        earn: false,
+        balanceTotal: 100,
+        balanceAvailable: 100,
+        mediaID: "6886498e1eebed311db295eaef84b7c6",
+        publisher: {
+          walletAddress: "0x8DDF7bA89B9b99a7dAd755b975718BdDE9Fd7c0E"
+        },
+        shop: {},
+        list: {
+          highlighted: false,
+          order: 0
+        },
+        statistics: {
+          total: {
+            views: 0,
+            viewers: 0,
+            reportFlags: 0,
+            tips: 0
+          }
+        },
+        details: {
+          title: "JAM#5: Adam on building gFam Live",
+          twitter: {
+            hashtags: ["WebMonetization", "GrantfortheWeb", "JustAMeme"]
+          }
+        }
+      }
+    };
+    webSocketService.socket.emit("media-deleted", response);
+    expect(wrapper.vm.getOthers.length).toBe(2);
+  });
   // it("should add media to the list", async () => {
   //   const response = {
   //     data: {

@@ -65,12 +65,12 @@ export default {
     );
   },
   deleteEarnlatests(state, item) {
-    state.earnlatests = state.earnlatests.filter(
+    state.earnLatests = state.earnLatests.filter(
       media => media.mediaID !== item.mediaID
     );
   },
   deleteEarncompleted(state, item) {
-    state.earncompleted = state.earncompleted.filter(
+    state.earnCompleted = state.earnCompleted.filter(
       media => media.mediaID !== item.mediaID
     );
   },
