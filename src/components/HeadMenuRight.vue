@@ -45,18 +45,20 @@
               on Twitter and Telegram!
             </h6>
             <hr class="hr-space" />
-            <v-ons-button
-              @click="copyTwitterLink"
-              class="btn--large  btn--primary"
+            <a
+              class="btn--large ml-2 btn--primary"
+              href="https://twitter.com/PeerkatLive"
+              @click="trackLink('Twitter')"
             >
               <base-icon class="btn__icon--white" name="twitter"></base-icon>
-            </v-ons-button>
-            <v-ons-button
-              @click="copyTelegramGroup"
+            </a>
+            <a
               class="btn--large ml-2 btn--primary"
+              href="https://t.me/joinchat/M90RPBklSbAkMzfLl02Qcw"
+              @click="trackLink('Telegram Group')"
             >
               <base-icon class="btn__icon--white" name="telegram"></base-icon>
-            </v-ons-button>
+            </a>
           </span>
         </v-ons-list-item>
       </v-ons-list>
