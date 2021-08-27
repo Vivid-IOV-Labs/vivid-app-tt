@@ -227,8 +227,8 @@ describe("VideoList", () => {
   });
   it("should delete media from the list", async () => {
     const response = {
-      data: [
-        {
+      data: {
+        media: {
           mediaCategories: [
             {
               id: "60e829483ef4050017f2c535",
@@ -266,7 +266,7 @@ describe("VideoList", () => {
             }
           }
         }
-      ]
+      }
     };
     webSocketService.socket.emit("media-deleted", response);
     expect(wrapper.vm.getOthers.length).toBe(2);

@@ -85,11 +85,11 @@ export default {
     }
   },
   mounted() {
-    webSocketService.socket.on("media-added", async ({ data }) => {
-      await this.add(data);
+    webSocketService.socket.on("media-added", async ({ data: { media } }) => {
+      await this.add(media);
     });
-    webSocketService.socket.on("media-deleted", async ({ data }) => {
-      await this.delete(data[0]);
+    webSocketService.socket.on("media-deleted", async ({ data: { media } }) => {
+      await this.delete(media);
     });
   }
 };
